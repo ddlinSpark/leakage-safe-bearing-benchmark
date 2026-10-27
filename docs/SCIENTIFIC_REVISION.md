@@ -60,7 +60,8 @@ The first expanded revision added:
 
 ## Five-seed canonical rerun
 
-The earlier three-seed CSVs are retained as historical artifacts. The current
+The earlier three-seed CSVs were removed from the working tree after the
+canonical rerun and remain available only in Git history. The current
 confirmatory matrix uses seeds `42, 123, 2024, 2025, 3407` and supersedes those
 values:
 

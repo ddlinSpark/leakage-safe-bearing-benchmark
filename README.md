@@ -15,13 +15,16 @@ tests simultaneous transfer to:
 The benchmark compares Raw 1D-CNN, GRU-only, CWT 2D-CNN, CWT-GRU without SE,
 full CWT-GRU, temperature-scaled CWT-GRU, and calibrated self-training.
 
-The historical industrial-data experiment is retained for provenance only. Its
-engineering-threshold labels, overlapping windows, repeated station groups, and
-legacy test relabeling do not support a confirmatory diagnostic-accuracy claim.
+The historical industrial-data experiment is no longer present in the working
+tree. Its engineering-threshold labels, overlapping windows, repeated station
+groups, and test relabeling do not support a confirmatory diagnostic-accuracy
+claim. The old code remains recoverable from Git history only.
 
 ## Repository layout
 
 ```text
+AUDIT_REPORT.md                  # audit before refactoring
+CLEANUP_REPORT.md                # removed and retained local artifacts
 configs/                         # canonical experiment configuration
 data/README.md                   # official sources and preprocessing definition
 docs/                            # protocol, reproducibility, and audit notes
@@ -36,7 +39,7 @@ src/spindle_cnn/
 ├── evaluation/                  # metrics, calibration, FLOPs, latency
 ├── experiments/                 # unified runners and figures
 ├── analysis/                    # CIs, paired tests, ablation summaries
-└── public_benchmark/            # public data preparation and legacy runner
+└── public_benchmark/            # public data preparation
 tests/                           # split, model, metric, and registry tests
 ```
 
@@ -145,9 +148,8 @@ NLL, Brier score, configuration hash, split hash, dataset hash, and Git commit.
 The generated five-seed report is
 [results/EXPERIMENT_REPORT.md](results/EXPERIMENT_REPORT.md), and the
 publication-ready figures are under
-[figures/publication](figures/publication/). The historical three-seed CSVs in
-`docs/results/paderborn/` are retained for provenance and are not the final
-confirmatory results.
+[figures/publication](figures/publication/). The superseded three-seed result
+files were removed from the working tree and are available only in Git history.
 
 ## Tests
 

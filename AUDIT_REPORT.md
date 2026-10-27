@@ -361,3 +361,8 @@ text must be updated from the canonical CSV files rather than from the previous
 draft. A Git remote is still absent, so a public GitHub push cannot be completed
 from this checkout until a repository URL is supplied.
 
+After finalization, the superseded working-tree artifacts listed in this audit
+were removed: the legacy industrial code/data, old model outputs, exploratory
+archives, old figures, and the old three-seed CSV directory. The audit record is
+retained, and the superseded files remain recoverable from Git history.
+
