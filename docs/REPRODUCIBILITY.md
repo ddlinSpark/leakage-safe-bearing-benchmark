@@ -30,6 +30,10 @@ PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
 PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
   --results-dir results \
   --output-dir figures/publication
+
+PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
+  --results-dir results \
+  --all
 ```
 
 The `--experiment` choices are `main`, `ablation`, `label_efficiency`,
@@ -55,6 +59,11 @@ SHA-256, Python/Torch/CUDA versions, Git commit, and dirty-worktree flag.
 Exact split membership is stored in `results/splits/fold<k>.json`. Resume is
 permitted only when both `run_id` and `config_hash` match. A configuration
 change creates a separate row rather than silently pooling incompatible runs.
+
+`results/runs/<run_id>/predictions.npz` contains test logits, labels, final
+decisions, and the fitted temperature. The independent recheck command
+recomputes all recorded probability metrics and fails if any value differs by
+more than `1e-8`.
 
 ## Determinism boundary
 

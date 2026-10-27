@@ -335,3 +335,29 @@ refactored incrementally rather than replaced with unreviewed model code.
 - **Public GitHub reproducibility package:** not yet complete; no remote is
   configured.
 
+## 12. Post-Audit Remediation Status
+
+The code and experiment gaps identified above have been addressed through a
+unified framework and a new confirmatory run.
+
+- Canonical runner: `configs/paderborn_main.json` plus
+  `spindle_cnn.experiments.run_benchmark`.
+- Main comparison: 20 successful runs for each of seven registered method
+  conditions, including the temperature-scaling evaluation condition.
+- Label efficiency: 20 runs for each supervised/self-training ×
+  `10%/50%/100%` condition, with the 100% view reusing the exact main
+  `fold + seed` rows.
+- Threshold sensitivity: 20 runs for each threshold from `0.30` through `0.70`.
+- Total canonical successful rows: 320.
+- Failed rows: 0 in the completed matrix.
+- Per-run provenance: configuration, environment, dataset hash, split hash,
+  Git commit, training history, calibration bins, and confusion matrix.
+- Automated outputs: `results/EXPERIMENT_REPORT.md`, CSVs with mean ± standard
+  deviation and paired tests, and seven figures under `figures/publication/`.
+
+The new five-seed results supersede the manuscript's old three-seed numbers.
+The manuscript has deliberately not been rewritten in this phase; its tables and
+text must be updated from the canonical CSV files rather than from the previous
+draft. A Git remote is still absent, so a public GitHub push cannot be completed
+from this checkout until a repository URL is supplied.
+

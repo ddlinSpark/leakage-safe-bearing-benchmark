@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,0,0,62
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,0,1,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,0,2,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,0,3,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,1,0,40
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,1,1,22
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,1,2,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,1,3,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,2,0,62
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,2,1,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,2,2,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,2,3,0
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,3,0,47
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,3,1,8
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,3,2,7
+threshold__f0__s123__cwt_gru_selftrain__l0.5000__t0.3000__003accc4a8,3,3,0

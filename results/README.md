@@ -13,6 +13,8 @@ label_efficiency_summary.csv
 threshold_summary.csv
 statistical_tests.csv
 model_complexity.csv
+EXPERIMENT_REPORT.md
+rechecks/all_runs.json
 config_used.json
 run_benchmark.log
 runs/<run_id>/               # config, history, predictions, diagnostics

@@ -89,6 +89,9 @@ PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
 PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
   --results-dir results \
   --output-dir figures/publication
+
+PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
+  --results-dir results --all
 ```
 
 On PowerShell:
@@ -98,6 +101,7 @@ $env:PYTHONPATH = "src"
 python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_main.json --experiment all
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
+python -m spindle_cnn.analysis.recheck_run --results-dir results --all
 ```
 
 The runner refuses a dirty worktree unless `--allow-dirty` is passed. Such runs
@@ -128,6 +132,8 @@ offline audit when labels are available.
 - `results/label_efficiency_summary.csv`.
 - `results/threshold_summary.csv`.
 - `results/model_complexity.csv`.
+- `results/rechecks/all_runs.json`: independent metric recomputation from saved
+  logits for every canonical row.
 - `results/runs/<run_id>/config.json`: per-run configuration, environment,
   dataset hash, split hash, and Git commit.
 - `results/splits/fold<k>.json`: exact train/validation/test indices and hashes.
@@ -135,6 +141,13 @@ offline audit when labels are available.
 Every successful row records training time, test inference time, parameter count,
 estimated GFLOPs, train/validation loss, temperature, Macro-F1, accuracy, ECE,
 NLL, Brier score, configuration hash, split hash, dataset hash, and Git commit.
+
+The generated five-seed report is
+[results/EXPERIMENT_REPORT.md](results/EXPERIMENT_REPORT.md), and the
+publication-ready figures are under
+[figures/publication](figures/publication/). The historical three-seed CSVs in
+`docs/results/paderborn/` are retained for provenance and are not the final
+confirmatory results.
 
 ## Tests
 

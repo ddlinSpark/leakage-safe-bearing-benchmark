@@ -37,6 +37,8 @@ spindle-benchmark = "spindle_cnn.experiments.run_benchmark:main"
 spindle-ablation = "spindle_cnn.experiments.run_ablation:main"
 spindle-threshold-sweep = "spindle_cnn.experiments.run_threshold:main"
 spindle-statistical-analysis = "spindle_cnn.analysis.statistics:main"
+spindle-export-results-report = "spindle_cnn.analysis.report:main"
+spindle-recheck-run = "spindle_cnn.analysis.recheck_run:main"
 spindle-publication-figures = "spindle_cnn.experiments.make_figures:main"
 
 [tool.setuptools.dynamic]

@@ -151,10 +151,10 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
 
 
 def threshold_sensitivity(summary: pd.DataFrame, output_dir: Path) -> None:
+    model_column = "method" if "method" in summary.columns else "Model"
     method = summary.loc[
-        summary["method"].eq("cwt_gru_selftrain")
-        | summary["Model"].eq("cwt_gru_selftrain")
-    ]
+        summary[model_column].eq("cwt_gru_selftrain")
+    ].sort_values("threshold")
     fig, (ax1, ax2) = plt.subplots(
         2,
         1,
@@ -247,8 +247,15 @@ def confusion(raw: pd.DataFrame, runs_dir: Path, output_dir: Path) -> None:
         ]
         .sum()
     )
-    fig, axes = plt.subplots(2, 2, figsize=(9.4, 8.2))
-    for ax, method in zip(axes.flatten(), methods, strict=True):
+    fig, axes = plt.subplots(
+        2,
+        2,
+        figsize=(11.0, 9.2),
+        constrained_layout=True,
+    )
+    for number, (ax, method) in enumerate(
+        zip(axes.flatten(), methods, strict=True)
+    ):
         subset = aggregate.loc[aggregate["method"].eq(method)]
         matrix = np.zeros((4, 4), dtype=np.float64)
         for row in subset.itertuples(index=False):
@@ -267,12 +274,22 @@ def confusion(raw: pd.DataFrame, runs_dir: Path, output_dir: Path) -> None:
                     color=color,
                     fontsize=9,
                 )
-        ax.set_xticks(range(4), CLASS_LABELS, rotation=24, ha="right")
+        ax.set_xticks(range(4), CLASS_LABELS, rotation=32, ha="right")
         ax.set_yticks(range(4), CLASS_LABELS)
-        ax.set_xlabel("Predicted class")
-        ax.set_ylabel("True class")
+        ax.tick_params(axis="both", labelsize=8.5)
+        ax.set_box_aspect(1)
+        if number >= 2:
+            ax.set_xlabel("Predicted class")
+        if number % 2 == 0:
+            ax.set_ylabel("True class")
         ax.set_title(METHOD_LABELS[method])
-    fig.colorbar(image, ax=axes, fraction=0.025, pad=0.04, label="Row-normalized count")
+    fig.colorbar(
+        image,
+        ax=axes.ravel().tolist(),
+        fraction=0.025,
+        pad=0.03,
+        label="Row-normalized count",
+    )
     save(fig, output_dir, "figure_06_confusion_matrices")
 
 

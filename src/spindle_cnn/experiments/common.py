@@ -29,6 +29,7 @@ RESULT_COLUMNS = [
     "protocol",
     "split_version",
     "method",
+    "model",
     "model_key",
     "evaluation_mode",
     "fold",
@@ -48,7 +49,9 @@ RESULT_COLUMNS = [
     "raw_nll",
     "raw_brier",
     "train_time_s",
+    "train_time",
     "inference_time_ms",
+    "inference_time",
     "inference_ms_per_batch",
     "inference_samples_per_s",
     "parameters",
@@ -174,6 +177,12 @@ def read_results(path: Path) -> pd.DataFrame:
     for column in RESULT_COLUMNS:
         if column not in frame:
             frame[column] = np.nan
+    if frame["model"].isna().all() and "model_key" in frame:
+        frame["model"] = frame["model_key"]
+    if frame["train_time"].isna().all() and "train_time_s" in frame:
+        frame["train_time"] = frame["train_time_s"]
+    if frame["inference_time"].isna().all() and "inference_time_ms" in frame:
+        frame["inference_time"] = frame["inference_time_ms"]
     ordered = [column for column in RESULT_COLUMNS if column in frame]
     extra = [column for column in frame.columns if column not in ordered]
     return frame[ordered + extra]

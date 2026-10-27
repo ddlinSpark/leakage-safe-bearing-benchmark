@@ -335,6 +335,7 @@ def result_row(
         "protocol": config["dataset"]["protocol"],
         "split_version": config["dataset"]["split_version"],
         "method": method,
+        "model": method_spec.model_key,
         "model_key": method_spec.model_key,
         "evaluation_mode": (
             "temperature_scaling"
@@ -358,7 +359,9 @@ def result_row(
         "raw_nll": raw_metrics["nll"],
         "raw_brier": raw_metrics["brier"],
         "train_time_s": train_time_s,
+        "train_time": train_time_s,
         **timing,
+        "inference_time": timing["inference_time_ms"],
         "parameters": parameters,
         "gflops_sample": gflops_sample,
         "temperature": state.temperature,
@@ -426,6 +429,7 @@ def failed_result_row(
         "protocol": config["dataset"]["protocol"],
         "split_version": config["dataset"]["split_version"],
         "method": method,
+        "model": method_spec.model_key,
         "model_key": method_spec.model_key,
         "evaluation_mode": (
             "temperature_scaling"
