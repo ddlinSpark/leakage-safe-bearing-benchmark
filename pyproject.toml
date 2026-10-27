@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spindle-cnn"
+version = "0.1.0"
+description = "Weakly supervised spindle fault diagnosis experiments"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary" }
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+spindle-build-raw = "spindle_cnn.data.build_dataset_from_raw:main"
+spindle-build-stft = "spindle_cnn.data.build_final_dataset_with_stft:main"
+spindle-build-windows = "spindle_cnn.data.build_window_sample_index:main"
+spindle-train-backbone = "spindle_cnn.final.train_cwt_residual_attention_compare:main"
+spindle-train-calibrator = "spindle_cnn.final.train_logit_calibrator:main"
+spindle-self-train = "spindle_cnn.final.self_train_relabel:main"
+spindle-postprocess = "spindle_cnn.final.postprocess_cwt_calibration:main"
+spindle-predict = "spindle_cnn.final.predict:main"
+spindle-check-gpu = "spindle_cnn.environment.check_gpu:main"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100

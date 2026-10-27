@@ -1,0 +1,52 @@
+# Local data and large artifacts
+/data/
+/dataset_final/
+/outputs/
+/artifacts/
+/figures/
+*.csv
+*.parquet
+*.npy
+*.npz
+*.zip
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Python build and cache files
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+.venv/
+venv/
+
+# Temporary and LaTeX intermediates
+*.tmp
+*.log
+*.aux
+*.out
+*.toc
+*.synctex.gz
+
+# Local paper binaries; keep the Markdown documentation in Git
+docs/paper/*
+!docs/paper/README.md
+docs/references/*
+!docs/references/README.md
+
+# IDE and local configuration
+.vscode/
+.idea/
+.env
+.env.*
+!.env.example
+
+# Jupyter
+.ipynb_checkpoints/
