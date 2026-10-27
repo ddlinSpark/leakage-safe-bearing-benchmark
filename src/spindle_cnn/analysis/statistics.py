@@ -86,6 +86,7 @@ def prepare_analysis_frame(raw: pd.DataFrame) -> pd.DataFrame:
         & main["method"].isin(["cwt_gru", "cwt_gru_selftrain"])
     ].copy()
     label_full["experiment_type"] = "label_efficiency"
+    label_full["run_id"] = label_full["run_id"].astype(str) + "__label100"
     return pd.concat([main, label_full], ignore_index=True).drop_duplicates("run_id")
 
 

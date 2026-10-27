@@ -630,6 +630,7 @@ def summarize_results(output_dir: Path) -> None:
         & raw["method"].isin(["cwt_gru", "cwt_gru_selftrain"])
     ].copy()
     main_full["experiment_type"] = "label_efficiency"
+    main_full["run_id"] = main_full["run_id"].astype(str) + "__label100"
     label_standard = pd.concat(
         [
             raw.loc[raw["experiment_type"].eq("main")],
