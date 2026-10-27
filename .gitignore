@@ -49,6 +49,8 @@ venv/
 # Local paper binaries; keep the Markdown documentation in Git
 docs/paper/*
 !docs/paper/README.md
+!docs/paper/TABLE_SOURCES.md
+!docs/paper/FIGURE_SOURCES.md
 docs/references/*
 !docs/references/README.md
 

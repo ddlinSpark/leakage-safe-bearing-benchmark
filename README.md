@@ -89,12 +89,22 @@ PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
   --results results/raw_runs.csv \
   --output-dir results
 
+PYTHONPATH=src python -m spindle_cnn.analysis.report --results-dir results
+
+PYTHONPATH=src python -m spindle_cnn.experiments.make_method_figures \
+  --output-dir figures/publication
+
 PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
   --results-dir results \
   --output-dir figures/publication
 
 PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
   --results-dir results --all
+
+PYTHONPATH=src python -m spindle_cnn.paper.build_docx \
+  --results-dir results \
+  --figures-dir figures/publication \
+  --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx
 ```
 
 On PowerShell:
@@ -103,9 +113,18 @@ On PowerShell:
 $env:PYTHONPATH = "src"
 python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_main.json --experiment all
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
+python -m spindle_cnn.analysis.report --results-dir results
+python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publication
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 python -m spindle_cnn.analysis.recheck_run --results-dir results --all
+python -m spindle_cnn.paper.build_docx --results-dir results --figures-dir figures/publication --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx
 ```
+
+The manuscript workflow, source mapping, and validation steps are documented in
+[PAPER_REPRODUCIBILITY.md](PAPER_REPRODUCIBILITY.md). Table provenance is in
+[docs/paper/TABLE_SOURCES.md](docs/paper/TABLE_SOURCES.md), figure provenance is
+in [docs/paper/FIGURE_SOURCES.md](docs/paper/FIGURE_SOURCES.md), and the
+scientific revision record is in [CHANGELOG.md](CHANGELOG.md).
 
 The runner refuses a dirty worktree unless `--allow-dirty` is passed. Such runs
 are marked exploratory in every row. Resume is allowed only for an exact

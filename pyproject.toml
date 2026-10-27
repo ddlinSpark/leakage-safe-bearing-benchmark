@@ -26,7 +26,9 @@ spindle-threshold-sweep = "spindle_cnn.experiments.run_threshold:main"
 spindle-statistical-analysis = "spindle_cnn.analysis.statistics:main"
 spindle-export-results-report = "spindle_cnn.analysis.report:main"
 spindle-recheck-run = "spindle_cnn.analysis.recheck_run:main"
+spindle-method-figures = "spindle_cnn.experiments.make_method_figures:main"
 spindle-publication-figures = "spindle_cnn.experiments.make_figures:main"
+spindle-build-paper = "spindle_cnn.paper.build_docx:main"
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }

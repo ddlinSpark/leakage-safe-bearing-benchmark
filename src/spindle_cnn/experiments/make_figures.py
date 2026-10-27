@@ -313,6 +313,74 @@ def computational_cost(cost: pd.DataFrame, output_dir: Path) -> None:
     save(fig, output_dir, "figure_07_computational_cost")
 
 
+def reliability_diagrams(raw: pd.DataFrame, results_dir: Path, output_dir: Path) -> None:
+    methods = ["raw_cnn", "cwt_cnn", "cwt_gru", "cwt_gru_selftrain"]
+    selected = raw.loc[
+        raw["experiment_type"].eq("main")
+        & raw["method"].isin(methods)
+        & raw["label_ratio"].eq(1.0)
+    ][["run_id", "method"]]
+    frames: list[pd.DataFrame] = []
+    for record in selected.itertuples(index=False):
+        path = results_dir / "runs" / record.run_id / "calibration_bins.csv"
+        if path.is_file():
+            frame = pd.read_csv(path)
+            frame["method"] = record.method
+            frames.append(frame)
+    if not frames:
+        raise FileNotFoundError("No per-run calibration bins were found")
+    bins = pd.concat(frames, ignore_index=True)
+    rows: list[dict[str, float | str | int]] = []
+    for (method, source, bin_id), group in bins.groupby(
+        ["method", "source", "bin"],
+        dropna=False,
+    ):
+        count = group["count"].sum()
+        if count <= 0:
+            continue
+        rows.append(
+            {
+                "method": method,
+                "source": source,
+                "bin": int(bin_id),
+                "count": int(count),
+                "mean_confidence": float(
+                    (group["mean_confidence"] * group["count"]).sum() / count
+                ),
+                "accuracy": float((group["accuracy"] * group["count"]).sum() / count),
+            }
+        )
+    aggregate = pd.DataFrame(rows)
+    fig, axes = plt.subplots(2, 2, figsize=(9.4, 7.8), constrained_layout=True)
+    for ax, method in zip(axes.flatten(), methods, strict=True):
+        subset = aggregate.loc[aggregate["method"].eq(method)]
+        ax.plot([0, 1], [0, 1], color="#9A9A9A", linestyle="--", linewidth=1)
+        for source, marker, color, label in (
+            ("raw", "o", "#727272", "Uncalibrated"),
+            ("temperature", "s", "#315A8A", "Temperature scaled"),
+        ):
+            data = subset.loc[subset["source"].eq(source)].sort_values(
+                "mean_confidence"
+            )
+            ax.plot(
+                data["mean_confidence"],
+                data["accuracy"],
+                marker=marker,
+                markersize=4.5,
+                linewidth=1.5,
+                color=color,
+                label=label,
+            )
+        ax.set_xlim(0, 1.02)
+        ax.set_ylim(0, 1.02)
+        ax.set_xlabel("Mean confidence")
+        ax.set_ylabel("Empirical accuracy")
+        ax.set_title(METHOD_LABELS[method])
+        ax.grid(color="#E4E4E4", linewidth=0.6)
+        ax.legend(frameon=False, loc="upper left")
+    save(fig, output_dir, "figure_08_reliability_diagrams")
+
+
 def main() -> None:
     args = parse_args()
     results_dir = args.results_dir.resolve()
@@ -333,6 +401,7 @@ def main() -> None:
     calibration(raw, output_dir)
     confusion(raw, results_dir / "runs", output_dir)
     computational_cost(cost, output_dir)
+    reliability_diagrams(raw, results_dir, output_dir)
 
 
 if __name__ == "__main__":
