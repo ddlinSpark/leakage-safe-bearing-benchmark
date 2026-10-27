@@ -1,5 +1,25 @@
 # 实验代码说明
 
+## Current confirmatory benchmark
+
+The active SCI benchmark is implemented under `src/spindle_cnn/models/`,
+`datasets/`, `training/`, `evaluation/`, and `experiments/`. Its canonical
+entry point is:
+
+```bash
+PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
+  --config configs/paderborn_main.json --experiment all
+```
+
+The unified runner records per-run configuration, seeds, folds, split hashes,
+training cost, inference cost, metrics, and Git provenance. See
+`docs/REPRODUCIBILITY.md`.
+
+## Legacy industrial pipeline
+
+The following material is historical and is not used for the confirmatory
+public-data result.
+
 ## 最终链路
 
 最终实验位于 `src/spindle_cnn/final/`：

@@ -1,94 +1,148 @@
-# Spindle CNN — Leakage-Safe Bearing Fault Diagnosis
+# Leakage-Safe Bearing Fault Diagnosis Benchmark
 
-本仓库保存主轴系统轴承故障诊断的实验代码，并明确区分历史工业数据试验与
-公开数据确认实验。历史十类结果依赖规则生成的标签，不能作为真实故障准确率；
-论文修订版只把公开数据上的真实标签结果作为主要证据。
+This repository contains the reproducible experiment code for the manuscript
+**“Leakage-Safe Benchmarking of Time-Frequency Fusion and Calibrated
+Self-Training for Bearing Fault Diagnosis.”**
 
-## 公共基准结果
+The primary experiment uses the public Paderborn University bearing dataset and
+tests simultaneous transfer to:
 
-修订实验使用 Paderborn 轴承数据中的振动与两路电流信号。测试同时留出未见
-轴承和未见工况，窗口之间不重叠。
+- an unseen bearing code;
+- an unseen operating condition;
+- `8192`-sample windows with stride `8192` (no overlap);
+- pseudo-labels drawn only from the unlabeled training partition.
 
-| 方法 | Accuracy | Macro-F1 | Macro-F1 标准差 |
-| --- | ---: | ---: | ---: |
-| Raw 1D-CNN | 0.409 | 0.308 | 0.072 |
-| CWT 2D-CNN | 0.400 | 0.291 | 0.088 |
-| CWT-GRU | 0.391 | 0.284 | 0.106 |
-| CWT-GRU + calibrated self-training | 0.350 | 0.240 | 0.103 |
+The benchmark compares Raw 1D-CNN, GRU-only, CWT 2D-CNN, CWT-GRU without SE,
+full CWT-GRU, temperature-scaled CWT-GRU, and calibrated self-training.
 
-主比较为四折工况留出 × 三个随机种子。完整结果见
-[docs/results/paderborn](docs/results/paderborn/README.md)。自训练没有提高
-严格外推条件下的宏 F1；温度缩放改善了概率校准，但不改变预测类别。
+The historical industrial-data experiment is retained for provenance only. Its
+engineering-threshold labels, overlapping windows, repeated station groups, and
+legacy test relabeling do not support a confirmatory diagnostic-accuracy claim.
 
-原稿中的 96% 私有数据结果保留为历史试验记录，不再作为论文主结果。
-
-## 代码结构
+## Repository layout
 
 ```text
+configs/                         # canonical experiment configuration
+data/README.md                   # official sources and preprocessing definition
+docs/                            # protocol, reproducibility, and audit notes
+figures/                         # generated publication figures
+results/                         # canonical CSV and per-run audit records
+scripts/                         # thin executable wrappers
 src/spindle_cnn/
-├── data/           # 数据清洗、STFT、滑窗索引和时频图预览
-├── final/          # 最终主干、校准、self-training 和推理
-├── public_benchmark/ # CWRU/Paderborn 泄漏安全基准与论文图表
-├── baselines/      # GADF/Swin 对照实验
-├── reporting/      # 指标汇总和图表组合
-├── document_tools/ # Word 文档生成工具
-└── environment/    # GPU 环境检查
+├── models/                      # BaseModel and registered architectures
+│   └── baselines/               # not-yet-reproduced SOTA placeholders
+├── datasets/                    # group-safe splits and balanced budgets
+├── training/                    # deterministic training and self-training
+├── evaluation/                  # metrics, calibration, FLOPs, latency
+├── experiments/                 # unified runners and figures
+├── analysis/                    # CIs, paired tests, ablation summaries
+└── public_benchmark/            # public data preparation and legacy runner
+tests/                           # split, model, metric, and registry tests
 ```
 
-实验说明见 [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md)，数据说明见
-[docs/DATASET.md](docs/DATASET.md)，复现步骤见
-[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)。公开基准实验与泄漏安全
-协议见 [docs/PUBLIC_BENCHMARK.md](docs/PUBLIC_BENCHMARK.md)。
+## Installation
 
-## 安装
-
-建议使用 Python 3.10+。请先根据本机 CUDA 版本安装匹配的 PyTorch，再安装本项目：
+Python 3.10 or newer is required. Install a PyTorch build matching the local
+CUDA/CPU environment, then install the package:
 
 ```bash
-python -m pip install -e .
+python -m pip install -e ".[dev]"
 ```
 
-也可以使用 `python -m pip install -r requirements.txt`。
+An optional Conda environment specification is available in
+`environment.yml`. Exact numerical latency depends on hardware.
 
-## 快速验证
+## Data preparation
+
+Raw data and caches are not redistributed. Download the official archives and
+build the Paderborn cache as documented in
+[data/README.md](data/README.md). The canonical cache path is:
+
+```text
+data/public/paderborn/pu_4class_w8192.npz
+```
+
+The selected training and test bearing codes, operating conditions, sampling
+rate, window size, stride, and split rule are explicitly listed in that file.
+
+## Reproduce the full experiment
+
+The canonical configuration uses:
+
+```text
+seeds = 42, 123, 2024, 2025, 3407
+folds = 0, 1, 2, 3
+primary comparison = 4 folds x 5 seeds = 20 runs per method
+```
+
+From the repository root:
 
 ```bash
-spindle-check-gpu
-spindle-build-raw --help
-spindle-train-backbone --help
-spindle-predict --help
-spindle-cwru-benchmark --help
-spindle-pu-cache --help
-spindle-public-summary --help
-spindle-model-complexity --help
-spindle-threshold-sweep --help
-spindle-build-sci-paper --help
+PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
+  --config configs/paderborn_main.json \
+  --experiment all
+
+PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
+  --results results/raw_runs.csv \
+  --output-dir results
+
+PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
+  --results-dir results \
+  --output-dir figures/publication
 ```
 
-推理示例：
-
-```bash
-spindle-predict --npy window.npy --op PPOP40_1
-spindle-predict --csv batch.csv --batch --device cpu
-```
-
-模型目录需包含 `run_summary.json`、`best_model.pt` 和校准器文件。默认路径为
-`outputs/self_train_v3_gru` 与 `outputs/self_train_v3_gru_calibrated`。
-
-修订论文位于 `docs/paper/主轴故障诊断方法_SCI修订版.docx`，该二进制文档
-默认不进入 Git。重建命令见
-[docs/PUBLIC_BENCHMARK.md](docs/PUBLIC_BENCHMARK.md)。
-
-## 数据与产物
-
-原始数据、处理后的数据集、模型权重和图像产物默认位于仓库根目录的
-`data/`、`dataset_final/`、`outputs/` 和 `figures/`。这些体积较大的文件已
-通过 `.gitignore` 排除。
-
-如需将运行目录放在其他位置，可设置 `SPINDLE_CNN_ROOT`：
+On PowerShell:
 
 ```powershell
-$env:SPINDLE_CNN_ROOT = "D:\spindle_runtime"
+$env:PYTHONPATH = "src"
+python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_main.json --experiment all
+python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
+python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 ```
 
-本地归档、比赛投稿副本和压缩包位于 `artifacts/local/`，不会进入 Git。
+The runner refuses a dirty worktree unless `--allow-dirty` is passed. Such runs
+are marked exploratory in every row. Resume is allowed only for an exact
+`run_id + config_hash` match.
+
+### Label budget semantics
+
+The `100%` setting means 100% of the class-balanced label budget. It samples the
+same number of windows from every class, using the size of the smallest training
+class. It does **not** mean that every training window is labeled. The exact
+labeled and candidate counts are stored in every run.
+
+### Self-training isolation
+
+Validation data are used for early stopping and temperature fitting. Test data
+are used only after fitting is complete. Pseudo-label candidates are constructed
+as `training indices - labeled indices`; validation and test indices are never
+passed to candidate selection. Pseudo-label accuracy is recorded only as an
+offline audit when labels are available.
+
+## Canonical result files
+
+- `results/raw_runs.csv`: one row per fold, seed, method, budget, and threshold.
+- `results/summary.csv`: requested model-level macro-F1 and accuracy summaries.
+- `results/statistical_tests.csv`: paired differences and Wilcoxon tests.
+- `results/ablation_summary.csv`: component matrix and mean ± standard deviation.
+- `results/label_efficiency_summary.csv`.
+- `results/threshold_summary.csv`.
+- `results/model_complexity.csv`.
+- `results/runs/<run_id>/config.json`: per-run configuration, environment,
+  dataset hash, split hash, and Git commit.
+- `results/splits/fold<k>.json`: exact train/validation/test indices and hashes.
+
+Every successful row records training time, test inference time, parameter count,
+estimated GFLOPs, train/validation loss, temperature, Macro-F1, accuracy, ECE,
+NLL, Brier score, configuration hash, split hash, dataset hash, and Git commit.
+
+## Tests
+
+```bash
+PYTHONPATH=src python -m pytest -q tests
+```
+
+## Model and data licensing
+
+Code is released under the MIT License. Dataset files remain subject to their
+providers' terms and are not included in this repository.

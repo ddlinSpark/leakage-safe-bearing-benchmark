@@ -1,15 +1,22 @@
 # Local data and large artifacts
-/data/
+/data/*
 /dataset_final/
 /outputs/
 /artifacts/
-/figures/
+/figures/*
 *.csv
 *.parquet
 *.npy
 *.npz
 *.zip
 !docs/results/**/*.csv
+!data/README.md
+!results/**/*.csv
+!results/**/*.json
+!results/**/*.md
+!figures/**/*.png
+!figures/**/*.pdf
+!figures/README.md
 
 # Model weights
 *.pt

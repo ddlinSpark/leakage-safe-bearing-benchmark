@@ -1,52 +1,83 @@
-# 复现说明
+# Reproducibility
 
-## 环境
+## Fixed protocol
 
-- Python 3.10+
-- PyTorch 2.0+，需匹配本机 CUDA/CPU 环境
-- 参考开发环境：CUDA 13.0、RTX 5080
-- 完整依赖见 `requirements.txt`
+The confirmatory Paderborn experiment uses the configuration in
+`configs/paderborn_main.json`:
 
-先检查环境：
+- Seeds: `42, 123, 2024, 2025, 3407`.
+- Operating-condition folds: `0, 1, 2, 3`.
+- Test bearing IDs: `4, 8, 12, 15`.
+- Window length and stride: `8192` samples.
+- Primary matrix: four folds by five seeds per method.
+- Full-label setting: 100% of the class-balanced budget, not all training
+  windows.
+- Pseudo-label threshold in the main self-training experiment: `0.60`.
+- Threshold sensitivity: `0.30, 0.40, 0.50, 0.60, 0.70` at a 50% balanced
+  budget.
 
-```bash
-python -m pip install -e .
-spindle-check-gpu
-```
-
-Rebuilding the DOCX additionally requires Pandoc. Set `PANDOC_EXE` if the
-executable is not on `PATH`.
-
-## 推荐流程
-
-所有命令在仓库根目录执行。先通过 `--help` 确认当前版本参数：
+## Commands
 
 ```bash
-spindle-build-raw --help
-spindle-build-windows --help
-spindle-train-backbone --help
-spindle-train-calibrator --help
-spindle-self-train --help
-spindle-postprocess --help
-spindle-predict --help
+PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
+  --config configs/paderborn_main.json \
+  --experiment all
+
+PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
+  --results results/raw_runs.csv \
+  --output-dir results
+
+PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
+  --results-dir results \
+  --output-dir figures/publication
 ```
 
-主流程为：
+The `--experiment` choices are `main`, `ablation`, `label_efficiency`,
+`threshold`, and `all`.
 
-1. 构建并清洗数据集。
-2. 构建滑窗索引。
-3. 训练原始 CWT/残差注意力主干。
-4. 训练校准器并生成净化伪标签。
-5. 迭代 self-training；R3 增加 GRU 时序分支。
-6. 对最终输出执行后处理和测试评价。
-7. 按需组合图表或运行推理。
+## Provenance
 
-## 复现约束
+Each run writes:
 
-- 原始数据和训练产物不随仓库分发，必须从归档或数据拥有方获取。
-- 模型权重只与本项目版本和训练配置匹配。
-- `self_train_relabel.py` 的源主干、校准器和输出目录必须显式对应，不能复用
-  其他轮次的权重。
-- 脚本保留历史超参数默认值以便追踪实验，但复现论文结果时应以对应
-  `run_summary.json` 中的配置为准。
-- 由于按工位时间顺序划分数据，不应改用随机划分后直接比较论文指标。
+```text
+results/runs/<run_id>/
+├── config.json
+├── training_history.csv
+├── predictions.npz
+├── confusion_matrix.csv
+└── calibration_bins.csv
+```
+
+`config.json` includes the command-line configuration, architecture key,
+training settings, seed, fold, label budget, threshold, dataset SHA-256, split
+SHA-256, Python/Torch/CUDA versions, Git commit, and dirty-worktree flag.
+
+Exact split membership is stored in `results/splits/fold<k>.json`. Resume is
+permitted only when both `run_id` and `config_hash` match. A configuration
+change creates a separate row rather than silently pooling incompatible runs.
+
+## Determinism boundary
+
+The runner seeds Python, NumPy, PyTorch, and CUDA; disables cuDNN autotuning;
+requests deterministic kernels; and uses an explicit DataLoader generator. GPU
+model, driver, CUDA, PyTorch version, and implementation differences can still
+change floating-point results and latency. The environment snapshot for every
+run is retained for this reason.
+
+## Leakage controls
+
+1. Held-out bearing IDs never enter training or validation.
+2. The test operating condition is excluded from training and validation.
+3. Windows do not overlap (`stride == window length`).
+4. Validation labels are used only for model selection and temperature fitting.
+5. Test labels are not used for training, early stopping, calibration, or
+   pseudo-label selection.
+6. Pseudo-label candidates are drawn only from the unlabeled training partition.
+7. Test outcomes do not select the main confidence threshold.
+
+## Legacy industrial pipeline
+
+The scripts under `src/spindle_cnn/final/` and the industrial-data window builder
+preserve historical experiments. They are not part of the confirmatory public
+benchmark. In particular, `self_train_relabel.py` must not be used to produce
+SCI accuracy claims because it relabels train, validation, and test samples.

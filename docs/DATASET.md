@@ -1,5 +1,10 @@
 # 数据集说明
 
+The current public-data benchmark does not use the files described below. See
+`data/README.md` and `docs/PUBLIC_BENCHMARK.md` for Paderborn/CWRU definitions.
+The remainder of this document describes the **legacy industrial-data
+pipeline**, retained for provenance only.
+
 ## 输入文件
 
 完整数据构建默认读取以下本地文件：

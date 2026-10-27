@@ -1,91 +1,63 @@
 # Public Benchmark Protocol
 
-The revised study separates model evidence from rule-generated industrial labels.
-Only datasets with verifiable labels are used for accuracy claims.
+## Paderborn primary experiment
 
-## CWRU protocol
+- Dataset: Paderborn University Bearing Data Center.
+- Signals: `vibration_1`, `phase_current_1`, `phase_current_2`.
+- Sampling rate: 64 kHz.
+- Classes: healthy, outer-ring, inner-ring, and multiple damage.
+- Training bearings: `K001-K004`, `KA01/KA04/KA08`,
+  `KI01/KI04/KI08`, and `KB23/KB24`.
+- Unseen test bearings: `K005`, `KA15`, `KI14`, `KB27`.
+- Conditions: `N09_M07_F10`, `N15_M01_F10`, `N15_M07_F04`,
+  `N15_M07_F10`.
+- Windows: 8192 samples, stride 8192.
+- Measurements: files 1 and 2 for every selected bearing and condition.
 
-- Source: official CWRU Bearing Data Center, 12 kHz drive-end data.
-- Sensors: drive-end and fan-end accelerometers.
-- Classes: healthy and ball, inner-race, and outer-race faults at three
-  diameters, giving 10 classes.
-- Windowing: 2048 samples with a stride of 2048; adjacent windows do not
-  overlap.
-- Evaluation: leave-one-load-out. Training and validation use different loads
-  from the test fold, and test labels are never used for training or model
-  selection.
-- Repeated runs: multiple random seeds; mean, standard deviation, 95%
-  confidence interval, and paired comparisons are reported.
+For each of four folds, one operating condition is the test domain, a second
+condition is used for validation, and the other two are used for training. The
+test bearing codes are excluded from every training and validation partition.
+The result is a bearing-code-disjoint and operating-condition-disjoint test.
 
-CWRU is retained as a saturation check rather than the sole evidence for the
-proposed architecture. Public pilot results show that a raw dual-channel CNN can
-already approach perfect accuracy under this split, so a more complex model is
-not claimed to be superior on CWRU alone.
+## Repeated design
 
-## Paderborn protocol
+The canonical config uses `4 folds x 5 seeds`, or 20 runs per full-label method.
+The seeds are `42, 123, 2024, 2025, 3407`.
 
-- Source: Paderborn University Bearing Data Center.
-- Sensors: vibration and two phase-current channels at 64 kHz.
-- Classes: healthy, outer-ring damage, inner-ring damage, and multiple damage.
-- Training bearings are K001-K004, KA01/KA04/KA08, KI01/KI04/KI08, and
-  KB23/KB24. K005, KA15, KI14, and KB27 are reserved for testing.
-- Operating conditions are grouped; each fold leaves one condition out.
-- Windows are 8192 samples with no overlap.
-- The strict test set combines unseen bearing codes with an unseen operating
-  condition. Validation uses a different seen-bearing condition.
+The unified runner produces:
 
-## Reproducing the experiments
-
-```bash
-spindle-cwru-download
-spindle-cwru-cache
-python -m spindle_cnn.public_benchmark.train_cwru \
-  --cache data/public/cwru/cwru_10class_w2048_morl.npz \
-  --output-dir outputs/public_cwru \
-  --methods raw_cnn,cwt_cnn,cwt_gru,cwt_gru_selftrain \
-  --fractions 0.1,0.25,0.5,1.0 \
-  --folds 0,1,2,3 --seeds 42,43,44
-spindle-public-summary --results outputs/public_cwru/results.csv \
-  --output-dir outputs/public_cwru/analysis
+```text
+Raw 1D-CNN
+GRU-only
+CWT 2D-CNN
+CWT-GRU without SE
+CWT-GRU with SE
+CWT-GRU with SE + temperature scaling
+CWT-GRU with SE + temperature scaling + self-training
 ```
 
-Paderborn requires downloading the relevant archives from the official data
-center and extracting the first five measurement files under each selected
-bearing and operating condition. The local archive is not redistributed.
+Temperature scaling reuses the same trained CWT-GRU weights; it is an evaluation
+condition rather than a new architecture.
 
-```bash
-spindle-pu-cache
-python -m spindle_cnn.public_benchmark.train_cwru \
-  --dataset-name Paderborn-4class \
-  --cache data/public/paderborn/pu_4class_w8192.npz \
-  --output-dir outputs/public_paderborn \
-  --heldout-record-ids 4,8,12,15 \
-  --methods raw_cnn,cwt_cnn,cwt_gru,cwt_gru_selftrain \
-  --fractions 0.1,0.25,0.5,1.0 \
-  --folds 0,1,2,3 --seeds 42,43,44
-spindle-public-summary --results outputs/public_paderborn/results.csv \
-  --output-dir outputs/public_paderborn/analysis
-```
+## Label efficiency
 
-The revised manuscript additionally uses:
+The 10%, 50%, and 100% settings refer to a class-balanced label budget. At each
+fraction, the runner samples the same number of windows from every class. The
+100% budget contains the minimum available count across classes and may be
+smaller than the total training partition. Exact counts are stored per run.
 
-```bash
-python -m spindle_cnn.public_benchmark.train_cwru \
-  --dataset-name Paderborn-4class \
-  --cache data/public/paderborn/pu_4class_w8192.npz \
-  --output-dir outputs/public_paderborn_ablation \
-  --heldout-record-ids 4,8,12,15 \
-  --methods gru_only,cwt_gru_no_se \
-  --fractions 1.0 --folds 0,1,2,3 --seeds 42,43,44
+## Threshold sensitivity
 
-spindle-model-complexity \
-  --output outputs/public_paderborn_final/model_complexity.csv
+At a 50% balanced budget, self-training is evaluated at confidence thresholds
+`0.30–0.70` with the same 4 folds and 5 seeds. Candidate coverage, pseudo-label
+accuracy, test Macro-F1, test accuracy, and calibration error are recorded.
 
-spindle-threshold-sweep \
-  --output-dir outputs/public_paderborn_thresholds \
-  --folds 0,1,2,3 --seeds 42 --fraction 0.5 \
-  --thresholds 0.3,0.4,0.5,0.6,0.7
-```
+Pseudo-label accuracy is computed after selection for audit only. It is never
+used to train, tune, or select a threshold for the confirmatory run.
 
-The DOCX builder uses Pandoc to create native OMML equations. Install Pandoc or
-set `PANDOC_EXE` before rebuilding the manuscript.
+## CWRU pilot
+
+CWRU is retained as a saturation check, not as the primary evidence. Its
+leave-one-load-out experiment uses 2048-sample non-overlapping windows. CWRU
+does not provide the same physical-bearing grouping as the Paderborn benchmark,
+so CWRU results must not be described as bearing-code-disjoint.
