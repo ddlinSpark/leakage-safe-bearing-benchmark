@@ -1,4 +1,4 @@
-name: spindle-cnn
+name: bearing-benchmark
 channels:
   - conda-forge
 dependencies:

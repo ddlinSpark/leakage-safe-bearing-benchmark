@@ -7,7 +7,9 @@ from pathlib import Path
 
 
 def _resolve_project_root() -> Path:
-    override = os.environ.get("SPINDLE_CNN_ROOT")
+    override = os.environ.get("BEARING_BENCHMARK_ROOT") or os.environ.get(
+        "SPINDLE_CNN_ROOT"
+    )
     if override:
         return Path(override).expanduser().resolve()
 

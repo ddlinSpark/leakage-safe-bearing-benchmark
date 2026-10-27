@@ -4,6 +4,10 @@ This repository contains the reproducible experiment code for the manuscript
 **“Leakage-Safe Benchmarking of Time-Frequency Fusion and Calibrated
 Self-Training for Bearing Fault Diagnosis.”**
 
+The repository and Python distribution are named
+`leakage-safe-bearing-benchmark`. The import namespace remains `spindle_cnn`
+for compatibility with the recorded experiment code, commands, and tests.
+
 The primary experiment uses the public Paderborn University bearing dataset and
 tests simultaneous transfer to:
 
@@ -54,6 +58,10 @@ python -m pip install -e ".[dev]"
 
 An optional Conda environment specification is available in
 `environment.yml`. Exact numerical latency depends on hardware.
+
+When the package is launched outside the repository, set
+`BEARING_BENCHMARK_ROOT` to the repository path. The legacy
+`SPINDLE_CNN_ROOT` variable remains accepted for compatibility.
 
 ## Data preparation
 
