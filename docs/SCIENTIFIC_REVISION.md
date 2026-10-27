@@ -47,14 +47,29 @@ test labels are never involved.
 
 ## Second review round
 
-The expanded revision adds:
+The first expanded revision added:
 
 - a complete architecture diagram and model shape flow;
 - parameter count, estimated FLOPs, inference latency, and training-step latency;
-- CWT-only, GRU-only, no-SE, and full CWT-GRU ablations over four conditions and
-  three seeds;
+- CWT-only, GRU-only, no-SE, and full CWT-GRU ablations over four conditions;
 - confidence-threshold sensitivity from 0.3 to 0.7 at a 50% labeling budget,
   including pseudo-label coverage and accuracy;
 - class-normalized confusion matrices aggregated over all repeated runs;
 - native editable Word equations, three-line tables, enlarged self-contained
   figures, and an expanded domain-generalization discussion.
+
+## Five-seed canonical rerun
+
+The earlier three-seed CSVs are retained as historical artifacts. The current
+confirmatory matrix uses seeds `42, 123, 2024, 2025, 3407` and supersedes those
+values:
+
+- 20 runs per main method;
+- 20 runs for each 10%, 50%, and 100% balanced-budget condition;
+- 20 runs for each confidence threshold from 0.30 through 0.70;
+- 320 successful canonical runs in total.
+
+The authoritative numerical summary is
+`results/EXPERIMENT_REPORT.md`. The manuscript must be updated from
+`results/raw_runs.csv`; the main comparison values in the existing draft are
+from the older three-seed experiment and must not be retained verbatim.
