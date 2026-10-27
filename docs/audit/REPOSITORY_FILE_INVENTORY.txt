@@ -4,7 +4,7 @@ Generated from tracked files plus non-ignored candidate files.
 The audit itself is reproducible with `scripts/audit_release_repository.py`.
 
 ```text
-      1163  .gitignore
+      1409  .gitignore
       8867  CHANGELOG.md
        861  CITATION.cff
       1367  LICENSE
@@ -29,16 +29,23 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2329  docs/audit/LEAKAGE_FINAL_CHECK.md
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
       9915  docs/audit/PRE_SUBMISSION_AUDIT.md
-      2454  docs/audit/RELEASE_READINESS.md
+      2361  docs/audit/RELEASE_READINESS.md
       8615  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
       2336  docs/audit/SPLIT_REPRODUCIBILITY_AUDIT.md
       8519  docs/audit/STATISTICAL_SENSITIVITY_REPORT.md
       1473  docs/audit/STATISTICS_REPOSITORY_AUDIT.md
       2055  docs/audit/ZENODO_PREPARATION.md
+      2509  docs/paper/DOMAIN_GAP_ANALYSIS.md
+      2401  docs/paper/FIGURE_PROVENANCE.md
       4402  docs/paper/FIGURE_SOURCES.md
+     13783  docs/paper/PAPER_CODE_MAPPING.md
+      7171  docs/paper/PAPER_REPRODUCIBILITY.md
        891  docs/paper/README.md
+      7024  docs/paper/SOTA_RETRAINING_REPORT.md
+      2662  docs/paper/TABLE_PROVENANCE.md
       5407  docs/paper/TABLE_SOURCES.md
+      1713  docs/paper/UPDATED_CONTRIBUTIONS.md
        248  docs/references/README.md
        125  environment.yml
        499  figures/README.md

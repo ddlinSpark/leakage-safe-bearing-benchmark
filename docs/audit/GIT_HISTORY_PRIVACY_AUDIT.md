@@ -11,7 +11,7 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 16 | informational |
+| Reachable commits | 17 | informational |
 | Distinct commit author email addresses | 2 | informational |
 | Commits with non-anonymous author email metadata | 14 | CRITICAL for double-blind |
 | Current Git author setting will create anonymous commits | NO | CRITICAL if NO for anonymous release |
@@ -29,7 +29,7 @@ Values are intentionally omitted.
 
 | Risk type | First commit | First file / location |
 | --- | --- | --- |
-| `absolute_windows_path` | `3dabd2540b1b` | `src/spindle_cnn/paper/equations.py`; 2 additional match locations |
+| `absolute_windows_path` | `f3bff2b92e6e` | `src/spindle_cnn/paper/equations.py`; 4 additional match locations |
 | `hostname_field` | `673bb999a646` | `src/spindle_cnn/experiments/common.py`; 642 additional match locations |
 
 ## Current candidate-tree matches

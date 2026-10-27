@@ -74,7 +74,7 @@ No malformed form such as `p=<` remains.
 
 The remaining blockers are privacy-related, not numerical:
 
-- 14 of 16 Git commits carry non-anonymous
+- 14 of 17 Git commits carry non-anonymous
   author email metadata.
 - 320 of 320 retained canonical run configurations
   contain a workstation hostname field.

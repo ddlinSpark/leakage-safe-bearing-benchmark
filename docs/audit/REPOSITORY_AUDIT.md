@@ -10,8 +10,8 @@ documented in `docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md`.
 
 ## Repository scale
 
-- Candidate files: 1960
-- Candidate size: 11.76 MiB
+- Candidate files: 1967
+- Candidate size: 11.79 MiB
 - Large files at or above 1 MB: 0
 - Saved-logit prediction archives: 360
   (1.57 MiB total; diagnostic, not model weights)
@@ -25,7 +25,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 
 | Path | Files | Size |
 | --- | ---: | ---: |
-| `.gitignore` | 1 | 1.1 KiB |
+| `.gitignore` | 1 | 1.4 KiB |
 | `CHANGELOG.md` | 1 | 8.7 KiB |
 | `CITATION.cff` | 1 | 861 B |
 | `LICENSE` | 1 | 1.3 KiB |
@@ -33,7 +33,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `REPRODUCE.md` | 1 | 9.5 KiB |
 | `configs` | 2 | 2.4 KiB |
 | `data` | 2 | 3.7 KiB |
-| `docs` | 26 | 106.8 KiB |
+| `docs` | 33 | 143.1 KiB |
 | `environment.yml` | 1 | 125 B |
 | `figures` | 25 | 5.64 MiB |
 | `pyproject.toml` | 1 | 1.6 KiB |
