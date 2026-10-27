@@ -14,8 +14,9 @@
 !results/**/*.csv
 !results/**/*.json
 !results/**/*.md
-!figures/**/*.png
-!figures/**/*.pdf
+!figures/publication/
+!figures/publication/*.png
+!figures/publication/*.pdf
 !figures/README.md
 
 # Model weights
