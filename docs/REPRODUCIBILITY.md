@@ -23,9 +23,17 @@ PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
   --config configs/paderborn_main.json \
   --experiment all
 
+PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
+  --config configs/paderborn_sota.json \
+  --experiment sota
+
 PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
   --results results/raw_runs.csv \
   --output-dir results
+
+PYTHONPATH=src python -m spindle_cnn.analysis.sota \
+  --results-dir results \
+  --external-dir results/sota
 
 PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
   --results-dir results \
@@ -33,6 +41,10 @@ PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
 
 PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
   --results-dir results \
+  --all
+
+PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
+  --results-dir results/sota \
   --all
 ```
 

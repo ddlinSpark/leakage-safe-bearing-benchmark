@@ -1,0 +1,2685 @@
+{
+  "passed": 40,
+  "runs": [
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2540322580645161,
+          "recorded": 0.2540322580645161
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3196977465363371,
+          "recorded": 0.3196977465363371
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6305089745117542,
+          "recorded": 0.6305089745117542
+        },
+        "macro_f1": {
+          "absolute_difference": 4.163336342344337e-17,
+          "passed": true,
+          "recomputed": 0.11104377104377104,
+          "recorded": 0.111043771043771
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 7.481734779864628,
+          "recorded": 7.481734779864628
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2540322580645161,
+          "recorded": 0.2540322580645161
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29518213950892724,
+          "recorded": 0.2951821395089272
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5733538876789559,
+          "recorded": 0.5733538876789559
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 4.163336342344337e-17,
+          "passed": true,
+          "recomputed": 0.11104377104377104,
+          "recorded": 0.111043771043771
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 5.102586206454779,
+          "recorded": 5.102586206454779
+        }
+      },
+      "run_id": "sota__f0__s42__drsn__l1.0000__2793dc4d5e",
+      "status": "passed",
+      "temperature": 0.6667906045913696
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32239344000248055,
+          "recorded": 0.3223934400024805
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6331158891183288,
+          "recorded": 0.6331158891183288
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.17542230094612693,
+          "recorded": 0.1754223009461269
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 12.726367091082134,
+          "recorded": 12.726367091082134
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3067719593466246,
+          "recorded": 0.3067719593466246
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6044000564497426,
+          "recorded": 0.6044000564497426
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.17542230094612693,
+          "recorded": 0.1754223009461269
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 9.584237888080636,
+          "recorded": 9.584237888080636
+        }
+      },
+      "run_id": "sota__f0__s42__tfnet__l1.0000__b4a32319d3",
+      "status": "passed",
+      "temperature": 0.7224993705749512
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3637606710192277,
+          "recorded": 0.3637606710192277
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7274474164894962,
+          "recorded": 0.7274474164894962
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 1.7763568394002505e-15,
+          "passed": true,
+          "recomputed": 9.472185621410059,
+          "recorded": 9.47218562141006
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.34885278003401893,
+          "recorded": 0.3488527800340189
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6965909881317165,
+          "recorded": 0.6965909881317165
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 6.6678289035096725,
+          "recorded": 6.6678289035096725
+        }
+      },
+      "run_id": "sota__f0__s123__drsn__l1.0000__b383066aee",
+      "status": "passed",
+      "temperature": 0.6996778845787048
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3738427805088494,
+          "recorded": 0.3738427805088494
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7480187471114125,
+          "recorded": 0.7480187471114125
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 17.908367968303946,
+          "recorded": 17.908367968303946
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.340814483035524,
+          "recorded": 0.340814483035524
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6875220641346138,
+          "recorded": 0.6875220641346138
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 1.7763568394002505e-15,
+          "passed": true,
+          "recomputed": 9.083031314585401,
+          "recorded": 9.0830313145854
+        }
+      },
+      "run_id": "sota__f0__s123__tfnet__l1.0000__379c0638d2",
+      "status": "passed",
+      "temperature": 0.3572064936161041
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3679963104019368,
+          "recorded": 0.3679963104019368
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7359183113393871,
+          "recorded": 0.7359183113393871
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 9.394053704218315,
+          "recorded": 9.394053704218315
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.35268482043805083,
+          "recorded": 0.3526848204380508
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.703267014162812,
+          "recorded": 0.703267014162812
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 6.317550748288217,
+          "recorded": 6.317550748288217
+        }
+      },
+      "run_id": "sota__f0__s2024__drsn__l1.0000__bce185de7e",
+      "status": "passed",
+      "temperature": 0.6683390140533447
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2903225806451613,
+          "recorded": 0.2903225806451613
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3206771013370257,
+          "recorded": 0.3206771013370257
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6252692060490224,
+          "recorded": 0.6252692060490224
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.16716269841269843,
+          "recorded": 0.1671626984126984
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 12.483836460744191,
+          "recorded": 12.483836460744191
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2903225806451613,
+          "recorded": 0.2903225806451613
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29193661126132425,
+          "recorded": 0.2919366112613242
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5563419979918737,
+          "recorded": 0.5563419979918737
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.16716269841269843,
+          "recorded": 0.1671626984126984
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 6.665524850414009,
+          "recorded": 6.665524850414009
+        }
+      },
+      "run_id": "sota__f0__s2024__tfnet__l1.0000__3a74006f3b",
+      "status": "passed",
+      "temperature": 0.5214868783950806
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3599144090552933,
+          "recorded": 0.3599144090552933
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7185531358677196,
+          "recorded": 0.7185531358677196
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.10032362459546926,
+          "recorded": 0.1003236245954692
+        },
+        "nll": {
+          "absolute_difference": 1.7763568394002505e-15,
+          "passed": true,
+          "recomputed": 13.584989957453459,
+          "recorded": 13.58498995745346
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.30646741425891855,
+          "recorded": 0.3064674142589185
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.60421657809048,
+          "recorded": 0.60421657809048
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.10032362459546926,
+          "recorded": 0.1003236245954692
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 5.103367125998028,
+          "recorded": 5.103367125998028
+        }
+      },
+      "run_id": "sota__f0__s2025__drsn__l1.0000__877d3ca650",
+      "status": "passed",
+      "temperature": 0.36437928676605225
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.36791494256428003,
+          "recorded": 0.36791494256428
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7385502179418361,
+          "recorded": 0.7385502179418361
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 16.33096624399764,
+          "recorded": 16.33096624399764
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3409594680652467,
+          "recorded": 0.3409594680652467
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6922970466861951,
+          "recorded": 0.6922970466861951
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 9.517280032593968,
+          "recorded": 9.517280032593968
+        }
+      },
+      "run_id": "sota__f0__s2025__tfnet__l1.0000__294335151d",
+      "status": "passed",
+      "temperature": 0.4957415461540222
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3691967355859849,
+          "recorded": 0.3691967355859849
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7388571274228694,
+          "recorded": 0.7388571274228694
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 10.87365054337333,
+          "recorded": 10.87365054337333
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3472482978590928,
+          "recorded": 0.3472482978590928
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.694358541723467,
+          "recorded": 0.694358541723467
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 6.038179266348822,
+          "recorded": 6.038179266348822
+        }
+      },
+      "run_id": "sota__f0__s3407__drsn__l1.0000__54d15ac2ce",
+      "status": "passed",
+      "temperature": 0.5504568219184875
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3225806451612903,
+          "recorded": 0.3225806451612903
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2976278348701037,
+          "recorded": 0.2976278348701037
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5554729558149929,
+          "recorded": 0.5554729558149929
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.20606884057971014,
+          "recorded": 0.2060688405797101
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 11.911932463755898,
+          "recorded": 11.911932463755898
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3225806451612903,
+          "recorded": 0.3225806451612903
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2832898625914815,
+          "recorded": 0.2832898625914815
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5198595472716245,
+          "recorded": 0.5198595472716245
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.20606884057971014,
+          "recorded": 0.2060688405797101
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 9.301745607912933,
+          "recorded": 9.301745607912933
+        }
+      },
+      "run_id": "sota__f0__s3407__tfnet__l1.0000__ea45132447",
+      "status": "passed",
+      "temperature": 0.73990398645401
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2477821853490722,
+          "recorded": 0.2477821853490722
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.39422236775028807,
+          "recorded": 0.394222367750288
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.818737050678802,
+          "recorded": 2.818737050678802
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28917984608918373,
+          "recorded": 0.2891798460891837
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5413465732661932,
+          "recorded": 0.5413465732661932
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.030710857075056,
+          "recorded": 4.030710857075056
+        }
+      },
+      "run_id": "sota__f1__s42__drsn__l1.0000__c4406b49d2",
+      "status": "passed",
+      "temperature": 1.5954641103744507
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.285014545672452,
+          "recorded": 0.285014545672452
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5388286555766322,
+          "recorded": 0.5388286555766322
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.17835116996190822,
+          "recorded": 0.1783511699619082
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 7.257668489270288,
+          "recorded": 7.257668489270288
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2832130467408055,
+          "recorded": 0.2832130467408055
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5352852776563279,
+          "recorded": 0.5352852776563279
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.17835116996190822,
+          "recorded": 0.1783511699619082
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 7.046346103800238,
+          "recorded": 7.046346103800238
+        }
+      },
+      "run_id": "sota__f1__s42__tfnet__l1.0000__08ae8c2626",
+      "status": "passed",
+      "temperature": 0.969081699848175
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.14112903225806453,
+          "recorded": 0.1411290322580645
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3176888216645859,
+          "recorded": 0.3176888216645859
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6029573299677509,
+          "recorded": 0.6029573299677509
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1209459891339086,
+          "recorded": 0.1209459891339086
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.169825459830955,
+          "recorded": 4.169825459830955
+        },
+        "raw_accuracy": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.14112903225806453,
+          "recorded": 0.1411290322580645
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3216322730004569,
+          "recorded": 0.3216322730004569
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6044213915128576,
+          "recorded": 0.6044213915128576
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1209459891339086,
+          "recorded": 0.1209459891339086
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.341747352479827,
+          "recorded": 4.341747352479827
+        }
+      },
+      "run_id": "sota__f1__s123__drsn__l1.0000__a2db4db9ce",
+      "status": "passed",
+      "temperature": 1.0483858585357666
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25806451612903225,
+          "recorded": 0.2580645161290322
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27073177044124075,
+          "recorded": 0.2707317704412407
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5155668134628696,
+          "recorded": 0.5155668134628696
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.11866438356164383,
+          "recorded": 0.1186643835616438
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 8.207269575058547,
+          "recorded": 8.207269575058547
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25806451612903225,
+          "recorded": 0.2580645161290322
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2726620842209663,
+          "recorded": 0.2726620842209663
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5210398288443112,
+          "recorded": 0.5210398288443112
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.11866438356164383,
+          "recorded": 0.1186643835616438
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 8.43861223097253,
+          "recorded": 8.43861223097253
+        }
+      },
+      "run_id": "sota__f1__s123__tfnet__l1.0000__aa29c624c2",
+      "status": "passed",
+      "temperature": 1.030394196510315
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.18951612903225806,
+          "recorded": 0.189516129032258
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.23268591843709466,
+          "recorded": 0.2326859184370946
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.33491387630559505,
+          "recorded": 0.334913876305595
+        },
+        "macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.14316569954867828,
+          "recorded": 0.1431656995486782
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.059140867865746,
+          "recorded": 2.059140867865746
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.18951612903225806,
+          "recorded": 0.189516129032258
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2749176501303813,
+          "recorded": 0.2749176501303813
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4791753755504875,
+          "recorded": 0.4791753755504875
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.14316569954867828,
+          "recorded": 0.1431656995486782
+        },
+        "raw_nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 3.0768113865710522,
+          "recorded": 3.076811386571052
+        }
+      },
+      "run_id": "sota__f1__s2024__drsn__l1.0000__76ee670fd4",
+      "status": "passed",
+      "temperature": 1.8939390182495117
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2782258064516129,
+          "recorded": 0.2782258064516129
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1865775362455732,
+          "recorded": 0.1865775362455732
+        },
+        "ece": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.19583135922817563,
+          "recorded": 0.1958313592281756
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28308334841285265,
+          "recorded": 0.2830833484128526
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.4728161794019947,
+          "recorded": 1.4728161794019947
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2782258064516129,
+          "recorded": 0.2782258064516129
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.18534906473754276,
+          "recorded": 0.1853490647375427
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1743360468878411,
+          "recorded": 0.1743360468878411
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28308334841285265,
+          "recorded": 0.2830833484128526
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.4424525196209788,
+          "recorded": 1.4424525196209788
+        }
+      },
+      "run_id": "sota__f1__s2024__tfnet__l1.0000__20f9f635ac",
+      "status": "passed",
+      "temperature": 0.9108185768127441
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2620967741935484,
+          "recorded": 0.2620967741935484
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.22440852930764005,
+          "recorded": 0.22440852930764
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25256699928669935,
+          "recorded": 0.2525669992866993
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.15569049271339347,
+          "recorded": 0.1556904927133934
+        },
+        "nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 2.4010494277997156,
+          "recorded": 2.401049427799716
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2620967741935484,
+          "recorded": 0.2620967741935484
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2241093605306898,
+          "recorded": 0.2241093605306898
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25090324694274313,
+          "recorded": 0.2509032469427431
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.15569049271339347,
+          "recorded": 0.1556904927133934
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.3882533448758574,
+          "recorded": 2.3882533448758574
+        }
+      },
+      "run_id": "sota__f1__s2025__drsn__l1.0000__62933bfb81",
+      "status": "passed",
+      "temperature": 0.9907788634300232
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2309972970514286,
+          "recorded": 0.2309972970514286
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.334803286377562,
+          "recorded": 0.334803286377562
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.6630969405226654,
+          "recorded": 1.6630969405226654
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.21377279233271257,
+          "recorded": 0.2137727923327125
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25835328756035925,
+          "recorded": 0.2583532875603592
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.5498671314867696,
+          "recorded": 1.5498671314867696
+        }
+      },
+      "run_id": "sota__f1__s2025__tfnet__l1.0000__dab5d78116",
+      "status": "passed",
+      "temperature": 0.7709963917732239
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27090315316143765,
+          "recorded": 0.2709031531614376
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.46536897377420305,
+          "recorded": 0.465368973774203
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.5132873138086524,
+          "recorded": 3.5132873138086524
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2766798572142413,
+          "recorded": 0.2766798572142413
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.48995134199349316,
+          "recorded": 0.4899513419934931
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.762767018887639,
+          "recorded": 3.762767018887639
+        }
+      },
+      "run_id": "sota__f1__s3407__drsn__l1.0000__b65be8369f",
+      "status": "passed",
+      "temperature": 1.0878033638000488
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.21370967741935484,
+          "recorded": 0.2137096774193548
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.23737539441719815,
+          "recorded": 0.2373753944171981
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4139170527372285,
+          "recorded": 0.4139170527372285
+        },
+        "macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.10422628219238389,
+          "recorded": 0.1042262821923838
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.0037620023781013,
+          "recorded": 2.0037620023781013
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.21370967741935484,
+          "recorded": 0.2137096774193548
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.24457669299883267,
+          "recorded": 0.2445766929988326
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4521457364024094,
+          "recorded": 0.4521457364024094
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.10422628219238389,
+          "recorded": 0.1042262821923838
+        },
+        "raw_nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 2.1097880717278334,
+          "recorded": 2.109788071727833
+        }
+      },
+      "run_id": "sota__f1__s3407__tfnet__l1.0000__8446f61a66",
+      "status": "passed",
+      "temperature": 1.0980900526046753
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4798387096774194,
+          "recorded": 0.4798387096774194
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.20432899010532946,
+          "recorded": 0.2043289901053294
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.26693920271088234,
+          "recorded": 0.2669392027108823
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32654768544339097,
+          "recorded": 0.3265476854433909
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.9193873302961024,
+          "recorded": 2.9193873302961024
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4798387096774194,
+          "recorded": 0.4798387096774194
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1999026427168839,
+          "recorded": 0.1999026427168839
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.24261437019012255,
+          "recorded": 0.2426143701901225
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32654768544339097,
+          "recorded": 0.3265476854433909
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.652147537141115,
+          "recorded": 2.652147537141115
+        }
+      },
+      "run_id": "sota__f2__s42__drsn__l1.0000__33dfbb8fd6",
+      "status": "passed",
+      "temperature": 0.8804898858070374
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1975806451612903,
+          "recorded": 0.1975806451612903
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3209726202388503,
+          "recorded": 0.3209726202388503
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6160155329897823,
+          "recorded": 0.6160155329897823
+        },
+        "macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.21097557593248598,
+          "recorded": 0.2109755759324859
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.899765635568475,
+          "recorded": 2.899765635568475
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1975806451612903,
+          "recorded": 0.1975806451612903
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.30066828598133266,
+          "recorded": 0.3006682859813326
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5771350233543291,
+          "recorded": 0.5771350233543291
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.21097557593248598,
+          "recorded": 0.2109755759324859
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.393979378254766,
+          "recorded": 2.393979378254766
+        }
+      },
+      "run_id": "sota__f2__s42__tfnet__l1.0000__28148278b0",
+      "status": "passed",
+      "temperature": 0.7823336720466614
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3225806451612903,
+          "recorded": 0.3225806451612903
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.21958092765470033,
+          "recorded": 0.2195809276547003
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.38215509855435814,
+          "recorded": 0.3821550985543581
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1998741422192922,
+          "recorded": 0.1998741422192922
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.452658347526762,
+          "recorded": 2.452658347526762
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3225806451612903,
+          "recorded": 0.3225806451612903
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2054632191362264,
+          "recorded": 0.2054632191362264
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.35398718447536553,
+          "recorded": 0.3539871844753655
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1998741422192922,
+          "recorded": 0.1998741422192922
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.021393983503861,
+          "recorded": 2.021393983503861
+        }
+      },
+      "run_id": "sota__f2__s123__drsn__l1.0000__91b9eec36b",
+      "status": "passed",
+      "temperature": 0.7319064140319824
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.23790322580645162,
+          "recorded": 0.2379032258064516
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3425238389717986,
+          "recorded": 0.3425238389717986
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6552124510029271,
+          "recorded": 0.6552124510029271
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.24513402436806692,
+          "recorded": 0.2451340243680669
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.779902455495925,
+          "recorded": 4.779902455495925
+        },
+        "raw_accuracy": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.23790322580645162,
+          "recorded": 0.2379032258064516
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3354616547067859,
+          "recorded": 0.3354616547067859
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6335498530756327,
+          "recorded": 0.6335498530756327
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.24513402436806692,
+          "recorded": 0.2451340243680669
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.126244247475284,
+          "recorded": 4.126244247475284
+        }
+      },
+      "run_id": "sota__f2__s123__tfnet__l1.0000__b375635eff",
+      "status": "passed",
+      "temperature": 0.8536195755004883
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4112903225806452,
+          "recorded": 0.4112903225806452
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2208944481233027,
+          "recorded": 0.2208944481233027
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.33713520140666003,
+          "recorded": 0.33713520140666
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3833407474928977,
+          "recorded": 0.3833407474928977
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.8159337066796484,
+          "recorded": 2.8159337066796484
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4112903225806452,
+          "recorded": 0.4112903225806452
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.20916900481026005,
+          "recorded": 0.20916900481026
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2765343514219035,
+          "recorded": 0.2765343514219035
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3833407474928977,
+          "recorded": 0.3833407474928977
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.2617848922128103,
+          "recorded": 2.2617848922128103
+        }
+      },
+      "run_id": "sota__f2__s2024__drsn__l1.0000__20d2133936",
+      "status": "passed",
+      "temperature": 0.7435904741287231
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.308183333039937,
+          "recorded": 0.308183333039937
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.512430766033208,
+          "recorded": 0.512430766033208
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27498903027643706,
+          "recorded": 0.274989030276437
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.7851949054038614,
+          "recorded": 2.7851949054038614
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3097594923784243,
+          "recorded": 0.3097594923784243
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.528054066778412,
+          "recorded": 0.528054066778412
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27498903027643706,
+          "recorded": 0.274989030276437
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.8901363984909,
+          "recorded": 2.8901363984909
+        }
+      },
+      "run_id": "sota__f2__s2024__tfnet__l1.0000__a0a11e9a9f",
+      "status": "passed",
+      "temperature": 1.047348976135254
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2701612903225806,
+          "recorded": 0.2701612903225806
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2431949649162498,
+          "recorded": 0.2431949649162498
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4573395325925324,
+          "recorded": 0.4573395325925324
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.138952777098116,
+          "recorded": 0.138952777098116
+        },
+        "nll": {
+          "absolute_difference": 6.661338147750939e-16,
+          "passed": true,
+          "recomputed": 1.8043116560897934,
+          "recorded": 1.8043116560897927
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2701612903225806,
+          "recorded": 0.2701612903225806
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25991426854992067,
+          "recorded": 0.2599142685499206
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5102831406708835,
+          "recorded": 0.5102831406708835
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.138952777098116,
+          "recorded": 0.138952777098116
+        },
+        "raw_nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 1.9762650261218337,
+          "recorded": 1.9762650261218333
+        }
+      },
+      "run_id": "sota__f2__s2025__drsn__l1.0000__84c4437938",
+      "status": "passed",
+      "temperature": 1.1634756326675415
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.24193548387096775,
+          "recorded": 0.2419354838709677
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.26136879194044127,
+          "recorded": 0.2613687919404412
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4779372089982062,
+          "recorded": 0.4779372089982062
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.11627906976744186,
+          "recorded": 0.1162790697674418
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.7971129094967988,
+          "recorded": 1.7971129094967988
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.24193548387096775,
+          "recorded": 0.2419354838709677
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.23248985748117845,
+          "recorded": 0.2324898574811784
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.46066525331961095,
+          "recorded": 0.4606652533196109
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.11627906976744186,
+          "recorded": 0.1162790697674418
+        },
+        "raw_nll": {
+          "absolute_difference": 2.220446049250313e-16,
+          "passed": true,
+          "recomputed": 1.5698316440924887,
+          "recorded": 1.5698316440924889
+        }
+      },
+      "run_id": "sota__f2__s2025__tfnet__l1.0000__4b14b82b1c",
+      "status": "passed",
+      "temperature": 0.7255240082740784
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.42338709677419356,
+          "recorded": 0.4233870967741935
+        },
+        "brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.20540175442401098,
+          "recorded": 0.2054017544240109
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28772474496998557,
+          "recorded": 0.2877247449699855
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28297297297297297,
+          "recorded": 0.2829729729729729
+        },
+        "nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 2.6130834179303895,
+          "recorded": 2.613083417930389
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.42338709677419356,
+          "recorded": 0.4233870967741935
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1999412497922246,
+          "recorded": 0.1999412497922246
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2734272252744873,
+          "recorded": 0.2734272252744873
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28297297297297297,
+          "recorded": 0.2829729729729729
+        },
+        "raw_nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 2.3286472874252375,
+          "recorded": 2.328647287425237
+        }
+      },
+      "run_id": "sota__f2__s3407__drsn__l1.0000__46d74d3a08",
+      "status": "passed",
+      "temperature": 0.8456206917762756
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 4.85722573273506e-17,
+          "passed": true,
+          "recomputed": 0.04838709677419355,
+          "recorded": 0.0483870967741935
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.34260369951296565,
+          "recorded": 0.3426036995129656
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6588863181949097,
+          "recorded": 0.6588863181949097
+        },
+        "macro_f1": {
+          "absolute_difference": 4.163336342344337e-17,
+          "passed": true,
+          "recomputed": 0.07195227328236364,
+          "recorded": 0.0719522732823636
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.1471509164542795,
+          "recorded": 3.1471509164542795
+        },
+        "raw_accuracy": {
+          "absolute_difference": 4.85722573273506e-17,
+          "passed": true,
+          "recomputed": 0.04838709677419355,
+          "recorded": 0.0483870967741935
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32609520981528267,
+          "recorded": 0.3260952098152826
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6266310736693126,
+          "recorded": 0.6266310736693126
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 4.163336342344337e-17,
+          "passed": true,
+          "recomputed": 0.07195227328236364,
+          "recorded": 0.0719522732823636
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.7752248652986484,
+          "recorded": 2.7752248652986484
+        }
+      },
+      "run_id": "sota__f2__s3407__tfnet__l1.0000__a4756b2889",
+      "status": "passed",
+      "temperature": 0.8466412425041199
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.26390163147034235,
+          "recorded": 0.2639016314703423
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5540852112450999,
+          "recorded": 0.5540852112450999
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.8951564816849045,
+          "recorded": 1.8951564816849045
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32978587845639284,
+          "recorded": 0.3297858784563928
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6521826891832065,
+          "recorded": 0.6521826891832065
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.706601280075675,
+          "recorded": 2.706601280075675
+        }
+      },
+      "run_id": "sota__f3__s42__drsn__l1.0000__0e0b381afa",
+      "status": "passed",
+      "temperature": 1.6631866693496704
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.211392008595766,
+          "recorded": 0.211392008595766
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.22927159983816164,
+          "recorded": 0.2292715998381616
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.601538674940248,
+          "recorded": 1.601538674940248
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.20313086884736534,
+          "recorded": 0.2031308688473653
+        },
+        "raw_ece": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.19158694732741963,
+          "recorded": 0.1915869473274196
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.507895993863346,
+          "recorded": 1.507895993863346
+        }
+      },
+      "run_id": "sota__f3__s42__tfnet__l1.0000__6cdd249d86",
+      "status": "passed",
+      "temperature": 0.7974193096160889
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3476561977596025,
+          "recorded": 0.3476561977596025
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6746451045066383,
+          "recorded": 0.6746451045066383
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.065819167933218,
+          "recorded": 4.065819167933218
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2972608679389134,
+          "recorded": 0.2972608679389134
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5780903685980552,
+          "recorded": 0.5780903685980552
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 2.3491406431651596,
+          "recorded": 2.34914064316516
+        }
+      },
+      "run_id": "sota__f3__s123__drsn__l1.0000__975a422226",
+      "status": "passed",
+      "temperature": 0.5263853073120117
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2540322580645161,
+          "recorded": 0.2540322580645161
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.18139656764059414,
+          "recorded": 0.1813965676405941
+        },
+        "ece": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.08749753801385803,
+          "recorded": 0.087497538013858
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28287003684508577,
+          "recorded": 0.2828700368450857
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.3226908606038013,
+          "recorded": 1.3226908606038013
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2540322580645161,
+          "recorded": 0.2540322580645161
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25004846416556636,
+          "recorded": 0.2500484641655663
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3996415993181321,
+          "recorded": 0.3996415993181321
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28287003684508577,
+          "recorded": 0.2828700368450857
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.9876393755220023,
+          "recorded": 1.9876393755220023
+        }
+      },
+      "run_id": "sota__f3__s123__tfnet__l1.0000__de77fc4816",
+      "status": "passed",
+      "temperature": 10.44558048248291
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3716464377673249,
+          "recorded": 0.3716464377673249
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.7422006852915078,
+          "recorded": 0.7422006852915078
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 11.11786621468506,
+          "recorded": 11.11786621468506
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3513448317760671,
+          "recorded": 0.3513448317760671
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6954201206162599,
+          "recorded": 0.6954201206162599
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1,
+          "recorded": 0.1
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.709412581319078,
+          "recorded": 4.709412581319078
+        }
+      },
+      "run_id": "sota__f3__s2024__drsn__l1.0000__c764106b2d",
+      "status": "passed",
+      "temperature": 0.4182801842689514
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4112903225806452,
+          "recorded": 0.4112903225806452
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.18512529092014862,
+          "recorded": 0.1851252909201486
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1034738098925496,
+          "recorded": 0.1034738098925496
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.303897019925939,
+          "recorded": 0.303897019925939
+        },
+        "nll": {
+          "absolute_difference": 2.220446049250313e-16,
+          "passed": true,
+          "recomputed": 1.3695739241879539,
+          "recorded": 1.369573924187954
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4112903225806452,
+          "recorded": 0.4112903225806452
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1895635443334026,
+          "recorded": 0.1895635443334026
+        },
+        "raw_ece": {
+          "absolute_difference": 1.3877787807814457e-17,
+          "passed": true,
+          "recomputed": 0.10312253086420281,
+          "recorded": 0.1031225308642028
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.303897019925939,
+          "recorded": 0.303897019925939
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.425078742127787,
+          "recorded": 1.425078742127787
+        }
+      },
+      "run_id": "sota__f3__s2024__tfnet__l1.0000__2057f7c531",
+      "status": "passed",
+      "temperature": 2.735851764678955
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27606974866684175,
+          "recorded": 0.2760697486668417
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5732828805992003,
+          "recorded": 0.5732828805992003
+        },
+        "macro_f1": {
+          "absolute_difference": 4.163336342344337e-17,
+          "passed": true,
+          "recomputed": 0.10689655172413794,
+          "recorded": 0.1068965517241379
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.159650907081863,
+          "recorded": 2.159650907081863
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3042625379666795,
+          "recorded": 0.3042625379666795
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.600004476784136,
+          "recorded": 0.600004476784136
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 4.163336342344337e-17,
+          "passed": true,
+          "recomputed": 0.10689655172413794,
+          "recorded": 0.1068965517241379
+        },
+        "raw_nll": {
+          "absolute_difference": 8.881784197001252e-16,
+          "passed": true,
+          "recomputed": 2.8710930497011513,
+          "recorded": 2.871093049701152
+        }
+      },
+      "run_id": "sota__f3__s2025__drsn__l1.0000__a1a0a8b62e",
+      "status": "passed",
+      "temperature": 1.4678138494491577
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.18619001447956518,
+          "recorded": 0.1861900144795651
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.05959900197373036,
+          "recorded": 0.0595990019737303
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.10264900662251655,
+          "recorded": 0.1026490066225165
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.3717281310836844,
+          "recorded": 1.3717281310836844
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.19950726037185598,
+          "recorded": 0.1995072603718559
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1934860902299881,
+          "recorded": 0.1934860902299881
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.10264900662251655,
+          "recorded": 0.1026490066225165
+        },
+        "raw_nll": {
+          "absolute_difference": 2.220446049250313e-16,
+          "passed": true,
+          "recomputed": 1.4643025996554437,
+          "recorded": 1.4643025996554435
+        }
+      },
+      "run_id": "sota__f3__s2025__tfnet__l1.0000__9ca277cfe0",
+      "status": "passed",
+      "temperature": 3.2642834186553955
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.34418384931858426,
+          "recorded": 0.3441838493185842
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6675726253823665,
+          "recorded": 0.6675726253823665
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.10064935064935066,
+          "recorded": 0.1006493506493506
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.563988765678425,
+          "recorded": 4.563988765678425
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.25,
+          "recorded": 0.25
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32804076268506555,
+          "recorded": 0.3280407626850655
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.633541181969975,
+          "recorded": 0.633541181969975
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.10064935064935066,
+          "recorded": 0.1006493506493506
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.5038426974216783,
+          "recorded": 3.5038426974216783
+        }
+      },
+      "run_id": "sota__f3__s3407__drsn__l1.0000__4803a76e1b",
+      "status": "passed",
+      "temperature": 0.7505044341087341
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2620967741935484,
+          "recorded": 0.2620967741935484
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1817316163122958,
+          "recorded": 0.1817316163122958
+        },
+        "ece": {
+          "absolute_difference": 5.204170427930421e-17,
+          "passed": true,
+          "recomputed": 0.02327856524468445,
+          "recorded": 0.0232785652446844
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2588241749664701,
+          "recorded": 0.2588241749664701
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.3359821026397585,
+          "recorded": 1.3359821026397585
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2620967741935484,
+          "recorded": 0.2620967741935484
+        },
+        "raw_brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.22555955050435428,
+          "recorded": 0.2255595505043542
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.36775117260038154,
+          "recorded": 0.3677511726003815
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2588241749664701,
+          "recorded": 0.2588241749664701
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.573903323707003,
+          "recorded": 1.573903323707003
+        }
+      },
+      "run_id": "sota__f3__s3407__tfnet__l1.0000__cb95ce7924",
+      "status": "passed",
+      "temperature": 13.428841590881348
+    }
+  ]
+}

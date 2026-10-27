@@ -18,6 +18,8 @@ tests simultaneous transfer to:
 
 The benchmark compares Raw 1D-CNN, GRU-only, CWT 2D-CNN, CWT-GRU without SE,
 full CWT-GRU, temperature-scaled CWT-GRU, and calibrated self-training.
+DRSN and TFNet are also retrained as same-protocol external adaptations in a
+separate `results/sota/` block.
 
 The historical industrial-data experiment is no longer present in the working
 tree. Its engineering-threshold labels, overlapping windows, repeated station
@@ -37,7 +39,7 @@ results/                         # canonical CSV and per-run audit records
 scripts/                         # thin executable wrappers
 src/spindle_cnn/
 ├── models/                      # BaseModel and registered architectures
-│   └── baselines/               # not-yet-reproduced SOTA placeholders
+│   └── baselines/               # remaining unsupported SOTA placeholders
 ├── datasets/                    # group-safe splits and balanced budgets
 ├── training/                    # deterministic training and self-training
 ├── evaluation/                  # metrics, calibration, FLOPs, latency
@@ -93,11 +95,19 @@ PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
   --config configs/paderborn_main.json \
   --experiment all
 
+PYTHONPATH=src python -m spindle_cnn.experiments.run_benchmark \
+  --config configs/paderborn_sota.json \
+  --experiment sota
+
 PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
   --results results/raw_runs.csv \
   --output-dir results
 
 PYTHONPATH=src python -m spindle_cnn.analysis.report --results-dir results
+
+PYTHONPATH=src python -m spindle_cnn.analysis.sota \
+  --results-dir results \
+  --external-dir results/sota
 
 PYTHONPATH=src python -m spindle_cnn.experiments.make_method_figures \
   --output-dir figures/publication
@@ -108,6 +118,9 @@ PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
 
 PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
   --results-dir results --all
+
+PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
+  --results-dir results/sota --all
 
 PYTHONPATH=src python -m spindle_cnn.paper.build_docx \
   --results-dir results \
@@ -120,11 +133,14 @@ On PowerShell:
 ```powershell
 $env:PYTHONPATH = "src"
 python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_main.json --experiment all
+python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_sota.json --experiment sota
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
 python -m spindle_cnn.analysis.report --results-dir results
+python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
 python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publication
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 python -m spindle_cnn.analysis.recheck_run --results-dir results --all
+python -m spindle_cnn.analysis.recheck_run --results-dir results/sota --all
 python -m spindle_cnn.paper.build_docx --results-dir results --figures-dir figures/publication --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx
 ```
 
@@ -133,6 +149,11 @@ The manuscript workflow, source mapping, and validation steps are documented in
 [docs/paper/TABLE_SOURCES.md](docs/paper/TABLE_SOURCES.md), figure provenance is
 in [docs/paper/FIGURE_SOURCES.md](docs/paper/FIGURE_SOURCES.md), and the
 scientific revision record is in [CHANGELOG.md](CHANGELOG.md).
+
+External retraining details are in
+[SOTA_RETRAINING_REPORT.md](SOTA_RETRAINING_REPORT.md). The validation-to-test
+analysis is in [DOMAIN_GAP_ANALYSIS.md](DOMAIN_GAP_ANALYSIS.md), and the final
+contribution text is in [UPDATED_CONTRIBUTIONS.md](UPDATED_CONTRIBUTIONS.md).
 
 ## Pre-submission audit
 
@@ -179,6 +200,9 @@ offline audit when labels are available.
 - `results/label_efficiency_summary.csv`.
 - `results/threshold_summary.csv`.
 - `results/model_complexity.csv`.
+- `results/domain_gap_summary.csv`.
+- `results/sota/`: 40 external-baseline runs, summaries, paired tests, and
+  per-run audit records.
 - `results/rechecks/all_runs.json`: independent metric recomputation from saved
   logits for every canonical row.
 - `results/runs/<run_id>/config.json`: per-run configuration, environment,

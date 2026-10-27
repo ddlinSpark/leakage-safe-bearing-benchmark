@@ -138,7 +138,21 @@ unique. The obsolete industrial and early public-benchmark modules were removed.
 ## Figure reproducibility
 
 Running both figure generators from current `main` into a separate directory
-reproduced all 11 committed PNG files byte-for-byte.
+reproduced the existing manuscript PNG files byte-for-byte. The added
+validation-to-test gap figure is generated from the same raw table.
+
+## External baseline matrix
+
+| Model | Expected keys | Observed successful runs | Status |
+| --- | --- | ---: | --- |
+| DRSN adaptation | 4 folds x 5 seeds | 20 | PASS |
+| TFNet adaptation | 4 folds x 5 seeds | 20 | PASS |
+| Total | 40 | 40 | PASS |
+
+Every external run uses the same dataset hash and the same split hash for its
+fold. All 40 runs record clean-worktree provenance at commit `673bb99`.
+Independent metric recomputation passed for 40/40 runs, with maximum absolute
+difference `1.78e-15`.
 
 ## Reproduce this check
 

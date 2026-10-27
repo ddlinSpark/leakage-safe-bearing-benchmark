@@ -21,6 +21,11 @@ METHOD_LABELS = {
 
 CLASS_LABELS = ["Healthy", "Outer ring", "Inner ring", "Multiple damage"]
 
+EXTERNAL_METHOD_LABELS = {
+    "drsn": "DRSN (same-protocol adaptation)",
+    "tfnet": "TFNet (same-protocol adaptation)",
+}
+
 
 class BenchmarkResults:
     def __init__(self, root: Path) -> None:
@@ -34,6 +39,15 @@ class BenchmarkResults:
         self.label = pd.read_csv(self.root / "label_efficiency_summary.csv")
         self.threshold = pd.read_csv(self.root / "threshold_summary.csv")
         self.complexity = pd.read_csv(self.root / "model_complexity.csv")
+        self.domain_gap = pd.read_csv(self.root / "domain_gap_summary.csv")
+        self.external_root = self.root / "sota"
+        self.external_raw = pd.read_csv(self.external_root / "raw_runs.csv")
+        self.external_summary = pd.read_csv(
+            self.external_root / "summary_with_ci.csv"
+        )
+        self.external_tests = pd.read_csv(
+            self.external_root / "statistical_tests.csv"
+        )
         self._validate()
 
     def _validate(self) -> None:
@@ -52,6 +66,23 @@ class BenchmarkResults:
         if not threshold_counts.eq(20).all():
             raise ValueError(
                 f"Threshold experiment does not contain 20 runs per threshold: {threshold_counts}"
+            )
+        if len(self.external_raw) != 40:
+            raise ValueError(
+                f"Expected 40 external same-protocol runs, found {len(self.external_raw)}"
+            )
+        external_counts = self.external_raw.groupby("method").size()
+        if not external_counts.reindex(EXTERNAL_METHOD_LABELS).eq(20).all():
+            raise ValueError(
+                "External retraining does not contain 20 runs per method: "
+                f"{external_counts}"
+            )
+        if not self.external_raw["status"].eq("success").all():
+            raise ValueError("External retraining contains a failed run")
+        if len(self.external_tests) != 8:
+            raise ValueError(
+                "Expected 8 external-vs-internal paired tests, "
+                f"found {len(self.external_tests)}"
             )
 
     @property

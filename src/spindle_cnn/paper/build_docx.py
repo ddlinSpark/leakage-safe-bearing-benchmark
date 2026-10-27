@@ -12,7 +12,13 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Cm, Pt
 
 from ..paths import PROJECT_ROOT
-from .data import BenchmarkResults, CLASS_LABELS, METHOD_LABELS, mean_sd
+from .data import (
+    BenchmarkResults,
+    CLASS_LABELS,
+    EXTERNAL_METHOD_LABELS,
+    METHOD_LABELS,
+    mean_sd,
+)
 from .docx_style import (
     add_body,
     add_bullet_items,
@@ -76,6 +82,13 @@ def percent(value: float) -> str:
 
 def standard_result(results: BenchmarkResults, method: str) -> str:
     row = results.summary_row(method)
+    return mean_sd(row, "Macro-F1 Mean", "Macro-F1 Std")
+
+
+def standard_result_from_external(results: BenchmarkResults, method: str) -> str:
+    row = results.external_summary.loc[
+        results.external_summary["Method"].eq(method)
+    ].iloc[0]
     return mean_sd(row, "Macro-F1 Mean", "Macro-F1 Std")
 
 
@@ -184,6 +197,14 @@ def sota_rows(results: BenchmarkResults) -> list[list[str]]:
         "cwt_gru": ("Raw + CWT", "Residual CNN with SE + two-layer bidirectional GRU"),
         "cwt_gru_temp": ("Raw + CWT", "CWT-GRU weights; validation temperature scaling"),
         "cwt_gru_selftrain": ("Raw + CWT", "CWT-GRU; thresholded pseudo-label retraining"),
+        "drsn": (
+            "Raw waveform",
+            "Four-stage residual shrinkage CNN; adaptive soft thresholding",
+        ),
+        "tfnet": (
+            "Raw waveform",
+            "Learnable sinusoidal TF convolution + CNN backbone",
+        ),
     }
     rows = []
     main = results.main
@@ -203,6 +224,27 @@ def sota_rows(results: BenchmarkResults) -> list[list[str]]:
                 f"{float(summary['Macro-F1 Std']):.3f}",
                 f"{float(summary['Accuracy Mean']):.3f} +/- "
                 f"{float(summary['Accuracy Std']):.3f}",
+                int(summary["Runs"]),
+            ]
+        )
+    for method in EXTERNAL_METHOD_LABELS:
+        summary = results.external_summary.loc[
+            results.external_summary["Method"].eq(method)
+        ].iloc[0]
+        parameters = int(
+            results.external_raw.loc[
+                results.external_raw["method"].eq(method), "parameters"
+            ].median()
+        )
+        representation, model = architecture[method]
+        rows.append(
+            [
+                EXTERNAL_METHOD_LABELS[method],
+                representation,
+                model,
+                f"{parameters:,}",
+                mean_sd(summary, "Macro-F1 Mean", "Macro-F1 Std"),
+                mean_sd(summary, "Accuracy Mean", "Accuracy Std"),
                 int(summary["Runs"]),
             ]
         )
@@ -290,6 +332,23 @@ def fold_rows(results: BenchmarkResults) -> list[list[str]]:
     return rows
 
 
+def domain_gap_rows(results: BenchmarkResults) -> list[list[str]]:
+    rows = []
+    for row in results.domain_gap.itertuples(index=False):
+        method = str(row.Model)
+        rows.append(
+            [
+                METHOD_LABELS.get(method, method),
+                f"{float(row._1):.3f} +/- {float(row._2):.3f}",
+                f"{float(row._3):.3f} +/- {float(row._4):.3f}",
+                f"{float(row._5):.3f}",
+                f"{float(row._7):.1f}%",
+                int(row.Runs),
+            ]
+        )
+    return rows
+
+
 def build_references(document: Document) -> None:
     references = [
         'C. Lessmeier, J. K. Kimotho, D. Zimmer, and W. Sextro, "Condition monitoring of bearing damage in electromechanical drive systems by using motor current signals of electric motors: A benchmark data set for data-driven classification," in Proc. European Conf. PHM Soc., vol. 3, no. 1, 2016, doi: 10.36001/phme.2016.v3i1.1577.',
@@ -313,6 +372,7 @@ def build_references(document: Document) -> None:
         'D. P. Kingma and J. Ba, "Adam: A method for stochastic optimization," in Proc. ICLR, 2015.',
         'I. Loshchilov and F. Hutter, "Decoupled weight decay regularization," in Proc. ICLR, 2019.',
         'Paderborn University, "Bearing Data Center," https://groups.uni-paderborn.de/kat/BearingDataCenter/ (accessed Oct. 27, 2026).',
+        'Q. Chen, X. Dong, G. Tu, et al., "TFN: An interpretable neural network with time-frequency transform embedded for intelligent fault diagnosis," Mech. Syst. Signal Process., vol. 207, Art. no. 110952, 2024.',
     ]
     for index, text in enumerate(references, 1):
         add_reference(document, index, text)
@@ -436,6 +496,10 @@ def build_manuscript(
         "No CWT-containing model produced a statistically significant gain over the "
         "raw waveform baseline. The highest mean was obtained without SE, but removing "
         f"SE did not produce a significant difference from full CWT-GRU (p={p_text(no_se_vs_full['p_value'])}). "
+        f"Same-protocol adaptations of DRSN and TFNet reached "
+        f"{standard_result_from_external(results, 'drsn')} and "
+        f"{standard_result_from_external(results, 'tfnet')} macro-F1, respectively; "
+        "neither exceeded the raw baseline. "
         "At a 10% balanced label budget, no pseudo-label passed the threshold in "
         f"any of the {runs_per_method} evaluations. Self-training did not improve macro-F1 significantly "
         f"at a 50% balanced budget (paired delta "
@@ -545,15 +609,17 @@ def build_manuscript(
     add_numbered_items(
         document,
         [
-            "A leakage-safe bearing benchmark with non-overlapping windows, "
-            "bearing-code-disjoint fitting and testing, operating-condition holdout, "
-            f"and {runs_per_method} matched fold-seed evaluations per condition.",
-            "A controlled comparison of waveform, image, recurrent, attention, and "
-            "temperature-scaling conditions that reports unfavorable and "
-            "non-significant findings rather than selecting a favorable run.",
-            "A separate analysis of thresholded self-training and probability "
-            "calibration, including pseudo-label coverage, pseudo-label accuracy, "
-            "class confusion, proper scoring rules, parameters, FLOPs, and latency.",
+            "A leakage-safe comparison that extends split auditing by jointly "
+            "evaluating waveform and time-frequency representations, recurrent "
+            "fusion, SE attention, temperature scaling, and self-training under "
+            "simultaneous unseen-bearing and unseen-condition holdout.",
+            "A same-protocol external-baseline evaluation that retrains DRSN and "
+            "TFNet adaptations with the same windows, folds, seeds, balanced label "
+            "budget, and metrics as the internal models.",
+            "An uncertainty-aware evidence set that retains negative and "
+            "statistically non-significant outcomes, separates calibration "
+            "reliability from classification accuracy, and quantifies the "
+            "validation-to-test gap under joint domain shift.",
         ],
     )
 
@@ -1088,12 +1154,13 @@ def build_manuscript(
     add_figure(
         document,
         figures_dir / "figure_03_label_efficiency.png",
-        "Figure 5. Macro-F1 at 10% balanced, 50% balanced, and full balanced budgets. "
+        "Figure 5. Macro-F1 under 10% balanced, 50% balanced, and Full balanced "
+        "budget conditions. "
         "Self-training makes no update at the 10% balanced budget because no "
         "candidate passes tau = 0.60.",
         width_inches=6.0,
         alt_text="Line plot of supervised and calibrated self-training macro-F1 at "
-        "three class-balanced label budgets.",
+        "three balanced-budget conditions.",
     )
 
     document.add_heading(
@@ -1188,7 +1255,10 @@ def build_manuscript(
         "confidence with empirical accuracy.",
     )
 
-    document.add_heading("5 Re-trained Model Comparison and SOTA Interface", level=1)
+    document.add_heading(
+        "5 Re-trained Model and External Baseline Comparison",
+        level=1,
+    )
     add_body(
         document,
         "A numerical comparison is included here only for models trained by the present "
@@ -1209,6 +1279,32 @@ def build_manuscript(
         "describe evaluation or training procedures applied to the same CWT-GRU "
         "architecture, not additional external SOTA models.",
     )
+    add_body(
+        document,
+        f"Two external architectures were also adapted and retrained for all "
+        f"{runs_per_method} fold-seed combinations. DRSN [16] reached "
+        f"{standard_result_from_external(results, 'drsn')} macro-F1 and "
+        f"{f3(results.external_summary.loc[results.external_summary['Method'].eq('drsn'), 'Accuracy Mean'].iloc[0])} "
+        f"accuracy. TFNet [22] reached {standard_result_from_external(results, 'tfnet')} "
+        f"macro-F1 and "
+        f"{f3(results.external_summary.loc[results.external_summary['Method'].eq('tfnet'), 'Accuracy Mean'].iloc[0])} "
+        "accuracy. Their paired macro-F1 differences from Raw 1D-CNN were "
+        f"{float(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('drsn')), 'mean_paired_delta'].iloc[0]):+.3f} "
+        f"(p={p_text(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('drsn')), 'p_value'].iloc[0])}) "
+        f"and {float(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('tfnet')), 'mean_paired_delta'].iloc[0]):+.3f} "
+        f"(p={p_text(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('tfnet')), 'p_value'].iloc[0])}), "
+        "respectively. These are results for the same-protocol adaptations, not "
+        "estimates of the performance reported by the original studies.",
+    )
+    add_body(
+        document,
+        "MTFC-T was not retrained because the authors' linked repository does not "
+        "yet contain its proposed-model implementation. DRSN-Transformer was also "
+        "excluded because neither an official implementation nor sufficient "
+        "architecture and training detail was available in the project materials "
+        "for a defensible replication. No original-study accuracy "
+        "was inserted to fill either gap.",
+    )
     add_three_line_table(
         document,
         [
@@ -1222,8 +1318,9 @@ def build_manuscript(
         ],
         sota_rows(results),
         [3.6, 2.6, 4.0, 1.6, 2.2, 2.2, 0.8],
-        "Table 10. Models eligible for the same-protocol comparison. No unreproduced "
-        "external result is included.",
+        "Table 10. Models eligible for the same-protocol comparison. DRSN and TFNet "
+        "are three-channel, four-class adaptations under the common training "
+        "protocol. No unreproduced external result is included.",
     )
 
     document.add_heading("6 Ablation Study", level=1)
@@ -1377,6 +1474,53 @@ def build_manuscript(
         "model architectures.",
     )
 
+    document.add_heading(
+        "7.5 Validation-to-test generalization gap",
+        level=2,
+    )
+    gap_min = results.domain_gap["Absolute Gap"].min()
+    gap_max = results.domain_gap["Absolute Gap"].max()
+    drop_min = results.domain_gap["Relative Drop (%)"].min()
+    drop_max = results.domain_gap["Relative Drop (%)"].max()
+    add_body(
+        document,
+        f"Across Raw 1D-CNN, CWT 2D-CNN, CWT-GRU, and CWT-GRU without SE, "
+        f"validation macro-F1 ranged from "
+        f"{f3(results.domain_gap['Validation Macro-F1 Mean'].min())} to "
+        f"{f3(results.domain_gap['Validation Macro-F1 Mean'].max())}, whereas "
+        f"test macro-F1 ranged from "
+        f"{f3(results.domain_gap['Test Macro-F1 Mean'].min())} to "
+        f"{f3(results.domain_gap['Test Macro-F1 Mean'].max())}. "
+        f"The absolute gap was {f3(gap_min)}-{f3(gap_max)}, corresponding to a "
+        f"{drop_min:.1f}%-{drop_max:.1f}% relative drop. Table 13 and Figure 12 "
+        "summarize these values.",
+        first=True,
+    )
+    add_three_line_table(
+        document,
+        [
+            "Model",
+            "Validation Macro-F1",
+            "Test Macro-F1",
+            "Absolute gap",
+            "Relative drop",
+            "Runs",
+        ],
+        domain_gap_rows(results),
+        [3.4, 2.8, 2.8, 2.2, 2.2, 1.0],
+        "Table 13. Validation-to-test generalization gap under simultaneous "
+        "unseen-bearing and unseen-condition shift.",
+    )
+    add_figure(
+        document,
+        figures_dir / "figure_09_validation_test_gap.png",
+        "Figure 12. Validation and test macro-F1 for the four principal models. "
+        "Labels report the mean relative drop from validation to test.",
+        width_inches=6.25,
+        alt_text="Grouped bar chart of validation and test macro-F1 with standard "
+        "deviations and relative drops for four models.",
+    )
+
     document.add_heading("8 Discussion", level=1)
     document.add_heading("8.1 Complexity is not the same as robustness", level=2)
     add_body(
@@ -1394,17 +1538,21 @@ def build_manuscript(
     )
     add_body(
         document,
-        "The validation-to-test gap is large. Raw 1D-CNN, CWT 2D-CNN, and CWT-GRU "
-        f"have mean validation macro-F1 values of "
-        f"{results.main.loc[results.main['method'].eq('raw_cnn'), 'best_val_macro_f1'].mean():.3f}, "
-        f"{results.main.loc[results.main['method'].eq('cwt_cnn'), 'best_val_macro_f1'].mean():.3f}, and "
-        f"{results.main.loc[results.main['method'].eq('cwt_gru'), 'best_val_macro_f1'].mean():.3f}, "
-        "while their test means are "
-        f"{f3(results.summary_row('raw_cnn')['Macro-F1 Mean'])}, "
-        f"{f3(results.summary_row('cwt_cnn')['Macro-F1 Mean'])}, and "
-        f"{f3(results.summary_row('cwt_gru')['Macro-F1 Mean'])}. A model can therefore "
-        "learn the seen bearings and still fail to generalize to the held-out code and "
-        "condition.",
+        "The two external adaptations also failed to exceed the simpler baselines "
+        "under the joint holdout. This observation does not invalidate their "
+        "published results, which were obtained with different datasets, splits, "
+        "input channels, and training recipes. It indicates that architecture-level "
+        "complexity alone did not transfer to this stricter evaluation.",
+    )
+    add_body(
+        document,
+        "Table 13 and Figure 12 show that the low test macro-F1 is not a training "
+        "failure. Validation macro-F1 is substantially higher for every principal "
+        "model, so all models learn the source data. The performance loss coincides "
+        "with the joint change in bearing identity and operating condition. This "
+        "pattern is consistent with domain shift, but the design cannot separate the "
+        "causal contributions of bearing identity, operating condition, and "
+        "damage-origin differences, nor can it identify a single failure mechanism.",
     )
 
     document.add_heading("8.2 The implemented CWT representation loses information", level=2)
@@ -1492,7 +1640,8 @@ def build_manuscript(
         "the five-seed Paderborn benchmark is no stable improvement: CWT and CWT-GRU "
         "are statistically indistinguishable from Raw 1D-CNN in macro-F1, and "
         "self-training does not improve the mean significantly at the tested label "
-        "budgets. These results do not establish a universal failure of "
+        "budgets. Same-protocol DRSN and TFNet adaptations also remained below the "
+        "simpler baselines. These results do not establish a universal failure of "
         "time-frequency or recurrent methods. They establish a stricter boundary for "
         "claims based on random-window benchmarks.",
         first=True,
@@ -1502,9 +1651,10 @@ def build_manuscript(
         "The study has several limitations. The Paderborn test rig is not a complete "
         "machine-tool spindle assembly, and the held-out physical units are limited to "
         f"{heldout_count} codes. The benchmark uses one window length, one CWT scale "
-        "range, one "
-        "model family, and a small validation set. External SOTA models were not "
-        "inserted because they were not re-trained under the identical protocol. The "
+        "range, one main model family, and a small validation set. The external DRSN "
+        "and TFNet implementations are adaptations under the common protocol, so "
+        "their results do not estimate performance under the original papers' "
+        "datasets or training recipes. The "
         "held-out fault bearings are lifetime-damaged while several training bearings "
         "are artificially damaged, so the test combines damage-origin changes with "
         "bearing and condition shifts.",
@@ -1526,8 +1676,9 @@ def build_manuscript(
         "The Paderborn data are available from the official Bearing Data Center [21]. "
         "The accompanying project archive contains the preprocessing commands, "
         "canonical configuration, split manifests, per-run configurations, all 320 "
-        "result rows, automated statistics, method figures, and manuscript-generation "
-        "script. Raw signals, large caches, and model weights are not redistributed.",
+        "result rows and 40 external-baseline retraining rows, automated statistics, "
+        "method figures, and manuscript-generation script. Raw signals, large "
+        "caches, and model weights are not redistributed.",
         first=True,
     )
 

@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+sota__f3__s42__drsn__l1.0000__0e0b381afa,0,0,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,0,1,62
+sota__f3__s42__drsn__l1.0000__0e0b381afa,0,2,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,0,3,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,1,0,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,1,1,62
+sota__f3__s42__drsn__l1.0000__0e0b381afa,1,2,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,1,3,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,2,0,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,2,1,62
+sota__f3__s42__drsn__l1.0000__0e0b381afa,2,2,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,2,3,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,3,0,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,3,1,62
+sota__f3__s42__drsn__l1.0000__0e0b381afa,3,2,0
+sota__f3__s42__drsn__l1.0000__0e0b381afa,3,3,0

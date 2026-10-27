@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,0,0,11
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,0,1,51
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,0,2,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,0,3,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,1,0,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,1,1,62
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,1,2,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,1,3,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,2,0,1
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,2,1,61
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,2,2,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,2,3,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,3,0,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,3,1,62
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,3,2,0
+sota__f1__s42__tfnet__l1.0000__08ae8c2626,3,3,0

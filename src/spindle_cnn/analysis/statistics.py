@@ -84,7 +84,7 @@ def confidence_interval(
 
 
 def prepare_analysis_frame(raw: pd.DataFrame) -> pd.DataFrame:
-    """Include the 100% main rows in the label-efficiency view once."""
+    """Include the full-balanced main rows in the label-efficiency view once."""
 
     main = raw.loc[raw["status"].astype(str).eq("success")].copy()
     label_full = main.loc[
@@ -291,6 +291,20 @@ def build_threshold_summary(frame: pd.DataFrame) -> pd.DataFrame:
     return grouped
 
 
+def build_model_complexity(raw: pd.DataFrame) -> pd.DataFrame:
+    return (
+        raw.groupby(["method", "model_key"], dropna=False)
+        .agg(
+            parameters=("parameters", "median"),
+            gflops_sample=("gflops_sample", "median"),
+            train_time_s_median=("train_time_s", "median"),
+            inference_ms_per_batch_median=("inference_ms_per_batch", "median"),
+            runs=("seed", "count"),
+        )
+        .reset_index()
+    )
+
+
 def main() -> None:
     args = parse_args()
     output_dir = args.output_dir.resolve()
@@ -311,6 +325,7 @@ def main() -> None:
         summary["experiment_type"].eq("label_efficiency")
     ].copy()
     threshold_summary = build_threshold_summary(frame)
+    model_complexity = build_model_complexity(raw)
 
     atomic_write_csv(output_dir / "summary_with_ci.csv", summary)
     atomic_write_csv(
@@ -322,6 +337,7 @@ def main() -> None:
     atomic_write_csv(output_dir / "domain_gap_summary.csv", domain_gap)
     atomic_write_csv(output_dir / "threshold_summary.csv", threshold_summary)
     atomic_write_csv(output_dir / "statistical_tests.csv", paired)
+    atomic_write_csv(output_dir / "model_complexity.csv", model_complexity)
     logging.info("Wrote statistical summaries to %s", output_dir)
 
 

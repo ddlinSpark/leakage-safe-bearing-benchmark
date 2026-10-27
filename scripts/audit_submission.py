@@ -960,26 +960,187 @@ def check_run_completeness(
     }
 
 
+def check_external_completeness(
+    external: pd.DataFrame,
+    root: Path,
+    mismatches: list[dict[str, Any]],
+) -> dict[str, Any]:
+    methods = ("drsn", "tfnet")
+    expected = pd.MultiIndex.from_product(
+        [methods, FOLDS, SEEDS],
+        names=["method", "fold", "seed"],
+    )
+    observed = pd.MultiIndex.from_frame(
+        external[["method", "fold", "seed"]]
+    )
+    duplicate_keys = int(
+        external.duplicated(["method", "fold", "seed"]).sum()
+    )
+    failed = int((~external["status"].eq("success")).sum())
+    required = (
+        "macro_f1",
+        "accuracy",
+        "best_val_macro_f1",
+        "parameters",
+        "gflops_sample",
+        "train_time",
+        "inference_ms_per_batch",
+    )
+    missing = {
+        column: int(external[column].isna().sum())
+        for column in required
+        if external[column].isna().any()
+    }
+    if (
+        len(external) != 40
+        or len(observed) != 40
+        or set(observed) != set(expected)
+        or duplicate_keys
+    ):
+        add_mismatch(
+            mismatches,
+            location="external SOTA experiment matrix",
+            paper_value="2 methods x 4 folds x 5 seeds",
+            computed_value=f"{len(external)} rows, {len(observed)} unique keys",
+            source="results/sota/raw_runs.csv",
+            reason="External baseline matrix is incomplete or duplicated.",
+        )
+    if failed or missing:
+        add_mismatch(
+            mismatches,
+            location="external SOTA result integrity",
+            paper_value="40 successful complete rows",
+            computed_value={"failed": failed, "missing": missing},
+            source="results/sota/raw_runs.csv",
+            reason="External baseline results contain failed or missing values.",
+        )
+    dirty = int(
+        external["git_dirty"].astype(str).str.casefold().isin(
+            {"true", "1", "yes"}
+        ).sum()
+    )
+    if dirty:
+        add_mismatch(
+            mismatches,
+            location="external SOTA provenance",
+            paper_value="clean worktree",
+            computed_value=f"{dirty} dirty runs",
+            source="results/sota/raw_runs.csv",
+            reason="External runs came from a dirty worktree.",
+        )
+    missing_files = []
+    config_mismatches = []
+    hostname_fields = 0
+    required_files = (
+        "config.json",
+        "predictions.npz",
+        "confusion_matrix.csv",
+        "calibration_bins.csv",
+        "training_history.csv",
+    )
+    for row in external.itertuples(index=False):
+        run_dir = root / "results" / "sota" / "runs" / str(row.run_id)
+        missing = [
+            name for name in required_files if not (run_dir / name).is_file()
+        ]
+        if missing:
+            missing_files.append({"run_id": str(row.run_id), "files": missing})
+            continue
+        config = json.loads((run_dir / "config.json").read_text("utf-8"))
+        hostname_fields += int("hostname" in config.get("environment", {}))
+        recorded_run = config["run"]
+        for key in ("fold", "seed", "method", "label_ratio", "threshold"):
+            actual = recorded_run.get(key)
+            expected_value = getattr(row, key)
+            if actual is None and pd.isna(expected_value):
+                continue
+            if isinstance(actual, float) and isinstance(expected_value, float):
+                if np.isclose(actual, expected_value, atol=1e-12):
+                    continue
+            if actual != expected_value:
+                config_mismatches.append(
+                    {"run_id": str(row.run_id), "field": key}
+                )
+                break
+    if missing_files or config_mismatches:
+        add_mismatch(
+            mismatches,
+            location="external run artifacts",
+            paper_value="complete config and diagnostics matching raw rows",
+            computed_value={
+                "missing": len(missing_files),
+                "config_mismatches": len(config_mismatches),
+            },
+            source="results/sota/runs/",
+            reason="External run-level audit material is incomplete.",
+        )
+    if hostname_fields:
+        add_mismatch(
+            mismatches,
+            location="external run privacy metadata",
+            paper_value="no hostname field",
+            computed_value=f"{hostname_fields} files",
+            source="results/sota/runs/<run_id>/config.json",
+            reason="New external runs reintroduced host metadata.",
+        )
+    recheck_path = root / "results" / "sota" / "rechecks" / "all_runs.json"
+    recheck = json.loads(recheck_path.read_text("utf-8"))
+    recheck_ok = (
+        int(recheck.get("passed", -1)) == len(external)
+        and len(recheck.get("runs", [])) == len(external)
+        and all(run.get("status") == "passed" for run in recheck["runs"])
+        and all(
+            all(item.get("passed") is True for item in run["metrics"].values())
+            for run in recheck["runs"]
+        )
+    )
+    if not recheck_ok:
+        add_mismatch(
+            mismatches,
+            location="external SOTA metric rechecks",
+            paper_value="40 passed",
+            computed_value=str(recheck.get("passed")),
+            source="results/sota/rechecks/all_runs.json",
+            reason="External saved logits do not reproduce recorded metrics.",
+        )
+    return {
+        "rows": int(len(external)),
+        "group_counts": {
+            str(key): int(value)
+            for key, value in external.groupby("method").size().items()
+        },
+        "failed_runs": failed,
+        "duplicate_keys": duplicate_keys,
+        "dirty_runs": dirty,
+        "missing_run_files": len(missing_files),
+        "config_metadata_mismatches": len(config_mismatches),
+        "hostname_fields": hostname_fields,
+        "missing_required_fields": missing,
+        "matrix_complete": len(observed) == 40 and set(observed) == set(expected),
+        "independent_metric_rechecks_passed": recheck_ok,
+    }
+
+
 def check_paper_tables(
     raw: pd.DataFrame,
     document: Document,
     root: Path,
     mismatches: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    if len(document.tables) != 12:
+    if len(document.tables) != 13:
         add_mismatch(
             mismatches,
             location="manuscript tables",
-            paper_value="12",
+            paper_value="13",
             computed_value=str(len(document.tables)),
             source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
             reason="Manuscript table count differs from the audited design.",
         )
-    if len(document.inline_shapes) != 11:
+    if len(document.inline_shapes) != 12:
         add_mismatch(
             mismatches,
             location="manuscript figures",
-            paper_value="11",
+            paper_value="12",
             computed_value=str(len(document.inline_shapes)),
             source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
             reason="Manuscript figure count differs from the audited design.",
@@ -1128,17 +1289,18 @@ def check_paper_tables(
             [
                 "Main",
                 f"Seven method conditions; {len(FOLDS)} folds x {len(SEEDS)} seeds; "
-                "100% balanced labels",
+                "full balanced budget",
                 str(int(counts["main"])),
             ],
             [
                 "Label efficiency",
-                "Supervised and self-training at 10% and 50%; 100% reuses main rows",
+                "Supervised and self-training at 10% and 50% balanced budgets; "
+                "full reuses main rows",
                 str(int(counts["label_efficiency"])),
             ],
             [
                 "Threshold sensitivity",
-                f"{threshold_count} thresholds at 50% labels; "
+                f"{threshold_count} thresholds at 50% balanced budget; "
                 f"{len(FOLDS)} folds x {len(SEEDS)} seeds",
                 str(int(counts["threshold"])),
             ],
@@ -1216,7 +1378,11 @@ def check_paper_tables(
                 ]
                 expected.append(
                     [
-                        f"{ratio * 100:.0f}%",
+                        {
+                            0.1: "10% balanced",
+                            0.5: "50% balanced",
+                            1.0: "Full balanced",
+                        }[ratio],
                         label_text,
                         mean_sd(group["macro_f1"].mean(), group["macro_f1"].std()),
                         mean_sd(group["accuracy"].mean(), group["accuracy"].std()),
@@ -1349,6 +1515,42 @@ def check_paper_tables(
                     str(int(row["runs"])),
                 ]
             )
+        external_raw = pd.read_csv(root / "results" / "sota" / "raw_runs.csv")
+        external_summary = pd.read_csv(
+            root / "results" / "sota" / "summary_with_ci.csv"
+        )
+        external_architecture = {
+            "drsn": (
+                "Raw waveform",
+                "Four-stage residual shrinkage CNN; adaptive soft thresholding",
+            ),
+            "tfnet": (
+                "Raw waveform",
+                "Learnable sinusoidal TF convolution + CNN backbone",
+            ),
+        }
+        external_labels = {
+            "drsn": "DRSN (same-protocol adaptation)",
+            "tfnet": "TFNet (same-protocol adaptation)",
+        }
+        for method, (representation, core) in external_architecture.items():
+            row = external_summary.loc[external_summary["Method"].eq(method)].iloc[0]
+            parameters = int(
+                external_raw.loc[
+                    external_raw["method"].eq(method), "parameters"
+                ].median()
+            )
+            expected.append(
+                [
+                    external_labels[method],
+                    representation,
+                    core,
+                    f"{parameters:,}",
+                    mean_sd(row["Macro-F1 Mean"], row["Macro-F1 Std"]),
+                    mean_sd(row["Accuracy Mean"], row["Accuracy Std"]),
+                    str(int(row["Runs"])),
+                ]
+            )
         compare_table(
             table_rows(document.tables[9]),
             expected,
@@ -1435,6 +1637,38 @@ def check_paper_tables(
             mismatches=mismatches,
         )
 
+    if len(document.tables) >= 13:
+        domain_gap = pd.read_csv(root / "results" / "domain_gap_summary.csv")
+        expected = [
+            [
+                "Model",
+                "Validation Macro-F1",
+                "Test Macro-F1",
+                "Absolute gap",
+                "Relative drop",
+                "Runs",
+            ]
+        ]
+        for row in domain_gap.itertuples(index=False):
+            method = str(row.Model)
+            expected.append(
+                [
+                    METHOD_LABELS[method],
+                    mean_sd(row._1, row._2),
+                    mean_sd(row._3, row._4),
+                    f"{float(row._5):.3f}",
+                    f"{float(row._7):.1f}%",
+                    str(int(row.Runs)),
+                ]
+            )
+        compare_table(
+            table_rows(document.tables[12]),
+            expected,
+            location="Table 13",
+            source="results/domain_gap_summary.csv",
+            mismatches=mismatches,
+        )
+
     text = "\n".join(paragraph.text for paragraph in document.paragraphs)
     main_pivot = main.pivot_table(
         index=["fold", "seed"],
@@ -1487,6 +1721,12 @@ def check_paper_tables(
     ).reindex(index=range(4), columns=range(4), fill_value=0)
     confusion = confusion.div(confusion.sum(axis=1), axis=0)
     cwt_calibration = main.loc[main["method"].eq("cwt_gru")]
+    external_summary = pd.read_csv(
+        root / "results" / "sota" / "summary_with_ci.csv"
+    )
+    external_tests = pd.read_csv(
+        root / "results" / "sota" / "statistical_tests.csv"
+    )
     complexity = main.groupby("method").agg(
         parameters=("parameters", "median"),
         train_time=("train_time", "median"),
@@ -1541,9 +1781,6 @@ def check_paper_tables(
             f"{cwt_calibration['raw_nll'].mean():.3f} to "
             f"{cwt_calibration['nll'].mean():.3f}"
         ),
-        "Validation mean raw": f"{main.loc[main['method'].eq('raw_cnn'), 'best_val_macro_f1'].mean():.3f}",
-        "Validation mean CWT": f"{main.loc[main['method'].eq('cwt_cnn'), 'best_val_macro_f1'].mean():.3f}",
-        "Validation mean CWT-GRU": f"{main.loc[main['method'].eq('cwt_gru'), 'best_val_macro_f1'].mean():.3f}",
         "CWT-GRU inner-ring recall": percent(confusion.loc[2, 2]),
         "CWT-GRU outer-ring recall": percent(confusion.loc[1, 1]),
         "CWT-GRU outer-to-inner confusion": percent(confusion.loc[1, 2]),
@@ -1555,6 +1792,33 @@ def check_paper_tables(
         ),
         "Raw CNN median training time": (
             f"{complexity.loc['raw_cnn', 'train_time']:.1f} s"
+        ),
+        "DRSN result": mean_sd(
+            external_summary.loc[
+                external_summary["Method"].eq("drsn"), "Macro-F1 Mean"
+            ].iloc[0],
+            external_summary.loc[
+                external_summary["Method"].eq("drsn"), "Macro-F1 Std"
+            ].iloc[0],
+        ),
+        "TFNet result": mean_sd(
+            external_summary.loc[
+                external_summary["Method"].eq("tfnet"), "Macro-F1 Mean"
+            ].iloc[0],
+            external_summary.loc[
+                external_summary["Method"].eq("tfnet"), "Macro-F1 Std"
+            ].iloc[0],
+        ),
+        "DRSN paired delta": (
+            f"{float(external_tests.loc[(external_tests['reference'].eq('raw_cnn')) & (external_tests['method'].eq('drsn')), 'mean_paired_delta'].iloc[0]):+.3f}"
+        ),
+        "TFNet paired delta": (
+            f"{float(external_tests.loc[(external_tests['reference'].eq('raw_cnn')) & (external_tests['method'].eq('tfnet')), 'mean_paired_delta'].iloc[0]):+.3f}"
+        ),
+        "Domain gap statement": "low test macro-F1 is not a training",
+        "Contribution wording": (
+            "extends split auditing by jointly evaluating waveform and "
+            "time-frequency representations"
         ),
         "SOTA boundary": "No unreproduced external result is included.",
         "Spindle scope": "not a complete machine-tool spindle assembly",
@@ -1569,7 +1833,7 @@ def check_paper_tables(
                 source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
                 reason="A required result statement is absent or inconsistent.",
             )
-    for table_number in range(1, 13):
+    for table_number in range(1, 14):
         if f"Table {table_number}." not in text:
             add_mismatch(
                 mismatches,
@@ -1579,7 +1843,7 @@ def check_paper_tables(
                 source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
                 reason="A numbered table caption is missing.",
             )
-    for figure_number in range(1, 12):
+    for figure_number in range(1, 13):
         if f"Figure {figure_number}." not in text:
             add_mismatch(
                 mismatches,
@@ -1598,6 +1862,16 @@ def check_paper_tables(
             source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
             reason="The manuscript overstates the evidence from a bearing test rig.",
         )
+    for obsolete in ("10% labels", "50% labels", "100% labels"):
+        if obsolete.casefold() in text.casefold():
+            add_mismatch(
+                mismatches,
+                location="balanced-budget terminology",
+                paper_value="10% balanced, 50% balanced, Full balanced",
+                computed_value=obsolete,
+                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+                reason="Legacy percentage wording remains in the manuscript.",
+            )
 
     return {
         "tables": len(document.tables),
@@ -1639,6 +1913,7 @@ def main() -> None:
     args = parser.parse_args()
     root = args.root.resolve()
     raw = pd.read_csv(root / "results" / "raw_runs.csv")
+    external = pd.read_csv(root / "results" / "sota" / "raw_runs.csv")
     summary = pd.read_csv(root / "results" / "summary.csv")
     summary_ci = pd.read_csv(root / "results" / "summary_with_ci.csv")
     pairs = pd.read_csv(root / "results" / "statistical_tests.csv")
@@ -1651,6 +1926,11 @@ def main() -> None:
     mismatches: list[dict[str, Any]] = []
 
     completeness = check_run_completeness(raw, root, mismatches)
+    external_completeness = check_external_completeness(
+        external,
+        root,
+        mismatches,
+    )
     check_summary_sources(
         raw,
         summary,
@@ -1679,6 +1959,7 @@ def main() -> None:
             (root / "results" / "raw_runs.csv").read_bytes()
         ).hexdigest(),
         "completeness": completeness,
+        "external_completeness": external_completeness,
         "paper": paper,
         "mismatch_count": len(mismatches),
         "mismatches": mismatches,

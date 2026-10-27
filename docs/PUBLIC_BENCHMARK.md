@@ -56,6 +56,22 @@ accuracy, test Macro-F1, test accuracy, and calibration error are recorded.
 Pseudo-label accuracy is computed after selection for audit only. It is never
 used to train, tune, or select a threshold for the confirmatory run.
 
+## External same-protocol adaptations
+
+DRSN and TFNet are evaluated with the same windows, four folds, five seeds,
+labels, optimizer, epoch limit, early-stopping rule, validation split, test
+split, and metrics. Their results are stored separately under `results/sota/`.
+
+- DRSN: residual shrinkage with adaptive channel-wise soft thresholding, adapted
+  to the three-channel four-class task.
+- TFNet: the public TFN comparison backbone, adapted to three input channels
+  and four classes.
+
+These are adaptations, not exact reproductions of the original datasets,
+dimensionalities, or training recipes. MTFC-T and DRSN-Transformer are excluded
+from numerical comparison because sufficiently complete implementations were
+not available in the project materials.
+
 ## CWRU pilot
 
 CWRU is retained as a saturation check, not as the primary evidence. Its

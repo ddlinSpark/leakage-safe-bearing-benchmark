@@ -658,7 +658,7 @@ def summarize_results(output_dir: Path) -> None:
     main_full["run_id"] = main_full["run_id"].astype(str) + "__label100"
     label_standard = pd.concat(
         [
-            raw.loc[raw["experiment_type"].eq("main")],
+            raw.loc[raw["experiment_type"].isin(["main", "sota"])],
             raw.loc[raw["experiment_type"].eq("label_efficiency")],
             main_full,
         ],

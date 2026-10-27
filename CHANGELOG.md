@@ -90,7 +90,7 @@ time. The manuscript is not edited by copying numbers from a prior draft.
 
 ## Publication checks
 
-- The complete build contains 20 pages, 12 tables, and 11 figures.
+- The complete build contains 21 pages, 13 tables, and 12 figures.
 - Python compilation passed.
 - The repository test suite passed: 14 tests.
 - The final DOCX was rendered to 20 page images, and every page was inspected at
@@ -102,7 +102,7 @@ time. The manuscript is not edited by copying numbers from a prior draft.
 - Independently recomputed run counts, means, standard deviations, confidence
   intervals, paired differences, and Wilcoxon tests from the 320 canonical run
   rows.
-- Reconciled all 12 manuscript tables and 30 key numerical text statements with
+- Reconciled all 13 manuscript tables and key numerical text statements with
   the result files; the mismatch count is zero.
 - Reproduced all 11 manuscript PNG figures byte-for-byte from current code.
 - Confirmed 320 successful, unique runs and the complete
@@ -112,3 +112,19 @@ time. The manuscript is not edited by copying numbers from a prior draft.
   calibration, pseudo-label selection, and threshold selection.
 - Recorded a study-level warning about repeated use of the same test folds and
   outstanding public-release privacy actions in `PRE_SUBMISSION_AUDIT.md`.
+
+## External baselines and domain gap
+
+- Added a separate same-protocol DRSN implementation and a TFNet adaptation
+  derived from the public comparison-model code.
+- Retrained each external model for four folds and five seeds with a clean
+  worktree; all 40 runs succeeded.
+- Added paired comparisons, confidence intervals, parameter counts, FLOPs,
+  training time, and inference latency for the external models.
+- Added an automatically generated validation-to-test gap table and figure for
+  the four principal internal models.
+- Refined the three Introduction contributions to emphasize the comparison
+  design, same-protocol external baselines, and transparent retention of
+  negative results.
+- Replaced ambiguous percentage-only label references with `10% balanced`,
+  `50% balanced`, and `Full balanced`.

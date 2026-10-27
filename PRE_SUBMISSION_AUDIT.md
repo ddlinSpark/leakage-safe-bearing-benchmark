@@ -1,7 +1,8 @@
 # Pre-submission Reproducibility Audit
 
-Date: 2026-10-27  
-Published baseline commit: `8ac2d75`  
+Date: 2026-10-27
+Published internal-result baseline: `8ac2d75`
+External-retraining commit: `673bb99`
 Raw-result SHA-256: `a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46fbeb10`
 
 ## Decision
@@ -71,8 +72,8 @@ an explicit decision and a backup before force-pushing.
 
 | Check | Result |
 | --- | --- |
-| Tracked files | 1,713 |
-| Total tracked size | Approximately 10.5 MiB |
+| Tracked files | 1,942 |
+| Total tracked size | 11.56 MiB |
 | Largest tracked file | Publication confusion-matrix PNG, 844 KiB |
 | Raw Paderborn cache | Ignored; local only, approximately 577 MiB |
 | Reference PDFs | Ignored; local only |
@@ -105,14 +106,14 @@ The independent audit script
 - ablation summaries;
 - threshold and label-efficiency summaries;
 - parameter, FLOP, training-time, and inference-time medians;
-- all 12 manuscript tables and key manuscript numeric statements.
+- all 13 manuscript tables and key manuscript numeric statements.
 
 Result:
 
 ```text
 Numerical mismatches: 0
-Paper tables checked: 12
-Paper figures checked: 11
+Paper tables checked: 13
+Paper figures checked: 12
 ```
 
 No `RESULT_MISMATCH_REPORT.md` was generated because no numerical mismatch was
@@ -125,6 +126,7 @@ All 320 canonical rows are successful, unique, and complete:
 - 140 main evaluations;
 - 80 saved partial-label evaluations;
 - 100 threshold evaluations;
+- 40 external same-protocol retraining evaluations;
 - 20 runs per main method;
 - 20 runs per saved label-efficiency condition;
 - 20 runs per threshold;
@@ -182,14 +184,14 @@ cwt_gru, cwt_gru_temp, cwt_gru_selftrain, drsn, tfnet
 
 `cnn_lstm`, `drsn_transformer`, and `mtfc_t` remain explicit, non-executable
 placeholders. The repository contains no claimed reproduction of their paper
-metrics. DRSN and TFNet same-protocol retraining is an added release step and
-must pass its own 20-run completeness check before entering the comparison
-table.
+metrics. DRSN and TFNet were retrained for 20 clean runs each and passed the
+completeness and independent metric checks. Their results are labeled as
+same-protocol adaptations.
 
 ## Figure reproducibility
 
 Regenerating both method and result figures into a separate output directory
-produced byte-identical PNGs for all 11 manuscript figures.
+produced byte-identical PNGs for all 12 manuscript figures.
 
 ## Corrections applied during this audit
 

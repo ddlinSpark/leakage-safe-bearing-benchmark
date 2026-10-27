@@ -99,6 +99,15 @@ resolution.
 - Input: `results/model_complexity.csv`, derived from
   `results/raw_runs.csv`.
 
+## Figure 12: Validation-to-test generalization gap
+
+- Output: `figures/publication/figure_09_validation_test_gap.{png,pdf}`
+- Generator: `python scripts/generate_figures.py`
+- Function: `validation_test_gap()` in
+  `src/spindle_cnn/experiments/make_figures.py`
+- Input: `results/domain_gap_summary.csv`, derived from the validation and test
+  Macro-F1 columns in `results/raw_runs.csv`.
+
 ## Numerical provenance rule
 
 The figure scripts read the CSV or per-run files listed above. No experimental

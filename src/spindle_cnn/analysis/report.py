@@ -297,8 +297,10 @@ NLL, and temperature scaling preserves the predicted class.
 
 ## Computational cost
 
-Training time includes the complete training procedure for each row. Inference
-latency is measured per test batch and is hardware-dependent.
+This aggregate groups all experiment types by method. The manuscript cost table
+uses only the 20 main rows per method, whereas this report includes all matched
+rows represented by each model key. Inference latency is measured per test batch
+and is hardware-dependent.
 
 {markdown_table(
     ["Model", "Parameters (M)", "GFLOPs/sample", "Train time (s)", "Inference (ms/batch)"],

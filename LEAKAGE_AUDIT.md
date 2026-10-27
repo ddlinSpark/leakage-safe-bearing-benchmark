@@ -36,7 +36,8 @@ influenced by previously observed test summaries.
 | CWT preprocessing | PASS | `public_benchmark/pu_data.py::_cwt_image` computes CWT magnitude, resizes, and per-channel maximum normalization from one window only. | No cross-partition CWT statistic. |
 | Validation-to-training leakage | PASS | Training uses `split.train`; validation uses disjoint `split.validation`. Pseudo-label candidates are a subset of train only. | Validation labels affect stopping and temperature only. |
 | Test-informed threshold update | PASS at run level | Threshold comparison uses the same folds and seeds after the main configuration was fixed. Main and threshold configs are retained separately. | Sensitivity results are not substituted into the main result. |
-| Label-budget selection | PASS | `balanced_indices` samples equal labels per class from `split.train`. Seed/fold/ration combinations are complete. | Label budgets do not draw from validation or test. |
+| Label-budget selection | PASS | `balanced_indices` samples equal labels per class from `split.train`. Seed/fold/ratio combinations are complete. | Label budgets do not draw from validation or test. |
+| External baseline reuse | PASS | DRSN and TFNet are dispatched through `run_benchmark.py` with the same `load_fold_indices`, training loop, validation early stopping, and final test evaluation. Their 40 rows use one dataset hash and one split hash per fold. | External retraining does not alter the leakage-safe protocol. |
 
 ## Split evidence
 

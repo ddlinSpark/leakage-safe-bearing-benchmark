@@ -16,7 +16,9 @@ per-class training count, not all training windows.
 | Main runs | 140, or 20 per method condition |
 | Label-efficiency runs | 80 |
 | Threshold runs | 100 |
+| External same-protocol runs | 40, or 20 per adapted model |
 | Successful canonical rows | 320 |
+| Successful external rows | 40 |
 | Main threshold | 0.60 |
 | Main self-training rounds | 2 |
 | Threshold-experiment rounds | 1 |
@@ -52,12 +54,14 @@ $env:PYTHONPATH = "src"
 ```powershell
 python -m pytest -q tests
 python -c "import pandas as pd; d=pd.read_csv('results/raw_runs.csv'); assert len(d)==320; assert d.status.eq('success').all(); print(d.groupby('experiment_type').size())"
+python -c "import pandas as pd; d=pd.read_csv('results/sota/raw_runs.csv'); assert len(d)==40; assert d.status.eq('success').all(); assert d.groupby('method').size().eq(20).all(); print(d.groupby('method').size())"
 ```
 
 The manuscript data loader also enforces:
 
 - exactly 320 successful, unique canonical runs;
 - 20 main runs for every reported method;
+- 20 external runs for each adapted model;
 - 20 threshold runs at every tested threshold;
 - the presence of every required split manifest and confusion matrix.
 
@@ -67,13 +71,15 @@ The manuscript data loader also enforces:
 $env:PYTHONPATH = "src"
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
 python -m spindle_cnn.analysis.report --results-dir results
+python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
 python -m spindle_cnn.analysis.recheck_run --results-dir results --all
+python -m spindle_cnn.analysis.recheck_run --results-dir results/sota --all
 ```
 
 The statistics command regenerates `summary.csv`, `summary_with_ci.csv`,
 `statistical_tests.csv`, `ablation_summary.csv`,
-`label_efficiency_summary.csv`, `threshold_summary.csv`, and
-`model_complexity.csv`.
+`label_efficiency_summary.csv`, `threshold_summary.csv`,
+`domain_gap_summary.csv`, and `model_complexity.csv`.
 
 ## Regenerate every figure
 
@@ -103,15 +109,17 @@ recorded device name from a per-run configuration.
 
 ## Optional full rerun
 
-A complete rerun trains the canonical matrix and should be performed only after
-the official Paderborn archives have been prepared as described in
-`data/README.md`.
+A complete rerun trains the canonical and external matrices and should be
+performed only after the official Paderborn archives have been prepared as
+described in `data/README.md`.
 
 ```powershell
 $env:PYTHONPATH = "src"
 python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_main.json --experiment all
+python -m spindle_cnn.experiments.run_benchmark --config configs/paderborn_sota.json --experiment sota
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
 python -m spindle_cnn.analysis.report --results-dir results
+python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
 python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publication
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 python -m spindle_cnn.paper.build_docx --results-dir results --figures-dir figures/publication --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx
@@ -129,6 +137,8 @@ merge exploratory rows into the canonical table.
 - Split audit: `results/splits/fold0.json` through `fold3.json`.
 - Independent metric recomputation: `results/rechecks/all_runs.json`.
 - Human-readable result summary: `results/EXPERIMENT_REPORT.md`.
+- External retraining rows and summaries: `results/sota/`.
+- Validation-to-test gap: `results/domain_gap_summary.csv`.
 
 Run the independent pre-submission consistency check after regenerating the
 derived tables and manuscript:
@@ -148,9 +158,9 @@ in `PRE_SUBMISSION_AUDIT.md`.
   spindle assembly.
 - Published model accuracies from different datasets, splits, preprocessing
   pipelines, or metrics are not entered as fair SOTA rankings.
-- External models listed in `src/spindle_cnn/models/baselines/registry.py` are
-  placeholders. They are excluded until their architecture and training recipe
-  are reproduced and trained on the same split.
+- DRSN and TFNet are same-protocol adaptations, not exact reproductions of their
+  original experimental settings. MTFC-T and DRSN-Transformer remain excluded
+  because no sufficiently complete implementation was available.
 - Calibration can improve ECE, NLL, and Brier score without changing the
   predicted class.
 - Non-significant self-training and ablation differences are reported as

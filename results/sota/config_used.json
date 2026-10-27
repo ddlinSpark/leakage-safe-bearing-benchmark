@@ -1,0 +1,51 @@
+{
+  "dataset": {
+    "cache": "data/public/paderborn/pu_4class_w8192.npz",
+    "heldout_record_ids": [
+      4,
+      8,
+      12,
+      15
+    ],
+    "name": "Paderborn-4class",
+    "protocol": "bearing-code-and-operating-condition-disjoint",
+    "split_version": "paderborn-4fold-unseen-bearing-unseen-condition-v1"
+  },
+  "experiments": {
+    "sota": {
+      "fractions": [
+        1.0
+      ],
+      "methods": [
+        "drsn",
+        "tfnet"
+      ]
+    }
+  },
+  "folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "output_dir": "results/sota",
+  "seeds": [
+    42,
+    123,
+    2024,
+    2025,
+    3407
+  ],
+  "training": {
+    "batch_size": 64,
+    "deterministic": true,
+    "device": "cuda",
+    "epochs": 12,
+    "learning_rate": 0.002,
+    "num_workers": 0,
+    "patience": 4,
+    "pseudo_rounds": 2,
+    "pseudo_threshold": 0.6,
+    "weight_decay": 0.0001
+  }
+}

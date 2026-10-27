@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+sota__f2__s123__drsn__l1.0000__91b9eec36b,0,0,62
+sota__f2__s123__drsn__l1.0000__91b9eec36b,0,1,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,0,2,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,0,3,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,1,0,20
+sota__f2__s123__drsn__l1.0000__91b9eec36b,1,1,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,1,2,42
+sota__f2__s123__drsn__l1.0000__91b9eec36b,1,3,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,2,0,44
+sota__f2__s123__drsn__l1.0000__91b9eec36b,2,1,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,2,2,18
+sota__f2__s123__drsn__l1.0000__91b9eec36b,2,3,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,3,0,33
+sota__f2__s123__drsn__l1.0000__91b9eec36b,3,1,0
+sota__f2__s123__drsn__l1.0000__91b9eec36b,3,2,29
+sota__f2__s123__drsn__l1.0000__91b9eec36b,3,3,0

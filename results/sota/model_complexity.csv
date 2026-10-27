@@ -1,0 +1,3 @@
+method,model_key,parameters,gflops_sample,train_time_s_median,inference_ms_per_batch_median,runs
+drsn,drsn,233040.0,0.794840576,6.812726899981499,32.560924999415874,20
+tfnet,tfnet,184900.0,0.387923456,4.518089949968271,16.981274995487183,20

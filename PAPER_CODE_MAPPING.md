@@ -55,9 +55,10 @@ configs/paderborn_main.json
 | Table 7 | `paper/build_docx.py::label_rows` | `run_benchmark.py` label-efficiency path | `results/label_efficiency_summary.csv`; `results/raw_runs.csv` |
 | Table 8 | `paper/build_docx.py::threshold_rows` | `run_benchmark.py::run_threshold_experiment` | `results/threshold_summary.csv`; `results/raw_runs.csv` |
 | Table 9 | `paper/build_docx.py::calibration_rows` | Calibration metrics in `evaluation/metrics.py` | `results/raw_runs.csv` |
-| Table 10 | `paper/build_docx.py::sota_rows` | `models/registry.py`; architecture files | `results/summary_with_ci.csv`; `results/raw_runs.csv` |
+| Table 10 | `paper/build_docx.py::sota_rows` | `models/registry.py`; architecture files | `results/summary_with_ci.csv`; `results/raw_runs.csv`; `results/sota/` |
 | Table 11 | `paper/build_docx.py::ablation_rows` | `models/registry.py`; `analysis/statistics.py::ABLATION_COMPONENTS` | `results/ablation_summary.csv`; `results/raw_runs.csv` |
 | Table 12 | `paper/build_docx.py::complexity_rows` | `evaluation/efficiency.py`; `experiments/run_benchmark.py::summarize_results` | Main rows in `results/raw_runs.csv` |
+| Table 13 | `paper/build_docx.py::domain_gap_rows` | `analysis/statistics.py::build_domain_gap_summary` | `results/domain_gap_summary.csv`; `results/raw_runs.csv` |
 
 ## Manuscript figures
 
@@ -74,6 +75,7 @@ configs/paderborn_main.json
 | Figure 9 | `experiments/make_figures.py::ablation` | `results/ablation_summary.csv` |
 | Figure 10 | `experiments/make_figures.py::confusion` | Confusion matrices under `results/runs/<run_id>/` |
 | Figure 11 | `experiments/make_figures.py::computational_cost` | `results/model_complexity.csv` |
+| Figure 12 | `experiments/make_figures.py::validation_test_gap` | `results/domain_gap_summary.csv` |
 
 The detailed table/figure provenance is also recorded in
 `docs/paper/TABLE_SOURCES.md` and `docs/paper/FIGURE_SOURCES.md`.
@@ -89,11 +91,12 @@ The detailed table/figure provenance is also recorded in
 | CWT-GRU | Project-defined fused model | `models/cwt_gru.py` | Raw + CWT | Same protocol | 1,101,012, measured from code and records | 20 same-protocol runs |
 | CWT-GRU + temperature scaling | Project-defined calibration condition on the same weights | `evaluation/calibration.py`; `run_benchmark.py` reuse branch | Raw + CWT | Same protocol and matched base runs | Same as CWT-GRU | 20 matched evaluations |
 | CWT-GRU + temperature scaling + self-training | Project-defined semi-supervised condition | `training/runner.py`; `run_benchmark.py` | Raw + CWT | Same protocol; pseudo-labels restricted to unlabeled training windows | Same as CWT-GRU | 20 same-protocol runs |
-| DRSN adaptation | Published residual-shrinkage concept [16], adapted for three raw channels | `models/drsn.py`; `models/registry.py` | Raw waveform | Same protocol | 233,040, measured from code | 20-run retraining in progress |
-| TFNet adaptation | Published TFN comparison architecture, adapted for three inputs and four classes | `models/tfnet.py`; official comparison-model code repository | Raw waveform | Same protocol | 184,900, measured from code | 20-run retraining in progress |
+| DRSN adaptation | Zhao et al., deep residual shrinkage networks [16]; three-channel adaptation | `models/drsn.py`; `models/registry.py` | Raw waveform | Same protocol | 233,040, measured from code | 20 completed runs; Macro-F1 and accuracy |
+| TFNet adaptation | Chen et al. (2024), TFN; public comparison-model source `https://github.com/Bingbingboopoo/MTFC_T/tree/main/comparison_models/TFNet` | `models/tfnet.py`; official comparison-model structure adapted locally | Raw waveform | Same protocol | 184,900, measured from code | 20 completed runs; Macro-F1 and accuracy |
 
-No external SOTA number is present in Table 10. The manuscript states that
-reported values from other datasets or splits are not used for ranking.
+No original-study performance number is inserted into Table 10. The manuscript
+states that reported values from other datasets or splits are not used for
+ranking.
 
 ### Explicitly unavailable external implementations
 
@@ -119,5 +122,5 @@ python scripts/audit_submission.py --json-output artifacts/local/pre_submission_
 
 The audit independently recomputes mean, SD, run counts, t intervals, paired
 differences, and Wilcoxon tests from `results/raw_runs.csv`, then compares them
-with all derived result files and all 12 manuscript tables. It does not call the
+with all derived result files and all 13 manuscript tables. It does not call the
 production statistics functions to establish expected values.

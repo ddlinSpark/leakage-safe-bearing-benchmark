@@ -80,9 +80,9 @@ files. No result table is populated by hand.
 ## Table 10: Models eligible for same-protocol comparison
 
 - Builder function: `sota_rows()`.
-- Sources: `results/summary_with_ci.csv`,
-  `results/raw_runs.csv`, and the architecture registry under
-  `src/spindle_cnn/models/`.
+- Sources: `results/summary_with_ci.csv`, `results/raw_runs.csv`,
+  `results/sota/summary_with_ci.csv`, `results/sota/raw_runs.csv`, and the
+  architecture registry under `src/spindle_cnn/models/`.
 - Parameter values are medians of the recorded parameter counts.
 - No unreproduced external model or published cross-protocol value appears in
   the table.
@@ -105,6 +105,15 @@ files. No result table is populated by hand.
   types and is used for the computational-cost figure.
 - Training time includes the full training process for each main condition.
   Inference time is measured per test batch and is hardware-dependent.
+
+## Table 13: Validation-to-test generalization gap
+
+- Builder function: `domain_gap_rows()`.
+- Generator: `src/spindle_cnn/analysis/statistics.py::build_domain_gap_summary`.
+- Source: `results/raw_runs.csv`, columns `best_val_macro_f1` and `macro_f1`.
+- Derived file: `results/domain_gap_summary.csv`.
+- Values are computed for Raw 1D-CNN, CWT 2D-CNN, CWT-GRU, and CWT-GRU
+  without SE over 20 matched runs each.
 
 ## Reproduction check
 
