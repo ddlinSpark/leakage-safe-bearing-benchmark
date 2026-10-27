@@ -195,7 +195,7 @@ def overall_framework(output_dir: Path) -> None:
         0.22,
         0.19,
         "Label budget",
-        "10%, 50%, 100%\nclass-balanced labeled set\nremaining windows unlabeled",
+        "10% balanced\n50% balanced\nfull balanced",
         edge=BLUE,
         face=PALE_BLUE,
     )
@@ -398,7 +398,7 @@ def self_training_pipeline(output_dir: Path) -> None:
         0.17,
         0.20,
         "Balanced labeled set",
-        "L: verified training labels\n10%, 50%, or 100%\nof balanced budget",
+        "L: verified training labels\n10% or 50% balanced\nor full balanced",
         edge=BLUE,
         face=PALE_BLUE,
     )

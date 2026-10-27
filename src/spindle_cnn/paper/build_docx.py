@@ -119,12 +119,17 @@ def paired_rows(results: BenchmarkResults) -> list[list[str]]:
 
 def label_rows(results: BenchmarkResults) -> list[list[str]]:
     rows = []
+    budget_labels = {
+        0.1: "10% balanced",
+        0.5: "50% balanced",
+        1.0: "Full balanced",
+    }
     for fraction in (0.1, 0.5, 1.0):
         for method in ("cwt_gru", "cwt_gru_selftrain"):
             row = results.label_row(method, fraction)
             rows.append(
                 [
-                    f"{fraction * 100:.0f}%",
+                    budget_labels[fraction],
                     "Supervised" if method == "cwt_gru" else "Calibrated self-training",
                     mean_sd(row, "Macro-F1 Mean", "Macro-F1 Std"),
                     mean_sd(row, "Accuracy Mean", "Accuracy Std"),
@@ -431,10 +436,11 @@ def build_manuscript(
         "No CWT-containing model produced a statistically significant gain over the "
         "raw waveform baseline. The highest mean was obtained without SE, but removing "
         f"SE did not produce a significant difference from full CWT-GRU (p={p_text(no_se_vs_full['p_value'])}). "
-        "At a 10% class-balanced label budget, no pseudo-label passed the threshold in "
+        "At a 10% balanced label budget, no pseudo-label passed the threshold in "
         f"any of the {runs_per_method} evaluations. Self-training did not improve macro-F1 significantly "
-        f"at 50% (paired delta {float(mid_update['mean_paired_delta']):+.3f}, "
-        f"p={p_text(mid_update['p_value'])}) or 100% "
+        f"at a 50% balanced budget (paired delta "
+        f"{float(mid_update['mean_paired_delta']):+.3f}, "
+        f"p={p_text(mid_update['p_value'])}) or the full balanced budget "
         f"({float(full_update['mean_paired_delta']):+.3f}, p={p_text(full_update['p_value'])}). "
         "Temperature scaling left predicted classes unchanged. It improved ECE and NLL "
         "for the CWT models on the held-out test folds, whereas the validation-selected "
@@ -808,8 +814,7 @@ def build_manuscript(
     document.add_heading("3.5 Supervised training and baselines", level=2)
     add_body(
         document,
-        "All models use the same configuration. The 100% main condition means 100% of "
-        "the class-balanced label budget, not all training windows. The budget is the "
+        "All models use the same configuration. The full balanced budget uses the "
         "smallest class count in that fold and therefore contains about 992-996 "
         f"windows ({int(labeled_counts.min())}-{int(labeled_counts.max())} across "
         "folds). This leaves additional training windows available for self-training.",
@@ -900,7 +905,7 @@ def build_manuscript(
         f"The main self-training condition permits at most {pseudo_rounds} rounds. The threshold "
         "experiment uses one controlled selection-and-retraining round at a 50% "
         "balanced budget so that the threshold comparison is not confounded by a "
-        "different number of updates. At 10% labels, no candidate passed the fixed "
+        "different number of updates. At a 10% balanced budget, no candidate passed the fixed "
         f"threshold in any of the {runs_per_method} main evaluations, so the procedure returned the "
         "initial model.",
     )
@@ -946,24 +951,25 @@ def build_manuscript(
             [
                 "Main",
                 f"Seven method conditions; {fold_count} folds x {seed_count} seeds; "
-                "100% balanced labels",
+                "full balanced budget",
                 str(main_run_count),
             ],
             [
                 "Label efficiency",
-                "Supervised and self-training at 10% and 50%; 100% reuses main rows",
+                "Supervised and self-training at 10% and 50% balanced budgets; "
+                "full reuses main rows",
                 str(label_run_count),
             ],
             [
                 "Threshold sensitivity",
-                f"{threshold_level_count} thresholds at 50% labels; "
+                f"{threshold_level_count} thresholds at 50% balanced budget; "
                 f"{fold_count} folds x {seed_count} seeds",
                 str(threshold_run_count),
             ],
             ["Total", "Canonical successful evaluations", str(len(results.raw))],
         ],
         [3.1, 9.0, 2.0],
-        "Table 4. Canonical experiment matrix. The 100% label-efficiency view reuses "
+        "Table 4. Canonical experiment matrix. The full balanced-budget view reuses "
         "the exact main rows and is not counted as a second training experiment.",
     )
 
@@ -1058,13 +1064,13 @@ def build_manuscript(
     )
     add_body(
         document,
-        f"At 10% labels, supervised and self-training results are identical in "
+        f"At a 10% balanced budget, supervised and self-training results are identical in "
         f"{low_budget_zero_updates} evaluations because no pseudo-label passed the "
-        "threshold. At 50%, self-training increased the mean "
+        "threshold. At a 50% balanced budget, self-training increased the mean "
         f"from {f3(results.label_row('cwt_gru', 0.5)['Macro-F1 Mean'])} to "
         f"{f3(results.label_row('cwt_gru_selftrain', 0.5)['Macro-F1 Mean'])}; the "
         f"paired difference was {float(mid_update['mean_paired_delta']):+.3f} "
-        f"(p={p_text(mid_update['p_value'])}). At 100%, the paired difference was "
+        f"(p={p_text(mid_update['p_value'])}). At the full balanced budget, the paired difference was "
         f"{float(full_update['mean_paired_delta']):+.3f} "
         f"(p={p_text(full_update['p_value'])}). None of the non-zero mean changes "
         "is statistically distinguishable from zero. The answer to RQ4 is that the "
@@ -1076,14 +1082,15 @@ def build_manuscript(
         ["Label budget", "Method", "Macro-F1", "Accuracy", "Runs"],
         label_rows(results),
         [1.9, 4.8, 3.4, 3.4, 1.2],
-        "Table 7. Label-efficiency results. The 100% setting is the class-balanced "
-        "budget, not all training windows.",
+        "Table 7. Label-efficiency results. Full balanced uses the minimum per-class "
+        "count in each fold and is not all training windows.",
     )
     add_figure(
         document,
         figures_dir / "figure_03_label_efficiency.png",
-        "Figure 5. Macro-F1 at 10%, 50%, and 100% class-balanced label budgets. "
-        "Self-training makes no update at 10% because no candidate passes tau = 0.60.",
+        "Figure 5. Macro-F1 at 10% balanced, 50% balanced, and full balanced budgets. "
+        "Self-training makes no update at the 10% balanced budget because no "
+        "candidate passes tau = 0.60.",
         width_inches=6.0,
         alt_text="Line plot of supervised and calibrated self-training macro-F1 at "
         "three class-balanced label budgets.",
@@ -1096,7 +1103,7 @@ def build_manuscript(
     )
     add_body(
         document,
-        f"At a 50% label budget, mean macro-F1 ranged from "
+        f"At a 50% balanced budget, mean macro-F1 ranged from "
         f"{f3(results.threshold['Macro-F1 Mean'].min())} to "
         f"{f3(results.threshold['Macro-F1 Mean'].max())}. Pseudo-label accuracy "
         "increased with the threshold, but the end-task response was not monotonic. "
@@ -1121,7 +1128,7 @@ def build_manuscript(
         ],
         threshold_rows(results),
         [1.6, 2.8, 1.9, 2.8, 3.4, 1.1],
-        "Table 8. Threshold sensitivity at 50% labels. Pseudo-label accuracy is an "
+        "Table 8. Threshold sensitivity at a 50% balanced budget. Pseudo-label accuracy is an "
         "offline audit and is never used to train or select the threshold.",
     )
     add_figure(
@@ -1439,9 +1446,9 @@ def build_manuscript(
     document.add_heading("8.4 Self-training risks confirmation bias", level=2)
     add_body(
         document,
-        "At 10% labels, no pseudo-label passed tau = 0.60 in all "
+        "At a 10% balanced budget, no pseudo-label passed tau = 0.60 in all "
         f"{low_budget_zero_updates} evaluations. At "
-        "50% and 100%, selected pseudo-label accuracy is high in many runs, yet the "
+        "the 50% and full balanced budgets, selected pseudo-label accuracy is high in many runs, yet the "
         "mean diagnostic change is small and non-significant. The selection rule uses "
         "the model's own calibrated confidence, so it is most likely to admit samples "
         "that agree with the current decision geometry. The asymmetric confusion "

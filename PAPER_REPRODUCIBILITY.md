@@ -1,8 +1,8 @@
 # Paper Reproducibility
 
 This guide reproduces the SCI manuscript from the canonical five-seed benchmark
-results. In this repository, "100% labels" means 100% of the class-balanced
-training budget, not all training windows.
+results. In this repository, "Full balanced" means the minimum available
+per-class training count, not all training windows.
 
 ## Recorded experiment
 
@@ -129,6 +129,18 @@ merge exploratory rows into the canonical table.
 - Split audit: `results/splits/fold0.json` through `fold3.json`.
 - Independent metric recomputation: `results/rechecks/all_runs.json`.
 - Human-readable result summary: `results/EXPERIMENT_REPORT.md`.
+
+Run the independent pre-submission consistency check after regenerating the
+derived tables and manuscript:
+
+```powershell
+$env:PYTHONPATH = "src"
+python scripts/audit_submission.py `
+  --json-output artifacts/local/pre_submission_audit.json
+```
+
+The repository-level findings and all outstanding release actions are recorded
+in `PRE_SUBMISSION_AUDIT.md`.
 
 ## Scientific boundaries
 

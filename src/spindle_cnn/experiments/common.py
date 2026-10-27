@@ -8,7 +8,6 @@ import logging
 import os
 import platform
 import re
-import socket
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -126,7 +125,6 @@ def environment_snapshot(device: torch.device) -> dict[str, Any]:
     return {
         "python": sys.version,
         "platform": platform.platform(),
-        "hostname": socket.gethostname(),
         "torch": torch.__version__,
         "numpy": np.__version__,
         "pandas": pd.__version__,

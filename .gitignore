@@ -57,9 +57,24 @@ docs/references/*
 # IDE and local configuration
 .vscode/
 .idea/
+.mypy_cache/
+.tox/
+.nox/
 .env
 .env.*
+*.key
+*.pem
 !.env.example
+.coverage
+coverage.xml
+htmlcov/
+*.db
+*.sqlite
+*.sqlite3
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
 
 # Jupyter
 .ipynb_checkpoints/

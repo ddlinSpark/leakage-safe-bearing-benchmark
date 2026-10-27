@@ -59,7 +59,7 @@ files. No result table is populated by hand.
 - Sources: `results/label_efficiency_summary.csv`,
   `results/statistical_tests.csv`, and the label-efficiency rows in
   `results/raw_runs.csv`.
-- The 100% condition reuses the canonical main rows; it is not a separate
+- The full balanced-budget condition reuses the canonical main rows; it is not a separate
   training count.
 
 ## Table 8: Pseudo-label confidence-threshold sensitivity

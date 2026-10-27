@@ -37,6 +37,13 @@ METHOD_ORDER = [
     "cwt_gru_selftrain",
 ]
 
+DOMAIN_GAP_METHODS = [
+    "raw_cnn",
+    "cwt_cnn",
+    "cwt_gru",
+    "cwt_gru_no_se",
+]
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -225,6 +232,35 @@ def build_ablation_summary(frame: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def build_domain_gap_summary(raw: pd.DataFrame) -> pd.DataFrame:
+    main = raw.loc[
+        raw["experiment_type"].eq("main")
+        & raw["method"].isin(DOMAIN_GAP_METHODS)
+    ].copy()
+    rows: list[dict[str, object]] = []
+    for method in DOMAIN_GAP_METHODS:
+        group = main.loc[main["method"].eq(method)]
+        validation = group["best_val_macro_f1"]
+        test = group["macro_f1"]
+        absolute_gap = validation - test
+        relative_drop = 100.0 * absolute_gap / validation.replace(0, np.nan)
+        rows.append(
+            {
+                "Model": method,
+                "Validation Macro-F1 Mean": validation.mean(),
+                "Validation Macro-F1 Std": validation.std(ddof=1),
+                "Test Macro-F1 Mean": test.mean(),
+                "Test Macro-F1 Std": test.std(ddof=1),
+                "Absolute Gap": absolute_gap.mean(),
+                "Absolute Gap Std": absolute_gap.std(ddof=1),
+                "Relative Drop (%)": relative_drop.mean(),
+                "Relative Drop Std (%)": relative_drop.std(ddof=1),
+                "Runs": len(group),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def build_threshold_summary(frame: pd.DataFrame) -> pd.DataFrame:
     threshold = frame.loc[frame["experiment_type"].eq("threshold")].copy()
     if threshold.empty:
@@ -270,6 +306,7 @@ def main() -> None:
         minimum_pairs=args.minimum_pairs,
     )
     ablation = build_ablation_summary(frame)
+    domain_gap = build_domain_gap_summary(raw)
     label_summary = summary.loc[
         summary["experiment_type"].eq("label_efficiency")
     ].copy()
@@ -282,6 +319,7 @@ def main() -> None:
     )
     atomic_write_csv(output_dir / "label_efficiency_summary.csv", label_summary)
     atomic_write_csv(output_dir / "ablation_summary.csv", ablation)
+    atomic_write_csv(output_dir / "domain_gap_summary.csv", domain_gap)
     atomic_write_csv(output_dir / "threshold_summary.csv", threshold_summary)
     atomic_write_csv(output_dir / "statistical_tests.csv", paired)
     logging.info("Wrote statistical summaries to %s", output_dir)

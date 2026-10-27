@@ -137,12 +137,17 @@ def main() -> None:
 
     label_summary = pd.read_csv(results_dir / "label_efficiency_summary.csv")
     label_rows = []
+    budget_labels = {
+        0.1: "10% balanced",
+        0.5: "50% balanced",
+        1.0: "Full balanced",
+    }
     for row in label_summary.sort_values(["label_ratio", "method"]).itertuples(
         index=False
     ):
         label_rows.append(
             [
-                f"{float(row.label_ratio) * 100:.0f}%",
+                budget_labels.get(round(float(row.label_ratio), 1), row.label_ratio),
                 METHOD_LABELS.get(row.method, row.method),
                 fmt_mean_std(row._6, row._7),
                 fmt_mean_std(row._10, row._11),
@@ -175,6 +180,26 @@ def main() -> None:
                 f"{group['ece'].mean():.3f}",
                 f"{group['raw_nll'].mean():.3f}",
                 f"{group['nll'].mean():.3f}",
+            ]
+        )
+
+    domain_gap = pd.read_csv(results_dir / "domain_gap_summary.csv")
+    domain_gap_rows = []
+    for row in domain_gap.itertuples(index=False):
+        domain_gap_rows.append(
+            [
+                METHOD_LABELS.get(row.Model, row.Model),
+                fmt_mean_std(
+                    row._1,
+                    row._2,
+                ),
+                fmt_mean_std(
+                    row._3,
+                    row._4,
+                ),
+                f"{float(row._5):.3f}",
+                f"{float(row._7):.1f}%",
+                int(row.Runs),
             ]
         )
 
@@ -211,7 +236,7 @@ hand. The canonical experiment contains {len(raw)} successful runs.
 - Label efficiency: {len(raw.loc[raw['experiment_type'].eq('label_efficiency')])} runs, 20 per method and label ratio.
 - Threshold sensitivity: {len(raw.loc[raw['experiment_type'].eq('threshold')])} runs, 20 per threshold.
 - Failed runs: 0.
-- 10% self-training produced no pseudo-label update in {zero_low_budget_runs}/20 runs.
+- 10% balanced-budget self-training produced no pseudo-label update in {zero_low_budget_runs}/20 runs.
 - {zero_threshold_cases} fold-plus-seed threshold cases produced no pseudo-label update at any tested threshold.
 - Recorded Git commits: {", ".join(f"`{commit}`" for commit in commits)}.
 - Primary seeds: 42, 123, 2024, 2025, 3407.
@@ -238,15 +263,15 @@ Positive values mean the method has higher Macro-F1 than Raw 1D-CNN on the same
 
 ## Label efficiency
 
-The 100% condition is 100% of the class-balanced label budget, not all training
-windows.
+The full balanced budget samples the minimum available count from every class;
+it is not all training windows.
 
 {markdown_table(
     ["Balanced budget", "Model", "Macro-F1", "Accuracy", "Runs"],
     label_rows,
 )}
 
-## Threshold sensitivity at 50% balanced labels
+## Threshold sensitivity at a 50% balanced budget
 
 {markdown_table(
     ["τ", "Macro-F1", "Accuracy", "Mean pseudo-labels", "Coverage", "Pseudo accuracy", "Runs"],
@@ -261,6 +286,13 @@ NLL, and temperature scaling preserves the predicted class.
 {markdown_table(
     ["Model", "ECE raw", "ECE scaled", "NLL raw", "NLL scaled"],
     calibration_rows,
+)}
+
+## Validation-to-test domain gap
+
+{markdown_table(
+    ["Model", "Validation Macro-F1", "Test Macro-F1", "Absolute Gap", "Relative Drop", "Runs"],
+    domain_gap_rows,
 )}
 
 ## Computational cost

@@ -134,16 +134,33 @@ The manuscript workflow, source mapping, and validation steps are documented in
 in [docs/paper/FIGURE_SOURCES.md](docs/paper/FIGURE_SOURCES.md), and the
 scientific revision record is in [CHANGELOG.md](CHANGELOG.md).
 
+## Pre-submission audit
+
+Run the independent numerical and manuscript audit with:
+
+```powershell
+$env:PYTHONPATH = "src"
+python scripts/audit_submission.py `
+  --json-output artifacts/local/pre_submission_audit.json
+```
+
+The current reports are:
+
+- [PAPER_CODE_MAPPING.md](PAPER_CODE_MAPPING.md)
+- [EXPERIMENT_COMPLETENESS.md](EXPERIMENT_COMPLETENESS.md)
+- [LEAKAGE_AUDIT.md](LEAKAGE_AUDIT.md)
+- [PRE_SUBMISSION_AUDIT.md](PRE_SUBMISSION_AUDIT.md)
+
 The runner refuses a dirty worktree unless `--allow-dirty` is passed. Such runs
 are marked exploratory in every row. Resume is allowed only for an exact
 `run_id + config_hash` match.
 
 ### Label budget semantics
 
-The `100%` setting means 100% of the class-balanced label budget. It samples the
-same number of windows from every class, using the size of the smallest training
-class. It does **not** mean that every training window is labeled. The exact
-labeled and candidate counts are stored in every run.
+The balanced-budget labels are `10% balanced`, `50% balanced`, and
+`Full balanced`. The full setting samples the minimum available count from
+every class. It does **not** mean that every training window is labeled. The
+exact labeled and candidate counts are stored in every run.
 
 ### Self-training isolation
 

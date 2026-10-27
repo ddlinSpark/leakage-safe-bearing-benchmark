@@ -8,8 +8,10 @@ import torch.nn as nn
 
 from .cwt_cnn import CWT2DCNN
 from .cwt_gru import CWTGRU
+from .drsn import DRSN1D
 from .gru import RawGRU
 from .raw_cnn import RawCNN
+from .tfnet import TFNet
 
 
 @dataclass(frozen=True)
@@ -33,6 +35,8 @@ METHODS: dict[str, MethodSpec] = {
         uses_temperature=True,
         uses_self_training=True,
     ),
+    "drsn": MethodSpec("drsn", "drsn"),
+    "tfnet": MethodSpec("tfnet", "tfnet"),
 }
 
 
@@ -67,4 +71,8 @@ def build_model(
             image_channels=image_channels,
             use_se=False,
         )
+    if name == "drsn":
+        return DRSN1D(num_classes=num_classes, raw_channels=raw_channels)
+    if name == "tfnet":
+        return TFNet(num_classes=num_classes, in_channels=raw_channels)
     raise ValueError(f"Unknown model: {name}")

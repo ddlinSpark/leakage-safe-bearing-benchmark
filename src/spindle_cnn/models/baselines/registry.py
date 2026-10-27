@@ -10,9 +10,7 @@ from __future__ import annotations
 
 PLACEHOLDER_BASELINES: dict[str, str] = {
     "cnn_lstm": "Architecture, preprocessing, and optimization not yet reproduced.",
-    "drsn": "DRSN implementation and same-split training not yet reproduced.",
     "drsn_transformer": "Original architecture and training recipe not yet reproduced.",
-    "tfnet": "TFNet definition and data pipeline not yet reproduced.",
     "mtfc_t": "MTFC-T definition and data pipeline not yet reproduced.",
 }
 

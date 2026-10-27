@@ -41,10 +41,11 @@ condition rather than a new architecture.
 
 ## Label efficiency
 
-The 10%, 50%, and 100% settings refer to a class-balanced label budget. At each
-fraction, the runner samples the same number of windows from every class. The
-100% budget contains the minimum available count across classes and may be
-smaller than the total training partition. Exact counts are stored per run.
+The `10% balanced`, `50% balanced`, and `Full balanced` settings refer to a
+class-balanced label budget. At each fraction, the runner samples the same
+number of windows from every class. The full budget contains the minimum
+available count across classes and may be smaller than the total training
+partition. Exact counts are stored per run.
 
 ## Threshold sensitivity
 

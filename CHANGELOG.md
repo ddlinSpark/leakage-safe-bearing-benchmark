@@ -67,8 +67,8 @@ Date: 2026-10-27
 - Removed the claim that temporal fusion provides a stable gain; CWT-GRU is not
   significantly better than CWT 2D-CNN or Raw 1D-CNN.
 - Removed the claim that self-training significantly improves limited-label
-  performance; 10% produces no update, and the 50% and 100% differences are not
-  significant.
+  performance; the 10% balanced budget produces no update, and the 50% balanced
+  and full balanced-budget differences are not significant.
 - Removed the claim that calibration repairs classification. Temperature scaling
   preserves predicted classes and changes probability quality only.
 
@@ -96,3 +96,19 @@ time. The manuscript is not edited by copying numbers from a prior draft.
 - The final DOCX was rendered to 20 page images, and every page was inspected at
   original resolution for clipping, overlap, broken tables, split figure
   captions, malformed equations, and isolated trailing pages.
+
+## Pre-submission reproducibility audit
+
+- Independently recomputed run counts, means, standard deviations, confidence
+  intervals, paired differences, and Wilcoxon tests from the 320 canonical run
+  rows.
+- Reconciled all 12 manuscript tables and 30 key numerical text statements with
+  the result files; the mismatch count is zero.
+- Reproduced all 11 manuscript PNG figures byte-for-byte from current code.
+- Confirmed 320 successful, unique runs and the complete
+  4-fold x 5-seed matrix for every main condition.
+- Added a code-level leakage audit covering window overlap, bearing and
+  condition isolation, normalization, CWT construction, early stopping,
+  calibration, pseudo-label selection, and threshold selection.
+- Recorded a study-level warning about repeated use of the same test folds and
+  outstanding public-release privacy actions in `PRE_SUBMISSION_AUDIT.md`.

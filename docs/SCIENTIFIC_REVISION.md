@@ -31,9 +31,9 @@ self-training improve fault diagnosis under a protocol that uses verified labels
 disjoint operating conditions, and unseen bearing units.
 
 The study reports supervised raw-waveform and CWT baselines under an identical
-split. It also reports label-efficiency results at 10%, 25%, 50%, and 100% of
-the training labels. Self-training may only use the unlabeled training portion;
-test labels are never involved.
+split. It also reports label-efficiency results at 10% balanced, 50% balanced,
+and full balanced budgets. Self-training may only use the unlabeled training
+portion; test labels are never involved.
 
 ## Reporting changes
 
@@ -52,7 +52,7 @@ The first expanded revision added:
 - a complete architecture diagram and model shape flow;
 - parameter count, estimated FLOPs, inference latency, and training-step latency;
 - CWT-only, GRU-only, no-SE, and full CWT-GRU ablations over four conditions;
-- confidence-threshold sensitivity from 0.3 to 0.7 at a 50% labeling budget,
+- confidence-threshold sensitivity from 0.3 to 0.7 at a 50% balanced budget,
   including pseudo-label coverage and accuracy;
 - class-normalized confusion matrices aggregated over all repeated runs;
 - native editable Word equations, three-line tables, enlarged self-contained
@@ -66,7 +66,8 @@ confirmatory matrix uses seeds `42, 123, 2024, 2025, 3407` and supersedes those
 values:
 
 - 20 runs per main method;
-- 20 runs for each 10%, 50%, and 100% balanced-budget condition;
+- 20 runs for each 10% balanced, 50% balanced, and full balanced-budget
+  condition;
 - 20 runs for each confidence threshold from 0.30 through 0.70;
 - 320 successful canonical runs in total.
 

@@ -9,7 +9,7 @@ hand. The canonical experiment contains 320 successful runs.
 - Label efficiency: 80 runs, 20 per method and label ratio.
 - Threshold sensitivity: 100 runs, 20 per threshold.
 - Failed runs: 0.
-- 10% self-training produced no pseudo-label update in 20/20 runs.
+- 10% balanced-budget self-training produced no pseudo-label update in 20/20 runs.
 - 2 fold-plus-seed threshold cases produced no pseudo-label update at any tested threshold.
 - Recorded Git commits: `470df63b4d3ca11fa8e8655d73031c6788014848`, `a146cb5cdff3a1e9c30dada44effd13d6f2fdfc1`, `c9b99120c38358db4e648d0410d414348c25c4cc`.
 - Primary seeds: 42, 123, 2024, 2025, 3407.
@@ -45,19 +45,19 @@ Positive values mean the method has higher Macro-F1 than Raw 1D-CNN on the same
 
 ## Label efficiency
 
-The 100% condition is 100% of the class-balanced label budget, not all training
-windows.
+The full balanced budget samples the minimum available count from every class;
+it is not all training windows.
 
 | Balanced budget | Model | Macro-F1 | Accuracy | Runs |
 | --- | --- | --- | --- | --- |
-| 10% | CWT-GRU | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
-| 10% | CWT-GRU + temperature scaling + self-training | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
-| 50% | CWT-GRU | 0.244 ± 0.098 | 0.351 ± 0.090 | 20 |
-| 50% | CWT-GRU + temperature scaling + self-training | 0.283 ± 0.126 | 0.394 ± 0.110 | 20 |
-| 100% | CWT-GRU | 0.280 ± 0.107 | 0.383 ± 0.092 | 20 |
-| 100% | CWT-GRU + temperature scaling + self-training | 0.290 ± 0.116 | 0.387 ± 0.099 | 20 |
+| 10% balanced | CWT-GRU | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
+| 10% balanced | CWT-GRU + temperature scaling + self-training | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
+| 50% balanced | CWT-GRU | 0.244 ± 0.098 | 0.351 ± 0.090 | 20 |
+| 50% balanced | CWT-GRU + temperature scaling + self-training | 0.283 ± 0.126 | 0.394 ± 0.110 | 20 |
+| Full balanced | CWT-GRU | 0.280 ± 0.107 | 0.383 ± 0.092 | 20 |
+| Full balanced | CWT-GRU + temperature scaling + self-training | 0.290 ± 0.116 | 0.387 ± 0.099 | 20 |
 
-## Threshold sensitivity at 50% balanced labels
+## Threshold sensitivity at a 50% balanced budget
 
 | τ | Macro-F1 | Accuracy | Mean pseudo-labels | Coverage | Pseudo accuracy | Runs |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -78,6 +78,15 @@ NLL, and temperature scaling preserves the predicted class.
 | CWT 2D-CNN | 0.487 | 0.375 | 3.615 | 2.498 |
 | CWT-GRU | 0.543 | 0.391 | 4.528 | 2.304 |
 | CWT-GRU + temperature scaling + self-training | 0.522 | 0.397 | 3.969 | 2.482 |
+
+## Validation-to-test domain gap
+
+| Model | Validation Macro-F1 | Test Macro-F1 | Absolute Gap | Relative Drop | Runs |
+| --- | --- | --- | --- | --- | --- |
+| Raw 1D-CNN | 0.853 ± 0.153 | 0.289 ± 0.104 | 0.564 | 66.4% | 20 |
+| CWT 2D-CNN | 0.808 ± 0.112 | 0.291 ± 0.086 | 0.516 | 62.4% | 20 |
+| CWT-GRU | 0.797 ± 0.115 | 0.280 ± 0.107 | 0.518 | 63.0% | 20 |
+| CWT-GRU without SE | 0.809 ± 0.139 | 0.307 ± 0.103 | 0.503 | 59.6% | 20 |
 
 ## Computational cost
 

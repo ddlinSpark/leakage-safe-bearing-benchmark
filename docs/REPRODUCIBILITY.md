@@ -10,8 +10,8 @@ The confirmatory Paderborn experiment uses the configuration in
 - Test bearing IDs: `4, 8, 12, 15`.
 - Window length and stride: `8192` samples.
 - Primary matrix: four folds by five seeds per method.
-- Full-label setting: 100% of the class-balanced budget, not all training
-  windows.
+- Full balanced-budget setting: the minimum available per-class training count,
+  not all training windows.
 - Pseudo-label threshold in the main self-training experiment: `0.60`.
 - Threshold sensitivity: `0.30, 0.40, 0.50, 0.60, 0.70` at a 50% balanced
   budget.
@@ -86,7 +86,9 @@ run is retained for this reason.
 
 ## Legacy industrial pipeline
 
-The scripts under `src/spindle_cnn/final/` and the industrial-data window builder
-preserve historical experiments. They are not part of the confirmatory public
-benchmark. In particular, `self_train_relabel.py` must not be used to produce
-SCI accuracy claims because it relabels train, validation, and test samples.
+The industrial-data preprocessing, training, calibration, prediction, and
+reporting modules were removed from the current working tree. They remain
+recoverable from pre-cleanup Git history but are not part of the confirmatory
+public benchmark. The former test-relabeling workflow must not be used to
+produce SCI accuracy claims because it relabeled train, validation, and test
+samples.

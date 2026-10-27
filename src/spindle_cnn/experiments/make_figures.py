@@ -123,6 +123,54 @@ def ablation(ablation_summary: pd.DataFrame, output_dir: Path) -> None:
     save(fig, output_dir, "figure_02_ablation")
 
 
+def validation_test_gap(domain_gap: pd.DataFrame, output_dir: Path) -> None:
+    data = domain_gap.copy()
+    fig, ax = plt.subplots(figsize=(7.5, 4.3))
+    x = np.arange(len(data))
+    width = 0.36
+    ax.bar(
+        x - width / 2,
+        data["Validation Macro-F1 Mean"],
+        width,
+        yerr=data["Validation Macro-F1 Std"].fillna(0),
+        capsize=4,
+        color="#315A8A",
+        label="Validation",
+    )
+    ax.bar(
+        x + width / 2,
+        data["Test Macro-F1 Mean"],
+        width,
+        yerr=data["Test Macro-F1 Std"].fillna(0),
+        capsize=4,
+        color="#B45F3C",
+        label="Test",
+    )
+    for position, row in data.iterrows():
+        ax.text(
+            position,
+            max(
+                row["Validation Macro-F1 Mean"],
+                row["Test Macro-F1 Mean"],
+            )
+            + 0.045,
+            f"drop {row['Relative Drop (%)']:.1f}%",
+            ha="center",
+            va="bottom",
+            fontsize=8.5,
+        )
+    ax.set_xticks(
+        x,
+        [METHOD_LABELS[method] for method in data["Model"]],
+        rotation=18,
+        ha="right",
+    )
+    ax.set_ylabel("Macro-F1")
+    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+    ax.legend(frameon=False)
+    save(fig, output_dir, "figure_09_validation_test_gap")
+
+
 def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
     data = summary.loc[
         summary["method"].isin(["cwt_gru", "cwt_gru_selftrain"])
@@ -133,8 +181,13 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
         ("cwt_gru_selftrain", "s", "#B45F3C"),
     ):
         subset = data.loc[data["method"].eq(method)].sort_values("label_ratio")
+        positions = {
+            0.1: 0,
+            0.5: 1,
+            1.0: 2,
+        }
         ax.errorbar(
-            subset["label_ratio"] * 100,
+            [positions[round(float(value), 1)] for value in subset["label_ratio"]],
             subset["Macro-F1 Mean"],
             yerr=subset["Macro-F1 Std"].fillna(0),
             marker=marker,
@@ -143,7 +196,11 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
             color=color,
             label=METHOD_LABELS[method],
         )
-    ax.set_xlabel("Balanced labeled training windows per class (%)")
+    ax.set_xticks(
+        [0, 1, 2],
+        ["10% balanced", "50% balanced", "Full balanced"],
+    )
+    ax.set_xlabel("Balanced label budget")
     ax.set_ylabel("Macro-F1")
     ax.grid(color="#E5E5E5", linewidth=0.6)
     ax.legend(frameon=False)
@@ -396,6 +453,10 @@ def main() -> None:
 
     model_comparison(summary, output_dir)
     ablation(ablation_summary, output_dir)
+    validation_test_gap(
+        read_csv(results_dir / "domain_gap_summary.csv"),
+        output_dir,
+    )
     label_efficiency(label_summary, output_dir)
     threshold_sensitivity(threshold_summary, output_dir)
     calibration(raw, output_dir)

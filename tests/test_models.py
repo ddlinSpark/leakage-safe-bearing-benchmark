@@ -14,6 +14,8 @@ from spindle_cnn.models import build_model
         "cwt_cnn",
         "cwt_gru_no_se",
         "cwt_gru",
+        "drsn",
+        "tfnet",
     ],
 )
 def test_every_registered_model_returns_one_logit_per_class(model_name: str) -> None:
@@ -31,4 +33,4 @@ def test_every_registered_model_returns_one_logit_per_class(model_name: str) -> 
 
 def test_unknown_baseline_is_not_silently_registered() -> None:
     with pytest.raises(ValueError, match="Unknown model"):
-        build_model("tfnet")
+        build_model("unknown_external_model")

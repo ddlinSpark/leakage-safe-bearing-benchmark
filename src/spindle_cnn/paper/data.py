@@ -30,6 +30,7 @@ class BenchmarkResults:
         self.summary_ci = pd.read_csv(self.root / "summary_with_ci.csv")
         self.tests = pd.read_csv(self.root / "statistical_tests.csv")
         self.ablation = pd.read_csv(self.root / "ablation_summary.csv")
+        self.domain_gap = pd.read_csv(self.root / "domain_gap_summary.csv")
         self.label = pd.read_csv(self.root / "label_efficiency_summary.csv")
         self.threshold = pd.read_csv(self.root / "threshold_summary.csv")
         self.complexity = pd.read_csv(self.root / "model_complexity.csv")

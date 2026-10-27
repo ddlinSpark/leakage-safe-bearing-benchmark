@@ -86,7 +86,14 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--experiment",
-        choices=["main", "label_efficiency", "threshold", "ablation", "all"],
+        choices=[
+            "main",
+            "label_efficiency",
+            "threshold",
+            "ablation",
+            "sota",
+            "all",
+        ],
         default="main",
     )
     parser.add_argument("--output-dir", type=Path)
@@ -131,16 +138,21 @@ def apply_overrides(config: dict[str, Any], args: argparse.Namespace) -> dict[st
         config["training"]["epochs"] = 1
         config["training"]["patience"] = 1
         config["training"]["pseudo_rounds"] = 1
-        config["experiments"]["label_efficiency"]["fractions"] = [0.1]
-        config["experiments"]["threshold"]["thresholds"] = [0.4, 0.6]
+        if "label_efficiency" in config["experiments"]:
+            config["experiments"]["label_efficiency"]["fractions"] = [0.1]
+        if "threshold" in config["experiments"]:
+            config["experiments"]["threshold"]["thresholds"] = [0.4, 0.6]
     if args.seeds:
         config["seeds"] = parse_csv_ints(args.seeds)
     if args.folds:
         config["folds"] = parse_csv_ints(args.folds)
     if args.methods and args.experiment != "threshold":
-        config["experiments"][
-            "main" if args.experiment in {"main", "ablation"} else "label_efficiency"
-        ]["methods"] = [
+        experiment_key = (
+            "main"
+            if args.experiment in {"main", "ablation"}
+            else args.experiment
+        )
+        config["experiments"].setdefault(experiment_key, {})["methods"] = [
             value.strip() for value in args.methods.split(",") if value.strip()
         ]
     if args.epochs is not None:
@@ -235,6 +247,15 @@ def build_run_config(
             "seed": seed,
             "label_ratio": label_ratio,
             "threshold": threshold,
+            "effective_self_training_rounds": (
+                1
+                if experiment_type == "threshold" and method_spec.uses_self_training
+                else (
+                    int(config["training"]["pseudo_rounds"])
+                    if method_spec.uses_self_training
+                    else 0
+                )
+            ),
             "split_hash": split_hash,
             "dataset_hash": dataset_hash,
         },
@@ -1323,11 +1344,12 @@ def main() -> None:
         config["folds"],
     )
 
-    experiments = (
-        ["main", "label_efficiency", "threshold"]
-        if args.experiment == "all"
-        else ["main" if args.experiment == "ablation" else args.experiment]
-    )
+    if args.experiment == "all":
+        experiments = ["main", "label_efficiency", "threshold"]
+        if "sota" in config["experiments"]:
+            experiments.append("sota")
+    else:
+        experiments = ["main" if args.experiment == "ablation" else args.experiment]
     for experiment in experiments:
         if experiment == "main":
             configured_methods = config["experiments"].get("main", {}).get(
@@ -1370,6 +1392,22 @@ def main() -> None:
         elif experiment == "threshold":
             run_threshold_experiment(
                 config,
+                output_dir=output_dir,
+                data=data,
+                device=device,
+                provenance=provenance,
+                dataset_hash=dataset_hash,
+                resume=args.resume,
+            )
+        elif experiment == "sota":
+            run_main_experiment(
+                config,
+                methods=config["experiments"]["sota"]["methods"],
+                fractions=[
+                    float(value)
+                    for value in config["experiments"]["sota"]["fractions"]
+                ],
+                experiment_type="sota",
                 output_dir=output_dir,
                 data=data,
                 device=device,
