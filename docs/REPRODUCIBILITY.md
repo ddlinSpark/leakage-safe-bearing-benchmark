@@ -14,6 +14,9 @@ python -m pip install -e .
 spindle-check-gpu
 ```
 
+Rebuilding the DOCX additionally requires Pandoc. Set `PANDOC_EXE` if the
+executable is not on `PATH`.
+
 ## 推荐流程
 
 所有命令在仓库根目录执行。先通过 `--help` 确认当前版本参数：

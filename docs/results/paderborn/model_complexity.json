@@ -1,0 +1,13 @@
+{
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 5080",
+  "torch": "2.11.0+cu130",
+  "batch_size": 64,
+  "window_size": 8192,
+  "image_size": 96,
+  "raw_channels": 3,
+  "image_channels": 3,
+  "warmup": 10,
+  "repeats": 30,
+  "flop_note": "FlopCounterMode totals plus analytical bidirectional GRU matrix multiplication estimates; elementwise nonlinearities are excluded."
+}

@@ -66,3 +66,26 @@ python -m spindle_cnn.public_benchmark.train_cwru \
 spindle-public-summary --results outputs/public_paderborn/results.csv \
   --output-dir outputs/public_paderborn/analysis
 ```
+
+The revised manuscript additionally uses:
+
+```bash
+python -m spindle_cnn.public_benchmark.train_cwru \
+  --dataset-name Paderborn-4class \
+  --cache data/public/paderborn/pu_4class_w8192.npz \
+  --output-dir outputs/public_paderborn_ablation \
+  --heldout-record-ids 4,8,12,15 \
+  --methods gru_only,cwt_gru_no_se \
+  --fractions 1.0 --folds 0,1,2,3 --seeds 42,43,44
+
+spindle-model-complexity \
+  --output outputs/public_paderborn_final/model_complexity.csv
+
+spindle-threshold-sweep \
+  --output-dir outputs/public_paderborn_thresholds \
+  --folds 0,1,2,3 --seeds 42 --fraction 0.5 \
+  --thresholds 0.3,0.4,0.5,0.6,0.7
+```
+
+The DOCX builder uses Pandoc to create native OMML equations. Install Pandoc or
+set `PANDOC_EXE` before rebuilding the manuscript.

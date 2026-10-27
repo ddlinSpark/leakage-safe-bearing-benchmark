@@ -24,7 +24,13 @@ class SEBlock(nn.Module):
 
 
 class ResidualBlock(nn.Module):
-    def __init__(self, in_channels: int, out_channels: int, stride: int = 1) -> None:
+    def __init__(
+        self,
+        in_channels: int,
+        out_channels: int,
+        stride: int = 1,
+        use_se: bool = True,
+    ) -> None:
         super().__init__()
         self.body = nn.Sequential(
             nn.Conv2d(
@@ -39,8 +45,9 @@ class ResidualBlock(nn.Module):
             nn.SiLU(inplace=True),
             nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(out_channels),
-            SEBlock(out_channels),
         )
+        if use_se:
+            self.body.add_module("se", SEBlock(out_channels))
         self.skip = (
             nn.Identity()
             if stride == 1 and in_channels == out_channels
@@ -62,7 +69,12 @@ class ResidualBlock(nn.Module):
 
 
 class ImageEncoder(nn.Module):
-    def __init__(self, in_channels: int, feature_dim: int = 192) -> None:
+    def __init__(
+        self,
+        in_channels: int,
+        feature_dim: int = 192,
+        use_se: bool = True,
+    ) -> None:
         super().__init__()
         self.stem = nn.Sequential(
             nn.Conv2d(in_channels, 32, kernel_size=5, stride=2, padding=2, bias=False),
@@ -71,9 +83,9 @@ class ImageEncoder(nn.Module):
             nn.MaxPool2d(2),
         )
         self.blocks = nn.Sequential(
-            ResidualBlock(32, 64),
-            ResidualBlock(64, 128, stride=2),
-            ResidualBlock(128, feature_dim, stride=2),
+            ResidualBlock(32, 64, use_se=use_se),
+            ResidualBlock(64, 128, stride=2, use_se=use_se),
+            ResidualBlock(128, feature_dim, stride=2, use_se=use_se),
         )
         self.pool = nn.AdaptiveAvgPool2d(1)
 
@@ -109,9 +121,14 @@ class RawCNN(nn.Module):
 
 
 class CWT2DCNN(nn.Module):
-    def __init__(self, num_classes: int = 10, in_channels: int = 2) -> None:
+    def __init__(
+        self,
+        num_classes: int = 10,
+        in_channels: int = 2,
+        use_se: bool = True,
+    ) -> None:
         super().__init__()
-        self.encoder = ImageEncoder(in_channels)
+        self.encoder = ImageEncoder(in_channels, use_se=use_se)
         self.classifier = nn.Sequential(
             nn.Dropout(0.25),
             nn.Linear(192, num_classes),
@@ -128,9 +145,10 @@ class CWTGRU(nn.Module):
         image_channels: int = 2,
         raw_channels: int = 2,
         gru_hidden: int = 64,
+        use_se: bool = True,
     ) -> None:
         super().__init__()
-        self.image_encoder = ImageEncoder(image_channels)
+        self.image_encoder = ImageEncoder(image_channels, use_se=use_se)
         self.gru = nn.GRU(
             input_size=raw_channels,
             hidden_size=gru_hidden,
@@ -158,6 +176,37 @@ class CWTGRU(nn.Module):
         return self.fusion(torch.cat([image_features, hidden], dim=1))
 
 
+class RawGRU(nn.Module):
+    """Bidirectional recurrent baseline without time-frequency images."""
+
+    def __init__(
+        self,
+        num_classes: int = 10,
+        raw_channels: int = 2,
+        hidden_size: int = 64,
+    ) -> None:
+        super().__init__()
+        self.gru = nn.GRU(
+            input_size=raw_channels,
+            hidden_size=hidden_size,
+            num_layers=2,
+            batch_first=True,
+            bidirectional=True,
+            dropout=0.15,
+        )
+        self.classifier = nn.Sequential(
+            nn.LayerNorm(2 * hidden_size),
+            nn.Linear(2 * hidden_size, 128),
+            nn.SiLU(inplace=True),
+            nn.Dropout(0.2),
+            nn.Linear(128, num_classes),
+        )
+
+    def forward(self, raw: torch.Tensor, cwt: torch.Tensor | None = None) -> torch.Tensor:
+        _, hidden = self.gru(raw.float().transpose(1, 2))
+        return self.classifier(torch.cat([hidden[-2], hidden[-1]], dim=1))
+
+
 def build_model(
     name: str,
     num_classes: int = 10,
@@ -173,5 +222,14 @@ def build_model(
             num_classes=num_classes,
             raw_channels=raw_channels,
             image_channels=image_channels,
+        )
+    if name == "gru_only":
+        return RawGRU(num_classes=num_classes, raw_channels=raw_channels)
+    if name == "cwt_gru_no_se":
+        return CWTGRU(
+            num_classes=num_classes,
+            raw_channels=raw_channels,
+            image_channels=image_channels,
+            use_se=False,
         )
     raise ValueError(f"Unknown model: {name}")

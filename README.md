@@ -60,6 +60,9 @@ spindle-predict --help
 spindle-cwru-benchmark --help
 spindle-pu-cache --help
 spindle-public-summary --help
+spindle-model-complexity --help
+spindle-threshold-sweep --help
+spindle-build-sci-paper --help
 ```
 
 推理示例：

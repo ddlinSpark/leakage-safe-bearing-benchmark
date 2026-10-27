@@ -32,6 +32,8 @@ spindle-public-summary = "spindle_cnn.public_benchmark.analyze_results:main"
 spindle-pu-prepare = "spindle_cnn.public_benchmark.prepare_paderborn:main"
 spindle-public-figures = "spindle_cnn.public_benchmark.make_figures:main"
 spindle-build-sci-paper = "spindle_cnn.document_tools.build_sci_revision:main"
+spindle-model-complexity = "spindle_cnn.public_benchmark.benchmark_models:main"
+spindle-threshold-sweep = "spindle_cnn.public_benchmark.threshold_sweep:main"
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }

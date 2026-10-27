@@ -44,3 +44,17 @@ test labels are never involved.
 - Distinguish exploratory observations from confirmatory results.
 - Add limitations for dataset scope, sensor differences, and the gap between
   bearing benchmarks and complete machine-tool spindle systems.
+
+## Second review round
+
+The expanded revision adds:
+
+- a complete architecture diagram and model shape flow;
+- parameter count, estimated FLOPs, inference latency, and training-step latency;
+- CWT-only, GRU-only, no-SE, and full CWT-GRU ablations over four conditions and
+  three seeds;
+- confidence-threshold sensitivity from 0.3 to 0.7 at a 50% labeling budget,
+  including pseudo-label coverage and accuracy;
+- class-normalized confusion matrices aggregated over all repeated runs;
+- native editable Word equations, three-line tables, enlarged self-contained
+  figures, and an expanded domain-generalization discussion.
