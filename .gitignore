@@ -9,6 +9,7 @@
 *.npy
 *.npz
 *.zip
+!docs/results/**/*.csv
 
 # Model weights
 *.pt
@@ -22,6 +23,7 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+.firecrawl/
 build/
 dist/
 .venv/

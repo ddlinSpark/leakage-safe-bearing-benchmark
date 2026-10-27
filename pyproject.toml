@@ -24,6 +24,14 @@ spindle-self-train = "spindle_cnn.final.self_train_relabel:main"
 spindle-postprocess = "spindle_cnn.final.postprocess_cwt_calibration:main"
 spindle-predict = "spindle_cnn.final.predict:main"
 spindle-check-gpu = "spindle_cnn.environment.check_gpu:main"
+spindle-cwru-download = "spindle_cnn.public_benchmark.download_cwru:main"
+spindle-cwru-cache = "spindle_cnn.public_benchmark.cwru_data:main"
+spindle-cwru-benchmark = "spindle_cnn.public_benchmark.train_cwru:main"
+spindle-pu-cache = "spindle_cnn.public_benchmark.pu_data:main"
+spindle-public-summary = "spindle_cnn.public_benchmark.analyze_results:main"
+spindle-pu-prepare = "spindle_cnn.public_benchmark.prepare_paderborn:main"
+spindle-public-figures = "spindle_cnn.public_benchmark.make_figures:main"
+spindle-build-sci-paper = "spindle_cnn.document_tools.build_sci_revision:main"
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }

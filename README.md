@@ -1,15 +1,26 @@
-# Spindle CNN — 主轴故障弱监督十分类
+# Spindle CNN — Leakage-Safe Bearing Fault Diagnosis
 
-本仓库保存主轴多变量时序故障诊断的可运行实验代码。最终方案使用多小波
-CWT、残差注意力、双向 GRU、self-training 和条件校准器完成十分类。
+本仓库保存主轴系统轴承故障诊断的实验代码，并明确区分历史工业数据试验与
+公开数据确认实验。历史十类结果依赖规则生成的标签，不能作为真实故障准确率；
+论文修订版只把公开数据上的真实标签结果作为主要证据。
 
-## 最终结果
+## 公共基准结果
 
-| 版本 | 方案 | Accuracy | Macro F1 |
-| --- | --- | ---: | ---: |
-| R3 GRU | CWT + GRU + Self-training ×2 + Calibrator | 0.9605 | 0.9585 |
+修订实验使用 Paderborn 轴承数据中的振动与两路电流信号。测试同时留出未见
+轴承和未见工况，窗口之间不重叠。
 
-最终测试结果来自本地实验结果目录，不随代码仓库提交。
+| 方法 | Accuracy | Macro-F1 | Macro-F1 标准差 |
+| --- | ---: | ---: | ---: |
+| Raw 1D-CNN | 0.409 | 0.308 | 0.072 |
+| CWT 2D-CNN | 0.400 | 0.291 | 0.088 |
+| CWT-GRU | 0.391 | 0.284 | 0.106 |
+| CWT-GRU + calibrated self-training | 0.350 | 0.240 | 0.103 |
+
+主比较为四折工况留出 × 三个随机种子。完整结果见
+[docs/results/paderborn](docs/results/paderborn/README.md)。自训练没有提高
+严格外推条件下的宏 F1；温度缩放改善了概率校准，但不改变预测类别。
+
+原稿中的 96% 私有数据结果保留为历史试验记录，不再作为论文主结果。
 
 ## 代码结构
 
@@ -17,6 +28,7 @@ CWT、残差注意力、双向 GRU、self-training 和条件校准器完成十�
 src/spindle_cnn/
 ├── data/           # 数据清洗、STFT、滑窗索引和时频图预览
 ├── final/          # 最终主干、校准、self-training 和推理
+├── public_benchmark/ # CWRU/Paderborn 泄漏安全基准与论文图表
 ├── baselines/      # GADF/Swin 对照实验
 ├── reporting/      # 指标汇总和图表组合
 ├── document_tools/ # Word 文档生成工具
@@ -25,7 +37,8 @@ src/spindle_cnn/
 
 实验说明见 [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md)，数据说明见
 [docs/DATASET.md](docs/DATASET.md)，复现步骤见
-[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)。
+[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)。公开基准实验与泄漏安全
+协议见 [docs/PUBLIC_BENCHMARK.md](docs/PUBLIC_BENCHMARK.md)。
 
 ## 安装
 
@@ -44,6 +57,9 @@ spindle-check-gpu
 spindle-build-raw --help
 spindle-train-backbone --help
 spindle-predict --help
+spindle-cwru-benchmark --help
+spindle-pu-cache --help
+spindle-public-summary --help
 ```
 
 推理示例：
@@ -55,6 +71,10 @@ spindle-predict --csv batch.csv --batch --device cpu
 
 模型目录需包含 `run_summary.json`、`best_model.pt` 和校准器文件。默认路径为
 `outputs/self_train_v3_gru` 与 `outputs/self_train_v3_gru_calibrated`。
+
+修订论文位于 `docs/paper/主轴故障诊断方法_SCI修订版.docx`，该二进制文档
+默认不进入 Git。重建命令见
+[docs/PUBLIC_BENCHMARK.md](docs/PUBLIC_BENCHMARK.md)。
 
 ## 数据与产物
 
