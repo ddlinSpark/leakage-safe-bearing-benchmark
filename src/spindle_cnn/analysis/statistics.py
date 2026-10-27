@@ -27,6 +27,16 @@ ABLATION_COMPONENTS = {
     "cwt_gru_selftrain": (1, 1, 1, 1, 1),
 }
 
+METHOD_ORDER = [
+    "raw_cnn",
+    "gru_only",
+    "cwt_cnn",
+    "cwt_gru_no_se",
+    "cwt_gru",
+    "cwt_gru_temp",
+    "cwt_gru_selftrain",
+]
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -124,9 +134,14 @@ def paired_tests(
     confidence: float,
     minimum_pairs: int,
 ) -> pd.DataFrame:
-    task_columns = ["experiment_type", "label_ratio", "threshold"]
+    paired_frame = frame.copy()
+    paired_frame["_comparison_threshold"] = paired_frame["threshold"].where(
+        paired_frame["experiment_type"].eq("threshold"),
+        np.nan,
+    )
+    task_columns = ["experiment_type", "label_ratio", "_comparison_threshold"]
     rows: list[dict[str, object]] = []
-    for keys, group in frame.groupby(task_columns, dropna=False):
+    for keys, group in paired_frame.groupby(task_columns, dropna=False):
         experiment_type, label_ratio, threshold = keys
         pivot = group.pivot_table(
             index=["fold", "seed"],
@@ -134,7 +149,9 @@ def paired_tests(
             values="macro_f1",
             aggfunc="mean",
         )
-        methods = sorted(pivot.columns)
+        present = set(pivot.columns)
+        methods = [method for method in METHOD_ORDER if method in present]
+        methods.extend(sorted(present - set(methods)))
         for position, reference in enumerate(methods):
             for method in methods[position + 1 :]:
                 paired = pivot[[reference, method]].dropna()

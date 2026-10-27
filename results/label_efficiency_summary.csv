@@ -1,0 +1,1 @@
+experiment_type,Model,method,label_ratio,threshold,Runs,Macro-F1 Mean,Macro-F1 Std,Macro-F1 CI95 Low,Macro-F1 CI95 High,Accuracy Mean,Accuracy Std,Accuracy CI95 Low,Accuracy CI95 High,ECE Mean,ECE Std,ECE CI95 Low,ECE CI95 High

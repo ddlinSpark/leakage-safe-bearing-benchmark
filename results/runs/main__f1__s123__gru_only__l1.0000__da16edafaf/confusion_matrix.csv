@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+main__f1__s123__gru_only__l1.0000__da16edafaf,0,0,25
+main__f1__s123__gru_only__l1.0000__da16edafaf,0,1,6
+main__f1__s123__gru_only__l1.0000__da16edafaf,0,2,17
+main__f1__s123__gru_only__l1.0000__da16edafaf,0,3,14
+main__f1__s123__gru_only__l1.0000__da16edafaf,1,0,27
+main__f1__s123__gru_only__l1.0000__da16edafaf,1,1,2
+main__f1__s123__gru_only__l1.0000__da16edafaf,1,2,17
+main__f1__s123__gru_only__l1.0000__da16edafaf,1,3,16
+main__f1__s123__gru_only__l1.0000__da16edafaf,2,0,22
+main__f1__s123__gru_only__l1.0000__da16edafaf,2,1,4
+main__f1__s123__gru_only__l1.0000__da16edafaf,2,2,19
+main__f1__s123__gru_only__l1.0000__da16edafaf,2,3,17
+main__f1__s123__gru_only__l1.0000__da16edafaf,3,0,22
+main__f1__s123__gru_only__l1.0000__da16edafaf,3,1,4
+main__f1__s123__gru_only__l1.0000__da16edafaf,3,2,22
+main__f1__s123__gru_only__l1.0000__da16edafaf,3,3,14

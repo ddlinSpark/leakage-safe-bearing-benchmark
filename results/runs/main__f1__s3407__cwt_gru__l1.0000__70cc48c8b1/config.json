@@ -1,0 +1,71 @@
+{
+  "config_schema_version": 1,
+  "dataset": {
+    "cache": "data/public/paderborn/pu_4class_w8192.npz",
+    "heldout_record_ids": [
+      4,
+      8,
+      12,
+      15
+    ],
+    "name": "Paderborn-4class",
+    "protocol": "bearing-code-and-operating-condition-disjoint",
+    "split_version": "paderborn-4fold-unseen-bearing-unseen-condition-v1"
+  },
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "13.0",
+    "cudnn_version": 91900,
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5080",
+    "hostname": "DelanLin",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+    "torch": "2.11.0+cu130"
+  },
+  "experiment": {
+    "fractions": [
+      1.0
+    ],
+    "methods": [
+      "raw_cnn",
+      "gru_only",
+      "cwt_cnn",
+      "cwt_gru_no_se",
+      "cwt_gru",
+      "cwt_gru_temp",
+      "cwt_gru_selftrain"
+    ]
+  },
+  "experiment_type": "main",
+  "provenance": {
+    "git_commit": "470df63b4d3ca11fa8e8655d73031c6788014848",
+    "git_dirty": false
+  },
+  "run": {
+    "dataset_hash": "a898abcb63e17ee68f2014d19b4d0f675b6c4d19a9abc89376031a78c3a23df4",
+    "fold": 1,
+    "label_ratio": 1.0,
+    "method": "cwt_gru",
+    "model_key": "cwt_gru",
+    "seed": 3407,
+    "split_hash": "96e4b978a2f8d2b591cff0d22a83f9fa142935a541c47abab1ffab4a8da73b34",
+    "threshold": null,
+    "uses_self_training": false,
+    "uses_temperature": false
+  },
+  "training": {
+    "batch_size": 64,
+    "deterministic": true,
+    "device": "cuda",
+    "epochs": 12,
+    "learning_rate": 0.002,
+    "num_workers": 0,
+    "patience": 4,
+    "pseudo_rounds": 2,
+    "pseudo_threshold": 0.6,
+    "weight_decay": 0.0001
+  }
+}
