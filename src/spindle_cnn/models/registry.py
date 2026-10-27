@@ -11,7 +11,7 @@ from .cwt_gru import CWTGRU
 from .drsn import DRSN1D
 from .gru import RawGRU
 from .raw_cnn import RawCNN
-from .tfnet import TFNet
+from .tfnet import TFN
 
 
 @dataclass(frozen=True)
@@ -74,5 +74,5 @@ def build_model(
     if name == "drsn":
         return DRSN1D(num_classes=num_classes, raw_channels=raw_channels)
     if name == "tfnet":
-        return TFNet(num_classes=num_classes, in_channels=raw_channels)
+        return TFN(num_classes=num_classes, in_channels=raw_channels)
     raise ValueError(f"Unknown model: {name}")

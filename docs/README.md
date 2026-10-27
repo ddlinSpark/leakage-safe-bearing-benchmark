@@ -2,11 +2,21 @@
 
 | 文档 | 内容 |
 | --- | --- |
-| [../AUDIT_REPORT.md](../AUDIT_REPORT.md) | 代码、数据泄漏、重复性与论文数字审计 |
-| [../CLEANUP_REPORT.md](../CLEANUP_REPORT.md) | 旧数据、旧输出、旧代码与临时文件的清理记录 |
+| [../REPRODUCE.md](../REPRODUCE.md) | 从零复现数据、训练、统计、图表和论文数字的完整步骤 |
 | [PUBLIC_BENCHMARK.md](PUBLIC_BENCHMARK.md) | 当前公共数据主实验、五种子设计和泄漏安全划分 |
 | [REPRODUCIBILITY.md](REPRODUCIBILITY.md) | 统一 runner、配置快照、统计和图表复现 |
 | [SCIENTIFIC_REVISION.md](SCIENTIFIC_REVISION.md) | 原稿方法问题、修订问题与报告规范 |
+| [paper/PAPER_REPRODUCIBILITY.md](paper/PAPER_REPRODUCIBILITY.md) | 论文构建与数值验证流程 |
+| [paper/PAPER_CODE_MAPPING.md](paper/PAPER_CODE_MAPPING.md) | 论文方法、RQ、代码、配置、结果和图表映射 |
+| [paper/FIGURE_PROVENANCE.md](paper/FIGURE_PROVENANCE.md) | Figure 1-12 与生成脚本及输入数据 |
+| [paper/TABLE_PROVENANCE.md](paper/TABLE_PROVENANCE.md) | Table 1-13 与生成脚本及聚合规则 |
+| [audit/REPOSITORY_AUDIT.md](audit/REPOSITORY_AUDIT.md) | 仓库结构、README、依赖和数据许可审计 |
+| [audit/LEAKAGE_FINAL_CHECK.md](audit/LEAKAGE_FINAL_CHECK.md) | 最新 split、训练、伪标签和校准泄漏检查 |
+| [audit/RESULT_COMPLETENESS_AUDIT.md](audit/RESULT_COMPLETENESS_AUDIT.md) | 320 条 canonical 与 40 条 external 结果完整性 |
+| [audit/RELEASE_READINESS.md](audit/RELEASE_READINESS.md) | v1.0.0 发布准备度、阻断项和严重性 |
+| [audit/GIT_HISTORY_PRIVACY_AUDIT.md](audit/GIT_HISTORY_PRIVACY_AUDIT.md) | 全 Git 历史的隐私与敏感信息审计 |
+| [audit/DOUBLE_BLIND_RISK.md](audit/DOUBLE_BLIND_RISK.md) | 双盲投稿身份暴露风险与可选处理方式 |
+| [audit/ZENODO_PREPARATION.md](audit/ZENODO_PREPARATION.md) | GitHub Release 后 Zenodo 归档步骤 |
 | [../results/EXPERIMENT_REPORT.md](../results/EXPERIMENT_REPORT.md) | 当前五-Seed 实验结果、区间与配对检验 |
 
 论文正文位于 `docs/paper/`，参考文献位于 `docs/references/`。

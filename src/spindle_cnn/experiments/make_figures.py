@@ -198,9 +198,13 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
         )
     ax.set_xticks(
         [0, 1, 2],
-        ["10% balanced", "50% balanced", "Full balanced"],
+        [
+            "10% balanced budget",
+            "50% balanced budget",
+            "Full balanced budget",
+        ],
     )
-    ax.set_xlabel("Balanced label budget")
+    ax.set_xlabel("Label budget")
     ax.set_ylabel("Macro-F1")
     ax.grid(color="#E5E5E5", linewidth=0.6)
     ax.legend(frameon=False)

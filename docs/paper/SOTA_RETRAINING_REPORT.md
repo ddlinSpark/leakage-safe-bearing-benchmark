@@ -39,7 +39,7 @@ contains no duplicate `(method, fold, seed)` key. All runs record
   thresholds, three waveform channels, and four output classes.
 - Measured parameters: 233,040.
 
-### TFNet
+### Time-Frequency Network (TFN)
 
 - Source paper: Q. Chen, X. Dong, G. Tu, et al., "TFN: An interpretable neural
   network with time-frequency transform embedded for intelligent fault
@@ -48,7 +48,9 @@ contains no duplicate `(method, fold, seed)` key. All runs record
   `https://github.com/Bingbingboopoo/MTFC_T/tree/main/comparison_models/TFNet`.
 - Reference repository commit inspected: `b503e80`.
 - Code: `src/spindle_cnn/models/tfnet.py`.
-- Status: **Same-protocol adaptation** of the published comparison model.
+- Status: **Same-protocol adaptation** of the published comparison model. The
+  internal result key remains `tfnet` so historical runs remain auditable; the
+  display name is TFN.
 - Adaptation: three input channels, four output classes, removal of
   import-time global seed side effects, and a deterministic equivalent of
   adaptive max pooling.
@@ -68,38 +70,45 @@ contains no duplicate `(method, fold, seed)` key. All runs record
 
 All values below are computed from `results/sota/raw_runs.csv`.
 
-| Model | Macro-F1 | 95% CI | Accuracy | 95% CI | Parameters | GFLOPs/sample | Training time (s) | Inference (ms/batch) | Runs |
+| Model | Macro-F1 | Descriptive t CI | Accuracy | Descriptive t CI | Parameters | GFLOPs/sample | Training time (s) | Inference (ms/batch) | Runs |
 | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | DRSN adaptation | 0.149 +/- 0.084 | [0.109, 0.188] | 0.275 +/- 0.079 | [0.238, 0.312] | 233,040 | 0.795 | 6.8 | 32.6 | 20 |
-| TFNet adaptation | 0.175 +/- 0.078 | [0.139, 0.211] | 0.257 +/- 0.066 | [0.226, 0.289] | 184,900 | 0.388 | 4.5 | 17.0 | 20 |
+| TFN adaptation | 0.175 +/- 0.078 | [0.139, 0.211] | 0.257 +/- 0.066 | [0.226, 0.289] | 184,900 | 0.388 | 4.5 | 17.0 | 20 |
 
 Training and inference times are medians from the same RTX 5080 environment as
-the internal benchmark. Latency is implementation- and hardware-dependent.
+the internal benchmark. Latency is implementation- and hardware-dependent. The
+shown confidence intervals are descriptive one-sample t intervals across 20
+fold-seed evaluations; they are retained as sensitivity summaries. Paired
+inference below resamples operating-condition folds before seeds.
 
 ## Paired comparison with internal models
 
 Positive deltas mean that the internal reference has higher Macro-F1 than the
 external adaptation on the same fold and seed.
 
-| External model | Reference | Mean reference minus external Delta | 95% CI | Wilcoxon p | Pairs |
-| --- | --- | ---: | --- | ---: | ---: |
-| DRSN | Raw 1D-CNN | +0.141 | [0.086, 0.195] | <0.001 | 20 |
-| TFNet | Raw 1D-CNN | +0.114 | [0.051, 0.178] | 0.002 | 20 |
-| DRSN | CWT 2D-CNN | +0.143 | [0.078, 0.207] | <0.001 | 20 |
-| TFNet | CWT 2D-CNN | +0.116 | [0.060, 0.172] | <0.001 | 20 |
-| DRSN | CWT-GRU | +0.131 | [0.051, 0.211] | 0.004 | 20 |
-| TFNet | CWT-GRU | +0.105 | [0.050, 0.160] | <0.001 | 20 |
-| DRSN | CWT-GRU without SE | +0.158 | [0.086, 0.231] | <0.001 | 20 |
-| TFNet | CWT-GRU without SE | +0.132 | [0.079, 0.184] | <0.001 | 20 |
+| External model | Reference | Internal minus external Delta | Hierarchical 95% CI | Fold sign-flip p | Unclustered Wilcoxon p | Pairs |
+| --- | --- | ---: | --- | ---: | ---: | ---: |
+| DRSN | Raw 1D-CNN | +0.141 | [0.067, 0.207] | p = 0.125 | p < 0.001 | 20 |
+| TFN | Raw 1D-CNN | +0.114 | [0.016, 0.185] | p = 0.250 | p = 0.002 | 20 |
+| DRSN | CWT 2D-CNN | +0.143 | [0.025, 0.251] | p = 0.250 | p < 0.001 | 20 |
+| TFN | CWT 2D-CNN | +0.116 | [0.053, 0.185] | p = 0.125 | p < 0.001 | 20 |
+| DRSN | CWT-GRU | +0.131 | [-0.034, 0.258] | p = 0.250 | p = 0.004 | 20 |
+| TFN | CWT-GRU | +0.105 | [0.011, 0.189] | p = 0.250 | p < 0.001 | 20 |
+| DRSN | CWT-GRU without SE | +0.158 | [0.022, 0.280] | p = 0.250 | p < 0.001 | 20 |
+| TFN | CWT-GRU without SE | +0.132 | [0.058, 0.202] | p = 0.125 | p < 0.001 | 20 |
 
-The external adaptations did not outperform the internal baselines on this
-strict evaluation. This is the observed same-protocol result and is retained in
-the paper.
+The external adaptations had lower mean Macro-F1 than the internal baselines.
+Seven of eight hierarchical intervals are below zero. However, there are only
+four operating-condition clusters, so the exact fold sign-flip test cannot
+produce a nonzero two-sided p-value below 0.125. The unclustered Wilcoxon result
+for DRSN against CWT-GRU was significant, but the hierarchical interval
+includes zero; the manuscript therefore does not describe that difference as
+stable.
 
 ## Interpretation boundaries
 
 - These results do not reproduce the original datasets, splits, model
-  dimensionalities, or training recipes of DRSN and TFNet.
+  dimensionalities, or training recipes of DRSN and TFN.
 - The comparison is valid only as an adaptation study under one common
   leakage-safe protocol.
 - The low external scores do not show that the original methods are ineffective
@@ -116,6 +125,8 @@ the paper.
 - `results/sota/statistical_tests.csv`: paired tests against internal models.
 - `results/sota/model_complexity.csv`: median parameter, FLOP, and latency data.
 - `results/sota/same_protocol_comparison.csv`: table used for the paper.
+- `results/hierarchical_statistics.csv`: fold-aware paired intervals and
+  sign-flip sensitivity tests.
 - `results/sota/rechecks/all_runs.json`: 40/40 independent metric rechecks,
   maximum absolute difference `1.78e-15`.
 - `results/sota/runs/<run_id>/`: configuration, logits, confusion matrix,
@@ -126,4 +137,5 @@ Reproduce the summary from saved runs:
 ```powershell
 $env:PYTHONPATH = "src"
 python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
+python -m spindle_cnn.analysis.hierarchical --results-dir results --external-dir results/sota --output results/hierarchical_statistics.csv
 ```

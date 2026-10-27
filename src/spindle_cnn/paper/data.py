@@ -23,7 +23,20 @@ CLASS_LABELS = ["Healthy", "Outer ring", "Inner ring", "Multiple damage"]
 
 EXTERNAL_METHOD_LABELS = {
     "drsn": "DRSN (same-protocol adaptation)",
-    "tfnet": "TFNet (same-protocol adaptation)",
+    "tfnet": "TFN (same-protocol adaptation)",
+}
+
+REQUIRED_HIERARCHICAL_COMPARISONS = {
+    "main:raw_cnn:gru_only",
+    "main:raw_cnn:cwt_cnn",
+    "main:raw_cnn:cwt_gru_no_se",
+    "main:raw_cnn:cwt_gru",
+    "external:raw_cnn:drsn",
+    "external:raw_cnn:tfnet",
+    "main:cwt_cnn:cwt_gru",
+    "main:cwt_gru_no_se:cwt_gru",
+    "label_50:cwt_gru:cwt_gru_selftrain",
+    "label_full:cwt_gru:cwt_gru_selftrain",
 }
 
 
@@ -40,6 +53,9 @@ class BenchmarkResults:
         self.threshold = pd.read_csv(self.root / "threshold_summary.csv")
         self.complexity = pd.read_csv(self.root / "model_complexity.csv")
         self.domain_gap = pd.read_csv(self.root / "domain_gap_summary.csv")
+        self.hierarchical = pd.read_csv(
+            self.root / "hierarchical_statistics.csv"
+        )
         self.external_root = self.root / "sota"
         self.external_raw = pd.read_csv(self.external_root / "raw_runs.csv")
         self.external_summary = pd.read_csv(
@@ -84,6 +100,16 @@ class BenchmarkResults:
                 "Expected 8 external-vs-internal paired tests, "
                 f"found {len(self.external_tests)}"
             )
+        if not REQUIRED_HIERARCHICAL_COMPARISONS.issubset(
+            set(self.hierarchical["comparison"])
+        ):
+            raise ValueError(
+                "Hierarchical statistics are missing required comparisons"
+            )
+        if not self.hierarchical["n_pairs"].eq(20).all():
+            raise ValueError(
+                "Every hierarchical comparison must contain 20 fold-seed pairs"
+            )
 
     @property
     def main(self) -> pd.DataFrame:
@@ -116,6 +142,16 @@ class BenchmarkResults:
         if len(match) != 1:
             raise ValueError(
                 f"Expected one paired comparison for {experiment_type}/{reference}/{method}"
+            )
+        return match.iloc[0]
+
+    def hierarchical_row(self, comparison: str) -> pd.Series:
+        match = self.hierarchical.loc[
+            self.hierarchical["comparison"].eq(comparison)
+        ]
+        if len(match) != 1:
+            raise ValueError(
+                f"Expected one hierarchical comparison row for {comparison}"
             )
         return match.iloc[0]
 

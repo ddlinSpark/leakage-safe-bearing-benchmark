@@ -20,11 +20,11 @@ missing fold was found.
 | Threshold sensitivity | 5 thresholds x 4 folds x 5 seeds = 100 | 100 | PASS |
 | Total | 320 | 320 | PASS |
 
-The external same-protocol DRSN and TFNet matrix is maintained separately under
+The external same-protocol DRSN and TFN matrix is maintained separately under
 `results/sota/` and is audited after its retraining completes. It is not mixed
 into the 320-row canonical table.
 
-The 100% label-efficiency view reuses the main CWT-GRU and calibrated
+The Full balanced budget label-efficiency view reuses the main CWT-GRU and calibrated
 self-training rows. It is not counted as another independently trained block.
 
 ## Main method groups
@@ -51,12 +51,12 @@ scaling preserves the argmax.
 
 | Method | Budget | Runs | Status |
 | --- | ---: | ---: | --- |
-| CWT-GRU | 10% | 20 | PASS |
-| CWT-GRU + calibrated self-training | 10% | 20 | PASS |
-| CWT-GRU | 50% | 20 | PASS |
-| CWT-GRU + calibrated self-training | 50% | 20 | PASS |
+| CWT-GRU | 10% balanced budget | 20 | PASS |
+| CWT-GRU + calibrated self-training | 10% balanced budget | 20 | PASS |
+| CWT-GRU | 50% balanced budget | 20 | PASS |
+| CWT-GRU + calibrated self-training | 50% balanced budget | 20 | PASS |
 
-All 20 self-training runs at the 10% budget produced zero pseudo-labels and
+All 20 self-training runs at the 10% balanced budget produced zero pseudo-labels and
 returned the initial model.
 
 ## Threshold sensitivity
@@ -146,7 +146,7 @@ validation-to-test gap figure is generated from the same raw table.
 | Model | Expected keys | Observed successful runs | Status |
 | --- | --- | ---: | --- |
 | DRSN adaptation | 4 folds x 5 seeds | 20 | PASS |
-| TFNet adaptation | 4 folds x 5 seeds | 20 | PASS |
+| TFN adaptation | 4 folds x 5 seeds | 20 | PASS |
 | Total | 40 | 40 | PASS |
 
 Every external run uses the same dataset hash and the same split hash for its

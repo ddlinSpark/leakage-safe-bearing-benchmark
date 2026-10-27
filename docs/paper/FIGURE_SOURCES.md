@@ -34,7 +34,7 @@ resolution.
   `src/spindle_cnn/training/runner.py`, and
   `src/spindle_cnn/evaluation/calibration.py`.
 
-## Figure 4: Full-label model comparison
+## Figure 4: Full balanced budget model comparison
 
 - Output: `figures/publication/figure_01_model_comparison.{png,pdf}`
 - Generator: `python scripts/generate_figures.py`

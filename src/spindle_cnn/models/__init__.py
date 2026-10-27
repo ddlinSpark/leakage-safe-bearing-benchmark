@@ -7,7 +7,7 @@ from .drsn import DRSN1D
 from .gru import RawGRU
 from .raw_cnn import RawCNN
 from .registry import build_model
-from .tfnet import TFNet
+from .tfnet import TFN, TFNet
 
 __all__ = [
     "BaseModel",
@@ -16,6 +16,7 @@ __all__ = [
     "CWT2DCNN",
     "CWTGRU",
     "DRSN1D",
+    "TFN",
     "TFNet",
     "build_model",
 ]

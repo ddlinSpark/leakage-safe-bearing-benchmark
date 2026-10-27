@@ -10,7 +10,7 @@ The confirmatory Paderborn experiment uses the configuration in
 - Test bearing IDs: `4, 8, 12, 15`.
 - Window length and stride: `8192` samples.
 - Primary matrix: four folds by five seeds per method.
-- Full balanced-budget setting: the minimum available per-class training count,
+- Full balanced budget setting: the minimum available per-class training count,
   not all training windows.
 - Pseudo-label threshold in the main self-training experiment: `0.60`.
 - Threshold sensitivity: `0.30, 0.40, 0.50, 0.60, 0.70` at a 50% balanced

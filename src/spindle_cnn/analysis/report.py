@@ -138,9 +138,9 @@ def main() -> None:
     label_summary = pd.read_csv(results_dir / "label_efficiency_summary.csv")
     label_rows = []
     budget_labels = {
-        0.1: "10% balanced",
-        0.5: "50% balanced",
-        1.0: "Full balanced",
+        0.1: "10% balanced budget",
+        0.5: "50% balanced budget",
+        1.0: "Full balanced budget",
     }
     for row in label_summary.sort_values(["label_ratio", "method"]).itertuples(
         index=False
@@ -263,7 +263,7 @@ Positive values mean the method has higher Macro-F1 than Raw 1D-CNN on the same
 
 ## Label efficiency
 
-The full balanced budget samples the minimum available count from every class;
+The Full balanced budget samples the minimum available count from every class;
 it is not all training windows.
 
 {markdown_table(

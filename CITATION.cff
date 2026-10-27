@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this repository, cite the software and the associated manuscript."
+title: "Leakage-Safe Benchmarking of Time-Frequency Fusion and Calibrated Self-Training for Bearing Fault Diagnosis"
+type: software
+authors:
+  - name: "ddlinSpark"
+repository-code: "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark"
+url: "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark"
+license: MIT
+version: "0.2.0"
+keywords:
+  - bearing fault diagnosis
+  - domain generalization
+  - data leakage
+  - time-frequency learning
+  - self-training
+  - calibration
+abstract: >-
+  Reproducible code and derived results for a leakage-safe Paderborn bearing
+  fault diagnosis benchmark using simultaneous unseen-bearing and
+  unseen-operating-condition holdout, same-protocol external adaptations, and
+  fold-aware statistical analysis.

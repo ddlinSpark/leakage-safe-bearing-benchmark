@@ -59,7 +59,7 @@ def parse_args() -> argparse.Namespace:
         default=PROJECT_ROOT
         / "docs"
         / "paper"
-        / "Leakage_Safe_Bearing_Benchmark_SCI.docx",
+        / "Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
     )
     return parser.parse_args()
 
@@ -73,7 +73,7 @@ def f2(value: float) -> str:
 
 
 def p_text(value: float) -> str:
-    return "<0.001" if float(value) < 0.001 else f"{float(value):.3f}"
+    return "< 0.001" if float(value) < 0.001 else f"= {float(value):.3f}"
 
 
 def percent(value: float) -> str:
@@ -117,14 +117,16 @@ def paired_rows(results: BenchmarkResults) -> list[list[str]]:
         "cwt_gru_temp",
         "cwt_gru_selftrain",
     ):
-        row = results.paired("raw_cnn", method)
+        row = results.hierarchical_row(f"main:raw_cnn:{method}")
+        supported = bool(row["hierarchical_ci_excludes_zero"])
         rows.append(
             [
                 METHOD_LABELS[method],
-                f"{float(row['mean_paired_delta']):+.3f}",
-                f"{float(row['paired_delta_ci95_low']):+.3f} to "
-                f"{float(row['paired_delta_ci95_high']):+.3f}",
-                p_text(row["p_value"]),
+                f"{float(row['mean_delta']):+.3f}",
+                f"{float(row['hierarchical_ci_low']):+.3f} to "
+                f"{float(row['hierarchical_ci_high']):+.3f}",
+                f"p {p_text(row['fold_aware_p'])}",
+                "Yes" if supported else "No",
             ]
         )
     return rows
@@ -133,9 +135,9 @@ def paired_rows(results: BenchmarkResults) -> list[list[str]]:
 def label_rows(results: BenchmarkResults) -> list[list[str]]:
     rows = []
     budget_labels = {
-        0.1: "10% balanced",
-        0.5: "50% balanced",
-        1.0: "Full balanced",
+        0.1: "10% balanced budget",
+        0.5: "50% balanced budget",
+        1.0: "Full balanced budget",
     }
     for fraction in (0.1, 0.5, 1.0):
         for method in ("cwt_gru", "cwt_gru_selftrain"):
@@ -372,7 +374,7 @@ def build_references(document: Document) -> None:
         'D. P. Kingma and J. Ba, "Adam: A method for stochastic optimization," in Proc. ICLR, 2015.',
         'I. Loshchilov and F. Hutter, "Decoupled weight decay regularization," in Proc. ICLR, 2019.',
         'Paderborn University, "Bearing Data Center," https://groups.uni-paderborn.de/kat/BearingDataCenter/ (accessed Oct. 27, 2026).',
-        'Q. Chen, X. Dong, G. Tu, et al., "TFN: An interpretable neural network with time-frequency transform embedded for intelligent fault diagnosis," Mech. Syst. Signal Process., vol. 207, Art. no. 110952, 2024.',
+        'Q. Chen, X. Dong, G. Tu, et al., "TFN: An interpretable neural network with time-frequency transform embedded for intelligent fault diagnosis," Mech. Syst. Signal Process., vol. 207, Art. no. 110952, 2024, doi: 10.1016/j.ymssp.2023.110952.',
     ]
     for index, text in enumerate(references, 1):
         add_reference(document, index, text)
@@ -456,19 +458,19 @@ def build_manuscript(
         results.main.loc[results.main["method"].eq("raw_cnn"), "parameters"].median()
     )
 
-    raw = results.paired("raw_cnn", "cwt_cnn")
-    gru = results.paired("raw_cnn", "cwt_gru")
-    no_se_vs_full = results.paired("cwt_gru_no_se", "cwt_gru")
-    mid_update = results.tests.loc[
-        results.tests["experiment_type"].eq("label_efficiency")
-        & results.tests["label_ratio"].round(4).eq(0.5)
-        & results.tests["reference"].eq("cwt_gru")
-    ].iloc[0]
-    full_update = results.tests.loc[
-        results.tests["experiment_type"].eq("label_efficiency")
-        & results.tests["label_ratio"].round(4).eq(1.0)
-        & results.tests["reference"].eq("cwt_gru")
-    ].iloc[0]
+    raw = results.hierarchical_row("main:raw_cnn:cwt_cnn")
+    gru = results.hierarchical_row("main:raw_cnn:cwt_gru")
+    no_se_vs_full = results.hierarchical_row(
+        "main:cwt_gru_no_se:cwt_gru"
+    )
+    mid_update = results.hierarchical_row(
+        "label_50:cwt_gru:cwt_gru_selftrain"
+    )
+    full_update = results.hierarchical_row(
+        "label_full:cwt_gru:cwt_gru_selftrain"
+    )
+    drsn_delta = results.hierarchical_row("external:raw_cnn:drsn")
+    tfn_delta = results.hierarchical_row("external:raw_cnn:tfnet")
 
     add_title(document, TITLE)
     add_small_text(document, "Anonymous manuscript prepared for double-blind review")
@@ -489,23 +491,30 @@ def build_manuscript(
         f"{total_windows:,} non-overlapping windows from vibration and two phase-current "
         f"channels. {fold_count} grouped folds combine unseen bearing codes with unseen "
         f"operating conditions, and {seed_count} seeds produce {runs_per_method} "
-        "matched evaluations per method. "
+        "matched evaluations per method. Seeds within a fold share the same test "
+        "partition, so inferential intervals resample operating-condition folds before "
+        "resampling seeds within each selected fold. "
         f"Raw 1D-CNN reached a mean macro-F1 of {f3(results.summary_row('raw_cnn')['Macro-F1 Mean'])}, "
         f"whereas CWT 2D-CNN reached {f3(results.summary_row('cwt_cnn')['Macro-F1 Mean'])} "
         f"and CWT-GRU reached {f3(results.summary_row('cwt_gru')['Macro-F1 Mean'])}. "
-        "No CWT-containing model produced a statistically significant gain over the "
-        "raw waveform baseline. The highest mean was obtained without SE, but removing "
-        f"SE did not produce a significant difference from full CWT-GRU (p={p_text(no_se_vs_full['p_value'])}). "
-        f"Same-protocol adaptations of DRSN and TFNet reached "
+        "Fold-aware intervals did not establish a stable CWT gain over the raw "
+        "waveform baseline. The highest mean was obtained without SE, but the "
+        "unclustered Wilcoxon result for removing SE from full CWT-GRU was "
+        f"p {p_text(results.paired('cwt_gru_no_se', 'cwt_gru')['p_value'])}; "
+        "the fold-aware interval included zero. "
+        f"Same-protocol adaptations of DRSN and TFN reached "
         f"{standard_result_from_external(results, 'drsn')} and "
         f"{standard_result_from_external(results, 'tfnet')} macro-F1, respectively; "
         "neither exceeded the raw baseline. "
-        "At a 10% balanced label budget, no pseudo-label passed the threshold in "
-        f"any of the {runs_per_method} evaluations. Self-training did not improve macro-F1 significantly "
-        f"at a 50% balanced budget (paired delta "
-        f"{float(mid_update['mean_paired_delta']):+.3f}, "
-        f"p={p_text(mid_update['p_value'])}) or the full balanced budget "
-        f"({float(full_update['mean_paired_delta']):+.3f}, p={p_text(full_update['p_value'])}). "
+        "At a 10% balanced budget, no pseudo-label passed the threshold in "
+        f"any of the {runs_per_method} evaluations. Self-training did not show stable "
+        f"evidence of improvement at a 50% balanced budget (mean paired delta "
+        f"{float(mid_update['mean_delta']):+.3f}; hierarchical 95% interval "
+        f"{float(mid_update['hierarchical_ci_low']):+.3f} to "
+        f"{float(mid_update['hierarchical_ci_high']):+.3f}) or the Full balanced "
+        f"budget ({float(full_update['mean_delta']):+.3f}; "
+        f"{float(full_update['hierarchical_ci_low']):+.3f} to "
+        f"{float(full_update['hierarchical_ci_high']):+.3f}). "
         "Temperature scaling left predicted classes unchanged. It improved ECE and NLL "
         "for the CWT models on the held-out test folds, whereas the validation-selected "
         "temperature worsened both measures for Raw 1D-CNN. The results show that "
@@ -609,17 +618,19 @@ def build_manuscript(
     add_numbered_items(
         document,
         [
-            "A leakage-safe comparison that extends split auditing by jointly "
-            "evaluating waveform and time-frequency representations, recurrent "
-            "fusion, SE attention, temperature scaling, and self-training under "
-            "simultaneous unseen-bearing and unseen-condition holdout.",
-            "A same-protocol external-baseline evaluation that retrains DRSN and "
-            "TFNet adaptations with the same windows, folds, seeds, balanced label "
-            "budget, and metrics as the internal models.",
-            "An uncertainty-aware evidence set that retains negative and "
-            "statistically non-significant outcomes, separates calibration "
-            "reliability from classification accuracy, and quantifies the "
-            "validation-to-test gap under joint domain shift.",
+            "A joint comparison that distinguishes representation and training-"
+            "procedure effects from split-induced inflation by evaluating raw "
+            "waveform, time-frequency, recurrent fusion, attention, temperature "
+            "scaling, and self-training under simultaneous bearing-identity and "
+            "operating-condition holdout.",
+            "A protocol-controlled comparison in which representative external "
+            "architectures are retrained on the same windows, folds, seeds, and "
+            "metrics, rather than ranked with numbers imported from incompatible "
+            "published splits.",
+            "An evidence report that retains negative and statistically "
+            "non-significant outcomes, reports fold-aware uncertainty and the "
+            "validation-to-test gap, and separates calibration reliability from "
+            "classification accuracy.",
         ],
     )
 
@@ -709,15 +720,23 @@ def build_manuscript(
     )
     add_body(
         document,
-        "These studies solve the first part of the problem by showing that split "
-        "construction changes the meaning of a score. They leave two questions open: "
-        "how several representation choices behave under one identical grouped split, "
-        "and how self-training plus calibration behave when test labels cannot inform "
-        "selection. This study extends the bearing-code-disjoint principle with "
-        "simultaneous operating-condition holdout and evaluates all methods with the "
-        f"same {fold_count}-fold, {seed_count}-seed keys. The resulting values are "
-        "benchmark evidence, not a "
-        "claim that any random-window accuracy is directly comparable.",
+        "Prior leakage-aware studies have already shown that split construction "
+        "materially changes bearing-diagnosis estimates. Some recent cross-domain "
+        "studies also allow a small labeled target-support set for few-shot "
+        "adaptation. In contrast, the present benchmark does not expose labels from "
+        "the held-out bearing-condition test domain during model fitting, "
+        "calibration, pseudo-label generation, threshold analysis, or model "
+        "selection.",
+    )
+    add_body(
+        document,
+        "The contribution is therefore not the discovery of leakage itself. This "
+        "study jointly evaluates representation choice, recurrent fusion, "
+        "calibration, self-training, and external architecture adaptations under "
+        f"one bearing-disjoint and condition-disjoint protocol with the same "
+        f"{fold_count}-fold, {seed_count}-seed keys. The resulting values are "
+        "benchmark evidence, not a claim that accuracies from other splits are "
+        "directly comparable.",
     )
 
     document.add_heading("3 Methodology", level=1)
@@ -880,7 +899,7 @@ def build_manuscript(
     document.add_heading("3.5 Supervised training and baselines", level=2)
     add_body(
         document,
-        "All models use the same configuration. The full balanced budget uses the "
+        "All models use the same configuration. The Full balanced budget uses the "
         "smallest class count in that fold and therefore contains about 992-996 "
         f"windows ({int(labeled_counts.min())}-{int(labeled_counts.max())} across "
         "folds). This leaves additional training windows available for self-training.",
@@ -1002,13 +1021,26 @@ def build_manuscript(
     )
     add_body(
         document,
-        "Each reported mean is accompanied by a sample standard deviation across "
-        f"{runs_per_method} "
-        "matched fold-seed evaluations. A 95% confidence interval uses the t "
-        "distribution. Models compared on the same fold and seed are paired. "
-        "Two-sided Wilcoxon signed-rank tests are used when at least five matched "
-        "pairs are available. A non-significant result is not described as an "
-        "improvement.",
+        f"Each mean and sample standard deviation describes {runs_per_method} "
+        f"matched evaluations from {fold_count} operating-condition folds crossed "
+        f"with {seed_count} stochastic seeds. Seeds within a fold share the same "
+        "training, validation, and test partitions. The evaluations are therefore "
+        "not treated as 20 independent domains. For paired model comparisons, the "
+        "primary inferential analysis uses a two-stage cluster bootstrap: "
+        "operating-condition folds are resampled first, and seeds are then "
+        "resampled within each selected fold. Model differences remain paired at "
+        "the fold-seed level, and percentile 95% intervals are computed from "
+        "20,000 bootstrap samples.",
+    )
+    add_body(
+        document,
+        "As a coarse sensitivity check, a two-sided exact sign-flip test is applied "
+        "to the four fold-level mean differences. With only four domain-level "
+        "units, the smallest attainable nonzero two-sided p-value is 0.125. This "
+        "coarseness is reported explicitly. Unclustered t intervals and two-sided "
+        "Wilcoxon signed-rank tests are retained as sensitivity analyses, not as "
+        "the primary evidence. A result is not described as an improvement when "
+        "the hierarchical interval includes zero.",
     )
     add_three_line_table(
         document,
@@ -1017,13 +1049,14 @@ def build_manuscript(
             [
                 "Main",
                 f"Seven method conditions; {fold_count} folds x {seed_count} seeds; "
-                "full balanced budget",
+                "Full balanced budget",
                 str(main_run_count),
             ],
             [
                 "Label efficiency",
-                "Supervised and self-training at 10% and 50% balanced budgets; "
-                "full reuses main rows",
+                "Supervised and self-training at 10% balanced budget and "
+                "50% balanced budget; "
+                "Full balanced budget reuses main rows",
                 str(label_run_count),
             ],
             [
@@ -1035,7 +1068,7 @@ def build_manuscript(
             ["Total", "Canonical successful evaluations", str(len(results.raw))],
         ],
         [3.1, 9.0, 2.0],
-        "Table 4. Canonical experiment matrix. The full balanced-budget view reuses "
+        "Table 4. Canonical experiment matrix. The Full balanced budget view reuses "
         "the exact main rows and is not counted as a second training experiment.",
     )
 
@@ -1048,13 +1081,13 @@ def build_manuscript(
     add_body(
         document,
         f"Raw 1D-CNN reached a macro-F1 of {standard_result(results, 'raw_cnn')}. "
-        f"CWT 2D-CNN reached {standard_result(results, 'cwt_cnn')}. The paired "
-        f"difference was {float(raw['mean_paired_delta']):+.3f} with p="
-        f"{p_text(raw['p_value'])} and a 95% interval from "
-        f"{float(raw['paired_delta_ci95_low']):+.3f} to "
-        f"{float(raw['paired_delta_ci95_high']):+.3f}. The mean CWT estimate is "
-        "almost identical to the raw baseline, but the interval includes zero and the "
-        "test does not support a stable CWT advantage. This result answers RQ1 "
+        f"CWT 2D-CNN reached {standard_result(results, 'cwt_cnn')}. The mean "
+        f"paired difference was {float(raw['mean_delta']):+.3f}, with a "
+        "fold-aware hierarchical 95% interval from "
+        f"{float(raw['hierarchical_ci_low']):+.3f} to "
+        f"{float(raw['hierarchical_ci_high']):+.3f}. The interval includes zero, "
+        "so the evaluation does not support a stable CWT advantage. This result "
+        "answers RQ1 "
         "negatively for the implemented magnitude-CWT pipeline.",
         first=True,
     )
@@ -1063,7 +1096,8 @@ def build_manuscript(
         ["Method", "Macro-F1", "Accuracy", "Runs"],
         main_table_rows(results),
         [7.0, 3.1, 3.1, 1.1],
-        "Table 5. Full-label comparison under simultaneous unseen-bearing and "
+        "Table 5. Main comparison under the Full balanced budget and "
+        "simultaneous unseen-bearing and "
         "unseen-condition testing. Values are mean +/- standard deviation over "
         f"{runs_per_method} "
         "matched evaluations.",
@@ -1071,7 +1105,8 @@ def build_manuscript(
     add_figure(
         document,
         figures_dir / "figure_01_model_comparison.png",
-        "Figure 4. Full-label macro-F1 with one standard-deviation error bars across "
+        "Figure 4. Macro-F1 under the Full balanced budget with one "
+        "standard-deviation error bars across "
         f"{runs_per_method} matched evaluations per method condition.",
         width_inches=6.25,
         alt_text="Bar chart comparing macro-F1 of seven method conditions under "
@@ -1084,26 +1119,46 @@ def build_manuscript(
     )
     add_body(
         document,
-        f"The paired CWT-GRU minus CWT 2D-CNN difference was "
-        f"{float(results.paired('cwt_cnn', 'cwt_gru')['mean_paired_delta']):+.3f} "
-        f"(p={p_text(results.paired('cwt_cnn', 'cwt_gru')['p_value'])}). A separate "
-        f"comparison of CWT-GRU with Raw 1D-CNN gave "
-        f"{float(gru['mean_paired_delta']):+.3f} (p={p_text(gru['p_value'])}). "
+        "The paired CWT-GRU minus CWT 2D-CNN difference was "
+        f"{float(results.hierarchical_row('main:cwt_cnn:cwt_gru')['mean_delta']):+.3f}, "
+        "with a fold-aware hierarchical 95% interval from "
+        f"{float(results.hierarchical_row('main:cwt_cnn:cwt_gru')['hierarchical_ci_low']):+.3f} "
+        "to "
+        f"{float(results.hierarchical_row('main:cwt_cnn:cwt_gru')['hierarchical_ci_high']):+.3f}. "
+        f"The paired CWT-GRU minus Raw 1D-CNN difference was "
+        f"{float(gru['mean_delta']):+.3f}, with interval "
+        f"{float(gru['hierarchical_ci_low']):+.3f} to "
+        f"{float(gru['hierarchical_ci_high']):+.3f}. "
         "GRU-only was lower than Raw 1D-CNN by "
-        f"{abs(float(results.paired('raw_cnn', 'gru_only')['mean_paired_delta'])):.3f} "
-        f"(p={p_text(results.paired('raw_cnn', 'gru_only')['p_value'])}). The "
-        "recurrent-only model therefore did not replace either local convolutional "
-        "representation, and adding the recurrent path to the CWT image encoder did "
-        "not produce a repeatable diagnostic gain.",
+        f"{abs(float(results.hierarchical_row('main:raw_cnn:gru_only')['mean_delta'])):.3f}; "
+        "however, its hierarchical interval "
+        f"({float(results.hierarchical_row('main:raw_cnn:gru_only')['hierarchical_ci_low']):+.3f} "
+        "to "
+        f"{float(results.hierarchical_row('main:raw_cnn:gru_only')['hierarchical_ci_high']):+.3f}) "
+        "includes zero. The unclustered Wilcoxon sensitivity result "
+        f"(p {p_text(results.paired('raw_cnn', 'gru_only')['p_value'])}) and the "
+        "fold-aware sign-flip result "
+        f"(p {p_text(results.hierarchical_row('main:raw_cnn:gru_only')['fold_aware_p'])}) "
+        "therefore disagree in strength. The conservative conclusion is that no "
+        "stable recurrent gain was established.",
         first=True,
     )
     add_three_line_table(
         document,
-        ["Method", "Paired delta Macro-F1", "95% interval", "Wilcoxon p"],
+        [
+            "Method",
+            "Paired delta Macro-F1",
+            "Hierarchical 95% interval",
+            "Fold-aware p",
+            "Stable direction?",
+        ],
         paired_rows(results),
-        [6.1, 3.2, 3.4, 1.7],
-        "Table 6. Paired comparisons against Raw 1D-CNN on identical fold and seed "
-        "keys. Positive values indicate a higher method mean than the raw baseline.",
+        [5.3, 2.3, 3.5, 1.9, 2.2],
+        "Table 6. Fold-aware paired comparisons against Raw 1D-CNN on identical "
+        "fold-seed keys. Intervals resample folds before seeds. The exact "
+        "sign-flip p-value has a minimum attainable nonzero value of 0.125. "
+        "Unclustered t intervals and Wilcoxon p-values are retained in "
+        "results/statistical_tests.csv as sensitivity analyses.",
     )
 
     document.add_heading(
@@ -1114,9 +1169,11 @@ def build_manuscript(
         document,
         f"CWT-GRU without SE reached {standard_result(results, 'cwt_gru_no_se')}, "
         f"numerically above full CWT-GRU at {standard_result(results, 'cwt_gru')}. "
-        f"The paired no-SE minus full difference was "
-        f"{abs(float(no_se_vs_full['mean_paired_delta'])):.3f} "
-        f"(p={p_text(no_se_vs_full['p_value'])}). This does not establish that SE "
+        "The paired no-SE minus full difference was "
+        f"{abs(float(no_se_vs_full['mean_delta'])):.3f}, with a hierarchical interval "
+        f"from {float(no_se_vs_full['hierarchical_ci_low']):+.3f} to "
+        f"{float(no_se_vs_full['hierarchical_ci_high']):+.3f}. This does not "
+        "establish that SE "
         "improves the model. Adding the recurrent branch to CWT-only did not improve "
         "the mean. The complete component matrix is reported in Section 6 and Table "
         "11.",
@@ -1135,11 +1192,15 @@ def build_manuscript(
         "threshold. At a 50% balanced budget, self-training increased the mean "
         f"from {f3(results.label_row('cwt_gru', 0.5)['Macro-F1 Mean'])} to "
         f"{f3(results.label_row('cwt_gru_selftrain', 0.5)['Macro-F1 Mean'])}; the "
-        f"paired difference was {float(mid_update['mean_paired_delta']):+.3f} "
-        f"(p={p_text(mid_update['p_value'])}). At the full balanced budget, the paired difference was "
-        f"{float(full_update['mean_paired_delta']):+.3f} "
-        f"(p={p_text(full_update['p_value'])}). None of the non-zero mean changes "
-        "is statistically distinguishable from zero. The answer to RQ4 is that the "
+        f"paired difference was {float(mid_update['mean_delta']):+.3f}, with a "
+        "fold-aware interval from "
+        f"{float(mid_update['hierarchical_ci_low']):+.3f} to "
+        f"{float(mid_update['hierarchical_ci_high']):+.3f}. At the Full balanced "
+        "budget, the paired difference was "
+        f"{float(full_update['mean_delta']):+.3f}, with interval "
+        f"{float(full_update['hierarchical_ci_low']):+.3f} to "
+        f"{float(full_update['hierarchical_ci_high']):+.3f}. Both intervals "
+        "include zero. The answer to RQ4 is that the "
         "procedure did not demonstrate a reliable diagnostic improvement.",
         first=True,
     )
@@ -1148,14 +1209,14 @@ def build_manuscript(
         ["Label budget", "Method", "Macro-F1", "Accuracy", "Runs"],
         label_rows(results),
         [1.9, 4.8, 3.4, 3.4, 1.2],
-        "Table 7. Label-efficiency results. Full balanced uses the minimum per-class "
+        "Table 7. Label-efficiency results. Full balanced budget uses the minimum per-class "
         "count in each fold and is not all training windows.",
     )
     add_figure(
         document,
         figures_dir / "figure_03_label_efficiency.png",
-        "Figure 5. Macro-F1 under 10% balanced, 50% balanced, and Full balanced "
-        "budget conditions. "
+        "Figure 5. Macro-F1 under 10% balanced budget, 50% balanced budget, and "
+        "Full balanced budget conditions. "
         "Self-training makes no update at the 10% balanced budget because no "
         "candidate passes tau = 0.60.",
         width_inches=6.0,
@@ -1249,7 +1310,8 @@ def build_manuscript(
         document,
         figures_dir / "figure_08_reliability_diagrams.png",
         "Figure 8. Reliability diagrams aggregated from all "
-        f"{runs_per_method} full-label runs. The diagonal represents perfect calibration.",
+        f"{runs_per_method} Full balanced budget runs. The diagonal represents "
+        "perfect calibration.",
         width_inches=6.3,
         alt_text="Four reliability diagrams comparing uncalibrated and temperature-scaled "
         "confidence with empirical accuracy.",
@@ -1277,7 +1339,7 @@ def build_manuscript(
         "time-frequency image encoder. CWT-GRU without SE and full CWT-GRU isolate "
         "temporal fusion and channel attention. The temperature and self-training rows "
         "describe evaluation or training procedures applied to the same CWT-GRU "
-        "architecture, not additional external SOTA models.",
+        "architecture, not additional external architectures.",
     )
     add_body(
         document,
@@ -1285,15 +1347,19 @@ def build_manuscript(
         f"{runs_per_method} fold-seed combinations. DRSN [16] reached "
         f"{standard_result_from_external(results, 'drsn')} macro-F1 and "
         f"{f3(results.external_summary.loc[results.external_summary['Method'].eq('drsn'), 'Accuracy Mean'].iloc[0])} "
-        f"accuracy. TFNet [22] reached {standard_result_from_external(results, 'tfnet')} "
+        f"accuracy. TFN [22] reached {standard_result_from_external(results, 'tfnet')} "
         f"macro-F1 and "
         f"{f3(results.external_summary.loc[results.external_summary['Method'].eq('tfnet'), 'Accuracy Mean'].iloc[0])} "
         "accuracy. Their paired macro-F1 differences from Raw 1D-CNN were "
-        f"{float(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('drsn')), 'mean_paired_delta'].iloc[0]):+.3f} "
-        f"(p={p_text(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('drsn')), 'p_value'].iloc[0])}) "
-        f"and {float(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('tfnet')), 'mean_paired_delta'].iloc[0]):+.3f} "
-        f"(p={p_text(results.external_tests.loc[(results.external_tests['reference'].eq('raw_cnn')) & (results.external_tests['method'].eq('tfnet')), 'p_value'].iloc[0])}), "
-        "respectively. These are results for the same-protocol adaptations, not "
+        f"{float(drsn_delta['mean_delta']):+.3f} "
+        f"(fold-aware 95% interval {float(drsn_delta['hierarchical_ci_low']):+.3f} "
+        f"to {float(drsn_delta['hierarchical_ci_high']):+.3f}; "
+        f"sign-flip p {p_text(drsn_delta['fold_aware_p'])}) and "
+        f"{float(tfn_delta['mean_delta']):+.3f} "
+        f"(interval {float(tfn_delta['hierarchical_ci_low']):+.3f} to "
+        f"{float(tfn_delta['hierarchical_ci_high']):+.3f}; "
+        f"sign-flip p {p_text(tfn_delta['fold_aware_p'])}), respectively. "
+        "These are results for the same-protocol adaptations, not "
         "estimates of the performance reported by the original studies.",
     )
     add_body(
@@ -1318,7 +1384,7 @@ def build_manuscript(
         ],
         sota_rows(results),
         [3.6, 2.6, 4.0, 1.6, 2.2, 2.2, 0.8],
-        "Table 10. Models eligible for the same-protocol comparison. DRSN and TFNet "
+        "Table 10. Models eligible for the same-protocol comparison. DRSN and TFN "
         "are three-channel, four-class adaptations under the common training "
         "protocol. No unreproduced external result is included.",
     )
@@ -1362,15 +1428,25 @@ def build_manuscript(
     add_body(
         document,
         f"Removing SE changed full CWT-GRU macro-F1 by "
-        f"{abs(float(no_se_vs_full['mean_paired_delta'])):.3f} in favor of the no-SE "
-        f"variant, with p={p_text(no_se_vs_full['p_value'])}. This is a numerical "
-        "direction, not evidence of a significant SE penalty. Adding CWT to GRU-only "
+        f"{abs(float(no_se_vs_full['mean_delta'])):.3f} in favor of the no-SE "
+        "variant numerically. Its fold-aware interval from "
+        f"{float(no_se_vs_full['hierarchical_ci_low']):+.3f} to "
+        f"{float(no_se_vs_full['hierarchical_ci_high']):+.3f} includes zero. This "
+        "is a numerical direction, not stable evidence of an SE penalty. Adding "
+        "CWT to GRU-only "
         f"changed macro-F1 by "
-        f"{float(results.paired('gru_only', 'cwt_gru')['mean_paired_delta']):+.3f} "
-        f"(p={p_text(results.paired('gru_only', 'cwt_gru')['p_value'])}). Adding GRU "
+        f"{float(results.hierarchical_row('main:gru_only:cwt_gru')['mean_delta']):+.3f} "
+        "(fold-aware interval "
+        f"{float(results.hierarchical_row('main:gru_only:cwt_gru')['hierarchical_ci_low']):+.3f} "
+        "to "
+        f"{float(results.hierarchical_row('main:gru_only:cwt_gru')['hierarchical_ci_high']):+.3f}). "
+        "Adding GRU "
         "to CWT-only changed it by "
-        f"{float(results.paired('cwt_cnn', 'cwt_gru')['mean_paired_delta']):+.3f} "
-        f"(p={p_text(results.paired('cwt_cnn', 'cwt_gru')['p_value'])}). The"
+        f"{float(results.hierarchical_row('main:cwt_cnn:cwt_gru')['mean_delta']):+.3f} "
+        "(fold-aware interval "
+        f"{float(results.hierarchical_row('main:cwt_cnn:cwt_gru')['hierarchical_ci_low']):+.3f} "
+        "to "
+        f"{float(results.hierarchical_row('main:cwt_cnn:cwt_gru')['hierarchical_ci_high']):+.3f}). The"
         " ablation therefore does not support the assumption that every added "
         "component improves cross-domain robustness.",
     )
@@ -1379,7 +1455,7 @@ def build_manuscript(
     document.add_heading("7.1 Class confusion and partial class collapse", level=2)
     add_body(
         document,
-        f"Figure 10 aggregates all {runs_per_method} full-label runs of each principal "
+        f"Figure 10 aggregates all {runs_per_method} Full balanced budget runs of each principal "
         "model. Healthy windows are recognized relatively well, but damage classes are "
         "strongly confused. CWT-GRU predicts the correct inner-ring class for "
         f"{percent(cwt_gru_confusion.loc['Inner ring', 'Inner ring'])} of inner-ring "
@@ -1527,10 +1603,10 @@ def build_manuscript(
         document,
         "The main comparison does not show that the complicated model is better. The "
         "CWT 2D-CNN differs from Raw 1D-CNN by "
-        f"{abs(float(raw['mean_paired_delta'])):.3f} macro-F1, and the CWT-GRU "
+        f"{abs(float(raw['mean_delta'])):.3f} macro-F1, and the CWT-GRU "
         "mean is lower than both the raw model and the CWT-only model. The no-SE "
-        "variant has the highest observed mean, but its paired difference from the raw "
-        "model is not significant. This pattern supports a distinction between "
+        "variant has the highest observed mean, but its fold-aware interval is "
+        "centered near zero. This pattern is consistent with a distinction between "
         "representational capacity on the training distribution and invariance to a "
         "new bearing and operating condition. More capacity can fit domain-specific "
         "cues without acquiring the fault mechanism that transfers.",
@@ -1546,13 +1622,14 @@ def build_manuscript(
     )
     add_body(
         document,
-        "Table 13 and Figure 12 show that the low test macro-F1 is not a training "
-        "failure. Validation macro-F1 is substantially higher for every principal "
-        "model, so all models learn the source data. The performance loss coincides "
-        "with the joint change in bearing identity and operating condition. This "
-        "pattern is consistent with domain shift, but the design cannot separate the "
-        "causal contributions of bearing identity, operating condition, and "
-        "damage-origin differences, nor can it identify a single failure mechanism.",
+        "Table 13 and Figure 12 show substantially higher validation macro-F1 than "
+        "test macro-F1 for every principal model. The held-out test scores therefore "
+        "cannot be explained merely by an inability to fit the development domains. "
+        "The performance loss coincides with the joint change in bearing identity "
+        "and operating condition. This pattern is consistent with joint domain "
+        "shift, but the design cannot isolate the causal contributions of bearing "
+        "identity, operating condition, and damage-origin differences, nor can it "
+        "identify a single failure mechanism.",
     )
 
     document.add_heading("8.2 The implemented CWT representation loses information", level=2)
@@ -1583,11 +1660,11 @@ def build_manuscript(
         document,
         f"CWT-GRU uses {parameter_count / raw_parameter_count:.1f} times as many "
         "parameters as Raw 1D-CNN and has a higher "
-        "median training and inference cost. Its mean macro-F1 is not higher by a "
-        "statistically distinguishable margin. The recurrent branch traverses 8192 "
-        "time steps and therefore exposes limited parallelism compared with local "
-        "convolution. The observation is an empirical result for this implementation, "
-        "not a claim that every temporal model must fail.",
+        "median training and inference cost. Its paired macro-F1 interval against "
+        "Raw 1D-CNN is centered near zero. The recurrent branch traverses 8192 time "
+        "steps and therefore exposes limited parallelism compared with local "
+        "convolution. The observation is an empirical result for this "
+        "implementation, not a claim that every temporal model must fail.",
         first=True,
     )
 
@@ -1596,9 +1673,10 @@ def build_manuscript(
         document,
         "At a 10% balanced budget, no pseudo-label passed tau = 0.60 in all "
         f"{low_budget_zero_updates} evaluations. At "
-        "the 50% and full balanced budgets, selected pseudo-label accuracy is high in many runs, yet the "
-        "mean diagnostic change is small and non-significant. The selection rule uses "
-        "the model's own calibrated confidence, so it is most likely to admit samples "
+        "the 50% balanced and Full balanced budgets, selected pseudo-label accuracy is high "
+        "in many runs, yet the fold-aware intervals for diagnostic change include "
+        "zero. The selection rule uses the model's own calibrated confidence, so it "
+        "is most likely to admit samples "
         "that agree with the current decision geometry. The asymmetric confusion "
         "matrix shows that this geometry is already biased toward particular classes. "
         "A class-balanced cap limits count imbalance but does not create information "
@@ -1625,10 +1703,11 @@ def build_manuscript(
         document,
         "The benchmark supports six concrete reporting requirements: non-overlapping "
         "windows; bearing-code-disjoint fitting and testing; explicit operating-domain "
-        "holdout; at least five independent seeds with paired statistics; separate "
-        "reports of pseudo-label coverage and accuracy; and separate reports of "
-        "classification and calibration. It also supports an auditable distinction "
-        "between numerical improvement and statistical evidence.",
+        "holdout; at least five stochastic seeds per operating-condition fold with "
+        "fold-aware paired statistics; separate reports of pseudo-label coverage and "
+        "accuracy; and separate reports of classification and calibration. It also "
+        "supports an auditable distinction between numerical improvement and "
+        "statistical evidence.",
     )
 
     document.add_heading("9 Conclusion", level=1)
@@ -1637,13 +1716,14 @@ def build_manuscript(
         "This study asked whether time-frequency imaging, temporal fusion, "
         "temperature scaling, and self-training improve bearing diagnosis when a new "
         "bearing and a new operating condition are held out together. The answer from "
-        "the five-seed Paderborn benchmark is no stable improvement: CWT and CWT-GRU "
-        "are statistically indistinguishable from Raw 1D-CNN in macro-F1, and "
-        "self-training does not improve the mean significantly at the tested label "
-        "budgets. Same-protocol DRSN and TFNet adaptations also remained below the "
-        "simpler baselines. These results do not establish a universal failure of "
-        "time-frequency or recurrent methods. They establish a stricter boundary for "
-        "claims based on random-window benchmarks.",
+        "the Paderborn benchmark is no stable improvement: fold-aware intervals for "
+        "CWT and CWT-GRU against Raw 1D-CNN include zero in macro-F1, and intervals "
+        "for self-training include zero at the tested balanced label budgets. "
+        "Same-protocol DRSN and TFN adaptations had lower mean macro-F1, although "
+        "the four held-out condition folds limit inferential precision. These results "
+        "do not establish a universal failure of time-frequency or recurrent methods. "
+        "They establish a stricter boundary for claims based on random-window "
+        "benchmarks.",
         first=True,
     )
     add_body(
@@ -1652,7 +1732,7 @@ def build_manuscript(
         "machine-tool spindle assembly, and the held-out physical units are limited to "
         f"{heldout_count} codes. The benchmark uses one window length, one CWT scale "
         "range, one main model family, and a small validation set. The external DRSN "
-        "and TFNet implementations are adaptations under the common protocol, so "
+        "and TFN implementations are adaptations under the common protocol, so "
         "their results do not estimate performance under the original papers' "
         "datasets or training recipes. The "
         "held-out fault bearings are lifetime-damaged while several training bearings "

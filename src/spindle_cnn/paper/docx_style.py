@@ -342,10 +342,10 @@ def add_reference(document: DocumentType, number: int, text: str) -> None:
     paragraph.paragraph_format.left_indent = Cm(0.7)
     paragraph.paragraph_format.first_line_indent = Cm(-0.7)
     paragraph.paragraph_format.space_before = Pt(0)
-    paragraph.paragraph_format.space_after = Pt(1.5)
-    paragraph.paragraph_format.line_spacing = 1.0
+    paragraph.paragraph_format.space_after = Pt(1.0)
+    paragraph.paragraph_format.line_spacing = 0.98
     run = paragraph.add_run(f"[{number}] {text}")
-    set_run_font(run, size=8.7)
+    set_run_font(run, size=8.2)
 
 
 def add_page_break(document: DocumentType) -> None:

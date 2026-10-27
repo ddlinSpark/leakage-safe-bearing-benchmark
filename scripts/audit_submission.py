@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+from itertools import product
 from pathlib import Path
 from typing import Any
 
@@ -36,7 +37,7 @@ def f3(value: float) -> str:
 
 
 def p_text(value: float) -> str:
-    return "<0.001" if float(value) < 0.001 else f"{float(value):.3f}"
+    return "< 0.001" if float(value) < 0.001 else f"= {float(value):.3f}"
 
 
 def percent(value: float) -> str:
@@ -55,6 +56,166 @@ def ci95(values: pd.Series) -> tuple[float, float]:
         len(clean)
     )
     return float(clean.mean() - half_width), float(clean.mean() + half_width)
+
+
+def independent_hierarchical_values(
+    raw: pd.DataFrame,
+    external: pd.DataFrame,
+    row: pd.Series,
+) -> tuple[float, float, float, float]:
+    reference = str(row["reference"])
+    method = str(row["method"])
+    experiment_type = str(row["experiment_type"])
+    if experiment_type == "main":
+        selected = raw.loc[
+            raw["experiment_type"].eq("main")
+            & raw["method"].isin([reference, method])
+        ]
+    elif experiment_type == "label_efficiency":
+        selected = raw.loc[
+            raw["experiment_type"].eq("label_efficiency")
+            & np.isclose(
+                raw["label_ratio"].to_numpy(dtype=float),
+                float(row["label_ratio"]),
+            )
+            & raw["method"].isin([reference, method])
+        ]
+    elif experiment_type == "label_full":
+        selected = raw.loc[
+            raw["experiment_type"].eq("main")
+            & np.isclose(raw["label_ratio"].to_numpy(dtype=float), 1.0)
+            & raw["method"].isin([reference, method])
+        ]
+    elif experiment_type == "external":
+        selected = pd.concat(
+            [
+                raw.loc[
+                    raw["experiment_type"].eq("main")
+                    & raw["method"].eq(reference)
+                ],
+                external.loc[external["method"].eq(method)],
+            ],
+            ignore_index=True,
+        )
+    else:
+        raise ValueError(f"Unknown hierarchical experiment type: {experiment_type}")
+
+    pivot = selected.pivot_table(
+        index=["fold", "seed"],
+        columns="method",
+        values="macro_f1",
+    )
+    paired = pivot[[reference, method]].dropna()
+    expected = {
+        (fold, seed) for fold in FOLDS for seed in SEEDS
+    }
+    if set(paired.index) != expected:
+        raise ValueError(
+            f"Incomplete hierarchy input for {row['comparison']}"
+        )
+    differences = paired[method] - paired[reference]
+    values_by_fold = {
+        fold: differences.loc[fold].to_numpy(dtype=float) for fold in FOLDS
+    }
+    rng = np.random.default_rng(int(row["bootstrap_seed"]))
+    samples = int(row["bootstrap_samples"])
+    bootstrap_means = np.empty(samples, dtype=float)
+    for index in range(samples):
+        selected_folds = rng.choice(FOLDS, size=len(FOLDS), replace=True)
+        selected_values = []
+        for fold in selected_folds:
+            fold_values = values_by_fold[int(fold)]
+            seed_indices = rng.integers(
+                0,
+                len(fold_values),
+                size=len(fold_values),
+            )
+            selected_values.append(fold_values[seed_indices])
+        bootstrap_means[index] = np.concatenate(selected_values).mean()
+    low, high = np.quantile(bootstrap_means, [0.025, 0.975])
+    fold_means = differences.groupby(level="fold").mean().to_numpy(dtype=float)
+    observed = float(fold_means.mean())
+    if np.allclose(fold_means, 0.0, rtol=0.0, atol=1e-15):
+        fold_p = 1.0
+    else:
+        permuted = [
+            float(np.mean(fold_means * np.asarray(signs)))
+            for signs in product((-1.0, 1.0), repeat=len(fold_means))
+        ]
+        fold_p = float(
+            np.sum(np.abs(permuted) >= abs(observed) - 1e-15)
+            / len(permuted)
+        )
+    return float(differences.mean()), float(low), float(high), fold_p
+
+
+def check_hierarchical_statistics(
+    raw: pd.DataFrame,
+    external: pd.DataFrame,
+    statistics: pd.DataFrame,
+    mismatches: list[dict[str, Any]],
+) -> None:
+    if not statistics["comparison"].is_unique:
+        add_mismatch(
+            mismatches,
+            location="hierarchical statistics",
+            paper_value="unique comparison identifiers",
+            computed_value="duplicate comparison identifiers",
+            source="results/hierarchical_statistics.csv",
+            reason="Comparison keys must be unique.",
+        )
+    for _, row in statistics.iterrows():
+        mean, low, high, fold_p = independent_hierarchical_values(
+            raw,
+            external,
+            row,
+        )
+        location = f"hierarchical comparison: {row['comparison']}"
+        assert_close(
+            float(row["mean_delta"]),
+            mean,
+            location=f"{location}, mean delta",
+            source="results/raw_runs.csv and results/sota/raw_runs.csv",
+            mismatches=mismatches,
+        )
+        assert_close(
+            float(row["hierarchical_ci_low"]),
+            low,
+            location=f"{location}, lower interval",
+            source="results/raw_runs.csv and results/sota/raw_runs.csv",
+            mismatches=mismatches,
+        )
+        assert_close(
+            float(row["hierarchical_ci_high"]),
+            high,
+            location=f"{location}, upper interval",
+            source="results/raw_runs.csv and results/sota/raw_runs.csv",
+            mismatches=mismatches,
+        )
+        assert_close(
+            float(row["fold_aware_p"]),
+            fold_p,
+            location=f"{location}, fold sign-flip p-value",
+            source="results/raw_runs.csv and results/sota/raw_runs.csv",
+            mismatches=mismatches,
+        )
+        if (
+            int(row["n_folds"]) != 4
+            or int(row["n_seeds"]) != 5
+            or int(row["n_pairs"]) != 20
+        ):
+            add_mismatch(
+                mismatches,
+                location=f"{location}, design dimensions",
+                paper_value="4 folds, 5 seeds, 20 pairs",
+                computed_value=(
+                    f"{int(row['n_folds'])} folds, "
+                    f"{int(row['n_seeds'])} seeds, "
+                    f"{int(row['n_pairs'])} pairs"
+                ),
+                source="results/hierarchical_statistics.csv",
+                reason="Fold-seed completeness differs from the protocol.",
+            )
 
 
 def add_mismatch(
@@ -659,7 +820,7 @@ def check_summary_sources(
 
 def check_run_completeness(
     raw: pd.DataFrame,
-    root: Path,
+    results_dir: Path,
     mismatches: list[dict[str, Any]],
 ) -> dict[str, Any]:
     expected = {
@@ -814,7 +975,7 @@ def check_run_completeness(
     missing_run_files = {}
     config_metadata_mismatches = []
     for row in raw.itertuples(index=False):
-        run_dir = root / "results" / "runs" / str(row.run_id)
+        run_dir = results_dir / "runs" / str(row.run_id)
         missing = [
             name for name in required_run_files if not (run_dir / name).is_file()
         ]
@@ -863,7 +1024,7 @@ def check_run_completeness(
             reason="Run configuration metadata differs from the canonical row.",
         )
 
-    recheck_path = root / "results" / "rechecks" / "all_runs.json"
+    recheck_path = results_dir / "rechecks" / "all_runs.json"
     recheck = json.loads(recheck_path.read_text("utf-8"))
     recheck_passed = (
         int(recheck.get("passed", -1)) == len(raw)
@@ -962,7 +1123,7 @@ def check_run_completeness(
 
 def check_external_completeness(
     external: pd.DataFrame,
-    root: Path,
+    external_dir: Path,
     mismatches: list[dict[str, Any]],
 ) -> dict[str, Any]:
     methods = ("drsn", "tfnet")
@@ -1039,7 +1200,7 @@ def check_external_completeness(
         "training_history.csv",
     )
     for row in external.itertuples(index=False):
-        run_dir = root / "results" / "sota" / "runs" / str(row.run_id)
+        run_dir = external_dir / "runs" / str(row.run_id)
         missing = [
             name for name in required_files if not (run_dir / name).is_file()
         ]
@@ -1083,7 +1244,7 @@ def check_external_completeness(
             source="results/sota/runs/<run_id>/config.json",
             reason="New external runs reintroduced host metadata.",
         )
-    recheck_path = root / "results" / "sota" / "rechecks" / "all_runs.json"
+    recheck_path = external_dir / "rechecks" / "all_runs.json"
     recheck = json.loads(recheck_path.read_text("utf-8"))
     recheck_ok = (
         int(recheck.get("passed", -1)) == len(external)
@@ -1125,6 +1286,7 @@ def check_paper_tables(
     raw: pd.DataFrame,
     document: Document,
     root: Path,
+    results_dir: Path,
     mismatches: list[dict[str, Any]],
 ) -> dict[str, Any]:
     if len(document.tables) != 13:
@@ -1133,7 +1295,7 @@ def check_paper_tables(
             location="manuscript tables",
             paper_value="13",
             computed_value=str(len(document.tables)),
-            source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+            source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
             reason="Manuscript table count differs from the audited design.",
         )
     if len(document.inline_shapes) != 12:
@@ -1142,7 +1304,7 @@ def check_paper_tables(
             location="manuscript figures",
             paper_value="12",
             computed_value=str(len(document.inline_shapes)),
-            source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+            source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
             reason="Manuscript figure count differs from the audited design.",
         )
 
@@ -1175,7 +1337,7 @@ def check_paper_tables(
         ]
         for fold in FOLDS:
             manifest = json.loads(
-                (root / "results" / "splits" / f"fold{fold}.json").read_text(
+                (results_dir / "splits" / f"fold{fold}.json").read_text(
                     "utf-8"
                 )
             )
@@ -1289,13 +1451,13 @@ def check_paper_tables(
             [
                 "Main",
                 f"Seven method conditions; {len(FOLDS)} folds x {len(SEEDS)} seeds; "
-                "full balanced budget",
+                "Full balanced budget",
                 str(int(counts["main"])),
             ],
             [
                 "Label efficiency",
-                "Supervised and self-training at 10% and 50% balanced budgets; "
-                "full reuses main rows",
+                "Supervised and self-training at 10% balanced budget and "
+                "50% balanced budget; Full balanced budget reuses main rows",
                 str(int(counts["label_efficiency"])),
             ],
             [
@@ -1336,31 +1498,42 @@ def check_paper_tables(
         )
 
     if len(document.tables) >= 6:
-        pivot = main.pivot_table(
-            index=["fold", "seed"],
-            columns="method",
-            values="macro_f1",
+        hierarchical = pd.read_csv(
+            results_dir / "hierarchical_statistics.csv"
         )
         expected = [
-            ["Method", "Paired delta Macro-F1", "95% interval", "Wilcoxon p"]
+            [
+                "Method",
+                "Paired delta Macro-F1",
+                "Hierarchical 95% interval",
+                "Fold-aware p",
+                "Stable direction?",
+            ]
         ]
         for method in METHOD_ORDER[1:]:
-            paired = pivot[["raw_cnn", method]].dropna()
-            delta = paired[method] - paired["raw_cnn"]
-            low, high = ci95(delta)
+            comparison = f"main:raw_cnn:{method}"
+            row = hierarchical.loc[
+                hierarchical["comparison"].eq(comparison)
+            ].iloc[0]
             expected.append(
                 [
                     METHOD_LABELS[method],
-                    f"{delta.mean():+.3f}",
-                    f"{low:+.3f} to {high:+.3f}",
-                    p_text(stats.wilcoxon(delta).pvalue),
+                    f"{float(row['mean_delta']):+.3f}",
+                    f"{float(row['hierarchical_ci_low']):+.3f} to "
+                    f"{float(row['hierarchical_ci_high']):+.3f}",
+                    f"p {p_text(row['fold_aware_p'])}",
+                    (
+                        "Yes"
+                        if bool(row["hierarchical_ci_excludes_zero"])
+                        else "No"
+                    ),
                 ]
             )
         compare_table(
             table_rows(document.tables[5]),
             expected,
             location="Table 6",
-            source="results/raw_runs.csv",
+            source="results/hierarchical_statistics.csv",
             mismatches=mismatches,
         )
 
@@ -1379,9 +1552,9 @@ def check_paper_tables(
                 expected.append(
                     [
                         {
-                            0.1: "10% balanced",
-                            0.5: "50% balanced",
-                            1.0: "Full balanced",
+                            0.1: "10% balanced budget",
+                            0.5: "50% balanced budget",
+                            1.0: "Full balanced budget",
                         }[ratio],
                         label_text,
                         mean_sd(group["macro_f1"].mean(), group["macro_f1"].std()),
@@ -1515,9 +1688,9 @@ def check_paper_tables(
                     str(int(row["runs"])),
                 ]
             )
-        external_raw = pd.read_csv(root / "results" / "sota" / "raw_runs.csv")
+        external_raw = pd.read_csv(results_dir / "sota" / "raw_runs.csv")
         external_summary = pd.read_csv(
-            root / "results" / "sota" / "summary_with_ci.csv"
+            results_dir / "sota" / "summary_with_ci.csv"
         )
         external_architecture = {
             "drsn": (
@@ -1531,7 +1704,7 @@ def check_paper_tables(
         }
         external_labels = {
             "drsn": "DRSN (same-protocol adaptation)",
-            "tfnet": "TFNet (same-protocol adaptation)",
+            "tfnet": "TFN (same-protocol adaptation)",
         }
         for method, (representation, core) in external_architecture.items():
             row = external_summary.loc[external_summary["Method"].eq(method)].iloc[0]
@@ -1638,7 +1811,7 @@ def check_paper_tables(
         )
 
     if len(document.tables) >= 13:
-        domain_gap = pd.read_csv(root / "results" / "domain_gap_summary.csv")
+        domain_gap = pd.read_csv(results_dir / "domain_gap_summary.csv")
         expected = [
             [
                 "Model",
@@ -1708,7 +1881,7 @@ def check_paper_tables(
         .sort_index()
     )
     confusion_frames = [
-        pd.read_csv(root / "results" / "runs" / run_id / "confusion_matrix.csv")
+        pd.read_csv(results_dir / "runs" / run_id / "confusion_matrix.csv")
         for run_id in main.loc[main["method"].eq("cwt_gru"), "run_id"]
     ]
     confusion_counts = pd.concat(confusion_frames, ignore_index=True).groupby(
@@ -1722,10 +1895,10 @@ def check_paper_tables(
     confusion = confusion.div(confusion.sum(axis=1), axis=0)
     cwt_calibration = main.loc[main["method"].eq("cwt_gru")]
     external_summary = pd.read_csv(
-        root / "results" / "sota" / "summary_with_ci.csv"
+        results_dir / "sota" / "summary_with_ci.csv"
     )
     external_tests = pd.read_csv(
-        root / "results" / "sota" / "statistical_tests.csv"
+        results_dir / "sota" / "statistical_tests.csv"
     )
     complexity = main.groupby("method").agg(
         parameters=("parameters", "median"),
@@ -1745,14 +1918,15 @@ def check_paper_tables(
         "CWT-GRU result": mean_sd(
             summary.loc["cwt_gru", "mean"], summary.loc["cwt_gru", "std"]
         ),
-        "No-SE p-value": f"p={p_text(stats.wilcoxon(no_se_delta).pvalue)}",
-        "50% self-training result": (
-            f"paired delta {label_50_delta.mean():+.3f}, "
-            f"p={p_text(stats.wilcoxon(label_50_delta).pvalue)}"
+        "No-SE sensitivity p-value": (
+            f"p {p_text(stats.wilcoxon(no_se_delta).pvalue)}"
         ),
-        "100% self-training result": (
-            f"{label_100_delta.mean():+.3f}, "
-            f"p={p_text(stats.wilcoxon(label_100_delta).pvalue)}"
+        "50% self-training result": (
+            f"paired difference was {label_50_delta.mean():+.3f}, with a "
+            "fold-aware interval from"
+        ),
+        "Full balanced self-training result": (
+            f"paired difference was {label_100_delta.mean():+.3f}, with interval"
         ),
         "Threshold minimum": f"{threshold_summary['macro_f1'].min():.3f}",
         "Threshold maximum": f"{threshold_summary['macro_f1'].max():.3f}",
@@ -1801,7 +1975,7 @@ def check_paper_tables(
                 external_summary["Method"].eq("drsn"), "Macro-F1 Std"
             ].iloc[0],
         ),
-        "TFNet result": mean_sd(
+        "TFN result": mean_sd(
             external_summary.loc[
                 external_summary["Method"].eq("tfnet"), "Macro-F1 Mean"
             ].iloc[0],
@@ -1810,17 +1984,19 @@ def check_paper_tables(
             ].iloc[0],
         ),
         "DRSN paired delta": (
-            f"{float(external_tests.loc[(external_tests['reference'].eq('raw_cnn')) & (external_tests['method'].eq('drsn')), 'mean_paired_delta'].iloc[0]):+.3f}"
+            f"{float(hierarchical.loc[hierarchical['comparison'].eq('external:raw_cnn:drsn'), 'mean_delta'].iloc[0]):+.3f}"
         ),
-        "TFNet paired delta": (
-            f"{float(external_tests.loc[(external_tests['reference'].eq('raw_cnn')) & (external_tests['method'].eq('tfnet')), 'mean_paired_delta'].iloc[0]):+.3f}"
+        "TFN paired delta": (
+            f"{float(hierarchical.loc[hierarchical['comparison'].eq('external:raw_cnn:tfnet'), 'mean_delta'].iloc[0]):+.3f}"
         ),
-        "Domain gap statement": "low test macro-F1 is not a training",
+        "Domain gap statement": (
+            "cannot be explained merely by an inability to fit the development domains"
+        ),
         "Contribution wording": (
-            "extends split auditing by jointly evaluating waveform and "
-            "time-frequency representations"
+            "joint comparison that distinguishes representation and training"
         ),
         "SOTA boundary": "No unreproduced external result is included.",
+        "TFN reference DOI": "10.1016/j.ymssp.2023.110952",
         "Spindle scope": "not a complete machine-tool spindle assembly",
     }
     for label, fragment in required_fragments.items():
@@ -1830,7 +2006,7 @@ def check_paper_tables(
                 location=f"manuscript text: {label}",
                 paper_value=fragment,
                 computed_value="fragment not found",
-                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
                 reason="A required result statement is absent or inconsistent.",
             )
     for table_number in range(1, 14):
@@ -1840,7 +2016,7 @@ def check_paper_tables(
                 location=f"Table {table_number} caption",
                 paper_value=f"Table {table_number}.",
                 computed_value="caption not found",
-                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
                 reason="A numbered table caption is missing.",
             )
     for figure_number in range(1, 13):
@@ -1850,7 +2026,7 @@ def check_paper_tables(
                 location=f"Figure {figure_number} caption",
                 paper_value=f"Figure {figure_number}.",
                 computed_value="caption not found",
-                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
                 reason="A numbered figure caption is missing.",
             )
     if "spindle bearing" in text.casefold():
@@ -1859,18 +2035,29 @@ def check_paper_tables(
             location="manuscript scope terminology",
             paper_value="no unsupported spindle-bearing scope claim",
             computed_value="unsupported phrase found",
-            source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
+            source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
             reason="The manuscript overstates the evidence from a bearing test rig.",
         )
-    for obsolete in ("10% labels", "50% labels", "100% labels"):
+    for obsolete in (
+        "TFNet",
+        "Full-label",
+        "full-label",
+        "100% label",
+        "p=<",
+        "p =<",
+        "training failure",
+    ):
         if obsolete.casefold() in text.casefold():
             add_mismatch(
                 mismatches,
                 location="balanced-budget terminology",
-                paper_value="10% balanced, 50% balanced, Full balanced",
+                paper_value=(
+                    "10% balanced budget, 50% balanced budget, "
+                    "Full balanced budget; TFN; standard p-value syntax"
+                ),
                 computed_value=obsolete,
-                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx",
-                reason="Legacy percentage wording remains in the manuscript.",
+                source="docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx",
+                reason="Obsolete terminology or p-value formatting remains.",
             )
 
     return {
@@ -1909,26 +2096,73 @@ def main() -> None:
         type=Path,
         default=Path(__file__).resolve().parents[1],
     )
+    parser.add_argument(
+        "--results-dir",
+        type=Path,
+        help="Results directory; defaults to <root>/results.",
+    )
+    parser.add_argument(
+        "--external-dir",
+        type=Path,
+        help="External results directory; defaults to <results-dir>/sota.",
+    )
+    parser.add_argument(
+        "--paper",
+        type=Path,
+        help=(
+            "Generated manuscript DOCX; defaults to "
+            "<root>/docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx."
+        ),
+    )
     parser.add_argument("--json-output", type=Path)
     args = parser.parse_args()
     root = args.root.resolve()
-    raw = pd.read_csv(root / "results" / "raw_runs.csv")
-    external = pd.read_csv(root / "results" / "sota" / "raw_runs.csv")
-    summary = pd.read_csv(root / "results" / "summary.csv")
-    summary_ci = pd.read_csv(root / "results" / "summary_with_ci.csv")
-    pairs = pd.read_csv(root / "results" / "statistical_tests.csv")
+    results_dir = (
+        args.results_dir
+        if args.results_dir and args.results_dir.is_absolute()
+        else root / args.results_dir
+        if args.results_dir
+        else root / "results"
+    ).resolve()
+    external_dir = (
+        args.external_dir
+        if args.external_dir and args.external_dir.is_absolute()
+        else root / args.external_dir
+        if args.external_dir
+        else results_dir / "sota"
+    ).resolve()
+    paper_path = (
+        args.paper
+        if args.paper and args.paper.is_absolute()
+        else root / args.paper
+        if args.paper
+        else (
+            root
+            / "docs"
+            / "paper"
+            / "Leakage_Safe_Bearing_Benchmark_SCI_final.docx"
+        )
+    ).resolve()
+    raw = pd.read_csv(results_dir / "raw_runs.csv")
+    external = pd.read_csv(external_dir / "raw_runs.csv")
+    summary = pd.read_csv(results_dir / "summary.csv")
+    summary_ci = pd.read_csv(results_dir / "summary_with_ci.csv")
+    pairs = pd.read_csv(results_dir / "statistical_tests.csv")
     label_summary = pd.read_csv(
-        root / "results" / "label_efficiency_summary.csv"
+        results_dir / "label_efficiency_summary.csv"
     )
-    threshold_summary = pd.read_csv(root / "results" / "threshold_summary.csv")
-    ablation_summary = pd.read_csv(root / "results" / "ablation_summary.csv")
-    model_complexity = pd.read_csv(root / "results" / "model_complexity.csv")
+    threshold_summary = pd.read_csv(results_dir / "threshold_summary.csv")
+    ablation_summary = pd.read_csv(results_dir / "ablation_summary.csv")
+    model_complexity = pd.read_csv(results_dir / "model_complexity.csv")
+    hierarchical_statistics = pd.read_csv(
+        results_dir / "hierarchical_statistics.csv"
+    )
     mismatches: list[dict[str, Any]] = []
 
-    completeness = check_run_completeness(raw, root, mismatches)
+    completeness = check_run_completeness(raw, results_dir, mismatches)
     external_completeness = check_external_completeness(
         external,
-        root,
+        external_dir,
         mismatches,
     )
     check_summary_sources(
@@ -1942,22 +2176,40 @@ def main() -> None:
         model_complexity,
         mismatches,
     )
-
-    paper_path = (
-        root / "docs" / "paper" / "Leakage_Safe_Bearing_Benchmark_SCI.docx"
-    )
-    paper = check_paper_tables(
+    check_hierarchical_statistics(
         raw,
-        Document(paper_path),
-        root,
+        external,
+        hierarchical_statistics,
         mismatches,
-    ) if paper_path.is_file() else {"available": False}
+    )
+
+    if paper_path.is_file():
+        paper = check_paper_tables(
+            raw,
+            Document(paper_path),
+            root,
+            results_dir,
+            mismatches,
+        )
+    else:
+        add_mismatch(
+            mismatches,
+            location="manuscript availability",
+            paper_value="generated manuscript DOCX",
+            computed_value=f"missing: {paper_path}",
+            source=str(paper_path),
+            reason="The manuscript must be built before numerical table audit.",
+        )
+        paper = {"available": False}
 
     payload = {
         "status": "PASS" if not mismatches else "FAIL",
         "raw_sha256": __import__("hashlib").sha256(
-            (root / "results" / "raw_runs.csv").read_bytes()
+            (results_dir / "raw_runs.csv").read_bytes()
         ).hexdigest(),
+        "results_dir": str(results_dir),
+        "external_dir": str(external_dir),
+        "paper_path": str(paper_path),
         "completeness": completeness,
         "external_completeness": external_completeness,
         "paper": paper,

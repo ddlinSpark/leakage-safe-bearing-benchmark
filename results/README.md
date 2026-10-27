@@ -13,6 +13,7 @@ ablation_summary.csv         # component-wise ablation matrix
 label_efficiency_summary.csv
 threshold_summary.csv
 statistical_tests.csv
+hierarchical_statistics.csv # fold-aware paired comparisons and sensitivity tests
 model_complexity.csv         # aggregates every experiment type by method
 EXPERIMENT_REPORT.md
 rechecks/all_runs.json
@@ -29,13 +30,20 @@ Do not edit result CSVs manually. Regenerate them from `raw_runs.csv` with:
 PYTHONPATH=src python -m spindle_cnn.analysis.statistics \
   --results results/raw_runs.csv \
   --output-dir results
+
+PYTHONPATH=src python -m spindle_cnn.analysis.hierarchical \
+  --results-dir results \
+  --external-dir results/sota \
+  --output results/hierarchical_statistics.csv
 ```
 
 `runs/*/predictions.npz` are small diagnostic logit archives retained for
 independent metric recomputation. Configuration snapshots, compact CSV
-summaries, and recheck reports are also retained for audit.
+summaries, and recheck reports are also retained for audit. The fold-aware file
+is the primary paired-inference source; the unclustered t intervals and
+Wilcoxon tests remain sensitivity analyses.
 
 The `sota/` directory is intentionally separate from the 320 canonical rows.
-It contains DRSN and TFNet same-protocol adaptations, their paired tests,
+It contains DRSN and TFN same-protocol adaptations, their paired tests,
 complexity summary, per-run configuration, predictions, and independent
 rechecks.

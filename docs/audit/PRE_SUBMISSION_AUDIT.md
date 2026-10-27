@@ -7,7 +7,7 @@ Raw-result SHA-256: `a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46f
 
 ## Decision
 
-**Scientific reproducibility: PASS.**  
+**Scientific reproducibility and fold-aware statistics: PASS.**
 **Public-release privacy and double-blind readiness: FAIL.**
 
 The experiment matrix, statistics, manuscript tables, manuscript figures,
@@ -59,8 +59,9 @@ values:
 - All 320 tracked per-run configuration files contain the same environment
   hostname field. This field identifies the workstation and is present in the
   published Git history.
-- Every commit in the current history carries the same personal email address
-  in the author metadata. The address is not repeated here.
+- Several historical commits carry non-anonymous author email metadata. The
+  address is not repeated here; a count is recorded in
+  `FINAL_MANUSCRIPT_AUDIT.md`.
 - The public repository is associated with a named account while the manuscript
   is labeled for double-blind review.
 
@@ -169,7 +170,7 @@ row has identical logits and argmax decisions to its matched CWT-GRU run. All
 main ablation conditions use the same dataset hash, split hash per fold, seeds,
 label budget, preprocessing, and metrics.
 
-## SOTA and baseline audit
+## External baseline audit
 
 Table 10 contains only models trained by this project under the same dataset,
 split, windowing, preprocessing, and metric implementation. No result from
@@ -184,7 +185,7 @@ cwt_gru, cwt_gru_temp, cwt_gru_selftrain, drsn, tfnet
 
 `cnn_lstm`, `drsn_transformer`, and `mtfc_t` remain explicit, non-executable
 placeholders. The repository contains no claimed reproduction of their paper
-metrics. DRSN and TFNet were retrained for 20 clean runs each and passed the
+metrics. DRSN and TFN were retrained for 20 clean runs each and passed the
 completeness and independent metric checks. Their results are labeled as
 same-protocol adaptations.
 
@@ -210,6 +211,19 @@ Only non-scientific repository inconsistencies were corrected:
 No experiment result, split, metric, threshold, model architecture, training
 setting, or manuscript numerical claim was modified.
 
+## Fold-aware statistics revision
+
+The final statistical revision retains all 320 canonical and 40 external rows.
+`results/hierarchical_statistics.csv` recomputes paired comparisons by
+resampling operating-condition folds before seeds. The unclustered t intervals
+and Wilcoxon tests remain as sensitivity analyses. The independent audit
+recomputes the hierarchical intervals and fold sign-flip tests from the raw
+tables and reports zero mismatches.
+
+The numerical and manuscript audit is documented in
+`STATISTICAL_SENSITIVITY_REPORT.md`, `FINAL_STATISTICAL_AUDIT.md`, and
+`FINAL_MANUSCRIPT_AUDIT.md`.
+
 ## Required actions before public submission
 
 1. Decide whether the submission is double-blind. If it is, remove the public
@@ -218,7 +232,8 @@ setting, or manuscript numerical claim was modified.
 2. Sanitize the workstation hostname from all retained run configurations.
 3. Decide whether to rewrite Git author metadata. If yes, create a backup,
    rewrite history consistently, and force-push the sanitized history.
-4. Re-run `scripts/audit_submission.py` and `pytest` after the history decision.
+4. Re-run `scripts/audit_submission.py`, `scripts/audit_final_manuscript.py`,
+   and `pytest` after the history decision.
 5. Consider adding an environment lockfile once the exact historical
    scikit-learn, SciPy, PyWavelets, and Matplotlib versions are recovered from
    the original environment.

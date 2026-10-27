@@ -195,7 +195,7 @@ def overall_framework(output_dir: Path) -> None:
         0.22,
         0.19,
         "Label budget",
-        "10% balanced\n50% balanced\nFull balanced",
+        "10% balanced budget\n50% balanced budget\nFull balanced budget",
         edge=BLUE,
         face=PALE_BLUE,
     )
@@ -232,7 +232,7 @@ def overall_framework(output_dir: Path) -> None:
         0.70,
         0.16,
         "Analysis layer",
-        "Macro-F1 and accuracy | paired Wilcoxon tests | ECE, NLL, Brier score\n"
+        "Macro-F1 and accuracy | fold-aware paired intervals | ECE, NLL, Brier score\n"
         "class confusion | pseudo-label coverage and accuracy | parameters, FLOPs, latency",
         edge=GRAY,
         face=PALE_GRAY,
@@ -398,7 +398,10 @@ def self_training_pipeline(output_dir: Path) -> None:
         0.17,
         0.20,
         "Balanced labeled set",
-        "L: verified training labels\n10% or 50% balanced\nor Full balanced",
+        "L: verified training labels\n"
+        "10% balanced budget\n"
+        "50% balanced budget\n"
+        "Full balanced budget",
         edge=BLUE,
         face=PALE_BLUE,
     )

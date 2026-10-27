@@ -34,15 +34,15 @@ validation-to-test drop ranges from 59.6% to 66.4%.
 
 ## Interpretation
 
-The low test Macro-F1 is not evidence that training failed. Every principal
-model reaches much higher validation Macro-F1 on the validation condition. The
-loss appears when the evaluation changes simultaneously to unseen bearing
+The substantially higher validation Macro-F1 suggests that the low held-out test
+scores cannot be explained merely by a failure to fit the development domains.
+The performance loss coincides with the simultaneous change to unseen bearing
 identities and an unseen operating condition.
 
-This observed pattern is consistent with the intended joint domain shift. It
-does not establish a causal decomposition between bearing identity, operating
+This observed pattern is consistent with the intended joint domain shift. The
+design cannot isolate the causal contribution of bearing identity, operating
 condition, damage origin, and their interaction. Those factors are deliberately
-held out together, so the current design cannot estimate their individual
+held out together, so the current experiment cannot estimate their individual
 effects.
 
 The result also argues against selecting a method from validation performance

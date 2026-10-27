@@ -45,17 +45,17 @@ Positive values mean the method has higher Macro-F1 than Raw 1D-CNN on the same
 
 ## Label efficiency
 
-The full balanced budget samples the minimum available count from every class;
+The Full balanced budget samples the minimum available count from every class;
 it is not all training windows.
 
 | Balanced budget | Model | Macro-F1 | Accuracy | Runs |
 | --- | --- | --- | --- | --- |
-| 10% balanced | CWT-GRU | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
-| 10% balanced | CWT-GRU + temperature scaling + self-training | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
-| 50% balanced | CWT-GRU | 0.244 ± 0.098 | 0.351 ± 0.090 | 20 |
-| 50% balanced | CWT-GRU + temperature scaling + self-training | 0.283 ± 0.126 | 0.394 ± 0.110 | 20 |
-| Full balanced | CWT-GRU | 0.280 ± 0.107 | 0.383 ± 0.092 | 20 |
-| Full balanced | CWT-GRU + temperature scaling + self-training | 0.290 ± 0.116 | 0.387 ± 0.099 | 20 |
+| 10% balanced budget | CWT-GRU | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
+| 10% balanced budget | CWT-GRU + temperature scaling + self-training | 0.128 ± 0.025 | 0.250 ± 0.006 | 20 |
+| 50% balanced budget | CWT-GRU | 0.244 ± 0.098 | 0.351 ± 0.090 | 20 |
+| 50% balanced budget | CWT-GRU + temperature scaling + self-training | 0.283 ± 0.126 | 0.394 ± 0.110 | 20 |
+| Full balanced budget | CWT-GRU | 0.280 ± 0.107 | 0.383 ± 0.092 | 20 |
+| Full balanced budget | CWT-GRU + temperature scaling + self-training | 0.290 ± 0.116 | 0.387 ± 0.099 | 20 |
 
 ## Threshold sensitivity at a 50% balanced budget
 

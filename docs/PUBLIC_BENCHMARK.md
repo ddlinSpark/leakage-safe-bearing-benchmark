@@ -21,7 +21,8 @@ The result is a bearing-code-disjoint and operating-condition-disjoint test.
 
 ## Repeated design
 
-The canonical config uses `4 folds x 5 seeds`, or 20 runs per full-label method.
+The canonical config uses `4 folds x 5 seeds`, or 20 runs per method under the
+Full balanced budget.
 The seeds are `42, 123, 2024, 2025, 3407`.
 
 The unified runner produces:
@@ -41,7 +42,8 @@ condition rather than a new architecture.
 
 ## Label efficiency
 
-The `10% balanced`, `50% balanced`, and `Full balanced` settings refer to a
+The `10% balanced budget`, `50% balanced budget`, and `Full balanced budget`
+settings refer to a
 class-balanced label budget. At each fraction, the runner samples the same
 number of windows from every class. The full budget contains the minimum
 available count across classes and may be smaller than the total training
@@ -58,13 +60,13 @@ used to train, tune, or select a threshold for the confirmatory run.
 
 ## External same-protocol adaptations
 
-DRSN and TFNet are evaluated with the same windows, four folds, five seeds,
+DRSN and TFN are evaluated with the same windows, four folds, five seeds,
 labels, optimizer, epoch limit, early-stopping rule, validation split, test
 split, and metrics. Their results are stored separately under `results/sota/`.
 
 - DRSN: residual shrinkage with adaptive channel-wise soft thresholding, adapted
   to the three-channel four-class task.
-- TFNet: the public TFN comparison backbone, adapted to three input channels
+- TFN: the public TFN comparison backbone, adapted to three input channels
   and four classes.
 
 These are adaptations, not exact reproductions of the original datasets,

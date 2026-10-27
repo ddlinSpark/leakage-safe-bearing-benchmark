@@ -3,14 +3,22 @@
 /dataset_final/
 /outputs/
 /artifacts/
+cache/
+logs/
+wandb/
 /figures/*
 *.csv
 *.parquet
 *.npy
 *.npz
 *.zip
+*.rar
+*.mat
 !docs/results/**/*.csv
 !data/README.md
+!/data/public/
+!/data/public/paderborn/
+!/data/public/paderborn/pu_4class_w8192.json
 !results/**/*.csv
 !results/**/*.json
 !results/**/*.md
@@ -25,6 +33,7 @@
 *.pth
 *.ckpt
 *.onnx
+*.safetensors
 
 # Python build and cache files
 __pycache__/
@@ -37,6 +46,7 @@ build/
 dist/
 .venv/
 venv/
+env/
 
 # Temporary and LaTeX intermediates
 *.tmp
@@ -51,6 +61,13 @@ docs/paper/*
 !docs/paper/README.md
 !docs/paper/TABLE_SOURCES.md
 !docs/paper/FIGURE_SOURCES.md
+!docs/paper/DOMAIN_GAP_ANALYSIS.md
+!docs/paper/FIGURE_PROVENANCE.md
+!docs/paper/PAPER_CODE_MAPPING.md
+!docs/paper/PAPER_REPRODUCIBILITY.md
+!docs/paper/SOTA_RETRAINING_REPORT.md
+!docs/paper/TABLE_PROVENANCE.md
+!docs/paper/UPDATED_CONTRIBUTIONS.md
 docs/references/*
 !docs/references/README.md
 

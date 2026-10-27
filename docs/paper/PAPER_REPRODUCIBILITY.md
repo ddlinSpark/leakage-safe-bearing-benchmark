@@ -1,7 +1,7 @@
 # Paper Reproducibility
 
 This guide reproduces the SCI manuscript from the canonical five-seed benchmark
-results. In this repository, "Full balanced" means the minimum available
+results. In this repository, "Full balanced budget" means the minimum available
 per-class training count, not all training windows.
 
 ## Recorded experiment
@@ -70,6 +70,8 @@ The manuscript data loader also enforces:
 ```powershell
 $env:PYTHONPATH = "src"
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
+python -m spindle_cnn.analysis.hierarchical --results-dir results --external-dir results/sota --output results/hierarchical_statistics.csv
+python scripts/build_statistical_reports.py
 python -m spindle_cnn.analysis.report --results-dir results
 python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
 python -m spindle_cnn.analysis.recheck_run --results-dir results --all
@@ -79,7 +81,10 @@ python -m spindle_cnn.analysis.recheck_run --results-dir results/sota --all
 The statistics command regenerates `summary.csv`, `summary_with_ci.csv`,
 `statistical_tests.csv`, `ablation_summary.csv`,
 `label_efficiency_summary.csv`, `threshold_summary.csv`,
-`domain_gap_summary.csv`, and `model_complexity.csv`.
+`domain_gap_summary.csv`, and `model_complexity.csv`. The hierarchical command
+regenerates `results/hierarchical_statistics.csv` without retraining: four
+operating-condition folds are resampled before five seeds nested in each fold.
+The deterministic bootstrap uses 20,000 replicates.
 
 ## Regenerate every figure
 
@@ -99,7 +104,7 @@ $env:PYTHONPATH = "src"
 python -m spindle_cnn.paper.build_docx `
   --results-dir results `
   --figures-dir figures/publication `
-  --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx
+  --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
 ```
 
 The builder reads all result values from the canonical files. It loads method
@@ -122,7 +127,7 @@ python -m spindle_cnn.analysis.report --results-dir results
 python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
 python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publication
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
-python -m spindle_cnn.paper.build_docx --results-dir results --figures-dir figures/publication --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI.docx
+python -m spindle_cnn.paper.build_docx --results-dir results --figures-dir figures/publication --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
 ```
 
 The runner refuses an uncommitted working tree by default. During exploratory
@@ -147,10 +152,11 @@ derived tables and manuscript:
 $env:PYTHONPATH = "src"
 python scripts/audit_submission.py `
   --json-output artifacts/local/pre_submission_audit.json
+python scripts/audit_final_manuscript.py
 ```
 
 The repository-level findings and all outstanding release actions are recorded
-in `PRE_SUBMISSION_AUDIT.md`.
+in `docs/audit/PRE_SUBMISSION_AUDIT.md`.
 
 ## Scientific boundaries
 
@@ -158,7 +164,7 @@ in `PRE_SUBMISSION_AUDIT.md`.
   spindle assembly.
 - Published model accuracies from different datasets, splits, preprocessing
   pipelines, or metrics are not entered as fair SOTA rankings.
-- DRSN and TFNet are same-protocol adaptations, not exact reproductions of their
+- DRSN and TFN are same-protocol adaptations, not exact reproductions of their
   original experimental settings. MTFC-T and DRSN-Transformer remain excluded
   because no sufficiently complete implementation was available.
 - Calibration can improve ECE, NLL, and Brier score without changing the

@@ -39,7 +39,7 @@ files. No result table is populated by hand.
 - Run counts are computed by grouping `experiment_type`; method, fold, seed, and
   threshold counts are validated by `src/spindle_cnn/paper/data.py`.
 
-## Table 5: Full-label model comparison
+## Table 5: Full balanced budget model comparison
 
 - Builder function: `main_table_rows()`.
 - Sources: `results/summary_with_ci.csv` and `results/raw_runs.csv`.
@@ -49,9 +49,14 @@ files. No result table is populated by hand.
 ## Table 6: Paired comparisons against Raw 1D-CNN
 
 - Builder function: `paired_rows()`.
-- Sources: `results/statistical_tests.csv` and `results/raw_runs.csv`.
+- Sources: `results/hierarchical_statistics.csv`, `results/raw_runs.csv`, and
+  `src/spindle_cnn/analysis/hierarchical.py`.
 - Pairing keys: identical `fold` and `seed`. The table reports the paired mean
-  difference, 95% bootstrap interval, and two-sided Wilcoxon p value.
+  difference, a two-stage cluster-bootstrap interval, and an exact fold-level
+  sign-flip p value. Seeds are resampled within folds, and folds are the
+  domain-level inferential units.
+- Sensitivity values: `results/statistical_tests.csv` retains the unclustered t
+  interval and Wilcoxon p value. They are not used as primary evidence.
 
 ## Table 7: Label efficiency
 
@@ -59,7 +64,7 @@ files. No result table is populated by hand.
 - Sources: `results/label_efficiency_summary.csv`,
   `results/statistical_tests.csv`, and the label-efficiency rows in
   `results/raw_runs.csv`.
-- The full balanced-budget condition reuses the canonical main rows; it is not a separate
+- The Full balanced budget condition reuses the canonical main rows; it is not a separate
   training count.
 
 ## Table 8: Pseudo-label confidence-threshold sensitivity
@@ -84,6 +89,7 @@ files. No result table is populated by hand.
   `results/sota/summary_with_ci.csv`, `results/sota/raw_runs.csv`, and the
   architecture registry under `src/spindle_cnn/models/`.
 - Parameter values are medians of the recorded parameter counts.
+- The displayed TFN name maps to the historical internal key `tfnet`.
 - No unreproduced external model or published cross-protocol value appears in
   the table.
 

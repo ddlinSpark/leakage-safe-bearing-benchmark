@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import os
+import shutil
 import subprocess
 import tempfile
 import zipfile
@@ -20,17 +21,17 @@ MATH_NS = "http://schemas.openxmlformats.org/officeDocument/2006/math"
 
 def _pandoc_executable() -> Path:
     configured = os.environ.get("PANDOC_EXE")
-    candidates = [
-        Path(configured) if configured else None,
-        Path(r"D:\App\anaconda3\Scripts\pandoc.exe"),
-        Path("pandoc"),
-    ]
+    candidates = [Path(configured).expanduser() if configured else None]
+    resolved = shutil.which("pandoc")
+    if resolved:
+        candidates.append(Path(resolved))
     for candidate in candidates:
-        if candidate is not None and (
-            candidate.is_file() or candidate.name.lower() == "pandoc"
-        ):
+        if candidate is not None and candidate.is_file():
             return candidate
-    raise FileNotFoundError("Pandoc is required to create native Word equations")
+    raise FileNotFoundError(
+        "Pandoc is required to create native Word equations. Install it or set "
+        "PANDOC_EXE."
+    )
 
 
 def latex_to_omml(latex: str) -> etree._Element:

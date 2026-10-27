@@ -1,5 +1,8 @@
 # Code and Experiment Audit
 
+> Historical audit snapshot. Current release status is maintained in
+> `docs/audit/REPOSITORY_AUDIT.md` and `docs/audit/RELEASE_READINESS.md`.
+
 Date: 2026-10-27  
 Repository: `spindle_cnn`  
 Audited branch: `codex/experiment-code`  
@@ -47,7 +50,7 @@ spindle_cnn/
 ├── pyproject.toml
 ├── requirements.txt
 ├── .gitignore
-├── AUDIT_REPORT.md
+├── docs/audit/AUDIT_REPORT.md
 ├── artifacts/                    # ignored local archives and review assets
 ├── data/                         # ignored raw and cached public data
 ├── dataset_final/                # ignored legacy industrial-data products
@@ -100,7 +103,7 @@ manuscript assembly and are not part of the leakage-safe public-data result.
 | Result storage | `outputs/<run>/results.csv`, `summary.csv`; compact copies in `docs/results/paderborn/` | Works for current artifacts but does not match the requested canonical `results/raw_runs.csv` layout. |
 | Figure generation | `public_benchmark/make_figures.py` | Main comparison, label efficiency, calibration, confusion matrix, and threshold figures. No dedicated ablation or computational-cost figure. |
 | Complexity analysis | `public_benchmark/benchmark_models.py` | Parameters, FLOPs, training-step latency, and inference latency are measured separately. |
-| Statistics | `public_benchmark/analyze_results.py` | Mean, standard deviation, 95% CI, paired deltas, and Wilcoxon tests exist, but only as an informal script and only for selected full-label comparisons. |
+| Statistics | `public_benchmark/analyze_results.py` | Mean, standard deviation, 95% CI, paired deltas, and Wilcoxon tests exist, but only as an informal script and only for selected Full balanced budget comparisons. |
 | Environment configuration | `pyproject.toml`, `requirements.txt` | No pinned lockfile, no `environment.yml`, and no recorded runtime environment per run. |
 
 ## 4. Existing Capabilities
@@ -174,7 +177,7 @@ Current artifact counts:
 
 | Experiment | Current design | Required minimum | Status |
 |---|---:|---:|---|
-| Full-label main comparison | 4 folds × 3 seeds = 12 runs/model | 4 × 5 = 20 | Incomplete |
+| Full balanced budget main comparison | 4 folds × 3 seeds = 12 runs/model | 4 × 5 = 20 | Incomplete |
 | GRU-only and no-SE ablations | 4 × 3 = 12 | 20 | Incomplete |
 | 10% label budget | 4 folds × 1 seed = 4 | 20 | Incomplete |
 | 50% label budget | 4 × 1 = 4 | 20 | Incomplete |
@@ -191,7 +194,7 @@ replace or reinterpret the existing 12-run evidence. Existing and new results
 should be kept distinguishable, with the five-seed set serving as the revised
 confirmatory experiment.
 
-### 6.1 Meaning of 100% labels
+### 6.1 Meaning of the Full balanced budget
 
 The current 100% setting is not all training windows. It means:
 
@@ -200,7 +203,7 @@ The current 100% setting is not all training windows. It means:
 3. Use these balanced windows as the labeled set.
 4. Keep all remaining training windows as pseudo-label candidates.
 
-For Paderborn, the resulting full-label set contains about 992 or 996 windows,
+For Paderborn, the resulting Full balanced budget set contains about 992 or 996 windows,
 not the entire training partition. The manuscript and future CSV schema should
 call this **100% of the class-balanced label budget**, or report the exact number
 of labeled windows and the total training-window count. Calling it “all labels”
@@ -238,7 +241,7 @@ The following manuscript values match the current compact result artifacts:
 
 The validation macro-F1 values in the manuscript
 (`0.861`, `0.816`, `0.823`) and the paired comparison
-`CWT-GRU - Raw CNN = -0.024`, `p=0.622` also match the CSV.
+`CWT-GRU - Raw CNN = -0.024`, `p = 0.622` also match the CSV.
 
 The threshold means match:
 
@@ -278,7 +281,7 @@ state the epoch and patience values used by the existing runs.
 
 ## 9. Required Experiments Before the Revised Paper Is Final
 
-1. Re-run all six full-label architectures with
+1. Re-run all six Full balanced budget architectures with
    `4 folds × 5 seeds = 20 runs/model`.
 2. Re-run 10%, 50%, and 100% balanced-budget supervised CWT-GRU and calibrated
    self-training with the same 20 run keys.

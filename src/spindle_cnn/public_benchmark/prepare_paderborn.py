@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import os
+import shutil
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -13,7 +15,17 @@ from .pu_data import BEARING_CODES
 
 
 BASE_URL = "https://groups.uni-paderborn.de/kat/BearingDataCenter"
-DEFAULT_SEVEN_ZIP = Path(r"C:\Program Files\NVIDIA Corporation\NVIDIA App\7z.exe")
+
+
+def _default_seven_zip() -> Path:
+    configured = os.environ.get("SEVEN_ZIP")
+    if configured:
+        return Path(configured).expanduser()
+    resolved = shutil.which("7z") or shutil.which("7za") or shutil.which("7z.exe")
+    return Path(resolved or "7z")
+
+
+DEFAULT_SEVEN_ZIP = _default_seven_zip()
 
 
 def download_one(code: str, archive_dir: Path) -> tuple[str, Path]:
@@ -44,7 +56,7 @@ def extract_one(code: str, archive: Path, output_dir: Path, seven_zip: Path) -> 
     )
     if completed.returncode != 0:
         raise RuntimeError(f"Failed to extract {code}: {completed.stderr}")
-    print(f"extracted {code} measurements 1-5")
+    print(f"extracted {code} measurements 1-2")
 
 
 def parse_args() -> argparse.Namespace:

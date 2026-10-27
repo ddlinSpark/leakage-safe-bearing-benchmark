@@ -1,13 +1,15 @@
-"""TFNet comparison architecture adapted from the authors' public code.
+"""TFN comparison architecture adapted from the authors' public code.
 
 Reference:
 Q. Chen, X. Dong, G. Tu, et al., "TFN: An interpretable neural network with
 time-frequency transform embedded for intelligent fault diagnosis," Mechanical
 Systems and Signal Processing, vol. 207, Art. no. 110952, 2024.
 
-The published comparison-model code was used as the structural source. This
-version changes the input channel count to three and output count to four for
-the common Paderborn protocol and removes import-time global seed side effects.
+The published comparison-model code was used as the structural source. The
+module and historical result key ``tfnet`` are retained so saved experiments
+remain traceable. This version changes the input channel count to three and
+output count to four for the common Paderborn protocol and removes import-time
+global seed side effects.
 """
 
 from __future__ import annotations
@@ -90,7 +92,7 @@ class TFConv1d(nn.Module):
         return torch.sqrt(real.square() + imaginary.square() + 1e-8)
 
 
-class TFNet(BaseModel):
+class TFN(BaseModel):
     """Authors' TFN comparison backbone adapted to this benchmark."""
 
     model_name = "tfnet"
@@ -159,3 +161,7 @@ class TFNet(BaseModel):
         features = self.layer3(features)
         features = self._adaptive_max_4(self.layer4(features))
         return self.classifier(self.projection(features))
+
+
+# Keep the historical Python name available without changing stored result keys.
+TFNet = TFN
