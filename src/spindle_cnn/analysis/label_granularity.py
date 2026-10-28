@@ -180,11 +180,6 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
         dpi=320,
         bbox_inches="tight",
     )
-    figure.savefig(
-        output_dir / "figure_16_label_granularity.pdf",
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

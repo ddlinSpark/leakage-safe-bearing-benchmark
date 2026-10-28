@@ -31,7 +31,8 @@ def test_readme_is_concise_and_contains_required_sections() -> None:
         "## Generalization Gap",
         "## Experiment Status",
         "## Leakage-Safe Protocol",
-        "## Quick Start",
+        "## Quick Verification",
+        "## Full Reproduction",
         "## Data Availability",
         "## Reproducibility",
         "## Scope and Limitations",
@@ -47,7 +48,8 @@ def test_formal_documentation_and_entry_points_exist() -> None:
         "docs/EXPERIMENTS.md",
         "docs/RESULTS.md",
         "docs/REPRODUCIBILITY.md",
-        "REFERENCE_LINK_REPORT.md",
+        "docs/reports/REFERENCE_LINK_REPORT.md",
+        "docs/reports/README_LINK_CHECK.md",
         "scripts/prepare_data.py",
         "scripts/run_main_benchmark.py",
         "scripts/generate_statistics.py",
@@ -58,9 +60,29 @@ def test_formal_documentation_and_entry_points_exist() -> None:
         "src/spindle_cnn/visualization/style.py",
     ):
         assert (ROOT / relative).is_file(), relative
-    report = (ROOT / "REFERENCE_LINK_REPORT.md").read_text(encoding="utf-8")
+    report = (ROOT / "docs/reports/REFERENCE_LINK_REPORT.md").read_text(
+        encoding="utf-8"
+    )
     assert "**PASS**" in report
     assert "pdf_bookmarks: PASS" in report
+
+
+def test_root_cleanup_and_pdf_free_release() -> None:
+    root_markdown = {
+        path.name for path in ROOT.glob("*.md")
+    }
+    assert root_markdown <= {
+        "README.md",
+        "FINAL_RELEASE_REPORT.md",
+    }
+    assert not list((ROOT / "figures" / "publication").glob("*.pdf"))
+    assert not list((ROOT / "manuscript").glob("*.pdf"))
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert "manuscript/manuscript.pdf" not in pyproject
+    image_path = ROOT / "figures/publication/figure_09_validation_test_gap.png"
+    assert image_path.is_file()
+    assert "figure_09_validation_test_gap.png" in readme
 
 
 def test_canonical_and_split_manifests_match_files() -> None:

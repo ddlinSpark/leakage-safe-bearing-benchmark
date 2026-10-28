@@ -1,192 +1,96 @@
 {
   "files": {
-    "figure_01_model_comparison.pdf": {
-      "bytes": 12701,
-      "sha256": "8e3d33848a845dabacab09b0c05a0d3e43c8a23174a4e5dc39979d7de06b3eda"
-    },
     "figure_01_model_comparison.png": {
       "bytes": 310947,
       "sha256": "54b7f89408a361dd6ee8955db347b2ffa98449e3c73aa5af2195a2e7ae57f6ca"
-    },
-    "figure_02_ablation.pdf": {
-      "bytes": 12162,
-      "sha256": "484eb6863d75f6b4b9ecaf3489435a1e0d21be8438588e1a9abf0c613bea8f27"
     },
     "figure_02_ablation.png": {
       "bytes": 284012,
       "sha256": "beda526d25b21f747e614e2714b590dc9025cf668fa198d41e8761c5a108f3d6"
     },
-    "figure_03_label_efficiency.pdf": {
-      "bytes": 12309,
-      "sha256": "5a587c8d6a7f0ef4d01061b70ca5d93bc6f992f86d1668a3897525ee6bcdfe7e"
-    },
     "figure_03_label_efficiency.png": {
       "bytes": 190108,
       "sha256": "ed0af07eab2d4823b28f9aafdfded8e8c3656303a68d7ffde32db82d8ec03cf6"
-    },
-    "figure_04_threshold_sensitivity.pdf": {
-      "bytes": 13121,
-      "sha256": "3d2f63b5746e0c2dd92563a6e9c44445e38a1a00d33884d1db165b175ba4a68e"
     },
     "figure_04_threshold_sensitivity.png": {
       "bytes": 260666,
       "sha256": "990523737abd123175bb6114e619b93a294c660d810e951d9fe0486a14b6cfd7"
     },
-    "figure_05_calibration.pdf": {
-      "bytes": 12153,
-      "sha256": "575042ecf585534caf1c161daafda47fc5436014dc81eb2341093c7eb4bc88f5"
-    },
     "figure_05_calibration.png": {
       "bytes": 237684,
       "sha256": "ed43abb8c927b6e37f13284d291b5f5b5baf63c6dfa1994644acf486e93f053e"
-    },
-    "figure_06_confusion_matrices.pdf": {
-      "bytes": 122086,
-      "sha256": "08e48ed9027f64006b95e6bf04143d2e2dd62fc3d9c08300ed65fbf6ef307e91"
     },
     "figure_06_confusion_matrices.png": {
       "bytes": 864322,
       "sha256": "1c7403caaf6a76291f8c7e8460b15d41215a45dbeb01ad68394e83417decd48e"
     },
-    "figure_07_computational_cost.pdf": {
-      "bytes": 14049,
-      "sha256": "6e990bdec19da917c06791fb7f975285515e8863aa9481a01432c21b030429c3"
-    },
     "figure_07_computational_cost.png": {
       "bytes": 292118,
       "sha256": "27ed33d8c5d01aa02f035042bcd56bf806bfd2f361f5d13caaef1e31552aae82"
-    },
-    "figure_08_reliability_diagrams.pdf": {
-      "bytes": 19854,
-      "sha256": "be2795ca2c819885fb961dd7a01c8b8ff51e00cfd22d3011cce3bd8dcc977843"
     },
     "figure_08_reliability_diagrams.png": {
       "bytes": 804065,
       "sha256": "a18d0011c142d0679b0160829eb7a4544c46093f2f3b4f95dd2fa5f67f5875bf"
     },
-    "figure_09_validation_test_gap.pdf": {
-      "bytes": 13967,
-      "sha256": "b7f7f3adde3149bc82d29a5b163dc4a4224c2cc32ca622b27075b66c827920a6"
-    },
     "figure_09_validation_test_gap.png": {
       "bytes": 259002,
       "sha256": "c0459bc2ff55967662075da0db314185e7b6b3744c166669244f43b6be02f076"
-    },
-    "figure_13_domain_shift_diagnostics.pdf": {
-      "bytes": 17585,
-      "sha256": "4b84ec86b5ed6223fbd21832bdf651cf0d13f708b9fad6d6bc52d096cd3d6ae4"
     },
     "figure_13_domain_shift_diagnostics.png": {
       "bytes": 225962,
       "sha256": "f3af7faf25054a7ddc4e3500232ea07ae8886aed2d9e9c09c4484bf2759c9119"
     },
-    "figure_14_per_fold_reliability.pdf": {
-      "bytes": 17564,
-      "sha256": "c15ac789d50b8b9868c719c257311cbe09d74b674427184a87e888bce59401dd"
-    },
     "figure_14_per_fold_reliability.png": {
       "bytes": 273132,
       "sha256": "746eb7e27f4af3ffba990ef07bc873bd375e0dcb6622310dffeaca3995ff61c0"
-    },
-    "figure_15_temperature_distribution.pdf": {
-      "bytes": 12390,
-      "sha256": "7eb69a3f875aa930bd930b7629a183e14b5bb096a2672402cacda55645f1c888"
     },
     "figure_15_temperature_distribution.png": {
       "bytes": 88292,
       "sha256": "7270a941a7b17a5ad0702537f0785ea45f0669dc710e8e5ddc47d5cf72ebf00d"
     },
-    "figure_16_label_granularity.pdf": {
-      "bytes": 14651,
-      "sha256": "c71331d3a7f13f6cfaadf3816c806a3a17e39575fff86f09332c9c5643ff9c50"
-    },
     "figure_16_label_granularity.png": {
       "bytes": 119761,
       "sha256": "b576c95c81dc06dcf65dbe82b2fdb5d751c4bdc62bda885874396b5cf7a744bd"
-    },
-    "figure_17_self_training_sensitivity.pdf": {
-      "bytes": 11672,
-      "sha256": "52ff9435b1e82d174a7c521fed4ca7599faae67332aaea45595cd48c0421db90"
     },
     "figure_17_self_training_sensitivity.png": {
       "bytes": 87882,
       "sha256": "9dc255404c1286f4457bf3f785031bad079bd9ec71f248e255061a7291c438e4"
     },
-    "figure_18_baseline_tuning.pdf": {
-      "bytes": 12503,
-      "sha256": "32723e81239259f0b32eec79c4afa8a95598090d00eee4391a6fcf645d7d35aa"
-    },
     "figure_18_baseline_tuning.png": {
       "bytes": 108061,
       "sha256": "8f58d45cbdf59755b46c4a13f48592c52efe2f7505a769c8f1b5ff8f493ec80f"
-    },
-    "figure_19_cwt_sensitivity.pdf": {
-      "bytes": 13450,
-      "sha256": "d90ece5d2b697c0b250531774b07985dc7b179fdf0ef79321c0401a2ae484a73"
     },
     "figure_19_cwt_sensitivity.png": {
       "bytes": 133944,
       "sha256": "ae76327dff589066a86af6889f2eed584f9385bc667abc1d9f3a2983d8f0c348"
     },
-    "figure_20_foldwise_paired_differences.pdf": {
-      "bytes": 16015,
-      "sha256": "d168fc0396164bfe9e65957040cd13f2496cc3259a6ac7dddf3c9d3ef830aebe"
-    },
     "figure_20_foldwise_paired_differences.png": {
       "bytes": 192102,
       "sha256": "d477d6f481ad3461e0a90897e92f7ffa12050b928e2810c1a673439d3b8adcae"
-    },
-    "figure_21_training_budget.pdf": {
-      "bytes": 12608,
-      "sha256": "9a7345a8a7c312d3db9806c7105bae15d27d4d86c2b680102d0e7c36295221c5"
     },
     "figure_21_training_budget.png": {
       "bytes": 109699,
       "sha256": "feb078f3a1da3356c19045aa25758a7b2339b49a523af69af498cee4908c0101"
     },
-    "figure_22_feature_space_pca.pdf": {
-      "bytes": 164912,
-      "sha256": "1cdfcf0754e851ac6c6bd559b1f36c5d1231cb0d4d47af6d40fe03b9661c1c44"
-    },
     "figure_22_feature_space_pca.png": {
       "bytes": 768589,
       "sha256": "ab7899cbf1d685689ec407d2ba30b19a5408e4b1a6382d5e9206dd26a0614468"
-    },
-    "figure_23_feature_space_tsne.pdf": {
-      "bytes": 37959,
-      "sha256": "16dfab2d15897ae8b0122d2560bfdb9326539bbe96b03c97791ebe8994421072"
     },
     "figure_23_feature_space_tsne.png": {
       "bytes": 263599,
       "sha256": "014d700db81a2a88bb5ba4ad546831b36f07926e66be437259fd53dfb56d9024"
     },
-    "figure_24_normalization_sensitivity.pdf": {
-      "bytes": 14617,
-      "sha256": "8aae6896065af8b8ebc45b408156967e088c4bad518b9ca4ec19e5e2a9a1651e"
-    },
     "figure_24_normalization_sensitivity.png": {
       "bytes": 122454,
       "sha256": "1cbb3dd02e48f60581e1c51051cefc97b0e3144597e7c4ddec25cb4233b7ed57"
-    },
-    "figure_method_01_overall_framework.pdf": {
-      "bytes": 26141,
-      "sha256": "b4da828d62f619d5fba65f158ab34481232d4390a17de436fc7dbd4e3e5c2d38"
     },
     "figure_method_01_overall_framework.png": {
       "bytes": 633058,
       "sha256": "a76886077b01ec00079cbfc2d5758c94fd051da5c332a1ad62b860dcffc78468"
     },
-    "figure_method_02_cwt_gru_architecture.pdf": {
-      "bytes": 27120,
-      "sha256": "91df6fdb9cde5c852c6a874df8ba76595ba11ec89594949cd9d289fd889e1f5c"
-    },
     "figure_method_02_cwt_gru_architecture.png": {
       "bytes": 660144,
       "sha256": "6e1fc4c9c9b6e9d41e378e181fa2c54097383eeb0cbe643c9ea9a5697912b41e"
-    },
-    "figure_method_03_self_training_pipeline.pdf": {
-      "bytes": 25880,
-      "sha256": "03abe75ecb96beea5d7af938be72dc1f8c4fe8b7d774ebb9f9f636622b03e379"
     },
     "figure_method_03_self_training_pipeline.png": {
       "bytes": 646369,

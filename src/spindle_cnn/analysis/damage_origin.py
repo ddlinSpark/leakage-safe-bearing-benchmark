@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=PROJECT_ROOT / "DAMAGE_ORIGIN_ANALYSIS.md",
+        default=PROJECT_ROOT / "docs" / "reports" / "DAMAGE_ORIGIN_ANALYSIS.md",
     )
     args = parser.parse_args()
     frame = pd.read_csv(args.manifest)

@@ -219,13 +219,7 @@ def save_figures(
         axis.grid(color=GRID_COLOR, linewidth=0.6)
         axis.legend(frameon=False, fontsize=6.5, markerscale=0.8)
     png = output_dir / "figure_22_feature_space_pca.png"
-    pdf = output_dir / "figure_22_feature_space_pca.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
     arrays = fold_arrays[tsne_fold]
@@ -285,13 +279,7 @@ def save_figures(
         axis.legend(frameon=False, fontsize=6.5)
     axes[0].set_ylabel(f"t-SNE dimension 2 (fold {tsne_fold})")
     png = output_dir / "figure_23_feature_space_tsne.png"
-    pdf = output_dir / "figure_23_feature_space_tsne.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

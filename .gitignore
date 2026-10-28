@@ -36,9 +36,10 @@ wandb/
 !reports/**/*.csv
 !figures/publication/
 !figures/publication/*.png
-!figures/publication/*.pdf
 !figures/publication/figure_hashes.json
 !figures/README.md
+
+*.pdf
 
 # Model weights
 *.pt

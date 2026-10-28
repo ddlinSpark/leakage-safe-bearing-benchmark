@@ -2,6 +2,15 @@
 
 Date: 2026-10-28
 
+## Final DOCX-only repository cleanup
+
+- Archived root-level reports under `docs/reports/`.
+- Retained the final manuscript as DOCX and removed all tracked PDF figures,
+  manuscript exports, supplementary exports, and PDF assembly tooling.
+- Kept the publication figures as 24 tracked PNG files with matching hashes.
+- Verified README links, commands, paper numbers, figure hashes, DOCX citations,
+  and cross-references.
+
 ## Final submission packaging
 
 - Added one centralized 11-color publication palette and fixed model-color

@@ -273,13 +273,7 @@ def save_figures(
         axis.grid(color=GRID_COLOR, linewidth=0.6)
         axis.legend(frameon=False, fontsize=7)
     png = output_dir / "figure_14_per_fold_reliability.png"
-    pdf = output_dir / "figure_14_per_fold_reliability.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
     selected = per_run.loc[
@@ -328,13 +322,7 @@ def save_figures(
     axis.set_ylabel("Validation-fitted temperature")
     axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_15_temperature_distribution.png"
-    pdf = output_dir / "figure_15_temperature_distribution.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

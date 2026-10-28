@@ -2,7 +2,7 @@
 
 | 文档 | 内容 |
 | --- | --- |
-| [../REPRODUCE.md](../REPRODUCE.md) | 从零复现数据、训练、统计、图表和论文数字的完整步骤 |
+| [reports/REPRODUCE.md](reports/REPRODUCE.md) | 从零复现数据、训练、统计、图表和论文数字的完整步骤 |
 | [PUBLIC_BENCHMARK.md](PUBLIC_BENCHMARK.md) | 当前公共数据主实验、五种子设计和泄漏安全划分 |
 | [DATASET.md](DATASET.md) | 官方数据来源、选择轴承、窗口、缓存与 damage-origin 映射 |
 | [PROTOCOL.md](PROTOCOL.md) | fold 定义、泄漏边界、预算与 fold-first 统计协议 |
@@ -17,9 +17,10 @@
 | [../results/README.md](../results/README.md) | canonical、external、sensitivity 与 post-hoc 结果分类索引 |
 | [../results/canonical/manifest.json](../results/canonical/manifest.json) | 正式论文结果的路径、行数、大小与 SHA-256 清单 |
 | [../splits/manifest.json](../splits/manifest.json) | 四个冻结 fold manifest 的 SHA-256 索引 |
-| [../CONSISTENCY_REPORT.md](../CONSISTENCY_REPORT.md) | 自动检查 run 数量、模型、指标、区间、参数、fold、seed 与 DOCX 一致性 |
-| [../REFERENCE_LINK_REPORT.md](../REFERENCE_LINK_REPORT.md) | 正文引用、图表/章节/公式交叉引用、PDF 链接目标与 outline 审计 |
-| [../CLEAN_REPRODUCTION_REPORT.md](../CLEAN_REPRODUCTION_REPORT.md) | 从公开 GitHub 新克隆后的预处理、训练、统计、图件、DOCX 与 PDF 复现记录 |
+| [reports/CONSISTENCY_REPORT.md](reports/CONSISTENCY_REPORT.md) | 自动检查 run 数量、模型、指标、区间、参数、fold、seed 与 DOCX 一致性 |
+| [reports/REFERENCE_LINK_REPORT.md](reports/REFERENCE_LINK_REPORT.md) | 正文引用、图表/章节/公式交叉引用与临时 PDF 链接目标审计 |
+| [reports/README_LINK_CHECK.md](reports/README_LINK_CHECK.md) | README 本地链接、外部链接与 Python 命令入口检查 |
+| [reports/CLEAN_REPRODUCTION_REPORT.md](reports/CLEAN_REPRODUCTION_REPORT.md) | 从公开 GitHub 新克隆后的预处理、训练、统计、图件与 DOCX 复现记录 |
 | [../FINAL_RELEASE_REPORT.md](../FINAL_RELEASE_REPORT.md) | 最终发布变更、图件、配色、一致性、目录、排除文件和剩余警告 |
 | [paper/TABLE_PROVENANCE.md](paper/TABLE_PROVENANCE.md) | Table 1-13 与生成脚本及聚合规则 |
 | [audit/REPOSITORY_AUDIT.md](audit/REPOSITORY_AUDIT.md) | 仓库结构、README、依赖和数据许可审计 |
@@ -32,5 +33,6 @@
 | [../results/EXPERIMENT_REPORT.md](../results/EXPERIMENT_REPORT.md) | 当前五-Seed 实验结果、区间与配对检验 |
 
 论文正文位于 `docs/paper/`，参考文献位于 `docs/references/`。
-投稿 PDF 位于 `manuscript/`，全部图件统一使用
+正式稿件为 `docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx`；
+仓库不跟踪 PDF。全部图件统一使用
 `src/spindle_cnn/visualization/style.py` 中的 palette。

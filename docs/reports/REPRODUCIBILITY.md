@@ -290,29 +290,14 @@ python -m pytest -q tests
 ```
 
 All figure modules import the shared palette and style from
-`src/spindle_cnn/visualization/style.py`. `check_figure_palette.py` verifies palette
-adoption, 24 PNG/PDF pairs, minimum 300 DPI metadata, and the tracked SHA-256
-manifest.
+`src/spindle_cnn/visualization/style.py`. `check_figure_palette.py` verifies
+palette adoption, 24 tracked PNG figures, minimum 300 DPI metadata, and the
+tracked SHA-256 manifest. PDF figure files are not tracked.
 
-Render the audited DOCX to PDF, then assemble the submission files:
-
-```powershell
-$soffice = "C:\Program Files\LibreOffice\program\soffice.exe"
-& $soffice --headless --convert-to pdf `
-  --outdir artifacts/local/render/final_release `
-  docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
-python scripts/build_submission_pdfs.py `
-  --manuscript-pdf artifacts/local/render/final_release/Leakage_Safe_Bearing_Benchmark_SCI_final.pdf `
-  --figures-dir figures/publication `
-  --output-dir manuscript
-```
-
-On Windows, LibreOffice `soffice.exe` must be available on the current
-`PATH`. The recorded render used LibreOffice 26.8.1.1. The resulting
-`manuscript/manuscript.pdf` has 30 A4 pages and
-`manuscript/supplementary.pdf` has five pages.
-The main manuscript was rendered to PNG and all 30 pages were visually
-inspected; the five supplement pages were likewise rendered and inspected.
+The final DOCX contains the complete manuscript and supplementary figures.
+No PDF manuscript, supplementary file, or vector-figure bundle is distributed.
+The committed internal-link report records the earlier temporary-render check,
+but no PDF is required for the repository's DOCX result-reproduction workflow.
 
 ## Output integrity rules
 

@@ -50,7 +50,7 @@ alone. Validation-to-test gaps must be shown for each method and fold.
 
 ## Figure
 
-- Filename: `figures/publication/figure_09_validation_test_gap.{png,pdf}`.
+- Filename: `figures/publication/figure_09_validation_test_gap.png`.
 - Generator: `src/spindle_cnn/experiments/make_figures.py::validation_test_gap`.
 - Input: `results/domain_gap_summary.csv`.
 - Manuscript number: Figure 12.

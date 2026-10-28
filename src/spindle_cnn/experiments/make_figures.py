@@ -58,10 +58,6 @@ def parse_args() -> argparse.Namespace:
 def save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_dir / f"{stem}.png")
-    fig.savefig(
-        output_dir / f"{stem}.pdf",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(fig)
 
 

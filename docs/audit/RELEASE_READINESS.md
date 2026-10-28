@@ -12,10 +12,11 @@ retained run configuration hostnames.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Tests pass | PASS | `38 passed in 2.33s`. |
+| Tests pass | PASS | `39 passed in 2.12s`. |
 | Working tree clean | FAIL | A release must point to a committed revision. |
 | Independent numeric audit | PASS | 0 mismatches. |
-| Internal citations and PDF navigation | PASS | `REFERENCE_LINK_REPORT.md`. |
+| Internal citations and PDF navigation | PASS | `docs/reports/REFERENCE_LINK_REPORT.md`. |
+| README links and Python commands | PASS | `docs/reports/README_LINK_CHECK.md`. |
 | README complete | PASS | `docs/audit/REPOSITORY_AUDIT.md`. |
 | CITATION present | PASS | Valid CFF 1.2.0 record for Huadong Lin; version 1.0.0. |
 | License clear | PASS | MIT software scope plus explicit third-party data exclusion. |
@@ -24,14 +25,13 @@ retained run configuration hostnames.
 | No personal metadata | FAIL | Commit email and run-config hostname findings. |
 | Raw results available | PASS | 320 canonical and 40 external rows. |
 | Statistics reproducible | PASS | `results/hierarchical_statistics.csv`. |
-| Figures reproducible | PASS | 24 PNG/PDF figure pairs from tracked scripts. |
+| Figures reproducible | PASS | 24 tracked PNG figures from tracked scripts. |
 | Split manifests reproducible | PASS | Four fixed manifests with indices and hashes. |
 
 ## True release blockers
 
 - Remove/expose-control personal commit metadata and workstation hostnames before privacy-clean public release.
 - Commit the audited release candidate so the release points to a clean immutable revision.
-- Remove redistributable-restricted raw data or model checkpoints.
 
 ## Non-blocking follow-up
 

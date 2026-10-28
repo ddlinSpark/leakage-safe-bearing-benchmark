@@ -64,13 +64,13 @@ No malformed form such as `p=<` remains.
 - Table 6 is generated from `results/hierarchical_statistics.csv`.
 - Table 10 displays TFN while retaining the historical `tfnet` result key.
 - Reference [22] includes DOI `10.1016/j.ymssp.2023.110952`.
-- Figure hashes: 48 of 48 PNG and PDF files
+- Figure hashes: 24 of 24 PNG files
   match the publication hash manifest.
 - All 30 rendered pages were visually inspected; no clipping, overlap, missing
   glyph, or broken table was found.
 - Accessibility audit: high=0,
   medium=0, low=0.
-- Internal reference, cross-reference, PDF-link, and outline audit:
+- Internal reference, cross-reference, and optional temporary PDF-link audit:
   PASS.
 
 ## Release-readiness
@@ -79,7 +79,7 @@ No malformed form such as `p=<` remains.
 
 The remaining blockers are privacy-related, not numerical:
 
-- 14 of 27 Git commits carry non-anonymous
+- 14 of 29 Git commits carry non-anonymous
   author email metadata.
 - 320 of 320 retained canonical run configurations
   contain a workstation hostname field.

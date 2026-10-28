@@ -111,7 +111,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "CONSISTENCY_REPORT.md",
+        default=ROOT / "docs" / "reports" / "CONSISTENCY_REPORT.md",
     )
     parser.add_argument(
         "--json-output",

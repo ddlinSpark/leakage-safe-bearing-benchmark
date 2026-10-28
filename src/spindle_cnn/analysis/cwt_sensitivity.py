@@ -150,13 +150,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     axis.set_ylabel("Held-out test Macro-F1")
     axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_19_cwt_sensitivity.png"
-    pdf = output_dir / "figure_19_cwt_sensitivity.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

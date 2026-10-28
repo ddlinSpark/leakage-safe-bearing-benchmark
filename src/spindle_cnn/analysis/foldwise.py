@@ -152,13 +152,7 @@ def save_figure(foldwise: pd.DataFrame, output_dir: Path) -> None:
     axis.set_ylabel("Fold mean paired Macro-F1 difference")
     axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_20_foldwise_paired_differences.png"
-    pdf = output_dir / "figure_20_foldwise_paired_differences.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

@@ -25,12 +25,15 @@ REQUIRED_ROOT_FILES = [
     ".gitignore",
     "requirements.txt",
     "environment.yml",
-    "CHANGELOG.md",
-    "REPRODUCE.md",
-    "REPRODUCIBILITY.md",
-    "CLEAN_REPRODUCTION_REPORT.md",
-    "CONSISTENCY_REPORT.md",
-    "REFERENCE_LINK_REPORT.md",
+    "pyproject.toml",
+    "docs/reports/CHANGELOG.md",
+    "docs/REPRODUCIBILITY.md",
+    "docs/reports/REPRODUCE.md",
+    "docs/reports/REPRODUCIBILITY.md",
+    "docs/reports/CLEAN_REPRODUCTION_REPORT.md",
+    "docs/reports/CONSISTENCY_REPORT.md",
+    "docs/reports/REFERENCE_LINK_REPORT.md",
+    "docs/reports/README_LINK_CHECK.md",
     "FINAL_RELEASE_REPORT.md",
 ]
 
@@ -978,12 +981,13 @@ def write_reports(
             and "5 seeds" in readme_lower
         ),
         "Experiment status": "## experiment status" in readme_lower,
-        "Quick start": "## quick start" in readme_lower,
+        "Quick verification": "## quick verification" in readme_lower,
+        "Full reproduction": "## full reproduction" in readme_lower,
         "External baselines": "external" in readme_lower,
         "Statistical analysis": "hierarchical" in readme_lower,
         "Data availability": "## data availability" in readme_lower,
         "Reproducibility": "## reproducibility" in readme_lower,
-        "Figures": "png/pdf pairs" in readme_lower,
+        "Figures": "png figures" in readme_lower,
         "Citation": "citation.cff" in readme_lower,
         "320 canonical runs": "320" in readme_lower,
         "40 external runs": "40" in readme_lower,
@@ -998,7 +1002,7 @@ def write_reports(
             "best model",
         )
     )
-    link_report_path = root / "REFERENCE_LINK_REPORT.md"
+    link_report_path = root / "docs" / "reports" / "REFERENCE_LINK_REPORT.md"
     link_report = (
         link_report_path.read_text(encoding="utf-8")
         if link_report_path.is_file()
@@ -1008,6 +1012,20 @@ def write_reports(
         link_report_path.is_file()
         and "**PASS**" in link_report
         and "pdf_bookmarks: PASS" in link_report
+    )
+    readme_link_report_path = (
+        root / "docs" / "reports" / "README_LINK_CHECK.md"
+    )
+    readme_link_report = (
+        readme_link_report_path.read_text(encoding="utf-8")
+        if readme_link_report_path.is_file()
+        else ""
+    )
+    readme_links_ok = (
+        readme_link_report_path.is_file()
+        and "**PASS**" in readme_link_report
+        and "| Broken local links | 0 |" in readme_link_report
+        and "| Broken Python commands | 0 |" in readme_link_report
     )
     required_status = {
         name: (root / name).is_file() for name in REQUIRED_ROOT_FILES
@@ -1030,6 +1048,12 @@ def write_reports(
     prediction_bytes = sum(
         (root / relative).stat().st_size for relative in prediction_files
     )
+    embedding_files = [
+        relative
+        for relative in files
+        if relative.startswith("results/feature_embeddings/")
+        and relative.endswith(".npz")
+    ]
     tracked_checkpoints = [
         relative
         for relative in files
@@ -1044,6 +1068,7 @@ def write_reports(
         or (
             relative.lower().endswith((".npz", ".npy"))
             and relative not in prediction_files
+            and relative not in embedding_files
         )
     ]
     tracked_bytes = sum(
@@ -1140,7 +1165,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 ├── configs/                    canonical and external configurations
 ├── data/                       data documentation and small cache metadata
 ├── docs/                       protocol, paper, figure, and table provenance
-├── figures/publication/        generated PNG/PDF figures
+├── figures/publication/        generated publication PNG figures
 ├── results/
 │   ├── splits/                 fixed fold manifests with all window indices
 │   ├── runs/                   320 canonical per-run diagnostic directories
@@ -1247,7 +1272,7 @@ claim state-of-the-art performance.
   assessment.
 - MINOR: exact transitive dependency lock is absent.
 - MINOR: platform-specific archive extraction requires a local 7-Zip binary.
-- INFORMATIONAL: the final manuscript DOCX and PDFs are tracked.
+- INFORMATIONAL: the final manuscript is tracked as DOCX; PDFs are excluded.
 """
 
     result_text = f"""# Result Completeness Audit
@@ -1420,7 +1445,7 @@ No result is described as significant solely from the unclustered 20-cell test.
     )
     figure_text = f"""# Figure Provenance
 
-All 12 manuscript figures have tracked PNG and PDF outputs under
+All 12 manuscript figures have tracked PNG outputs under
 `figures/publication/`. Methodology diagrams are code-generated diagrams;
 Figures 4-12 are data-derived and contain no manually entered result values.
 
@@ -1437,8 +1462,8 @@ python -m spindle_cnn.experiments.make_figures --results-dir results --output-di
 ```
 
 The current revision regenerated all 12 PNG files byte-identically in a
-separate output directory. No Excel, Photoshop, or manual numeric overlays are
-used for data-derived figures.
+separate output directory. No PDF figure output is tracked. No Excel,
+Photoshop, or manual numeric overlays are used for data-derived figures.
 """
 
     table_rows = "\n".join(
@@ -1656,6 +1681,8 @@ target venue requires double-blind review, use an approved anonymous mirror.
         blockers.append("Remove redistributable-restricted raw data or model checkpoints.")
     if not internal_links_ok:
         blockers.append("Resolve internal reference or PDF navigation failures.")
+    if not readme_links_ok:
+        blockers.append("Resolve README link or command-entry failures.")
 
     tests_pass = test_result["returncode"] == 0
     release_text = f"""# Release Readiness
@@ -1675,7 +1702,8 @@ retained run configuration hostnames.
 | Tests pass | {'PASS' if tests_pass else 'FAIL'} | `{test_result['summary']}`. |
 | Working tree clean | {'PASS' if working_tree_clean else 'FAIL'} | A release must point to a committed revision. |
 | Independent numeric audit | {submission_audit.get('status', 'FAIL')} | {submission_audit.get('mismatch_count')} mismatches. |
-| Internal citations and PDF navigation | {'PASS' if internal_links_ok else 'FAIL'} | `REFERENCE_LINK_REPORT.md`. |
+| Internal citations and PDF navigation | {'PASS' if internal_links_ok else 'FAIL'} | `docs/reports/REFERENCE_LINK_REPORT.md`. |
+| README links and Python commands | {'PASS' if readme_links_ok else 'FAIL'} | `docs/reports/README_LINK_CHECK.md`. |
 | README complete | {'PASS' if all(readme_checks.values()) and readme_no_unsupported_claims else 'FAIL'} | `docs/audit/REPOSITORY_AUDIT.md`. |
 | CITATION present | {'PASS' if not citation_issues else 'WARNING'} | Valid CFF 1.2.0 record for Huadong Lin; version 1.0.0. |
 | License clear | PASS | MIT software scope plus explicit third-party data exclusion. |
@@ -1684,7 +1712,7 @@ retained run configuration hostnames.
 | No personal metadata | FAIL | Commit email and run-config hostname findings. |
 | Raw results available | {'PASS' if not result_issues else 'FAIL'} | 320 canonical and 40 external rows. |
 | Statistics reproducible | {'PASS' if not statistics_issues else 'FAIL'} | `results/hierarchical_statistics.csv`. |
-| Figures reproducible | PASS | 24 PNG/PDF figure pairs from tracked scripts. |
+| Figures reproducible | PASS | 24 tracked PNG figures from tracked scripts. |
 | Split manifests reproducible | {'PASS' if not split_issues else 'FAIL'} | Four fixed manifests with indices and hashes. |
 
 ## True release blockers

@@ -1,6 +1,6 @@
 # Figure Provenance
 
-All 12 manuscript figures have tracked PNG and PDF outputs under
+All 12 manuscript figures have tracked PNG outputs under
 `figures/publication/`. Methodology diagrams are code-generated diagrams;
 Figures 4-12 are data-derived and contain no manually entered result values.
 
@@ -28,5 +28,5 @@ python -m spindle_cnn.experiments.make_figures --results-dir results --output-di
 ```
 
 The current revision regenerated all 12 PNG files byte-identically in a
-separate output directory. No Excel, Photoshop, or manual numeric overlays are
-used for data-derived figures.
+separate output directory. No PDF figure output is tracked. No Excel,
+Photoshop, or manual numeric overlays are used for data-derived figures.

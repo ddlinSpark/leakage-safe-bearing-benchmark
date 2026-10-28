@@ -23,12 +23,13 @@ jobs:
         run: python scripts/smoke_test.py
       - name: Verify figure palette and file integrity
         run: python scripts/check_figure_palette.py
+      - name: Verify README links and commands
+        run: python scripts/check_readme_links.py
       - name: Verify manuscript evidence chain
         run: |
           python scripts/verify_manuscript_numbers.py
           python scripts/check_manuscript_consistency.py
-          python scripts/audit_internal_links.py
       - name: Verify committed catalogs
         run: |
           python scripts/build_results_catalog.py
-          git diff --exit-code -- results/canonical/manifest.json splits/manifest.json CONSISTENCY_REPORT.md
+          git diff --exit-code -- results/canonical/manifest.json splits/manifest.json docs/reports/CONSISTENCY_REPORT.md

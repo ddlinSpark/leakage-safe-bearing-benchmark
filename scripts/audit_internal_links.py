@@ -480,8 +480,9 @@ def write_report(payload: dict[str, Any], output: Path) -> None:
         "",
         f"**{payload['status']}**",
         "",
-        "PDF links were tested by resolving every link annotation destination to "
-        "a target page. Source text was extracted from each annotation rectangle.",
+        "PDF links were tested in a temporary, non-tracked render by resolving "
+        "every link annotation destination to a target page. Source text was "
+        "extracted from each annotation rectangle.",
         "",
         "```yaml",
         f"reference_hyperlink_status: {payload['status']}",
@@ -586,12 +587,17 @@ def main() -> None:
     parser.add_argument(
         "--pdf",
         type=Path,
-        default=ROOT / "manuscript" / "manuscript.pdf",
+        default=ROOT
+        / "artifacts"
+        / "local"
+        / "render"
+        / "final_links"
+        / "Leakage_Safe_Bearing_Benchmark_SCI_final.pdf",
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "REFERENCE_LINK_REPORT.md",
+        default=ROOT / "docs" / "reports" / "REFERENCE_LINK_REPORT.md",
     )
     parser.add_argument(
         "--json-output",

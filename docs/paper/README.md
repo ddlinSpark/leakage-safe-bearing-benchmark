@@ -17,25 +17,23 @@ docs/paper/archive/Leakage_Safe_Bearing_Benchmark_SCI_pre_statistics_revision.do
 
 Supporting records:
 
-- `AUDIT_REPORT.md`: code, split, raw-source, label, and numerical audit.
-- `REPRODUCTION_REPORT.md`: current retained-result reproduction status.
-- `EXPERIMENT_REPORT.md`: all canonical and sensitivity analyses.
-- `PAPER_REVISION_REPORT.md`: problem-evidence-change-location revision matrix.
-- `PAPER_RESULT_TRACEABILITY.md`: manuscript-to-result source map.
-- `REPRODUCIBILITY.md`: end-to-end data, experiment, and manuscript workflow.
-- `DAMAGE_ORIGIN_ANALYSIS.md`: confounding assessment and feasibility boundary.
-- `SECOND_DATASET_ASSESSMENT.md`: candidate external-validity assessment.
+- `docs/reports/AUDIT_REPORT.md`: code, split, raw-source, label, and numerical audit.
+- `docs/reports/REPRODUCTION_REPORT.md`: retained-result reproduction status.
+- `docs/reports/EXPERIMENT_REPORT.md`: canonical and sensitivity analyses.
+- `docs/reports/PAPER_REVISION_REPORT.md`: problem-evidence-change-location matrix.
+- `docs/reports/PAPER_RESULT_TRACEABILITY.md`: manuscript-to-result source map.
+- `docs/reports/REPRODUCIBILITY.md`: detailed end-to-end workflow.
+- `docs/reports/DAMAGE_ORIGIN_ANALYSIS.md`: confounding assessment boundary.
+- `docs/reports/SECOND_DATASET_ASSESSMENT.md`: external-validity assessment.
 - `docs/paper/TABLE_SOURCES.md`: manuscript table-to-file provenance.
 - `docs/paper/FIGURE_SOURCES.md`: figure-to-generator mapping.
 - `figures/publication/figure_hashes.json`: SHA-256 and byte-size manifest for
-  all 24 PNG/PDF figure pairs.
+  all 24 tracked PNG figures.
 - `src/spindle_cnn/visualization/style.py`: shared 11-color journal palette and
   visual style used by every figure generator.
-- `manuscript/manuscript.pdf`: rendered main manuscript.
-- `manuscript/supplementary.pdf`: standalone Figures S1-S5.
-- `CONSISTENCY_REPORT.md`: automated run-count, metric, statistical, parameter,
+- `docs/reports/CONSISTENCY_REPORT.md`: automated run-count, metric, statistical, parameter,
   fold, seed, and DOCX consistency checks.
-- `PAPER_REPRODUCIBILITY.md`: complete rebuild and audit procedure.
+- `docs/paper/PAPER_REPRODUCIBILITY.md`: complete rebuild and audit procedure.
 
 The earlier local file
 `主轴故障诊断方法_SCI修订版.docx` is retained only as a historical source. It

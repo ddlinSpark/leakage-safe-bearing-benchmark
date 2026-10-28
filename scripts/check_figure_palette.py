@@ -54,16 +54,9 @@ def main() -> None:
             source_issues.append(f"{relative}: local palette colors {extra}")
 
     pngs = sorted(publication.glob("*.png"))
-    pdfs = sorted(publication.glob("*.pdf"))
-    stems_png = {path.stem for path in pngs}
-    stems_pdf = {path.stem for path in pdfs}
-    pair_issues = []
-    if stems_png != stems_pdf:
-        pair_issues.append(
-            f"unpaired PNG/PDF stems: {sorted(stems_png ^ stems_pdf)}"
-        )
-    if len(pngs) != 24 or len(pdfs) != 24:
-        pair_issues.append(f"expected 24 PNG/PDF pairs; found {len(pngs)}/{len(pdfs)}")
+    figure_issues = []
+    if len(pngs) != 24:
+        figure_issues.append(f"expected 24 PNG figures; found {len(pngs)}")
     raster_issues = []
     for path in pngs:
         with Image.open(path) as image:
@@ -77,26 +70,25 @@ def main() -> None:
         manifest_issues.append("figure_hashes.json is missing")
     else:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["files"]
-        expected_names = {path.name for path in [*pngs, *pdfs]}
+        expected_names = {path.name for path in pngs}
         if set(manifest) != expected_names:
             manifest_issues.append("manifest file set differs from publication files")
-        for path in [*pngs, *pdfs]:
+        for path in pngs:
             record = manifest.get(path.name, {})
             if record.get("bytes") != path.stat().st_size:
                 manifest_issues.append(f"{path.name}: byte count mismatch")
             elif record.get("sha256") != sha256(path):
                 manifest_issues.append(f"{path.name}: SHA-256 mismatch")
 
-    issues = source_issues + pair_issues + raster_issues + manifest_issues
+    issues = source_issues + figure_issues + raster_issues + manifest_issues
     payload = {
         "status": "PASS" if not issues else "FAIL",
         "palette": list(PAPER_COLORS),
         "model_colors": MODEL_COLORS,
         "plot_modules_checked": len(PLOT_MODULES),
         "png_count": len(pngs),
-        "pdf_count": len(pdfs),
         "source_issues": source_issues,
-        "pair_issues": pair_issues,
+        "figure_issues": figure_issues,
         "raster_issues": raster_issues,
         "manifest_issues": manifest_issues,
     }

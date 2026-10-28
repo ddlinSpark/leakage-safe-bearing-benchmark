@@ -201,7 +201,7 @@ def main() -> None:
         else {}
     )
     a11y_counts = a11y.get("counts", {})
-    link_report_path = root / "REFERENCE_LINK_REPORT.md"
+    link_report_path = root / "docs" / "reports" / "REFERENCE_LINK_REPORT.md"
     link_report = (
         link_report_path.read_text(encoding="utf-8")
         if link_report_path.is_file()
@@ -339,13 +339,13 @@ No malformed form such as `p=<` remains.
 - Table 6 is generated from `results/hierarchical_statistics.csv`.
 - Table 10 displays TFN while retaining the historical `tfnet` result key.
 - Reference [22] includes DOI `10.1016/j.ymssp.2023.110952`.
-- Figure hashes: {figures_matched} of {figures_compared} PNG and PDF files
+- Figure hashes: {figures_matched} of {figures_compared} PNG files
   match the publication hash manifest.
 - All {page_count} rendered pages were visually inspected; no clipping, overlap, missing
   glyph, or broken table was found.
 - Accessibility audit: high={a11y_counts.get('high', 0)},
   medium={a11y_counts.get('medium', 0)}, low={a11y_counts.get('low', 0)}.
-- Internal reference, cross-reference, PDF-link, and outline audit:
+- Internal reference, cross-reference, and optional temporary PDF-link audit:
   {'PASS' if internal_links_pass else 'FAIL'}.
 
 ## Release-readiness

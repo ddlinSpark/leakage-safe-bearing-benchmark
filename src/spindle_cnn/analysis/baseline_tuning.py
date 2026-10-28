@@ -206,13 +206,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
         fontsize=7,
     )
     png = output_dir / "figure_18_baseline_tuning.png"
-    pdf = output_dir / "figure_18_baseline_tuning.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

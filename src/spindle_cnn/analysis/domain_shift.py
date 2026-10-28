@@ -440,13 +440,7 @@ def save_plot(
     for axis in axes.flat:
         axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6, zorder=0)
     png_path = output_dir / "figure_13_domain_shift_diagnostics.png"
-    pdf_path = output_dir / "figure_13_domain_shift_diagnostics.pdf"
     figure.savefig(png_path, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf_path,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

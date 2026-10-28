@@ -11,7 +11,7 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 28 | informational |
+| Reachable commits | 29 | informational |
 | Distinct commit author email addresses | 2 | informational |
 | Commits with non-anonymous author email metadata | 14 | privacy review required |
 | Current Git author setting will create anonymous commits | NO | privacy review required |
@@ -37,8 +37,7 @@ Values are intentionally omitted.
 
 | Risk type | First file / location |
 | --- | --- |
-| `email_literal` | `REPRODUCIBILITY.md` |
-| `absolute_windows_path` | `REPRODUCIBILITY.md` |
+| `email_literal` | `docs/reports/REPRODUCIBILITY.md` |
 | `hostname_field` | `results/runs/label_efficiency__f0__s123__cwt_gru__l0.1000__4fccc07576/config.json`; 319 additional files |
 
 The current source tree no longer contains platform-specific executable

@@ -1,7 +1,7 @@
 # Manuscript Figure Sources
 
-All final figures have editable vector PDF counterparts under
-`figures/publication/`. The manuscript embeds the PNG files at publication
+The repository tracks final PNG figures under `figures/publication/`. No PDF
+files are tracked. The manuscript embeds the PNG files at publication
 resolution.
 
 Every plotting module calls `apply_paper_style()` from
@@ -11,7 +11,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 1: Overall methodology framework
 
-- Output: `figures/publication/figure_method_01_overall_framework.{png,pdf}`
+- Output: `figures/publication/figure_method_01_overall_framework.png`
 - Generator: `python scripts/make_method_figures.py`
 - Function: `overall_framework()` in
   `src/spindle_cnn/experiments/make_method_figures.py`
@@ -21,7 +21,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 2: CWT-GRU architecture
 
-- Output: `figures/publication/figure_method_02_cwt_gru_architecture.{png,pdf}`
+- Output: `figures/publication/figure_method_02_cwt_gru_architecture.png`
 - Generator: `python scripts/make_method_figures.py`
 - Function: `cwt_gru_architecture()` in
   `src/spindle_cnn/experiments/make_method_figures.py`
@@ -31,7 +31,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 3: Calibrated self-training pipeline
 
-- Output: `figures/publication/figure_method_03_self_training_pipeline.{png,pdf}`
+- Output: `figures/publication/figure_method_03_self_training_pipeline.png`
 - Generator: `python scripts/make_method_figures.py`
 - Function: `self_training_pipeline()` in
   `src/spindle_cnn/experiments/make_method_figures.py`
@@ -41,7 +41,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 4: Full balanced budget model comparison
 
-- Output: `figures/publication/figure_01_model_comparison.{png,pdf}`
+- Output: `figures/publication/figure_01_model_comparison.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `model_comparison()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -49,7 +49,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 5: Label efficiency
 
-- Output: `figures/publication/figure_03_label_efficiency.{png,pdf}`
+- Output: `figures/publication/figure_03_label_efficiency.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `label_efficiency()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -57,7 +57,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 6: Threshold sensitivity
 
-- Output: `figures/publication/figure_04_threshold_sensitivity.{png,pdf}`
+- Output: `figures/publication/figure_04_threshold_sensitivity.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `threshold_sensitivity()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -65,7 +65,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 7: Expected calibration error
 
-- Output: `figures/publication/figure_05_calibration.{png,pdf}`
+- Output: `figures/publication/figure_05_calibration.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `calibration()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -73,7 +73,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 8: Reliability diagrams
 
-- Output: `figures/publication/figure_08_reliability_diagrams.{png,pdf}`
+- Output: `figures/publication/figure_08_reliability_diagrams.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `reliability_diagrams()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -82,14 +82,14 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 9: Component ablation
 
-- Output: `figures/publication/figure_02_ablation.{png,pdf}`
+- Output: `figures/publication/figure_02_ablation.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `ablation()` in `src/spindle_cnn/experiments/make_figures.py`
 - Input: `results/ablation_summary.csv`.
 
 ## Figure 10: Confusion matrices
 
-- Output: `figures/publication/figure_06_confusion_matrices.{png,pdf}`
+- Output: `figures/publication/figure_06_confusion_matrices.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `confusion()` in `src/spindle_cnn/experiments/make_figures.py`
 - Inputs: `results/raw_runs.csv` and
@@ -97,7 +97,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 11: Computational cost
 
-- Output: `figures/publication/figure_07_computational_cost.{png,pdf}`
+- Output: `figures/publication/figure_07_computational_cost.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `computational_cost()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -106,7 +106,7 @@ manifest is `figures/publication/figure_hashes.json`.
 
 ## Figure 12: Validation-to-test generalization gap
 
-- Output: `figures/publication/figure_09_validation_test_gap.{png,pdf}`
+- Output: `figures/publication/figure_09_validation_test_gap.png`
 - Generator: `python scripts/generate_figures.py`
 - Function: `validation_test_gap()` in
   `src/spindle_cnn/experiments/make_figures.py`
@@ -122,22 +122,22 @@ value is entered directly in a plotting function.
 
 | Figure | Output | Generator | Input |
 | --- | --- | --- | --- |
-| Figure 13 | `figure_13_domain_shift_diagnostics.{png,pdf}` | `analysis.domain_shift` | Original-amplitude window metrics and train-test contrasts |
-| Figure 14 | `figure_16_label_granularity.{png,pdf}` | `analysis.label_granularity` | Retained four-class test probabilities |
-| Figure 15 | `figure_19_cwt_sensitivity.{png,pdf}` | `analysis.cwt_sensitivity` | Six controlled CWT caches and their matched result rows |
-| Figure 16 | `figure_17_self_training_sensitivity.{png,pdf}` | `analysis.self_training` | Fixed, supervised, and coverage-controlled matched rows |
-| Figure 17 | `figure_22_feature_space_pca.{png,pdf}` | `analysis.feature_space` | CWT-GRU penultimate embeddings |
-| Figure 18 | `figure_23_feature_space_tsne.{png,pdf}` | `analysis.feature_space` | CWT-GRU penultimate embeddings |
+| Figure 13 | `figure_13_domain_shift_diagnostics.png` | `analysis.domain_shift` | Original-amplitude window metrics and train-test contrasts |
+| Figure 14 | `figure_16_label_granularity.png` | `analysis.label_granularity` | Retained four-class test probabilities |
+| Figure 15 | `figure_19_cwt_sensitivity.png` | `analysis.cwt_sensitivity` | Six controlled CWT caches and their matched result rows |
+| Figure 16 | `figure_17_self_training_sensitivity.png` | `analysis.self_training` | Fixed, supervised, and coverage-controlled matched rows |
+| Figure 17 | `figure_22_feature_space_pca.png` | `analysis.feature_space` | CWT-GRU penultimate embeddings |
+| Figure 18 | `figure_23_feature_space_tsne.png` | `analysis.feature_space` | CWT-GRU penultimate embeddings |
 
 ## Supplementary Figures S1-S5
 
 | Figure | Output | Input |
 | --- | --- | --- |
-| S1 | `figure_14_per_fold_reliability.{png,pdf}` | Per-run logits and validation-fitted temperatures |
-| S2 | `figure_15_temperature_distribution.{png,pdf}` | `calibration_per_run.csv` |
-| S3 | `figure_20_foldwise_paired_differences.{png,pdf}` | `foldwise_paired_differences.csv` |
-| S4 | `figure_21_training_budget.{png,pdf}` | `training_budget_comparison.csv` |
-| S5 | `figure_24_normalization_sensitivity.{png,pdf}` | `normalization_sensitivity_summary.csv` |
+| S1 | `figure_14_per_fold_reliability.png` | Per-run logits and validation-fitted temperatures |
+| S2 | `figure_15_temperature_distribution.png` | `calibration_per_run.csv` |
+| S3 | `figure_20_foldwise_paired_differences.png` | `foldwise_paired_differences.csv` |
+| S4 | `figure_21_training_budget.png` | `training_budget_comparison.csv` |
+| S5 | `figure_24_normalization_sensitivity.png` | `normalization_sensitivity_summary.csv` |
 
 Figure-only PCA/t-SNE reproduction can use the retained compact embeddings:
 
@@ -148,5 +148,5 @@ python -m spindle_cnn.analysis.feature_space `
   --reuse-embeddings
 ```
 
-`figure_18_baseline_tuning.{png,pdf}` is a retained analysis artifact and is
+`figure_18_baseline_tuning.png` is a retained analysis artifact and is
 not embedded as one of the 23 inline manuscript figures.

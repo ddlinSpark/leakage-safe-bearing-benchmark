@@ -79,4 +79,4 @@ calibration. For CWT-GRU, mean test ECE changes from approximately `0.543` to
 - Manuscript source mapping: `docs/paper/TABLE_SOURCES.md` and
   `docs/paper/FIGURE_SOURCES.md`.
 
-The automated consistency report is `CONSISTENCY_REPORT.md`.
+The automated consistency report is `docs/reports/CONSISTENCY_REPORT.md`.

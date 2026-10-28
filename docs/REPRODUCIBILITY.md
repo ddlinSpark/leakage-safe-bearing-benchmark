@@ -39,11 +39,11 @@ matrix and `--include-domain-shift` when the raw-amplitude cache is available.
 | External rows | 40 successful adaptation rows |
 | Main summary | Seven method conditions x 20 matched runs |
 | Hierarchical table | Fold-first intervals and exact sign-flip tests |
-| Figures | 24 PNG/PDF pairs and a SHA-256 manifest |
-| Manuscript | DOCX and 30-page PDF |
-| Supplement | Five-page Figures S1-S5 PDF |
+| Figures | 24 PNG figures and a SHA-256 manifest |
+| Manuscript | Final DOCX manuscript |
+| Supplement | Figures S1-S5 embedded in the final DOCX |
 | Consistency report | Zero table/manuscript mismatches |
-| Internal-link report | Resolved citations, cross-references, and PDF outline |
+| Internal-link report | Resolved DOCX citations and cross-references |
 | Smoke test | Config, split, model, metric, and style checks pass |
 
 ## Commands
@@ -87,12 +87,12 @@ python scripts/run_external_baselines.py
 python scripts/generate_statistics.py
 python scripts/generate_figures.py --include-domain-shift
 python scripts/build_results_catalog.py
-python scripts/audit_internal_links.py
 ```
 
-The internal-link audit reads the final DOCX and PDF, extracts every citation
-and cross-reference, resolves every PDF link annotation to a target page, and
-writes `REFERENCE_LINK_REPORT.md`.
+The committed internal-link report records DOCX citations and
+cross-references, plus an optional earlier temporary-render validation of
+link annotations and outline entries. No PDF is distributed. See
+`docs/reports/REFERENCE_LINK_REPORT.md`.
 
 ## Provenance
 

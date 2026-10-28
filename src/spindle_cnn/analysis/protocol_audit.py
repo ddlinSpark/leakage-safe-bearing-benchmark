@@ -735,7 +735,7 @@ def main() -> None:
         cache=cache_path,
         metadata=metadata_path,
         reports_dir=root / "reports",
-        audit_report=root / "AUDIT_REPORT.md",
+        audit_report=root / "docs" / "reports" / "AUDIT_REPORT.md",
     )
     cache_metadata = json.loads(paths.metadata.read_text(encoding="utf-8"))
     data = load_cwru_cache(paths.cache)

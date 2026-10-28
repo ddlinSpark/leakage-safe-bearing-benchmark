@@ -103,12 +103,11 @@ their recorded content hashes.
 The figure workflow regenerated:
 
 - 24 PNG publication figures;
-- 24 vector PDF counterparts;
 - the figure SHA-256 manifest.
 
-A repeated complete figure generation produced 48 of 48 byte-identical PNG/PDF
-files. PDF creation timestamps are disabled, and `figure_hashes.json` points to
-files inside the selected output directory.
+A repeated complete figure generation produced 24 of 24 byte-identical PNG
+files. `figure_hashes.json` points to files inside the selected output
+directory.
 
 ## Manuscript
 
@@ -124,8 +123,8 @@ found no numerical, table, terminology, or figure mismatch. The final document
 is 30 A4 pages, and all pages were visually inspected after the final figure
 palette update.
 
-The standalone supplementary PDF contains Figures S1-S5 in five A4 pages.
-The PDF contains 65 actionable internal links and a 45-entry navigation outline.
+A temporary PDF render, which is intentionally excluded from Git, was used to
+confirm 65 actionable internal links and a 45-entry navigation outline.
 
 ## Reproduction scope
 
@@ -138,7 +137,7 @@ The clean-room process verified:
 - statistics regeneration from retained result files;
 - every publication figure from retained results and compact embeddings;
 - deterministic DOCX generation;
-- manuscript and supplementary PDF presence and page counts;
+- temporary manuscript PDF link and outline validation without tracking a PDF;
 - manuscript/result consistency and palette integrity.
 
 It did not rerun all 820 training rows. This distinction is retained so that a

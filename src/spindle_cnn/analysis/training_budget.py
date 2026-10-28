@@ -83,13 +83,7 @@ def save_figure(comparison: pd.DataFrame, output_dir: Path) -> None:
     axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     axis.legend(frameon=False)
     png = output_dir / "figure_21_training_budget.png"
-    pdf = output_dir / "figure_21_training_budget.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

@@ -38,6 +38,11 @@ def main() -> None:
         action="store_true",
         help="Skip pytest and the lightweight smoke test.",
     )
+    parser.add_argument(
+        "--pdf-validation",
+        type=Path,
+        help="Optional ignored PDF path for internal-link destination testing.",
+    )
     args = parser.parse_args()
 
     if args.run_benchmark:
@@ -77,7 +82,15 @@ def main() -> None:
     run(["scripts/verify_manuscript_numbers.py"])
     run(["scripts/check_manuscript_consistency.py"])
     run(["scripts/check_figure_palette.py"])
-    run(["scripts/audit_internal_links.py"])
+    run(["scripts/check_readme_links.py"])
+    if args.pdf_validation:
+        run(
+            [
+                "scripts/audit_internal_links.py",
+                "--pdf",
+                str(args.pdf_validation),
+            ]
+        )
     print("Reproduction workflow complete.")
 
 

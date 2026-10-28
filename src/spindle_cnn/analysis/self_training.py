@@ -203,13 +203,7 @@ def save_figure(
         axis.set_title(budget_label, loc="left")
         axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_17_self_training_sensitivity.png"
-    pdf = output_dir / "figure_17_self_training_sensitivity.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

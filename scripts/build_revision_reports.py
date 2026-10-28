@@ -125,7 +125,7 @@ def build_reproduction_report(root: Path) -> str:
             "",
             "The status is not a claim that all 320 stochastic training runs were "
             "executed again during this revision. Training-time reproduction is "
-            "reported separately in `CLEAN_REPRODUCTION_REPORT.md`.",
+            "reported separately in `docs/reports/CLEAN_REPRODUCTION_REPORT.md`.",
             "",
             "## Recorded environment",
             "",
@@ -184,7 +184,7 @@ def build_reproduction_report(root: Path) -> str:
             "| Split reconstruction | VERIFIED | Four manifests regenerate with identical index sets and hashes. |",
             "| Metric recomputation | VERIFIED | 320 canonical and 40 external rows reproduce from saved logits. |",
             "| Manuscript tables | VERIFIED | Tables 1-13 pass the independent audit. |",
-            "| Primary figures | VERIFIED | Figures 4-12 are retained as PNG and PDF at publication resolution. |",
+            "| Primary figures | VERIFIED | Figures 4-12 are retained as publication-resolution PNG files. |",
             "| Full stochastic retraining | SEE CLEAN REPORT | Time-intensive training is evaluated in the isolated clean checkout. |",
             "| Sensitivity experiments | SEE EXPERIMENT REPORT | New runs are marked exploratory where the worktree was dirty. |",
             "",
@@ -499,9 +499,12 @@ def main() -> None:
         "EXPERIMENT_REPORT.md": build_experiment_report(root),
         "PAPER_RESULT_TRACEABILITY.md": build_traceability(root),
     }
+    reports_dir = root / "docs" / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
     for name, content in outputs.items():
-        (root / name).write_text(content, encoding="utf-8")
-        print(f"Wrote {root / name}")
+        output = reports_dir / name
+        output.write_text(content, encoding="utf-8")
+        print(f"Wrote {output}")
     (root / "results" / "EXPERIMENT_REPORT.md").write_text(
         outputs["EXPERIMENT_REPORT.md"],
         encoding="utf-8",

@@ -13,7 +13,7 @@ dynamic = ["dependencies"]
 
 [project.urls]
 Repository = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark"
-Paper = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark/blob/main/manuscript/manuscript.pdf"
+Paper = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark/blob/main/docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx"
 Reproducibility = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark/blob/main/docs/REPRODUCIBILITY.md"
 
 [project.optional-dependencies]

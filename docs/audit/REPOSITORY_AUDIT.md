@@ -10,9 +10,9 @@ documented in `docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md`.
 
 ## Repository scale
 
-- Candidate files: 4597
-- Candidate size: 49.95 MiB
-- Large files at or above 1 MB: 7
+- Candidate files: 4571
+- Candidate size: 44.66 MiB
+- Large files at or above 1 MB: 6
 - Saved-logit prediction archives: 822
   (8.58 MiB total; diagnostic, not model weights)
 - Canonical result rows: 320
@@ -26,40 +26,25 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | Path | Files | Size |
 | --- | ---: | ---: |
 | `.gitattributes` | 1 | 261 B |
-| `.github` | 1 | 1.1 KiB |
+| `.github` | 1 | 1.2 KiB |
 | `.gitignore` | 1 | 1.6 KiB |
-| `AUDIT_REPORT.md` | 1 | 6.2 KiB |
-| `CHANGELOG.md` | 1 | 10.9 KiB |
 | `CITATION.cff` | 1 | 1013 B |
-| `CLEAN_REPRODUCTION_REPORT.md` | 1 | 4.3 KiB |
-| `CONSISTENCY_REPORT.md` | 1 | 2.1 KiB |
-| `DAMAGE_ORIGIN_ANALYSIS.md` | 1 | 2.5 KiB |
-| `EXPERIMENT_REPORT.md` | 1 | 16.5 KiB |
-| `FINAL_RELEASE_REPORT.md` | 1 | 11.7 KiB |
+| `FINAL_RELEASE_REPORT.md` | 1 | 9.4 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
-| `PAPER_RESULT_TRACEABILITY.md` | 1 | 4.1 KiB |
-| `PAPER_REVISION_REPORT.md` | 1 | 6.2 KiB |
-| `README.md` | 1 | 10.3 KiB |
-| `REFERENCE_LINK_REPORT.md` | 1 | 2.4 KiB |
-| `REPRODUCE.md` | 1 | 10.1 KiB |
-| `REPRODUCIBILITY.md` | 1 | 13.7 KiB |
-| `REPRODUCTION_REPORT.md` | 1 | 3.1 KiB |
-| `RESULT_CHANGELOG.md` | 1 | 2.2 KiB |
-| `SECOND_DATASET_ASSESSMENT.md` | 1 | 3.6 KiB |
+| `README.md` | 1 | 10.2 KiB |
 | `configs` | 5 | 5.2 KiB |
 | `data` | 6 | 9.5 KiB |
-| `docs` | 38 | 6.54 MiB |
+| `docs` | 53 | 6.63 MiB |
 | `environment.yml` | 1 | 125 B |
-| `figures` | 50 | 8.20 MiB |
-| `manuscript` | 3 | 4.66 MiB |
+| `figures` | 26 | 7.57 MiB |
 | `pyproject.toml` | 1 | 3.0 KiB |
 | `reports` | 6 | 564.9 KiB |
-| `requirements.txt` | 1 | 322 B |
+| `requirements.txt` | 1 | 307 B |
 | `results` | 4342 | 29.00 MiB |
-| `scripts` | 40 | 298.5 KiB |
+| `scripts` | 40 | 302.3 KiB |
 | `splits` | 2 | 1.2 KiB |
-| `src` | 70 | 563.9 KiB |
-| `tests` | 11 | 21.6 KiB |
+| `src` | 70 | 561.5 KiB |
+| `tests` | 11 | 22.4 KiB |
 
 ## Logical source layout
 
@@ -68,7 +53,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 ├── configs/                    canonical and external configurations
 ├── data/                       data documentation and small cache metadata
 ├── docs/                       protocol, paper, figure, and table provenance
-├── figures/publication/        generated PNG/PDF figures
+├── figures/publication/        generated publication PNG figures
 ├── results/
 │   ├── splits/                 fixed fold manifests with all window indices
 │   ├── runs/                   320 canonical per-run diagnostic directories
@@ -101,12 +86,15 @@ and does not need to be flattened.
 | `.gitignore` | PASS |
 | `requirements.txt` | PASS |
 | `environment.yml` | PASS |
-| `CHANGELOG.md` | PASS |
-| `REPRODUCE.md` | PASS |
-| `REPRODUCIBILITY.md` | PASS |
-| `CLEAN_REPRODUCTION_REPORT.md` | PASS |
-| `CONSISTENCY_REPORT.md` | PASS |
-| `REFERENCE_LINK_REPORT.md` | PASS |
+| `pyproject.toml` | PASS |
+| `docs/reports/CHANGELOG.md` | PASS |
+| `docs/REPRODUCIBILITY.md` | PASS |
+| `docs/reports/REPRODUCE.md` | PASS |
+| `docs/reports/REPRODUCIBILITY.md` | PASS |
+| `docs/reports/CLEAN_REPRODUCTION_REPORT.md` | PASS |
+| `docs/reports/CONSISTENCY_REPORT.md` | PASS |
+| `docs/reports/REFERENCE_LINK_REPORT.md` | PASS |
+| `docs/reports/README_LINK_CHECK.md` | PASS |
 | `FINAL_RELEASE_REPORT.md` | PASS |
 
 | Component | Resolved path | Status |
@@ -134,7 +122,8 @@ and does not need to be flattened.
 | Model findings | PASS |
 | Protocol | PASS |
 | Experiment status | PASS |
-| Quick start | PASS |
+| Quick verification | PASS |
+| Full reproduction | PASS |
 | External baselines | PASS |
 | Statistical analysis | PASS |
 | Data availability | PASS |
@@ -172,7 +161,7 @@ claim state-of-the-art performance.
   sampling rate, windows, stride, conditions, measurements, and commands.
 - **Raw data are not redistributed.**
 - No raw Paderborn or CWRU data files are tracked.
-- Current raw-data archive/cache candidates: 4.
+- Current raw-data archive/cache candidates: 0.
 - The cache `.npz` is ignored; the small dimensionality metadata JSON is
   retained so tables can be audited without redistributing signals.
 - The MIT license is present and limited to software/documentation.
@@ -237,4 +226,4 @@ claim state-of-the-art performance.
   assessment.
 - MINOR: exact transitive dependency lock is absent.
 - MINOR: platform-specific archive extraction requires a local 7-Zip binary.
-- INFORMATIONAL: the final manuscript DOCX and PDFs are tracked.
+- INFORMATIONAL: the final manuscript is tracked as DOCX; PDFs are excluded.

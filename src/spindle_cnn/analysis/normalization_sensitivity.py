@@ -111,13 +111,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     axes[2].set_ylabel("Relative drop")
     axes[0].legend(frameon=False, fontsize=6.8)
     png = output_dir / "figure_24_normalization_sensitivity.png"
-    pdf = output_dir / "figure_24_normalization_sensitivity.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(
-        pdf,
-        bbox_inches="tight",
-        metadata={"CreationDate": None, "ModDate": None},
-    )
     plt.close(figure)
 
 

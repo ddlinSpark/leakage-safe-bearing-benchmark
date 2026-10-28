@@ -36,7 +36,7 @@ def main() -> None:
     files = sorted(
         path
         for path in args.figures_dir.iterdir()
-        if path.suffix.lower() in {".png", ".pdf"}
+        if path.suffix.lower() == ".png"
     )
     payload = {
         "files": {

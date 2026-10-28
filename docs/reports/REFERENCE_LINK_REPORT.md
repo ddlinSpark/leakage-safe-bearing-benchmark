@@ -4,7 +4,7 @@
 
 **PASS**
 
-PDF links were tested by resolving every link annotation destination to a target page. Source text was extracted from each annotation rectangle.
+PDF links were tested in a temporary, non-tracked render by resolving every link annotation destination to a target page. Source text was extracted from each annotation rectangle.
 
 ```yaml
 reference_hyperlink_status: PASS
