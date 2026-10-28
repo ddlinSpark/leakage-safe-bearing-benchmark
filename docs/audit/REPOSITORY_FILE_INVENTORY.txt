@@ -41,7 +41,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2329  docs/audit/LEAKAGE_FINAL_CHECK.md
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
       9929  docs/audit/PRE_SUBMISSION_AUDIT.md
-      2519  docs/audit/RELEASE_READINESS.md
+      2438  docs/audit/RELEASE_READINESS.md
       9298  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
       2336  docs/audit/SPLIT_REPRODUCIBILITY_AUDIT.md
