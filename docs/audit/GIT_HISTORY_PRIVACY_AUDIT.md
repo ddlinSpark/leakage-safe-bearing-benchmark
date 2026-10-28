@@ -11,7 +11,7 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 29 | informational |
+| Reachable commits | 30 | informational |
 | Distinct commit author email addresses | 2 | informational |
 | Commits with non-anonymous author email metadata | 14 | privacy review required |
 | Current Git author setting will create anonymous commits | NO | privacy review required |
@@ -30,7 +30,7 @@ Values are intentionally omitted.
 | Risk type | First commit | First file / location |
 | --- | --- | --- |
 | `email_literal` | `5c16382a1fab` | `REPRODUCIBILITY.md` |
-| `absolute_windows_path` | `9006d5608577` | `REPRODUCIBILITY.md`; 5 additional match locations |
+| `absolute_windows_path` | `4beef07f4727` | `docs/reports/REPRODUCIBILITY.md`; 6 additional match locations |
 | `hostname_field` | `673bb999a646` | `src/spindle_cnn/experiments/common.py`; 642 additional match locations |
 
 ## Current candidate-tree matches

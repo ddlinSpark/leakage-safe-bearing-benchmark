@@ -196,13 +196,22 @@ The complete audit is `docs/reports/REFERENCE_LINK_REPORT.md`.
 
 ## 8. Reproduction checks
 
-The clean-room source tested before the documentation-only closeout was:
+The cleanup commit was pushed to GitHub and verified from a fresh clone at:
+
+```text
+4beef07f4727fac38e668e031f571c556506f8ec
+```
+
+The fresh clone passed all 39 tests, the smoke test, 21 link checks, 15 command
+checks, 18 of 18 manuscript consistency checks, numerical traceability, the
+24-file figure manifest, and the DOCX citation/cross-reference audit. The
+working tree was clean, and no PDF was tracked.
+
+The earlier clean-room source used for the main reproduction check was:
 
 ```text
 489f0a0edcf2c2f2449b72e7e98371a86315cecb
 ```
-
-The final documentation/release commit is verified separately after commit.
 
 - Tests: 39 passed.
 - Smoke test: PASS.

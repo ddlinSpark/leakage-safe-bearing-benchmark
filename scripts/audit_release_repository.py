@@ -1685,6 +1685,13 @@ target venue requires double-blind review, use an approved anonymous mirror.
         blockers.append("Resolve README link or command-entry failures.")
 
     tests_pass = test_result["returncode"] == 0
+    working_tree_severity = (
+        "- **RESOLVED:** the audited source revision is committed, and the "
+        "worktree was clean when audited."
+        if working_tree_clean
+        else "- **MAJOR:** the release candidate is not yet committed as a "
+        "clean immutable revision."
+    )
     release_text = f"""# Release Readiness
 
 ## Decision
@@ -1730,8 +1737,7 @@ retained run configuration hostnames.
 
 - **CRITICAL:** privacy review of public authorship, Git metadata, and retained
   workstation hostnames.
-- **MAJOR:** the release candidate is not yet committed as a clean immutable
-  revision.
+{working_tree_severity}
 - **MINOR:** no exact transitive dependency lock; 7-Zip and Pandoc are external
   tools required only for specific workflows.
 - **INFORMATIONAL:** no API secrets were found; no raw data or model checkpoints

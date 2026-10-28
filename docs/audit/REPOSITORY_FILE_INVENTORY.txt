@@ -36,12 +36,12 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       5945  docs/audit/EXPERIMENT_COMPLETENESS.md
       3370  docs/audit/FINAL_MANUSCRIPT_AUDIT.md
       3714  docs/audit/FINAL_STATISTICAL_AUDIT.md
-      3034  docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md
+      3047  docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md
       6821  docs/audit/LEAKAGE_AUDIT.md
       2329  docs/audit/LEAKAGE_FINAL_CHECK.md
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
       9929  docs/audit/PRE_SUBMISSION_AUDIT.md
-      2522  docs/audit/RELEASE_READINESS.md
+      2429  docs/audit/RELEASE_READINESS.md
       9169  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
       2336  docs/audit/SPLIT_REPRODUCIBILITY_AUDIT.md

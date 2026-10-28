@@ -12,8 +12,8 @@ retained run configuration hostnames.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Tests pass | PASS | `39 passed in 2.12s`. |
-| Working tree clean | FAIL | A release must point to a committed revision. |
+| Tests pass | PASS | `39 passed in 2.14s`. |
+| Working tree clean | PASS | A release must point to a committed revision. |
 | Independent numeric audit | PASS | 0 mismatches. |
 | Internal citations and PDF navigation | PASS | `docs/reports/REFERENCE_LINK_REPORT.md`. |
 | README links and Python commands | PASS | `docs/reports/README_LINK_CHECK.md`. |
@@ -31,7 +31,6 @@ retained run configuration hostnames.
 ## True release blockers
 
 - Remove/expose-control personal commit metadata and workstation hostnames before privacy-clean public release.
-- Commit the audited release candidate so the release points to a clean immutable revision.
 
 ## Non-blocking follow-up
 
