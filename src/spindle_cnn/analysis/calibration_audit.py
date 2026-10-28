@@ -16,7 +16,7 @@ import pandas as pd
 from ..evaluation.calibration import probabilities_from_logits
 from ..evaluation.metrics import metrics_from_logits
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     AUXILIARY_COLORS,
     GRID_COLOR,
     INK_COLOR,
@@ -275,7 +275,11 @@ def save_figures(
     png = output_dir / "figure_14_per_fold_reliability.png"
     pdf = output_dir / "figure_14_per_fold_reliability.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
     selected = per_run.loc[
@@ -326,7 +330,11 @@ def save_figures(
     png = output_dir / "figure_15_temperature_distribution.png"
     pdf = output_dir / "figure_15_temperature_distribution.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

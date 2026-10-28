@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 from pathlib import Path
@@ -48,6 +49,28 @@ def expected_keys() -> set[tuple[int, int]]:
         for fold in EXPECTED_FOLDS
         for seed in EXPECTED_SEEDS
     }
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def manifest_matches(root: Path, manifest_path: Path) -> tuple[bool, str]:
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    failures = []
+    for relative, record in manifest["files"].items():
+        path = root / relative
+        if not path.is_file():
+            failures.append(f"missing {relative}")
+        elif path.stat().st_size != record["bytes"]:
+            failures.append(f"size mismatch {relative}")
+        elif file_sha256(path) != record["sha256"]:
+            failures.append(f"hash mismatch {relative}")
+    return not failures, "; ".join(failures) if failures else f"{len(manifest['files'])} files"
 
 
 def validate_run_matrix(
@@ -128,6 +151,26 @@ def main() -> None:
         len(registry) == 820,
         f"{len(registry)} rows",
     )
+    canonical_ok, canonical_detail = manifest_matches(
+        root,
+        results / "canonical" / "manifest.json",
+    )
+    add_check(
+        checks,
+        "Canonical result catalog",
+        canonical_ok,
+        canonical_detail,
+    )
+    split_ok, split_detail = manifest_matches(
+        root,
+        root / "splits" / "manifest.json",
+    )
+    add_check(
+        checks,
+        "Frozen split catalog",
+        split_ok,
+        split_detail,
+    )
     add_check(
         checks,
         "Unique canonical run identifiers",
@@ -202,6 +245,39 @@ def main() -> None:
         "Macro-F1 and accuracy aggregation",
         summary_ok,
         summary_detail,
+    )
+
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    readme_labels = {
+        "raw_cnn": "Raw 1D-CNN",
+        "gru_only": "GRU only",
+        "cwt_cnn": "CWT 2D-CNN",
+        "cwt_gru_no_se": "CWT-GRU without SE",
+        "cwt_gru": "CWT-GRU",
+        "cwt_gru_selftrain": (
+            "CWT-GRU + temperature scaling + self-training"
+        ),
+    }
+    missing_readme_values = []
+    for method, label in readme_labels.items():
+        row = expected_summary.loc[method]
+        expected_row = (
+            f"| {label} | {row['macro_f1_mean']:.3f} +/- "
+            f"{main_rows.loc[main_rows['method'].eq(method), 'macro_f1'].std():.3f} "
+            f"| {row['accuracy_mean']:.3f} +/- "
+            f"{main_rows.loc[main_rows['method'].eq(method), 'accuracy'].std():.3f} |"
+        )
+        if expected_row not in readme:
+            missing_readme_values.append(method)
+    add_check(
+        checks,
+        "README key findings",
+        not missing_readme_values,
+        (
+            "six principal result rows match canonical means and sample SDs"
+            if not missing_readme_values
+            else f"mismatching methods: {missing_readme_values}"
+        ),
     )
 
     metric_main = {

@@ -20,7 +20,7 @@ from sklearn.metrics import (
 
 from ..evaluation.calibration import probabilities_from_logits
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     GRID_COLOR,
     INK_COLOR,
     PAPER_COLORS,
@@ -183,6 +183,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     figure.savefig(
         output_dir / "figure_16_label_granularity.pdf",
         bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
     )
     plt.close(figure)
 

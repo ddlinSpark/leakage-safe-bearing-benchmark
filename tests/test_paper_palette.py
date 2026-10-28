@@ -10,7 +10,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from spindle_cnn.plotting.style import (
+from spindle_cnn.plotting.style import method_color as legacy_method_color
+from spindle_cnn.visualization.style import (
     MODEL_COLORS,
     PAPER_COLORS,
     apply_paper_style,
@@ -69,6 +70,7 @@ def test_style_and_color_helpers() -> None:
     assert plt.rcParams["figure.facecolor"] == "#FFFFFF"
     assert plt.rcParams["savefig.dpi"] == 600
     assert method_color("raw_cnn") == "#7B95C6"
+    assert legacy_method_color("raw_cnn") == "#7B95C6"
     assert color_with_alpha("#7B95C6", 0.4)[3] == 0.4
     assert palette_cmap("#67A583").name == "bearing_paper_palette"
 

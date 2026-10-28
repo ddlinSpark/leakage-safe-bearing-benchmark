@@ -29,7 +29,7 @@ Supporting records:
 - `docs/paper/FIGURE_SOURCES.md`: figure-to-generator mapping.
 - `figures/publication/figure_hashes.json`: SHA-256 and byte-size manifest for
   all 24 PNG/PDF figure pairs.
-- `src/spindle_cnn/plotting/style.py`: shared 11-color journal palette and
+- `src/spindle_cnn/visualization/style.py`: shared 11-color journal palette and
   visual style used by every figure generator.
 - `manuscript/manuscript.pdf`: rendered main manuscript.
 - `manuscript/supplementary.pdf`: standalone Figures S1-S5.

@@ -29,9 +29,10 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "figures" / "publication" / "figure_hashes.json",
+        default=None,
     )
     args = parser.parse_args()
+    output = args.output or args.figures_dir / "figure_hashes.json"
     files = sorted(
         path
         for path in args.figures_dir.iterdir()
@@ -46,8 +47,8 @@ def main() -> None:
             for path in files
         }
     }
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )

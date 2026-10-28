@@ -1,0 +1,23 @@
+{
+  "authoritative_directory": "results/splits",
+  "files": {
+    "results/splits/fold0.json": {
+      "bytes": 32843,
+      "sha256": "ec9eca1e7cf1680c187398efbadbc9a0f7d0fb47890694b9dc1aec553ca15ec2"
+    },
+    "results/splits/fold1.json": {
+      "bytes": 33220,
+      "sha256": "e133173e16ad0ec79ebc4afd1b36efce6120500678321e1903a041eeb41c6cd7"
+    },
+    "results/splits/fold2.json": {
+      "bytes": 32790,
+      "sha256": "d387015d855f7eee5a69699963254b82aeddbf71e5a853533d3f3544fef8cb7e"
+    },
+    "results/splits/fold3.json": {
+      "bytes": 32790,
+      "sha256": "b4a9e58b3b056110cb1b572f3cd533fc91eea7b8e882eeaa56fb02138635cc25"
+    }
+  },
+  "schema_version": 1,
+  "status": "frozen"
+}

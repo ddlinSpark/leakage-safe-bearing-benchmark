@@ -2,7 +2,7 @@
 
 ## Verdict
 
-**PASS**. 15 of 15 checks passed.
+**PASS**. 18 of 18 checks passed.
 
 The check reads canonical CSV/JSON results and runs the independent DOCX/table audit. It never rewrites an experimental value.
 
@@ -13,12 +13,15 @@ The check reads canonical CSV/JSON results and runs the independent DOCX/table a
 | Canonical run counts | PASS | 320 rows: {'main': 140, 'threshold': 100, 'label_efficiency': 80} |
 | External adaptation counts | PASS | 40 rows |
 | Consolidated experiment registry | PASS | 820 rows |
+| Canonical result catalog | PASS | 13 files |
+| Frozen split catalog | PASS | 4 files |
 | Unique canonical run identifiers | PASS | canonical=320, external=40 |
 | Completed canonical runs | PASS | all retained canonical and external rows report success |
 | Clean canonical provenance | PASS | no canonical run was produced from a dirty worktree |
 | Main model matrix | PASS | 7 methods x 4 folds x 5 seeds = 140 matched runs |
 | External model matrix | PASS | 2 adaptations x 4 folds x 5 seeds = 40 matched runs |
 | Macro-F1 and accuracy aggregation | PASS | all seven main methods are present |
+| README key findings | PASS | six principal result rows match canonical means and sample SDs |
 | paper_metrics model means | PASS | main model means match raw_runs.csv exactly |
 | paper_metrics external means | PASS | DRSN and TFN adaptation means match raw_runs.csv exactly |
 | Fold-first hierarchical inference | PASS | 19 comparisons retain 4 folds, 5 seeds, 20 pairs, 20000 bootstrap samples, ordered CIs, and p >= 0.125 |

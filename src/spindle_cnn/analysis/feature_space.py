@@ -23,7 +23,7 @@ from torch.utils.data import DataLoader
 from ..datasets.splits import balanced_indices, load_fold_indices, set_global_seed
 from ..models.registry import METHODS
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     AUXILIARY_COLORS,
     GRID_COLOR,
     INK_COLOR,
@@ -221,7 +221,11 @@ def save_figures(
     png = output_dir / "figure_22_feature_space_pca.png"
     pdf = output_dir / "figure_22_feature_space_pca.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
     arrays = fold_arrays[tsne_fold]
@@ -283,7 +287,11 @@ def save_figures(
     png = output_dir / "figure_23_feature_space_tsne.png"
     pdf = output_dir / "figure_23_feature_space_tsne.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

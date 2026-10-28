@@ -5,7 +5,7 @@ All final figures have editable vector PDF counterparts under
 resolution.
 
 Every plotting module calls `apply_paper_style()` from
-`src/spindle_cnn/plotting/style.py`. The shared 11-color palette and model-color
+`src/spindle_cnn/visualization/style.py`. The shared 11-color palette and model-color
 mapping are verified by `scripts/check_figure_palette.py`. The current SHA-256
 manifest is `figures/publication/figure_hashes.json`.
 

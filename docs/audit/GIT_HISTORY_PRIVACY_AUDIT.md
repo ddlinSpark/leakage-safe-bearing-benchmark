@@ -11,17 +11,17 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 19 | informational |
+| Reachable commits | 22 | informational |
 | Distinct commit author email addresses | 2 | informational |
 | Commits with non-anonymous author email metadata | 14 | CRITICAL for double-blind |
 | Current Git author setting will create anonymous commits | NO | CRITICAL if NO for anonymous release |
 | Current canonical run configs with hostname field | 320 of 320 | MAJOR privacy |
 | API keys / tokens / private keys / passwords | 0 detected | PASS |
 | Private IP or credential-bearing URLs | 0 detected | PASS |
-| Raw dataset archives/caches in reachable history | 0 | PASS |
+| Raw dataset archives/caches in reachable history | 4 | FAIL |
 | Model checkpoints in reachable history | 0 | PASS |
 | Small saved-logit `.npz` diagnostics in history | 822 | INFORMATIONAL |
-| Largest reachable blob | 6.26 MiB | INFORMATIONAL |
+| Largest reachable blob | 6.37 MiB | INFORMATIONAL |
 
 ## Historical match locations
 
@@ -30,7 +30,7 @@ Values are intentionally omitted.
 | Risk type | First commit | First file / location |
 | --- | --- | --- |
 | `email_literal` | `5c16382a1fab` | `REPRODUCIBILITY.md` |
-| `absolute_windows_path` | `f3bff2b92e6e` | `src/spindle_cnn/paper/equations.py`; 4 additional match locations |
+| `absolute_windows_path` | `9006d5608577` | `REPRODUCIBILITY.md`; 5 additional match locations |
 | `hostname_field` | `673bb999a646` | `src/spindle_cnn/experiments/common.py`; 642 additional match locations |
 
 ## Current candidate-tree matches

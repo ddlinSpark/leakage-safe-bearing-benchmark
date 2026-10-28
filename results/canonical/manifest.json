@@ -1,0 +1,90 @@
+{
+  "files": {
+    "results/ablation_summary.csv": {
+      "bytes": 730,
+      "rows": 6,
+      "sha256": "d7df94024524045c78b82b79e468b473a543210e872e14a8943880700bb3b37f"
+    },
+    "results/domain_gap_summary.csv": {
+      "bytes": 832,
+      "rows": 4,
+      "sha256": "689705a9c1d38ba47ddca35b89250c7a269acc042df7ce2584be514b133b7957"
+    },
+    "results/hierarchical_statistics.csv": {
+      "bytes": 8338,
+      "rows": 19,
+      "sha256": "3e5cd612b595cfb6cff06eaba29ca39638d416ace5c3e3e868abe0ba216fa1a3"
+    },
+    "results/label_efficiency_summary.csv": {
+      "bytes": 1977,
+      "rows": 6,
+      "sha256": "232253f55908ee431b4a408d1289e520c83330a8be32b006e91b448f9d211ce6"
+    },
+    "results/model_complexity.csv": {
+      "bytes": 672,
+      "rows": 7,
+      "sha256": "9f6cf087a50802998a4531fbea6aa4cbb9ccdc54e566434e2f2e3bc1bab48078"
+    },
+    "results/paper_metrics.json": {
+      "bytes": 72933,
+      "sha256": "d5f996e1af329376ece6c0f83a637d4a60294b5760e0d99a7c6de98177651629"
+    },
+    "results/raw_runs.csv": {
+      "bytes": 349258,
+      "rows": 320,
+      "sha256": "a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46fbeb10"
+    },
+    "results/sota/raw_runs.csv": {
+      "bytes": 40897,
+      "rows": 40,
+      "sha256": "c92f2b4a447dbc13f581981d15d76e97ca3382ab024a905f4fbccd6ac1e5b09a"
+    },
+    "results/sota/statistical_tests.csv": {
+      "bytes": 1633,
+      "rows": 8,
+      "sha256": "76f6f74f9097a843c3ce6770ea251b53386f7458eaae0d15b2ad33ef6adf18ea"
+    },
+    "results/statistical_tests.csv": {
+      "bytes": 4838,
+      "rows": 24,
+      "sha256": "9b7a47fe4648a992585253979ba1141311d41d1c09c1d78ff96cca76f2dfe461"
+    },
+    "results/summary.csv": {
+      "bytes": 2136,
+      "rows": 7,
+      "sha256": "306b559aa61c95b895a134713ab78729a3ff4e62eb846518bb9e5a890e96efc8"
+    },
+    "results/summary_with_ci.csv": {
+      "bytes": 5348,
+      "rows": 18,
+      "sha256": "fa85ad6ddadce139d4bc3c70e78832c29803b718a3d74ac142c43395625880f1"
+    },
+    "results/threshold_summary.csv": {
+      "bytes": 1439,
+      "rows": 5,
+      "sha256": "376c94ade772f7b056d5fb4e836aeb3275999b66b7527f637c21e812dc5fda7a"
+    }
+  },
+  "row_contract": {
+    "canonical_rows": 320,
+    "external_rows": 40,
+    "folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "label_efficiency_rows": 80,
+    "main_rows": 140,
+    "seeds": [
+      42,
+      123,
+      2024,
+      2025,
+      3407
+    ],
+    "threshold_rows": 100
+  },
+  "schema_version": 1,
+  "status": "canonical"
+}

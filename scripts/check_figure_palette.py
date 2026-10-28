@@ -9,7 +9,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from spindle_cnn.plotting.style import MODEL_COLORS, PAPER_COLORS
+from spindle_cnn.visualization.style import MODEL_COLORS, PAPER_COLORS
 
 
 ROOT = Path(__file__).resolve().parents[1]

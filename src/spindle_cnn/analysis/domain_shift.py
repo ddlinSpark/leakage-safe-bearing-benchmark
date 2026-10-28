@@ -16,7 +16,7 @@ from scipy import stats
 
 from ..datasets.splits import load_fold_indices
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     GRID_COLOR,
     INK_COLOR,
     MUTED_COLOR,
@@ -442,7 +442,11 @@ def save_plot(
     png_path = output_dir / "figure_13_domain_shift_diagnostics.png"
     pdf_path = output_dir / "figure_13_domain_shift_diagnostics.pdf"
     figure.savefig(png_path, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf_path, bbox_inches="tight")
+    figure.savefig(
+        pdf_path,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

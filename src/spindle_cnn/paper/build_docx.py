@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import argparse
+import ctypes
 import json
+import os
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -2479,7 +2482,30 @@ def build_manuscript(
     build_references(document)
 
     output.parent.mkdir(parents=True, exist_ok=True)
-    document.save(output)
+    with tempfile.NamedTemporaryFile(
+        dir=output.parent,
+        prefix=f".{output.stem}.",
+        suffix=output.suffix,
+        delete=False,
+    ) as temporary_file:
+        temporary_path = Path(temporary_file.name)
+    try:
+        document.save(temporary_path)
+        try:
+            os.replace(temporary_path, output)
+        except PermissionError:
+            # Some Windows viewers retain a read handle that blocks rename
+            # replacement while still permitting the native CopyFile API.
+            if os.name != "nt":
+                raise
+            if not ctypes.windll.kernel32.CopyFileW(
+                str(temporary_path),
+                str(output),
+                False,
+            ):
+                raise ctypes.WinError()
+    finally:
+        temporary_path.unlink(missing_ok=True)
 
 
 def main() -> None:

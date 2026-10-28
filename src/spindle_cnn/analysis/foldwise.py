@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     GRID_COLOR,
     INK_COLOR,
     MUTED_COLOR,
@@ -154,7 +154,11 @@ def save_figure(foldwise: pd.DataFrame, output_dir: Path) -> None:
     png = output_dir / "figure_20_foldwise_paired_differences.png"
     pdf = output_dir / "figure_20_foldwise_paired_differences.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

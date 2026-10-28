@@ -14,7 +14,7 @@ import pandas as pd
 
 from ..analysis.hierarchical import _hierarchical_bootstrap_interval
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     AUXILIARY_COLORS,
     GRID_COLOR,
     INK_COLOR,
@@ -85,7 +85,11 @@ def save_figure(comparison: pd.DataFrame, output_dir: Path) -> None:
     png = output_dir / "figure_21_training_budget.png"
     pdf = output_dir / "figure_21_training_budget.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

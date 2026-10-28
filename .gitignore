@@ -1,10 +1,16 @@
 # Local data and large artifacts
 /data/*
+/data/raw/
+/data/cache/
 /dataset_final/
 /outputs/
 /artifacts/
 cache/
+checkpoints/
+weights/
 logs/
+tmp/
+temp/
 wandb/
 /figures/*
 *.csv

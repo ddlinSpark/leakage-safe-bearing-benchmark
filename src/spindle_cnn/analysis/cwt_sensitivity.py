@@ -17,7 +17,7 @@ from ..analysis.hierarchical import (
     _hierarchical_bootstrap_interval,
 )
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     GRID_COLOR,
     INK_COLOR,
     PAPER_COLORS,
@@ -152,7 +152,11 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     png = output_dir / "figure_19_cwt_sensitivity.png"
     pdf = output_dir / "figure_19_cwt_sensitivity.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

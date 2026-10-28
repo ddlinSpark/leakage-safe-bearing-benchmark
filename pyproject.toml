@@ -4,12 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "leakage-safe-bearing-benchmark"
-version = "0.3.0"
+version = "1.0.0"
 description = "Leakage-safe bearing fault diagnosis benchmark"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 dynamic = ["dependencies"]
+
+[project.urls]
+Repository = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark"
+Paper = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark/blob/main/manuscript/manuscript.pdf"
+Reproducibility = "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark/blob/main/docs/REPRODUCIBILITY.md"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.6"]

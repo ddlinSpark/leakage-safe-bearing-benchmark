@@ -15,7 +15,7 @@ from matplotlib.patches import Patch
 
 from ..experiments.common import configure_logging, read_results
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     AUXILIARY_COLORS,
     GRID_COLOR,
     INK_COLOR,
@@ -58,7 +58,10 @@ def parse_args() -> argparse.Namespace:
 def save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_dir / f"{stem}.png")
-    fig.savefig(output_dir / f"{stem}.pdf")
+    fig.savefig(
+        output_dir / f"{stem}.pdf",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(fig)
 
 

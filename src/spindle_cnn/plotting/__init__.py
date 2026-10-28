@@ -1,6 +1,6 @@
-"""Shared publication plotting configuration."""
+"""Backward-compatible aliases for the publication visualization package."""
 
-from .style import (
+from ..visualization.style import (
     AUXILIARY_COLORS,
     INK_COLOR,
     MODEL_COLORS,

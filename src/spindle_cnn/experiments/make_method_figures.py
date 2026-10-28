@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     AUXILIARY_COLORS,
     INK_COLOR,
     MUTED_COLOR,
@@ -125,7 +125,10 @@ def arrow(
 def save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_dir / f"{stem}.png")
-    fig.savefig(output_dir / f"{stem}.pdf")
+    fig.savefig(
+        output_dir / f"{stem}.pdf",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(fig)
 
 

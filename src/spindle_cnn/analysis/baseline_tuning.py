@@ -16,7 +16,7 @@ from matplotlib.patches import Patch
 
 from ..analysis.hierarchical import _hierarchical_bootstrap_interval
 from ..paths import PROJECT_ROOT
-from ..plotting.style import (
+from ..visualization.style import (
     GRID_COLOR,
     INK_COLOR,
     apply_paper_style,
@@ -208,7 +208,11 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     png = output_dir / "figure_18_baseline_tuning.png"
     pdf = output_dir / "figure_18_baseline_tuning.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
-    figure.savefig(pdf, bbox_inches="tight")
+    figure.savefig(
+        pdf,
+        bbox_inches="tight",
+        metadata={"CreationDate": None, "ModDate": None},
+    )
     plt.close(figure)
 
 

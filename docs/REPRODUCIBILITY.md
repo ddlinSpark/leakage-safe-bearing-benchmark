@@ -16,6 +16,34 @@ The confirmatory Paderborn experiment uses the configuration in
 - Threshold sensitivity: `0.30, 0.40, 0.50, 0.60, 0.70` at a 50% balanced
   budget.
 
+## Formal entry points
+
+Stable commands include `prepare_data.py`, `run_main_benchmark.py`,
+`run_label_efficiency.py`, `run_threshold_sensitivity.py`,
+`run_external_baselines.py`, `run_preprocessing_sensitivity.py`,
+`run_training_opportunity.py`, `generate_statistics.py`,
+`generate_figures.py`, `build_paper_metrics.py`, `reproduce_all.py`,
+`smoke_test.py`, and the consistency/audit scripts under `scripts/`.
+
+`scripts/reproduce_all.py` validates retained results and rebuilds derived
+statistics, figures, DOCX, and audits. Add `--run-benchmark` for a from-scratch
+matrix and `--include-domain-shift` when the raw-amplitude cache is available.
+
+## Expected outputs
+
+| Output | Expected evidence |
+| --- | --- |
+| Split manifests | Four frozen fold JSON files with hashes |
+| Primary rows | 320 successful canonical rows |
+| External rows | 40 successful adaptation rows |
+| Main summary | Seven method conditions x 20 matched runs |
+| Hierarchical table | Fold-first intervals and exact sign-flip tests |
+| Figures | 24 PNG/PDF pairs and a SHA-256 manifest |
+| Manuscript | DOCX and 30-page PDF |
+| Supplement | Five-page Figures S1-S5 PDF |
+| Consistency report | Zero table/manuscript mismatches |
+| Smoke test | Config, split, model, metric, and style checks pass |
+
 ## Commands
 
 ```bash
@@ -51,6 +79,14 @@ PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
 The `--experiment` choices are `main`, `ablation`, `label_efficiency`,
 `threshold`, and `all`.
 
+```bash
+python scripts/run_main_benchmark.py --experiment all
+python scripts/run_external_baselines.py
+python scripts/generate_statistics.py
+python scripts/generate_figures.py --include-domain-shift
+python scripts/build_results_catalog.py
+```
+
 ## Provenance
 
 Each run writes:
@@ -76,6 +112,14 @@ change creates a separate row rather than silently pooling incompatible runs.
 decisions, and the fitted temperature. The independent recheck command
 recomputes all recorded probability metrics and fails if any value differs by
 more than `1e-8`.
+
+`results/canonical/manifest.json` and `splits/manifest.json` record the
+authoritative result paths and split hashes. Refresh both indexes without
+changing an experimental value:
+
+```powershell
+python scripts/build_results_catalog.py
+```
 
 ## Determinism boundary
 

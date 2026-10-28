@@ -1,0 +1,33 @@
+name: reproducibility
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install CPU PyTorch
+        run: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install package
+        run: python -m pip install -e ".[dev]"
+      - name: Run tests
+        run: python -m pytest -q
+      - name: Run repository smoke test
+        run: python scripts/smoke_test.py
+      - name: Verify figure palette and file integrity
+        run: python scripts/check_figure_palette.py
+      - name: Verify manuscript evidence chain
+        run: |
+          python scripts/verify_manuscript_numbers.py
+          python scripts/check_manuscript_consistency.py
+      - name: Verify committed catalogs
+        run: |
+          python scripts/build_results_catalog.py
+          git diff --exit-code -- results/canonical/manifest.json splits/manifest.json CONSISTENCY_REPORT.md

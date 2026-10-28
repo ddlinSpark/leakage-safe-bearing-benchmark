@@ -289,7 +289,7 @@ python -m pytest -q tests
 ```
 
 All figure modules import the shared palette and style from
-`src/spindle_cnn/plotting/style.py`. `check_figure_palette.py` verifies palette
+`src/spindle_cnn/visualization/style.py`. `check_figure_palette.py` verifies palette
 adoption, 24 PNG/PDF pairs, minimum 300 DPI metadata, and the tracked SHA-256
 manifest.
 

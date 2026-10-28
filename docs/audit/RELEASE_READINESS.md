@@ -12,10 +12,10 @@ run configuration hostnames.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Tests pass | PASS | `33 passed in 2.12s`. |
+| Tests pass | PASS | `36 passed in 2.31s`. |
 | Working tree clean | FAIL | A release must point to a committed revision. |
 | Independent numeric audit | PASS | 0 mismatches. |
-| README complete | PASS | `docs/audit/REPOSITORY_AUDIT.md`. |
+| README complete | FAIL | `docs/audit/REPOSITORY_AUDIT.md`. |
 | CITATION present | PASS | Valid CFF 1.2.0 software record; version is 0.3.0 until the release tag is assigned. |
 | License clear | PASS | MIT software scope plus explicit third-party data exclusion. |
 | `.gitignore` complete | PASS | Checked against representative ignored and retained paths. |
