@@ -25,7 +25,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 
 | Path | Files | Size |
 | --- | ---: | ---: |
-| `.gitattributes` | 1 | 145 B |
+| `.gitattributes` | 1 | 222 B |
 | `.github` | 1 | 1.1 KiB |
 | `.gitignore` | 1 | 1.6 KiB |
 | `AUDIT_REPORT.md` | 1 | 6.2 KiB |
@@ -55,10 +55,10 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `reports` | 6 | 564.9 KiB |
 | `requirements.txt` | 1 | 294 B |
 | `results` | 4342 | 29.00 MiB |
-| `scripts` | 39 | 273.5 KiB |
+| `scripts` | 39 | 274.3 KiB |
 | `splits` | 2 | 1.2 KiB |
 | `src` | 70 | 557.1 KiB |
-| `tests` | 10 | 19.3 KiB |
+| `tests` | 10 | 19.4 KiB |
 
 ## Logical source layout
 

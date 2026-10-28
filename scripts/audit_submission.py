@@ -2375,7 +2375,9 @@ def main() -> None:
     payload = {
         "status": "PASS" if not mismatches else "FAIL",
         "raw_sha256": __import__("hashlib").sha256(
-            (results_dir / "raw_runs.csv").read_bytes()
+            (results_dir / "raw_runs.csv")
+            .read_bytes()
+            .replace(b"\r\n", b"\n")
         ).hexdigest(),
         "results_dir": str(results_dir),
         "external_dir": str(external_dir),

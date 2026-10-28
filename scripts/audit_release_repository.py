@@ -252,7 +252,10 @@ def git(root: Path, *args: str, text: bool = True) -> str | bytes:
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    payload = path.read_bytes()
+    if path.suffix.lower() in {".csv", ".json", ".md", ".txt"}:
+        payload = payload.replace(b"\r\n", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def format_bytes(size: int) -> str:

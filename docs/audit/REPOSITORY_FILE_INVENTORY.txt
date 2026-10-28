@@ -4,7 +4,7 @@ Generated from tracked files plus non-ignored candidate files.
 The audit itself is reproducible with `scripts/audit_release_repository.py`.
 
 ```text
-       145  .gitattributes
+       222  .gitattributes
       1078  .github/workflows/ci.yml
       1621  .gitignore
       6304  AUDIT_REPORT.md
@@ -21,8 +21,8 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
      10465  README.md
      10314  REPRODUCE.md
      13983  REPRODUCIBILITY.md
-      3187  REPRODUCTION_REPORT.md
-      2257  RESULT_CHANGELOG.md
+      3215  REPRODUCTION_REPORT.md
+      2285  RESULT_CHANGELOG.md
       3693  SECOND_DATASET_ASSESSMENT.md
        918  configs/paderborn_baseline_tuning_lr001.json
       1570  configs/paderborn_main.json
@@ -46,14 +46,14 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
      20527  docs/audit/AUDIT_REPORT.md
       2105  docs/audit/CLEANUP_REPORT.md
       1623  docs/audit/DOUBLE_BLIND_RISK.md
-      5931  docs/audit/EXPERIMENT_COMPLETENESS.md
+      5945  docs/audit/EXPERIMENT_COMPLETENESS.md
       3231  docs/audit/FINAL_MANUSCRIPT_AUDIT.md
-      3686  docs/audit/FINAL_STATISTICAL_AUDIT.md
+      3714  docs/audit/FINAL_STATISTICAL_AUDIT.md
       3084  docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md
       6821  docs/audit/LEAKAGE_AUDIT.md
       2329  docs/audit/LEAKAGE_FINAL_CHECK.md
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
-      9915  docs/audit/PRE_SUBMISSION_AUDIT.md
+      9929  docs/audit/PRE_SUBMISSION_AUDIT.md
       2530  docs/audit/RELEASE_READINESS.md
       9310  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
@@ -982,7 +982,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       1645  results/calibration_summary.csv
      30336  results/calibration_validation_recheck.csv
        769  results/canonical/README.md
-      2511  results/canonical/manifest.json
+      2554  results/canonical/manifest.json
        767  results/computational_cost_audit.csv
       1661  results/config_used.json
       1582  results/cwt_sensitivity/log_magnitude/config_used.json
@@ -1974,7 +1974,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
        391  results/normalization_sensitivity_comparisons.csv
       1306  results/normalization_sensitivity_summary.csv
        513  results/overfit_sanity.csv
-     72933  results/paper_metrics.json
+     70957  results/paper_metrics.json
       9035  results/pseudo_label_diagnostics.csv
     349258  results/raw_runs.csv
     678964  results/rechecks/all_runs.json
@@ -4480,20 +4480,20 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
        152  scripts/analyze_sota.py
      12083  scripts/audit_final_manuscript.py
        154  scripts/audit_protocol.py
-     69120  scripts/audit_release_repository.py
+     69256  scripts/audit_release_repository.py
       5700  scripts/audit_sensitivity_results.py
-     87704  scripts/audit_submission.py
+     87754  scripts/audit_submission.py
       1950  scripts/build_cwt_cache_manifest.py
       3246  scripts/build_experiment_registry.py
        150  scripts/build_paper_docx.py
-      6585  scripts/build_paper_metrics.py
-      2966  scripts/build_results_catalog.py
-     23421  scripts/build_revision_reports.py
-     12287  scripts/build_statistical_reports.py
+      6645  scripts/build_paper_metrics.py
+      3223  scripts/build_results_catalog.py
+     23419  scripts/build_revision_reports.py
+     12423  scripts/build_statistical_reports.py
       5583  scripts/build_submission_pdfs.py
       1455  scripts/capture_environment.py
       4224  scripts/check_figure_palette.py
-     14233  scripts/check_manuscript_consistency.py
+     14360  scripts/check_manuscript_consistency.py
       1738  scripts/dedupe_interrupted_runs.py
        148  scripts/export_results_report.py
       1594  scripts/finalize_result_families.py
@@ -4517,7 +4517,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2786  scripts/verify_manuscript_numbers.py
       1714  scripts/verify_paderborn_archives.py
        527  splits/README.md
-       700  splits/manifest.json
+       743  splits/manifest.json
         66  src/spindle_cnn/__init__.py
         48  src/spindle_cnn/analysis/__init__.py
       9528  src/spindle_cnn/analysis/baseline_tuning.py
@@ -4594,7 +4594,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
        514  tests/test_metrics.py
       1210  tests/test_models.py
       2885  tests/test_paper_palette.py
-      2349  tests/test_release_structure.py
+      2486  tests/test_release_structure.py
       2809  tests/test_sensitivity_outputs.py
       2111  tests/test_sota_results.py
       1732  tests/test_splits.py

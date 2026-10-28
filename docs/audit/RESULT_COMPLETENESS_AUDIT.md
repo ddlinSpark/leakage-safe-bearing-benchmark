@@ -40,8 +40,8 @@
 
 ## Hashes
 
-- `results/raw_runs.csv`: `a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46fbeb10`
-- `results/sota/raw_runs.csv`: `c92f2b4a447dbc13f581981d15d76e97ca3382ab024a905f4fbccd6ac1e5b09a`
+- `results/raw_runs.csv`: `fc8336c7d44cba399c8b0a2356cc378d80a36c4e368769ff922a3e41f55ab5bf`
+- `results/sota/raw_runs.csv`: `193bf7ac9a00d8980eb3c5ed807db6ac12a33dc1657f2a6d1eb0c95c58b7881e`
 
 ## Audit issues
 

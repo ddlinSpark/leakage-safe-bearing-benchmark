@@ -3,7 +3,7 @@
 Date: 2026-10-27
 Published internal-result baseline: `8ac2d75`
 External-retraining commit: `673bb99`
-Raw-result SHA-256: `a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46fbeb10`
+Raw-result LF-normalized SHA-256: `fc8336c7d44cba399c8b0a2356cc378d80a36c4e368769ff922a3e41f55ab5bf`
 
 ## Decision
 

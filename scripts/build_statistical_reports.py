@@ -33,7 +33,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    payload = path.read_bytes()
+    if path.suffix.lower() in {".csv", ".json", ".md", ".txt"}:
+        payload = payload.replace(b"\r\n", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def interval(low: float, high: float) -> str:

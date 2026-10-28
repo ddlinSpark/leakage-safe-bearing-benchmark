@@ -16,10 +16,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def sha256(path: Path) -> str:
+    payload = path.read_bytes()
+    if path.suffix.lower() in {".csv", ".json", ".md", ".txt"}:
+        payload = payload.replace(b"\r\n", b"\n")
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
+    digest.update(payload)
     return digest.hexdigest()
 
 
@@ -159,6 +160,7 @@ def main() -> None:
     args.output.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False, allow_nan=False) + "\n",
         encoding="utf-8",
+        newline="\n",
     )
     print(f"Wrote {args.output} with {len(raw) + len(external)} registry rows")
 

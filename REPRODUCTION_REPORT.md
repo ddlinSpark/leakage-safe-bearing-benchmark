@@ -17,8 +17,8 @@ Python 3.13.5; PyTorch 2.11.0+cu130; CUDA 13.0; NumPy 2.1.3; pandas 2.2.3; devic
 - Label-efficiency rows: 80
 - Threshold rows: 100
 - External rows: 40
-- Canonical raw_runs.csv SHA-256: `a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46fbeb10`
-- External raw_runs.csv SHA-256: `c92f2b4a447dbc13f581981d15d76e97ca3382ab024a905f4fbccd6ac1e5b09a`
+- Canonical raw_runs.csv LF-normalized SHA-256: `fc8336c7d44cba399c8b0a2356cc378d80a36c4e368769ff922a3e41f55ab5bf`
+- External raw_runs.csv LF-normalized SHA-256: `193bf7ac9a00d8980eb3c5ed807db6ac12a33dc1657f2a6d1eb0c95c58b7881e`
 - Dataset hash values: 1
 - Split hashes by fold: {0: 1, 1: 1, 2: 1, 3: 1}
 
