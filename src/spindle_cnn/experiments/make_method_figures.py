@@ -141,7 +141,7 @@ def overall_framework(output_dir: Path) -> None:
         0.19,
         0.22,
         "Public multimodal data",
-        "Paderborn PU\nvibration + 2 phase currents\n3 x 8192 windows",
+        "Paderborn PU\nvibration + 2 phase currents\n3 × 8192 windows",
         edge=BLUE,
         face=PALE_BLUE,
     )
@@ -163,7 +163,7 @@ def overall_framework(output_dir: Path) -> None:
         0.19,
         0.22,
         "Model comparison",
-        "Raw 1D-CNN\nGRU-only\nCWT 2D-CNN\nCWT-GRU ± SE",
+        "Raw 1D-CNN\nGRU-only\nCWT 2D-CNN\nCWT-GRU + SE",
         edge=BLUE,
         face=PALE_BLUE,
     )
@@ -201,7 +201,7 @@ def overall_framework(output_dir: Path) -> None:
         0.22,
         0.19,
         "Calibrated self-training",
-        "tau = 0.60\nclass-balanced pseudo-labels\nup to 2 rounds",
+        "τ = 0.60\nclass-balanced pseudo-labels\nup to 2 rounds",
         edge=ORANGE,
         face=PALE_ORANGE,
     )
@@ -260,7 +260,7 @@ def cwt_gru_architecture(output_dir: Path) -> None:
         0.16,
         0.20,
         "Three CWT maps",
-        "raw 3 x 8192\nMorlet, 48 scales\nmagnitude 3 x 96 x 96",
+        "raw 3 × 8192\nMorlet, 48 scales\nmagnitude 3 × 96 × 96",
         edge=BLUE,
         face=PALE_BLUE,
     )
@@ -271,7 +271,7 @@ def cwt_gru_architecture(output_dir: Path) -> None:
         0.16,
         0.20,
         "Stem",
-        "Conv 5x5, 32, stride 2\nBN + SiLU + MaxPool\n3 x 96 x 96 -> 32 x 24 x 24",
+        "Conv 5x5, 32, stride 2\nBN + SiLU + MaxPool\n3 × 96 × 96 -> 32 × 24 × 24",
         edge=BLUE,
         face=PALE_BLUE,
     )
@@ -444,7 +444,7 @@ def self_training_pipeline(output_dir: Path) -> None:
         0.23,
         0.18,
         "Confidence selection",
-        "p_i,k from temperature scaling\np_i,k >= tau, tau = 0.60",
+        "p_i,k from temperature scaling\np_i,k ≥ τ, τ = 0.60",
         edge=ORANGE,
         face=PALE_ORANGE,
     )
@@ -455,7 +455,7 @@ def self_training_pipeline(output_dir: Path) -> None:
         0.24,
         0.18,
         "Class-balanced cap",
-        "Top-M per predicted class\nM = 2 x labeled count / K\nM doubles each round",
+        "Top-M per predicted class\nM = 2 × labeled count / K\nM doubles each round",
         edge=ORANGE,
         face=PALE_ORANGE,
     )

@@ -27,8 +27,8 @@ pdf_bookmarks: PASS
 | Broken DOCX hyperlinks | 0 |
 | Citation ranges detected | 4 |
 | DOCX bookmarks | 114 |
-| DOCX internal hyperlinks | 65 |
-| PDF link annotations | 65 |
+| DOCX internal hyperlinks | 66 |
+| PDF link annotations | 66 |
 | PDF pages | 30 |
 | Defined Figure targets | 23 of 23 |
 | Defined Table targets | 18 of 18 |
@@ -40,7 +40,7 @@ pdf_bookmarks: PASS
 | --- | --- |
 | Reference targets and bookmarks | PASS |
 | Figure/table/equation targets | PASS |
-| Section/Appendix targets | PASS |
+| Section/Supplementary targets | PASS |
 | Citation links | PASS |
 | DOCX anchors | PASS |
 | Figure/table/section/equation links | PASS |
@@ -59,7 +59,7 @@ pdf_bookmarks: PASS
 
 ## Cross-references
 
-- Occurrences by kind: `{'appendix': 0, 'equation': 0, 'figure': 8, 'section': 1, 'table': 9}`
+- Occurrences by kind: `{'appendix': 0, 'equation': 0, 'figure': 8, 'section': 1, 'table': 10}`
 - Missing cross-reference links: `[]`
 - Missing figure targets: `[]`
 - Missing table targets: `[]`
@@ -71,13 +71,21 @@ pdf_bookmarks: PASS
 | Display text | Source page | Target page | Status |
 | --- | ---: | ---: | --- |
 | `[1]` | 2 | 29 | PASS |
+| `[11]` | 3 | 30 | PASS |
 | `[14]` | 2 | 30 | PASS |
+| `[21]` | 29 | 30 | PASS |
+| `[22]` | 14 | 30 | PASS |
+| `Figure 1` | 4 | 4 | PASS |
 | `Figure 4` | 9 | 10 | PASS |
+| `Figure 12` | 19 | 19 | PASS |
+| `Table 5` | 9 | 9 | PASS |
+| `Table 11` | 11 | 16 | PASS |
 | `Table 13` | 19 | 19 | PASS |
+| `Section 6` | 11 | 15 | PASS |
 
 ## PDF outline
 
-- Outline entries: 45
+- Outline entries: 46
 - Missing required outline entries: `[]`
 
-The PDF outline contains Abstract, all numbered top-level sections, Appendix A, Data and Code Availability, and References.
+The PDF outline contains Abstract, all numbered top-level sections, Supplementary Material, Data and Code Availability, and References.

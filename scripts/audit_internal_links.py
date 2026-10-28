@@ -270,7 +270,7 @@ def audit(docx_path: Path, pdf_path: Path) -> dict[str, Any]:
     required_section_bookmarks = {
         *(f"sec_{number}" for number in range(1, 10)),
         "sec_3_2",
-        "appendix_a",
+        "supplementary",
         "abstract",
         "data_code",
         "refs",
@@ -342,7 +342,8 @@ def audit(docx_path: Path, pdf_path: Path) -> dict[str, Any]:
         "7 Experimental Analysis",
         "8 Discussion",
         "9 Conclusion",
-        "Appendix A Additional Diagnostic Figures",
+        "Supplementary Material",
+        "Additional Diagnostic Figures",
         "References",
     }
     missing_outline = sorted(required_outline - set(outline_titles))
@@ -352,7 +353,21 @@ def audit(docx_path: Path, pdf_path: Path) -> dict[str, Any]:
         for page in pdf_reader.pages
     ]
     samples = {}
-    for label in ("[1]", "[14]", "Figure 4", "Table 13"):
+    sample_labels = (
+        "[1]",
+        "[11]",
+        "[14]",
+        "[21]",
+        "[22]",
+        "Figure 1",
+        "Figure 4",
+        "Figure 12",
+        "Table 5",
+        "Table 11",
+        "Table 13",
+        "Section 6",
+    )
+    for label in sample_labels:
         matches = [
             record
             for record in pdf_links
@@ -518,7 +533,7 @@ def write_report(payload: dict[str, Any], output: Path) -> None:
         "| --- | --- |",
         f"| Reference targets and bookmarks | {check(bool(payload['missing_reference_targets']) or bool(payload['missing_reference_bookmarks']))} |",
         f"| Figure/table/equation targets | {check(bool(payload['missing_figure_targets']) or bool(payload['missing_table_targets']) or bool(payload['missing_equation_targets']))} |",
-        f"| Section/Appendix targets | {check(bool(payload['missing_section_targets']))} |",
+        f"| Section/Supplementary targets | {check(bool(payload['missing_section_targets']))} |",
         f"| Citation links | {check(bool(payload['missing_citation_links']))} |",
         f"| DOCX anchors | {check(bool(payload['broken_docx_links']))} |",
         f"| Figure/table/section/equation links | {check(bool(payload['missing_cross_reference_links']))} |",
@@ -567,7 +582,7 @@ def write_report(payload: dict[str, Any], output: Path) -> None:
             f"- Missing required outline entries: `{payload['missing_pdf_outline']}`",
             "",
             "The PDF outline contains Abstract, all numbered top-level sections, "
-            "Appendix A, Data and Code Availability, and References.",
+            "Supplementary Material, Data and Code Availability, and References.",
             "",
         ]
     )

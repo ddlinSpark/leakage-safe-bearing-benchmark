@@ -32,7 +32,7 @@ configs/paderborn_main.json
 | --- | --- | --- | --- | --- |
 | Raw 1D-CNN | `src/spindle_cnn/models/raw_cnn.py::RawCNN`; `models/registry.py::METHODS["raw_cnn"]` | `configs/paderborn_main.json` | `results/raw_runs.csv` where `method=raw_cnn` | Figures 4, 8, 10; Tables 5, 6, 9-12 |
 | GRU-only | `src/spindle_cnn/models/gru.py::RawGRU`; `models/registry.py::METHODS["gru_only"]` | Same canonical configuration | `results/raw_runs.csv` where `method=gru_only` | Figures 4, 9, 10; Tables 5-6, 9-12 |
-| CWT representation | `src/spindle_cnn/public_benchmark/pu_data.py::_cwt_image` | `window_size=8192`, `stride=8192`, 48 Morlet scales, 96 x 96 images | `results/runs/<run_id>/config.json`; `data/public/paderborn/pu_4class_w8192.json` | Figure 1-2; Tables 2-3 |
+| CWT representation | `src/spindle_cnn/public_benchmark/pu_data.py::_cwt_image` | `window_size=8192`, `stride=8192`, 48 Morlet scales, 96 × 96 images | `results/runs/<run_id>/config.json`; `data/public/paderborn/pu_4class_w8192.json` | Figure 1-2; Tables 2-3 |
 | CWT 2D-CNN | `src/spindle_cnn/models/cwt_cnn.py::CWT2DCNN`; `models/registry.py::METHODS["cwt_cnn"]` | Same canonical configuration | `results/raw_runs.csv` where `method=cwt_cnn` | Figures 4, 9, 10; Tables 5-6, 9-12 |
 | SE attention | `src/spindle_cnn/models/layers.py::SEBlock`; `ResidualBlock(use_se=True)` in `ImageEncoder` | Selected by `METHODS` model key and `build_model()` | Parameter and metric rows distinguish `cwt_gru_no_se` from `cwt_gru` | Figures 2, 9; Tables 10-12 |
 | CWT-GRU without SE | `src/spindle_cnn/models/cwt_gru.py::CWTGRU(use_se=False)` | `method=cwt_gru_no_se` | `results/raw_runs.csv` | Figures 4, 9; Tables 5-6, 10-12 |
@@ -106,9 +106,9 @@ The detailed table/figure provenance is also recorded in
 
 | Model | Source / origin | Official or project code | Input | Training and split | Parameters | Metric status |
 | --- | --- | --- | --- | --- | --- | --- |
-| Raw 1D-CNN | Project-defined supervised baseline | `models/raw_cnn.py` | Raw waveform, 3 x 8192 | Canonical configuration; four bearing-code/condition-disjoint folds x five seeds | Recorded in `raw_runs.csv` | 20 same-protocol runs; Macro-F1 and accuracy |
-| GRU-only | Project-defined recurrent baseline using the GRU concept [8] | `models/gru.py` | Raw waveform, 3 x 8192 | Same protocol | Recorded in `raw_runs.csv` | 20 same-protocol runs |
-| CWT 2D-CNN | Project-defined CWT baseline using CWT/CNN/SE components [4-6] | `models/cwt_cnn.py`; `models/layers.py` | Magnitude CWT, 3 x 96 x 96 | Same protocol | Recorded in `raw_runs.csv` | 20 same-protocol runs |
+| Raw 1D-CNN | Project-defined supervised baseline | `models/raw_cnn.py` | Raw waveform, 3 × 8192 | Canonical configuration; four bearing-code/condition-disjoint folds × five seeds | Recorded in `raw_runs.csv` | 20 same-protocol runs; Macro-F1 and accuracy |
+| GRU-only | Project-defined recurrent baseline using the GRU concept [8] | `models/gru.py` | Raw waveform, 3 × 8192 | Same protocol | Recorded in `raw_runs.csv` | 20 same-protocol runs |
+| CWT 2D-CNN | Project-defined CWT baseline using CWT/CNN/SE components [4-6] | `models/cwt_cnn.py`; `models/layers.py` | Magnitude CWT, 3 × 96 × 96 | Same protocol | Recorded in `raw_runs.csv` | 20 same-protocol runs |
 | CWT-GRU without SE | Project-defined ablation | `models/cwt_gru.py` with `use_se=False` | Raw + CWT | Same protocol | 1,086,244, measured from code and records | 20 same-protocol runs |
 | CWT-GRU | Project-defined fused model | `models/cwt_gru.py` | Raw + CWT | Same protocol | 1,101,012, measured from code and records | 20 same-protocol runs |
 | CWT-GRU + temperature scaling | Project-defined calibration condition on the same weights | `evaluation/calibration.py`; `run_benchmark.py` reuse branch | Raw + CWT | Same protocol and matched base runs | Same as CWT-GRU | 20 matched evaluations |

@@ -37,6 +37,18 @@ _INLINE_PATTERN = re.compile(
 )
 
 
+def _normalize_display_text(text: str) -> str:
+    """Normalize manuscript-only notation without altering identifiers."""
+    text = text.replace("+/-", "±")
+    text = re.sub(r"\bmacro-F1\b", "Macro-F1", text)
+    text = re.sub(r"\bfull balanced budget\b", "Full balanced budget", text)
+    text = re.sub(r"\btau\b", "τ", text, flags=re.IGNORECASE)
+    text = re.sub(r"(?<=\d) x (?=\d)", " × ", text)
+    text = re.sub(r"\bfolds x (?=\d)", "folds × ", text)
+    text = re.sub(r"(?<![\w])-(?=\d)", "−", text)
+    return text
+
+
 def set_run_font(
     run,
     *,
@@ -197,6 +209,7 @@ def add_inline_text(
     italic: bool | None = None,
 ) -> None:
     """Append text with internal citation and figure/table/section links."""
+    text = _normalize_display_text(text)
     position = 0
     for match in _INLINE_PATTERN.finditer(text):
         if match.start() > position:
@@ -271,8 +284,8 @@ def add_heading_bookmarks(document: DocumentType) -> None:
             anchor = "refs"
         elif text == "Data and Code Availability":
             anchor = "data_code"
-        elif text.startswith("Appendix A"):
-            anchor = "appendix_a"
+        elif text == "Supplementary Material":
+            anchor = "supplementary"
         else:
             match = re.match(r"(\d+(?:\.\d+)*)", text)
             if not match:
@@ -336,6 +349,7 @@ def add_small_text(document: DocumentType, text: str, *, italic: bool = False) -
 
 
 def add_caption(document: DocumentType, text: str, *, above: bool) -> None:
+    text = _normalize_display_text(text)
     paragraph = document.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
     paragraph.paragraph_format.space_before = Pt(6 if above else 3)
@@ -365,7 +379,7 @@ def add_figure(
     paragraph.paragraph_format.keep_with_next = True
     run = paragraph.add_run()
     inline = run.add_picture(str(path), width=Inches(width_inches))
-    inline._inline.docPr.set("descr", alt_text)
+    inline._inline.docPr.set("descr", _normalize_display_text(alt_text))
     add_caption(document, caption, above=False)
 
 
@@ -529,6 +543,7 @@ def add_bullet_items(document: DocumentType, items: Sequence[str]) -> None:
 
 
 def add_reference(document: DocumentType, number: int, text: str) -> None:
+    text = _normalize_display_text(text)
     paragraph = document.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
     paragraph.paragraph_format.left_indent = Cm(0.7)

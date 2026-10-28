@@ -2,6 +2,18 @@
 
 Date: 2026-10-28
 
+## Final manuscript format revision
+
+- Standardized statistical and mathematical typography across the manuscript,
+  tables, captions, and generated figure labels.
+- Compacted Tables 10 and 11 and clarified the Table 18 effect and selection
+  headers without changing canonical result files.
+- Replaced the Appendix A heading with Supplementary Material while retaining
+  Figure S1-S5 numbering and links.
+- Added the stable GitHub repository URL to Data and Code Availability.
+- Verified all reference and cross-reference destinations in DOCX and in a
+  temporary PDF render.
+
 ## Final DOCX-only repository cleanup
 
 - Archived root-level reports under `docs/reports/`.

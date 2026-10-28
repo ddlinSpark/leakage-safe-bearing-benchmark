@@ -21,7 +21,7 @@ The check reads canonical CSV/JSON results and runs the independent DOCX/table a
 | Main model matrix | PASS | 7 methods x 4 folds x 5 seeds = 140 matched runs |
 | External model matrix | PASS | 2 adaptations x 4 folds x 5 seeds = 40 matched runs |
 | Macro-F1 and accuracy aggregation | PASS | all seven main methods are present |
-| README key findings | PASS | six principal result rows match canonical means and sample SDs |
+| README key findings | PASS | seven result rows match canonical means and sample SDs |
 | paper_metrics model means | PASS | main model means match raw_runs.csv exactly |
 | paper_metrics external means | PASS | DRSN and TFN adaptation means match raw_runs.csv exactly |
 | Fold-first hierarchical inference | PASS | 19 comparisons retain 4 folds, 5 seeds, 20 pairs, 20000 bootstrap samples, ordered CIs, and p >= 0.125 |

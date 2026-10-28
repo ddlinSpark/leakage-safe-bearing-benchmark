@@ -10,8 +10,8 @@ documented in `docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md`.
 
 ## Repository scale
 
-- Candidate files: 4571
-- Candidate size: 44.66 MiB
+- Candidate files: 4573
+- Candidate size: 44.35 MiB
 - Large files at or above 1 MB: 6
 - Saved-logit prediction archives: 822
   (8.58 MiB total; diagnostic, not model weights)
@@ -29,22 +29,22 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `.github` | 1 | 1.2 KiB |
 | `.gitignore` | 1 | 1.6 KiB |
 | `CITATION.cff` | 1 | 1013 B |
-| `FINAL_RELEASE_REPORT.md` | 1 | 9.8 KiB |
+| `FINAL_RELEASE_REPORT.md` | 1 | 11.5 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
-| `README.md` | 1 | 10.2 KiB |
+| `README.md` | 1 | 10.4 KiB |
 | `configs` | 5 | 5.2 KiB |
 | `data` | 6 | 9.5 KiB |
-| `docs` | 53 | 6.63 MiB |
+| `docs` | 55 | 6.50 MiB |
 | `environment.yml` | 1 | 125 B |
-| `figures` | 26 | 7.57 MiB |
+| `figures` | 26 | 7.39 MiB |
 | `pyproject.toml` | 1 | 3.0 KiB |
 | `reports` | 6 | 564.9 KiB |
 | `requirements.txt` | 1 | 307 B |
 | `results` | 4342 | 29.00 MiB |
-| `scripts` | 40 | 302.5 KiB |
+| `scripts` | 40 | 305.1 KiB |
 | `splits` | 2 | 1.2 KiB |
-| `src` | 70 | 561.5 KiB |
-| `tests` | 11 | 22.4 KiB |
+| `src` | 70 | 562.8 KiB |
+| `tests` | 11 | 23.9 KiB |
 
 ## Logical source layout
 
@@ -94,6 +94,8 @@ and does not need to be flattened.
 | `docs/reports/CLEAN_REPRODUCTION_REPORT.md` | PASS |
 | `docs/reports/CONSISTENCY_REPORT.md` | PASS |
 | `docs/reports/REFERENCE_LINK_REPORT.md` | PASS |
+| `docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md` | PASS |
+| `docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md` | PASS |
 | `docs/reports/README_LINK_CHECK.md` | PASS |
 | `FINAL_RELEASE_REPORT.md` | PASS |
 

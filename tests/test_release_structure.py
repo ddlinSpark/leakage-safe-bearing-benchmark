@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
+
+from docx import Document
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +51,8 @@ def test_formal_documentation_and_entry_points_exist() -> None:
         "docs/EXPERIMENTS.md",
         "docs/RESULTS.md",
         "docs/REPRODUCIBILITY.md",
+        "docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md",
+        "docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md",
         "docs/reports/REFERENCE_LINK_REPORT.md",
         "docs/reports/README_LINK_CHECK.md",
         "scripts/prepare_data.py",
@@ -83,6 +88,29 @@ def test_root_cleanup_and_pdf_free_release() -> None:
     image_path = ROOT / "figures/publication/figure_09_validation_test_gap.png"
     assert image_path.is_file()
     assert "figure_09_validation_test_gap.png" in readme
+
+
+def test_final_manuscript_format_and_availability() -> None:
+    document = Document(
+        ROOT / "docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx"
+    )
+    paragraphs = [paragraph.text for paragraph in document.paragraphs]
+    cells = [
+        cell.text
+        for table in document.tables
+        for row in table.rows
+        for cell in row.cells
+    ]
+    text = "\n".join(paragraphs + cells)
+    assert "+/-" not in text
+    assert re.search(r"(?<=[0-9]) x (?=[0-9])|folds x [0-9]", text) is None
+    assert re.search(r"(?i)(?<![A-Za-z])tau(?![A-Za-z])", text) is None
+    assert "Appendix A" not in text
+    assert "Supplementary Material" in text
+    assert "Canonical completed evaluations" in text
+    assert "Held-out test" in text
+    assert "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark" in text
+    assert document.core_properties.author == "Huadong Lin"
 
 
 def test_canonical_and_split_manifests_match_files() -> None:

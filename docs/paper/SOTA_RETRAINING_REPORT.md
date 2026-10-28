@@ -14,7 +14,7 @@ selection rule.
 | Bearing holdout | Records 4, 8, 12, 15 |
 | Operating-condition folds | 0, 1, 2, 3 |
 | Seeds | 42, 123, 2024, 2025, 3407 |
-| Runs per model | 4 folds x 5 seeds = 20 |
+| Runs per model | 4 folds × 5 seeds = 20 |
 | Label condition | Full balanced budget |
 | Primary metric | Macro-F1 |
 | Secondary metric | Accuracy |
@@ -72,8 +72,8 @@ All values below are computed from `results/sota/raw_runs.csv`.
 
 | Model | Macro-F1 | Descriptive t CI | Accuracy | Descriptive t CI | Parameters | GFLOPs/sample | Training time (s) | Inference (ms/batch) | Runs |
 | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| DRSN adaptation | 0.149 +/- 0.084 | [0.109, 0.188] | 0.275 +/- 0.079 | [0.238, 0.312] | 233,040 | 0.795 | 6.8 | 32.6 | 20 |
-| TFN adaptation | 0.175 +/- 0.078 | [0.139, 0.211] | 0.257 +/- 0.066 | [0.226, 0.289] | 184,900 | 0.388 | 4.5 | 17.0 | 20 |
+| DRSN adaptation | 0.149 ± 0.084 | [0.109, 0.188] | 0.275 ± 0.079 | [0.238, 0.312] | 233,040 | 0.795 | 6.8 | 32.6 | 20 |
+| TFN adaptation | 0.175 ± 0.078 | [0.139, 0.211] | 0.257 ± 0.066 | [0.226, 0.289] | 184,900 | 0.388 | 4.5 | 17.0 | 20 |
 
 Training and inference times are medians from the same RTX 5080 environment as
 the internal benchmark. Latency is implementation- and hardware-dependent. The

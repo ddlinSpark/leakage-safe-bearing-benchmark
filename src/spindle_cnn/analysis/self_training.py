@@ -173,7 +173,7 @@ def save_figure(
         "fixed_threshold_0.60",
         "coverage_controlled_0.50",
     ]
-    labels = ["Supervised", "Fixed tau=0.60", "Coverage 50%"]
+    labels = ["Supervised", "Fixed τ = 0.60", "Coverage 50%"]
     colors = [
         method_color("cwt_gru"),
         method_color("cwt_gru_temp"),

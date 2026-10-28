@@ -24,10 +24,10 @@ Source:
 
 | Model | Validation Macro-F1 | Test Macro-F1 | Absolute gap | Relative drop | Runs |
 | --- | --- | --- | ---: | ---: | ---: |
-| Raw 1D-CNN | 0.853 +/- 0.153 | 0.289 +/- 0.104 | 0.564 | 66.4% | 20 |
-| CWT 2D-CNN | 0.808 +/- 0.112 | 0.291 +/- 0.086 | 0.516 | 62.4% | 20 |
-| CWT-GRU | 0.797 +/- 0.115 | 0.280 +/- 0.107 | 0.518 | 63.0% | 20 |
-| CWT-GRU without SE | 0.809 +/- 0.139 | 0.307 +/- 0.103 | 0.503 | 59.6% | 20 |
+| Raw 1D-CNN | 0.853 ± 0.153 | 0.289 ± 0.104 | 0.564 | 66.4% | 20 |
+| CWT 2D-CNN | 0.808 ± 0.112 | 0.291 ± 0.086 | 0.516 | 62.4% | 20 |
+| CWT-GRU | 0.797 ± 0.115 | 0.280 ± 0.107 | 0.518 | 63.0% | 20 |
+| CWT-GRU without SE | 0.809 ± 0.139 | 0.307 ± 0.103 | 0.503 | 59.6% | 20 |
 
 The absolute gap ranges from 0.503 to 0.564 Macro-F1. The proportional
 validation-to-test drop ranges from 59.6% to 66.4%.

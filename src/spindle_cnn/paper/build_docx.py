@@ -46,6 +46,16 @@ TITLE = (
     "Time-Frequency Fusion, Calibration, and Self-Training"
 )
 
+ABLATION_TABLE_LABELS = {
+    "raw_cnn": "Raw 1D-CNN",
+    "gru_only": "GRU only",
+    "cwt_cnn": "CWT 2D-CNN",
+    "cwt_gru_no_se": "CWT-GRU without SE",
+    "cwt_gru": "CWT-GRU",
+    "cwt_gru_temp": "CWT-GRU + Temp.",
+    "cwt_gru_selftrain": "CWT-GRU + Temp. + ST",
+}
+
 FIXED_ZIP_TIMESTAMP = (2013, 12, 23, 23, 15, 0)
 
 
@@ -201,7 +211,7 @@ def threshold_rows(results: BenchmarkResults) -> list[list[str]]:
                 f"{float(row['pseudo_count_mean']):.1f}",
                 percent(row["pseudo_coverage_mean"]),
                 f"{float(row['pseudo_accuracy_mean']):.3f}",
-                f"{float(row['Macro-F1 Mean']):.3f} +/- "
+                f"{float(row['Macro-F1 Mean']):.3f} ± "
                 f"{float(row['Macro-F1 Std']):.3f}",
                 int(row["Runs"]),
             ]
@@ -230,20 +240,14 @@ def calibration_rows(results: BenchmarkResults) -> list[list[str]]:
 def sota_rows(results: BenchmarkResults) -> list[list[str]]:
     architecture = {
         "raw_cnn": ("Raw waveform", "Three-layer 1D CNN + linear head"),
-        "gru_only": ("Raw waveform", "Two-layer bidirectional GRU + linear head"),
-        "cwt_cnn": ("CWT magnitude maps", "Residual CNN with SE + linear head"),
-        "cwt_gru_no_se": ("Raw + CWT", "Residual image CNN + two-layer bidirectional GRU"),
-        "cwt_gru": ("Raw + CWT", "Residual CNN with SE + two-layer bidirectional GRU"),
-        "cwt_gru_temp": ("Raw + CWT", "CWT-GRU weights; validation temperature scaling"),
-        "cwt_gru_selftrain": ("Raw + CWT", "CWT-GRU; thresholded pseudo-label retraining"),
-        "drsn": (
-            "Raw waveform",
-            "Four-stage residual shrinkage CNN; adaptive soft thresholding",
-        ),
-        "tfnet": (
-            "Raw waveform",
-            "Learnable sinusoidal TF convolution + CNN backbone",
-        ),
+        "gru_only": ("Raw waveform", "Two-layer BiGRU + linear head"),
+        "cwt_cnn": ("CWT magnitude maps", "Residual CNN + SE"),
+        "cwt_gru_no_se": ("Raw + CWT", "Residual CNN + BiGRU"),
+        "cwt_gru": ("Raw + CWT", "Residual CNN + SE + BiGRU"),
+        "cwt_gru_temp": ("Raw + CWT", "CWT-GRU + validation temperature"),
+        "cwt_gru_selftrain": ("Raw + CWT", "CWT-GRU + pseudo-label retraining"),
+        "drsn": ("Raw waveform", "DRSN backbone"),
+        "tfnet": ("Raw waveform", "TFN backbone"),
     }
     rows = []
     main = results.main
@@ -259,9 +263,9 @@ def sota_rows(results: BenchmarkResults) -> list[list[str]]:
                 representation,
                 model,
                 f"{parameters:,}",
-                f"{float(summary['Macro-F1 Mean']):.3f} +/- "
+                f"{float(summary['Macro-F1 Mean']):.3f} ± "
                 f"{float(summary['Macro-F1 Std']):.3f}",
-                f"{float(summary['Accuracy Mean']):.3f} +/- "
+                f"{float(summary['Accuracy Mean']):.3f} ± "
                 f"{float(summary['Accuracy Std']):.3f}",
                 int(summary["Runs"]),
             ]
@@ -313,15 +317,15 @@ def ablation_rows(results: BenchmarkResults) -> list[list[str]]:
         summary = results.summary_row(method)
         rows.append(
             [
-                METHOD_LABELS[method],
-                cwt,
-                gru,
-                se,
-                calibration,
-                self_training,
-                f"{float(summary['Macro-F1 Mean']):.3f} +/- "
+                ABLATION_TABLE_LABELS[method],
+                "✓" if cwt else "–",
+                "✓" if gru else "–",
+                "✓" if se else "–",
+                "✓" if calibration else "–",
+                "✓" if self_training else "–",
+                f"{float(summary['Macro-F1 Mean']):.3f} ± "
                 f"{float(summary['Macro-F1 Std']):.3f}",
-                f"{float(summary['Accuracy Mean']):.3f} +/- "
+                f"{float(summary['Accuracy Mean']):.3f} ± "
                 f"{float(summary['Accuracy Std']):.3f}",
                 int(summary["Runs"]),
             ]
@@ -378,8 +382,8 @@ def domain_gap_rows(results: BenchmarkResults) -> list[list[str]]:
         rows.append(
             [
                 METHOD_LABELS.get(method, method),
-                f"{float(row._1):.3f} +/- {float(row._2):.3f}",
-                f"{float(row._3):.3f} +/- {float(row._4):.3f}",
+                f"{float(row._1):.3f} ± {float(row._2):.3f}",
+                f"{float(row._3):.3f} ± {float(row._4):.3f}",
                 f"{float(row._5):.3f}",
                 f"{float(row._7):.1f}%",
                 int(row.Runs),
@@ -411,7 +415,7 @@ def label_granularity_rows(results: BenchmarkResults) -> list[list[str]]:
         for granularity in ("four_class", "three_class", "binary"):
             values = pivot.loc[(method, granularity)]
             row.append(
-                f"{float(values['macro_f1_mean']):.3f} +/- "
+                f"{float(values['macro_f1_mean']):.3f} ± "
                 f"{float(values['macro_f1_sd']):.3f}"
             )
         rows.append(row)
@@ -468,7 +472,7 @@ def cwt_sensitivity_rows(results: BenchmarkResults) -> list[list[str]]:
         rows.append(
             [
                 labels[variant],
-                f"{float(row['macro_f1_mean']):.3f} +/- "
+                f"{float(row['macro_f1_mean']):.3f} ± "
                 f"{float(row['macro_f1_sd']):.3f}",
                 f"{float(row['mean_validation_macro_f1']):.3f}",
                 f"{float(row['mean_best_epoch']):.1f}",
@@ -485,7 +489,7 @@ def self_training_sensitivity_rows(
         return []
     labels = {
         "supervised": "Supervised",
-        "fixed_threshold_0.60": "Fixed tau = 0.60",
+        "fixed_threshold_0.60": "Fixed τ = 0.60",
         "coverage_controlled_0.50": "Per-class top 50%",
     }
     budgets = {
@@ -510,7 +514,7 @@ def self_training_sensitivity_rows(
                 [
                     budgets[budget],
                     labels[condition],
-                    f"{float(row['macro_f1_mean']):.3f} +/- "
+                    f"{float(row['macro_f1_mean']):.3f} ± "
                     f"{float(row['macro_f1_sd']):.3f}",
                     int(row["runs"]),
                 ]
@@ -526,9 +530,9 @@ def validation_audit_rows(results: BenchmarkResults) -> list[list[str]]:
                 [
                     "Training opportunity",
                     METHOD_LABELS.get(str(row.method), str(row.method)),
-                    f"{float(row.validation_delta_mean):+.3f} "
-                    f"[{float(row.validation_ci_low):+.3f}, "
-                    f"{float(row.validation_ci_high):+.3f}]",
+                    f"{float(row.test_delta_mean):+.3f} "
+                    f"[{float(row.test_ci_low):+.3f}, "
+                    f"{float(row.test_ci_high):+.3f}]",
                     f"{int(row.validation_improved_runs)}/20",
                     f"{float(row.budget_30_best_epoch_mean):.1f}",
                 ]
@@ -703,9 +707,9 @@ def build_manuscript(
         f"phase-current channels. {fold_count} operating-condition folds and "
         f"{seed_count} seeds provide {runs_per_method} matched evaluations per "
         "method; inference resamples folds before seeds. Validation Macro-F1 was "
-        f"approximately {f3(results.domain_gap['Validation Macro-F1 Mean'].min())}-"
+        f"approximately {f3(results.domain_gap['Validation Macro-F1 Mean'].min())}–"
         f"{f3(results.domain_gap['Validation Macro-F1 Mean'].max())}, whereas test "
-        f"Macro-F1 was {f3(results.domain_gap['Test Macro-F1 Mean'].min())}-"
+        f"Macro-F1 was {f3(results.domain_gap['Test Macro-F1 Mean'].min())}–"
         f"{f3(results.domain_gap['Test Macro-F1 Mean'].max())}. Fold-aware intervals "
         "did not establish a stable advantage for the evaluated magnitude-CWT, "
         "recurrent fusion, or SE variants. Validation-fitted temperature scaling "
@@ -1139,7 +1143,7 @@ def build_manuscript(
             ["Gradient clipping", "maximum norm 5.0"],
             [
                 "Input augmentation",
-                "raw circular shift up to +/-32 samples and corresponding CWT shift; "
+                "raw circular shift up to ±32 samples and corresponding CWT shift; "
                 "50% probability of additive noise",
             ],
             ["GPU", device_name],
@@ -1201,7 +1205,7 @@ def build_manuscript(
     )
     add_body(
         document,
-        f"where tau = {pseudo_threshold:.2f} in the main experiment, p_i,k is the temperature-scaled "
+        f"where τ = {pseudo_threshold:.2f} in the main experiment, p_i,k is the temperature-scaled "
         "probability, and M is initially twice the number of labeled windows per class. "
         "M doubles in the next round. Figure 3 shows the complete loop. After selection, "
         "pseudo-labels are combined with verified labels and the model is reinitialized. "
@@ -1273,7 +1277,7 @@ def build_manuscript(
         document,
         "The primary benchmark is the predeclared four-class configuration with "
         "window-wise standardization, a 48-scale 96 x 96 magnitude CWT, 12 maximum "
-        "epochs, and the fixed pseudo-label threshold tau = 0.60. Normalization, "
+        "epochs, and the fixed pseudo-label threshold τ = 0.60. Normalization, "
         "CWT scale and resolution, magnitude transformation, phase preservation, "
         "label granularity, baseline learning rate, training opportunity, and "
         "coverage-controlled pseudo-labeling are sensitivity analyses. They are "
@@ -1303,7 +1307,7 @@ def build_manuscript(
                 f"{fold_count} folds x {seed_count} seeds",
                 str(threshold_run_count),
             ],
-            ["Total", "Canonical successful evaluations", str(len(results.raw))],
+            ["Total", "Canonical completed evaluations", str(len(results.raw))],
         ],
         [3.1, 9.0, 2.0],
         "Table 4. Canonical experiment matrix. The Full balanced budget view reuses "
@@ -1326,8 +1330,8 @@ def build_manuscript(
         f"{float(raw['hierarchical_ci_high']):+.3f}. The interval includes zero, "
         "so the evaluation does not support a stable CWT advantage. This result "
         "answers RQ1 "
-        "negatively for the implemented magnitude-CWT pipeline. Figure 4 "
-        "visualizes the same comparison.",
+        "negatively for the implemented magnitude-CWT pipeline. Table 5 summarizes "
+        "the comparison, and Figure 4 visualizes it.",
         first=True,
     )
     add_three_line_table(
@@ -1337,7 +1341,7 @@ def build_manuscript(
         [7.0, 3.1, 3.1, 1.1],
         "Table 5. Main comparison under the Full balanced budget and "
         "simultaneous unseen-bearing and "
-        "unseen-condition testing. Values are mean +/- standard deviation over "
+        "unseen-condition testing. Values are mean ± standard deviation over "
         f"{runs_per_method} "
         "matched evaluations.",
     )
@@ -1461,7 +1465,7 @@ def build_manuscript(
         "Figure 5. Macro-F1 under 10% balanced budget, 50% balanced budget, and "
         "Full balanced budget conditions. "
         "Self-training makes no update at the 10% balanced budget because no "
-        "candidate passes tau = 0.60.",
+        "candidate passes τ = 0.60.",
         width_inches=6.0,
         alt_text="Line plot of supervised and calibrated self-training macro-F1 at "
         "three balanced-budget conditions.",
@@ -1478,7 +1482,7 @@ def build_manuscript(
         f"{f3(results.threshold['Macro-F1 Mean'].min())} to "
         f"{f3(results.threshold['Macro-F1 Mean'].max())}. Pseudo-label accuracy "
         "increased with the threshold, but the end-task response was not monotonic. "
-        f"The highest mean occurred at tau = "
+        f"The highest mean occurred at τ = "
         f"{results.threshold.loc[results.threshold['Macro-F1 Mean'].idxmax(), 'threshold']:.1f}, "
         f"with {percent(results.threshold.loc[results.threshold['Macro-F1 Mean'].idxmax(), 'pseudo_coverage_mean'])} "
         f"candidate coverage. {threshold_zero_update_cases} fold-seed cases produced "
@@ -1644,7 +1648,7 @@ def build_manuscript(
             "Runs",
         ],
         sota_rows(results),
-        [3.6, 2.6, 4.0, 1.6, 2.2, 2.2, 0.8],
+        [3.4, 2.1, 4.6, 1.5, 2.0, 2.0, 0.9],
         "Table 10. Models eligible for the same-protocol comparison. DRSN and TFN "
         "are three-channel, four-class adaptations under the common training "
         "protocol. No unreproduced external result is included.",
@@ -1667,15 +1671,18 @@ def build_manuscript(
             "CWT",
             "GRU",
             "SE",
-            "Calibration",
-            "Self-training",
+            "Cal.",
+            "ST",
             "Macro-F1",
             "Accuracy",
             "Runs",
         ],
         ablation_rows(results),
-        [3.6, 0.8, 0.8, 0.8, 1.4, 1.5, 2.5, 2.5, 0.8],
-        "Table 11. Component-wise ablation under the same leakage-safe split.",
+        [4.4, 0.9, 0.9, 0.9, 1.0, 1.0, 2.5, 2.4, 0.9],
+        "Table 11. Component-wise ablation under the same leakage-safe split. "
+        "Cal. denotes calibration, ST denotes self-training, ✓ denotes an enabled "
+        "component, and – denotes an absent component. Temp. abbreviates temperature "
+        "scaling; full model names are used in the main results table.",
     )
     add_figure(
         document,
@@ -1748,10 +1755,10 @@ def build_manuscript(
     add_body(
         document,
         "The threshold experiment separates selection quality from end-task behavior. "
-        "At tau = 0.30, pseudo-label accuracy is "
+        "At τ = 0.30, pseudo-label accuracy is "
         f"{float(results.threshold_row(0.3)['pseudo_accuracy_mean']):.3f} and coverage "
         f"is {percent(results.threshold_row(0.3)['pseudo_coverage_mean'])}. At "
-        f"tau = 0.70, pseudo-label accuracy rises to "
+        f"τ = 0.70, pseudo-label accuracy rises to "
         f"{float(results.threshold_row(0.7)['pseudo_accuracy_mean']):.3f}, while "
         f"coverage falls to {percent(results.threshold_row(0.7)['pseudo_coverage_mean'])}. "
         "The corresponding mean test macro-F1 is not ordered by threshold precision. "
@@ -1776,7 +1783,7 @@ def build_manuscript(
             add_body(
                 document,
                 "Reconstructing the stored selections reproduced the logged "
-                "pseudo-label count for all 100 threshold cells. At tau = 0.70, "
+                "pseudo-label count for all 100 threshold cells. At τ = 0.70, "
                 f"predicted-class coverage ranged from {100 * values.min():.1f}% "
                 f"to {100 * values.max():.1f}% across classes. The class-conditional "
                 "coverage, rather than only total pseudo-label accuracy, determines "
@@ -1987,7 +1994,7 @@ def build_manuscript(
             label_granularity_rows(results),
             [3.7, 3.1, 4.4, 3.2],
             "Table 15. Post-hoc label-granularity sensitivity. Values are "
-            "mean +/- standard deviation over 20 matched evaluations.",
+            "mean ± standard deviation over 20 matched evaluations.",
         )
         if (figures_dir / "figure_16_label_granularity.png").is_file():
             add_figure(
@@ -2080,7 +2087,7 @@ def build_manuscript(
             "each predicted class, avoiding an absolute confidence threshold. Its "
             "selection-count and class-conditional accuracy diagnostics are saved "
             "for every run. Table 17 compares it with supervised training and the "
-            "fixed tau = 0.60 procedure on identical keys.",
+            "fixed τ = 0.60 procedure on identical keys.",
         )
         add_three_line_table(
             document,
@@ -2106,14 +2113,17 @@ def build_manuscript(
             [
                 "Audit",
                 "Model",
-                "Validation-only difference",
-                "Improvement",
+                "Held-out test\nΔMacro-F1\n[95% CI]",
+                "Validation-improved\nruns",
                 "Mean selected epoch",
             ],
             validation_audit_rows(results),
-            [3.0, 3.1, 4.5, 2.0, 2.0],
+            [2.8, 3.2, 4.5, 3.0, 2.2],
             "Table 18. Training-opportunity and baseline learning-rate audits. "
-            "Intervals resample folds before seeds where reported.",
+            "The effect column reports held-out test ΔMacro-F1 with the 95% "
+            "hierarchical interval where available. Validation-improved runs count "
+            "the 20 matched training-opportunity runs, or the four selected model "
+            "folds for the baseline learning-rate audit.",
         )
     if not results.training_budget.empty:
         best_epoch_max = int(results.training_budget["budget_30_best_epoch_max"].max())
@@ -2287,7 +2297,7 @@ def build_manuscript(
     document.add_heading("8.4 Self-training risks confirmation bias", level=2)
     add_body(
         document,
-        "At a 10% balanced budget, no pseudo-label passed tau = 0.60 in all "
+        "At a 10% balanced budget, no pseudo-label passed τ = 0.60 in all "
         f"{low_budget_zero_updates} evaluations. At "
         "the 50% balanced and Full balanced budgets, selected pseudo-label accuracy is high "
         "in many runs, yet the fold-aware intervals for diagnostic change include "
@@ -2450,7 +2460,8 @@ def build_manuscript(
         "quality.",
     )
 
-    document.add_heading("Appendix A Additional Diagnostic Figures", level=1)
+    document.add_heading("Supplementary Material", level=1)
+    document.add_heading("Additional Diagnostic Figures", level=2)
     supplementary_figures = [
         (
             "figure_14_per_fold_reliability.png",
@@ -2497,13 +2508,12 @@ def build_manuscript(
     document.add_heading("Data and Code Availability", level=1)
     add_body(
         document,
+        "The code, fixed split manifests, canonical experiment configurations, "
+        "per-run result registry, statistical analysis scripts, sensitivity-analysis "
+        "outputs, and figure-generation scripts are available in the project "
+        "repository at https://github.com/ddlinSpark/leakage-safe-bearing-benchmark. "
         "The Paderborn data are available from the official Bearing Data Center [21]. "
-        "The accompanying project archive contains the preprocessing commands, "
-        "canonical configuration, split manifests, per-run configurations, all 320 "
-        "result rows and 40 external-baseline retraining rows, automated statistics, "
-        "separate preprocessing and training sensitivity rows, method figures, and "
-        "manuscript-generation script. Raw signals, large caches, and model weights "
-        "are not redistributed.",
+        "Raw signals, large generated caches, and model weights are not redistributed.",
         first=True,
     )
 

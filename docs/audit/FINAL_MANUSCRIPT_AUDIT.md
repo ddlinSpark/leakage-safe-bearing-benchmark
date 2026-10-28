@@ -11,7 +11,7 @@ rendered document contains 30 pages.
 ## Source files
 
 - Final manuscript: `docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx`
-- Final SHA-256: `35b1c138f83069799c14508360805fd43542a5f9194c09db46b24ef2aee23366`
+- Final SHA-256: `2998693d7f86b4dc88ec64a6dd653ada1e075234dc374243b648e6b755b3d969`
 - Pre-revision backup:
   `docs/paper/archive/Leakage_Safe_Bearing_Benchmark_SCI_pre_statistics_revision.docx`
 - Backup SHA-256: `4eb5db8ec8a2119cda50bff40caa2049cc0e171debeac04afff82f1c9cfd1d29`
@@ -20,7 +20,7 @@ rendered document contains 30 pages.
 - Figure hash manifest:
   `figures/publication/figure_hashes.json`
 - Page renders:
-  `artifacts/local/render/final_links/`
+  `artifacts/local/manuscript_format/final_render/`
 
 ## Terminology scan
 
@@ -29,6 +29,17 @@ rendered document contains 30 pages.
 The artifact uses "10% balanced budget", "50% balanced budget", and
 "Full balanced budget" for the label-budget conditions. The displayed model
 name is TFN; the historical machine-readable result key remains `tfnet`.
+
+## Format normalization
+
+- Legacy `+/-` occurrences: 0
+- Legacy numeric `x` occurrences: 0
+- Legacy `tau` occurrences: 0
+- Supplementary heading: PASS
+- Appendix naming removed: PASS
+- Table 4 completed-evaluation wording: PASS
+- Table 11 compact headers: PASS
+- Table 18 explicit audit headers: PASS
 
 ## Contextual keyword review
 
@@ -79,7 +90,7 @@ No malformed form such as `p=<` remains.
 
 The remaining blockers are privacy-related, not numerical:
 
-- 14 of 29 Git commits carry non-anonymous
+- 14 of 32 Git commits carry non-anonymous
   author email metadata.
 - 320 of 320 retained canonical run configurations
   contain a workstation hostname field.

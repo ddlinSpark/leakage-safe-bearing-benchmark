@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 from itertools import product
 from pathlib import Path
 from typing import Any
@@ -45,7 +46,11 @@ def percent(value: float) -> str:
 
 
 def mean_sd(mean: float, std: float) -> str:
-    return f"{float(mean):.3f} +/- {float(std):.3f}"
+    return f"{float(mean):.3f} ± {float(std):.3f}"
+
+
+def signed_delta(value: float) -> str:
+    return f"{float(value):+.3f}".replace("-", "−")
 
 
 def ci95(values: pd.Series) -> tuple[float, float]:
@@ -292,7 +297,10 @@ def compare_table(
             zip(actual_row, expected_row, strict=True),
             start=1,
         ):
-            if str(actual_value).strip() != str(expected_value).strip():
+            if (
+                comparable_table_text(actual_value)
+                != comparable_table_text(expected_value)
+            ):
                 add_mismatch(
                     mismatches,
                     location=f"{location}, row {row_index}, column {column_index}",
@@ -305,6 +313,21 @@ def compare_table(
 
 def table_rows(table) -> list[list[str]]:
     return [[cell.text.strip() for cell in row.cells] for row in table.rows]
+
+
+def comparable_table_text(value: object) -> str:
+    """Normalize equivalent statistical typography for table comparisons."""
+    text = str(value).strip()
+    text = text.replace("±", "+/-").replace("×", " x ").replace("τ", "tau")
+    text = text.replace("−", "-").replace("Δ", "Delta")
+    text = re.sub(r"\bmacro-F1\b", "Macro-F1", text, flags=re.IGNORECASE)
+    text = re.sub(
+        r"\bfull balanced budget\b",
+        "Full balanced budget",
+        text,
+        flags=re.IGNORECASE,
+    )
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def independently_summarize(frame: pd.DataFrame) -> pd.DataFrame:
@@ -1423,7 +1446,7 @@ def check_paper_tables(
             ["Gradient clipping", "maximum norm 5.0"],
             [
                 "Input augmentation",
-                "raw circular shift up to +/-32 samples and corresponding CWT shift; "
+                "raw circular shift up to ±32 samples and corresponding CWT shift; "
                 "50% probability of additive noise",
             ],
             [
@@ -1466,7 +1489,7 @@ def check_paper_tables(
                 f"{len(FOLDS)} folds x {len(SEEDS)} seeds",
                 str(int(counts["threshold"])),
             ],
-            ["Total", "Canonical successful evaluations", str(len(raw))],
+            ["Total", "Canonical completed evaluations", str(len(raw))],
         ]
         compare_table(
             table_rows(document.tables[3]),
@@ -1649,30 +1672,12 @@ def check_paper_tables(
         ]
         architecture = {
             "raw_cnn": ("Raw waveform", "Three-layer 1D CNN + linear head"),
-            "gru_only": (
-                "Raw waveform",
-                "Two-layer bidirectional GRU + linear head",
-            ),
-            "cwt_cnn": (
-                "CWT magnitude maps",
-                "Residual CNN with SE + linear head",
-            ),
-            "cwt_gru_no_se": (
-                "Raw + CWT",
-                "Residual image CNN + two-layer bidirectional GRU",
-            ),
-            "cwt_gru": (
-                "Raw + CWT",
-                "Residual CNN with SE + two-layer bidirectional GRU",
-            ),
-            "cwt_gru_temp": (
-                "Raw + CWT",
-                "CWT-GRU weights; validation temperature scaling",
-            ),
-            "cwt_gru_selftrain": (
-                "Raw + CWT",
-                "CWT-GRU; thresholded pseudo-label retraining",
-            ),
+            "gru_only": ("Raw waveform", "Two-layer BiGRU + linear head"),
+            "cwt_cnn": ("CWT magnitude maps", "Residual CNN + SE"),
+            "cwt_gru_no_se": ("Raw + CWT", "Residual CNN + BiGRU"),
+            "cwt_gru": ("Raw + CWT", "Residual CNN + SE + BiGRU"),
+            "cwt_gru_temp": ("Raw + CWT", "CWT-GRU + validation temperature"),
+            "cwt_gru_selftrain": ("Raw + CWT", "CWT-GRU + pseudo-label retraining"),
         }
         for method in METHOD_ORDER:
             row = summary.loc[method]
@@ -1693,14 +1698,8 @@ def check_paper_tables(
             results_dir / "sota" / "summary_with_ci.csv"
         )
         external_architecture = {
-            "drsn": (
-                "Raw waveform",
-                "Four-stage residual shrinkage CNN; adaptive soft thresholding",
-            ),
-            "tfnet": (
-                "Raw waveform",
-                "Learnable sinusoidal TF convolution + CNN backbone",
-            ),
+            "drsn": ("Raw waveform", "DRSN backbone"),
+            "tfnet": ("Raw waveform", "TFN backbone"),
         }
         external_labels = {
             "drsn": "DRSN (same-protocol adaptation)",
@@ -1742,14 +1741,23 @@ def check_paper_tables(
         "cwt_gru_selftrain": (1, 1, 1, 1, 1),
     }
     if len(document.tables) >= 11:
+        ablation_labels = {
+            "raw_cnn": "Raw 1D-CNN",
+            "gru_only": "GRU only",
+            "cwt_cnn": "CWT 2D-CNN",
+            "cwt_gru_no_se": "CWT-GRU without SE",
+            "cwt_gru": "CWT-GRU",
+            "cwt_gru_temp": "CWT-GRU + Temp.",
+            "cwt_gru_selftrain": "CWT-GRU + Temp. + ST",
+        }
         expected = [
             [
                 "Model",
                 "CWT",
                 "GRU",
                 "SE",
-                "Calibration",
-                "Self-training",
+                "Cal.",
+                "ST",
                 "Macro-F1",
                 "Accuracy",
                 "Runs",
@@ -1759,8 +1767,8 @@ def check_paper_tables(
             row = summary.loc[method]
             expected.append(
                 [
-                    METHOD_LABELS[method],
-                    *[str(value) for value in components[method]],
+                    ablation_labels[method],
+                    *["✓" if value else "–" for value in components[method]],
                     mean_sd(row["mean"], row["std"]),
                     mean_sd(row["accuracy_mean"], row["accuracy_std"]),
                     str(int(row["runs"])),
@@ -1888,7 +1896,7 @@ def check_paper_tables(
             for label in ("four_class", "three_class", "binary"):
                 values = granularity.loc[(method, label)]
                 row.append(
-                    f"{float(values['macro_f1_mean']):.3f} +/- "
+                    f"{float(values['macro_f1_mean']):.3f} ± "
                     f"{float(values['macro_f1_sd']):.3f}"
                 )
             expected.append(row)
@@ -1929,7 +1937,7 @@ def check_paper_tables(
             expected.append(
                 [
                     label,
-                    f"{float(row['macro_f1_mean']):.3f} +/- "
+                    f"{float(row['macro_f1_mean']):.3f} ± "
                     f"{float(row['macro_f1_sd']):.3f}",
                     f"{float(row['mean_validation_macro_f1']):.3f}",
                     f"{float(row['mean_best_epoch']):.1f}",
@@ -1955,7 +1963,7 @@ def check_paper_tables(
         }
         condition_labels = {
             "supervised": "Supervised",
-            "fixed_threshold_0.60": "Fixed tau = 0.60",
+            "fixed_threshold_0.60": "Fixed τ = 0.60",
             "coverage_controlled_0.50": "Per-class top 50%",
         }
         for budget, budget_label in budget_labels.items():
@@ -1971,7 +1979,7 @@ def check_paper_tables(
                     [
                         budget_label,
                         condition_label,
-                        f"{float(row['macro_f1_mean']):.3f} +/- "
+                        f"{float(row['macro_f1_mean']):.3f} ± "
                         f"{float(row['macro_f1_sd']):.3f}",
                         str(int(row["runs"])),
                     ]
@@ -2098,7 +2106,7 @@ def check_paper_tables(
         "Threshold coverage at 0.7": percent(
             threshold.loc[threshold["threshold"].eq(0.7), "pseudo_coverage"].mean()
         ),
-        "Highest threshold result": f"tau = {top_threshold:.1f}",
+        "Highest threshold result": f"τ = {top_threshold:.1f}",
         "Label 50% means": (
             f"{label_50.loc[label_50['method'].eq('cwt_gru'), 'macro_f1'].mean():.3f} "
             f"to {label_50.loc[label_50['method'].eq('cwt_gru_selftrain'), 'macro_f1'].mean():.3f}"
@@ -2140,10 +2148,20 @@ def check_paper_tables(
             ].iloc[0],
         ),
         "DRSN paired delta": (
-            f"{float(hierarchical.loc[hierarchical['comparison'].eq('external:raw_cnn:drsn'), 'mean_delta'].iloc[0]):+.3f}"
+            signed_delta(
+                hierarchical.loc[
+                    hierarchical["comparison"].eq("external:raw_cnn:drsn"),
+                    "mean_delta",
+                ].iloc[0]
+            )
         ),
         "TFN paired delta": (
-            f"{float(hierarchical.loc[hierarchical['comparison'].eq('external:raw_cnn:tfnet'), 'mean_delta'].iloc[0]):+.3f}"
+            signed_delta(
+                hierarchical.loc[
+                    hierarchical["comparison"].eq("external:raw_cnn:tfnet"),
+                    "mean_delta",
+                ].iloc[0]
+            )
         ),
         "Domain gap statement": (
             "cannot be explained merely by an inability to fit the development domains"

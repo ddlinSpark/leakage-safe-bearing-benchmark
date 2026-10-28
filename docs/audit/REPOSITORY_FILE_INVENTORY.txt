@@ -8,9 +8,9 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       1188  .github/workflows/ci.yml
       1601  .gitignore
       1013  CITATION.cff
-     10005  FINAL_RELEASE_REPORT.md
+     11754  FINAL_RELEASE_REPORT.md
       1367  LICENSE
-     10452  README.md
+     10610  README.md
        918  configs/paderborn_baseline_tuning_lr001.json
       1570  configs/paderborn_main.json
       1071  configs/paderborn_self_training_sensitivity.json
@@ -22,54 +22,56 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2325  data/manifests/paderborn_archives_sha256.csv
       1211  data/manifests/paderborn_selected_bearings.csv
       1122  data/public/paderborn/pu_4class_w8192.json
-      3397  docs/DATASET.md
+      3403  docs/DATASET.md
       3217  docs/EXPERIMENTS.md
       3303  docs/PROTOCOL.md
-      3265  docs/PUBLIC_BENCHMARK.md
-      3832  docs/README.md
+      3266  docs/PUBLIC_BENCHMARK.md
+      4164  docs/README.md
       5882  docs/REPRODUCIBILITY.md
-      3102  docs/RESULTS.md
+      3089  docs/RESULTS.md
       3881  docs/SCIENTIFIC_REVISION.md
      20527  docs/audit/AUDIT_REPORT.md
       2105  docs/audit/CLEANUP_REPORT.md
-      1751  docs/audit/DOUBLE_BLIND_RISK.md
+      1736  docs/audit/DOUBLE_BLIND_RISK.md
       5945  docs/audit/EXPERIMENT_COMPLETENESS.md
-      3370  docs/audit/FINAL_MANUSCRIPT_AUDIT.md
+      3695  docs/audit/FINAL_MANUSCRIPT_AUDIT.md
       3714  docs/audit/FINAL_STATISTICAL_AUDIT.md
       3047  docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md
       6821  docs/audit/LEAKAGE_AUDIT.md
       2329  docs/audit/LEAKAGE_FINAL_CHECK.md
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
       9929  docs/audit/PRE_SUBMISSION_AUDIT.md
-      2438  docs/audit/RELEASE_READINESS.md
-      9169  docs/audit/REPOSITORY_AUDIT.md
+      2519  docs/audit/RELEASE_READINESS.md
+      9298  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
       2336  docs/audit/SPLIT_REPRODUCIBILITY_AUDIT.md
       8519  docs/audit/STATISTICAL_SENSITIVITY_REPORT.md
-      1473  docs/audit/STATISTICS_REPOSITORY_AUDIT.md
+      1472  docs/audit/STATISTICS_REPOSITORY_AUDIT.md
       2038  docs/audit/ZENODO_PREPARATION.md
-      4217  docs/paper/DOMAIN_GAP_ANALYSIS.md
-      2426  docs/paper/FIGURE_PROVENANCE.md
+      4209  docs/paper/DOMAIN_GAP_ANALYSIS.md
+      2523  docs/paper/FIGURE_PROVENANCE.md
       6366  docs/paper/FIGURE_SOURCES.md
-   6685898  docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
-     15778  docs/paper/PAPER_CODE_MAPPING.md
+   6539427  docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
+     15784  docs/paper/PAPER_CODE_MAPPING.md
       7210  docs/paper/PAPER_REPRODUCIBILITY.md
       1872  docs/paper/README.md
-      7024  docs/paper/SOTA_RETRAINING_REPORT.md
+      7021  docs/paper/SOTA_RETRAINING_REPORT.md
       2662  docs/paper/TABLE_PROVENANCE.md
-      6074  docs/paper/TABLE_SOURCES.md
+      6228  docs/paper/TABLE_SOURCES.md
       1713  docs/paper/UPDATED_CONTRIBUTIONS.md
         99  docs/references/README.md
       6304  docs/reports/AUDIT_REPORT.md
-     11622  docs/reports/CHANGELOG.md
+     12200  docs/reports/CHANGELOG.md
       4370  docs/reports/CLEAN_REPRODUCTION_REPORT.md
-      2101  docs/reports/CONSISTENCY_REPORT.md
+      2093  docs/reports/CONSISTENCY_REPORT.md
       2589  docs/reports/DAMAGE_ORIGIN_ANALYSIS.md
      16876  docs/reports/EXPERIMENT_REPORT.md
+      6414  docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md
+      2065  docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md
       4167  docs/reports/PAPER_RESULT_TRACEABILITY.md
       6394  docs/reports/PAPER_REVISION_REPORT.md
       2485  docs/reports/README_LINK_CHECK.md
-      2604  docs/reports/REFERENCE_LINK_REPORT.md
+      2870  docs/reports/REFERENCE_LINK_REPORT.md
      10314  docs/reports/REPRODUCE.md
      13484  docs/reports/REPRODUCIBILITY.md
       3195  docs/reports/REPRODUCTION_REPORT.md
@@ -90,18 +92,18 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
     273132  figures/publication/figure_14_per_fold_reliability.png
      88292  figures/publication/figure_15_temperature_distribution.png
     119761  figures/publication/figure_16_label_granularity.png
-     87882  figures/publication/figure_17_self_training_sensitivity.png
+     74559  figures/publication/figure_17_self_training_sensitivity.png
     108061  figures/publication/figure_18_baseline_tuning.png
     133944  figures/publication/figure_19_cwt_sensitivity.png
     192102  figures/publication/figure_20_foldwise_paired_differences.png
     109699  figures/publication/figure_21_training_budget.png
-    768589  figures/publication/figure_22_feature_space_pca.png
-    263599  figures/publication/figure_23_feature_space_tsne.png
+    741517  figures/publication/figure_22_feature_space_pca.png
+    247075  figures/publication/figure_23_feature_space_tsne.png
     122454  figures/publication/figure_24_normalization_sensitivity.png
       3875  figures/publication/figure_hashes.json
-    633058  figures/publication/figure_method_01_overall_framework.png
-    660144  figures/publication/figure_method_02_cwt_gru_architecture.png
-    646369  figures/publication/figure_method_03_self_training_pipeline.png
+    590799  figures/publication/figure_method_01_overall_framework.png
+    611087  figures/publication/figure_method_02_cwt_gru_architecture.png
+    600606  figures/publication/figure_method_03_self_training_pipeline.png
       3069  pyproject.toml
        760  reports/audit_status.csv
       1440  reports/bearing_overlap_check.csv
@@ -4453,12 +4455,12 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
        701  results/training_diagnostics_summary.csv
        702  results/win_tie_loss.csv
        152  scripts/analyze_sota.py
-     12773  scripts/audit_final_manuscript.py
-     23504  scripts/audit_internal_links.py
+     14205  scripts/audit_final_manuscript.py
+     23769  scripts/audit_internal_links.py
        154  scripts/audit_protocol.py
-     71544  scripts/audit_release_repository.py
+     71752  scripts/audit_release_repository.py
       5700  scripts/audit_sensitivity_results.py
-     87754  scripts/audit_submission.py
+     88409  scripts/audit_submission.py
       1950  scripts/build_cwt_cache_manifest.py
       3246  scripts/build_experiment_registry.py
        150  scripts/build_paper_docx.py
@@ -4468,7 +4470,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
      12423  scripts/build_statistical_reports.py
       1455  scripts/capture_environment.py
       3874  scripts/check_figure_palette.py
-     14381  scripts/check_manuscript_consistency.py
+     14428  scripts/check_manuscript_consistency.py
       7847  scripts/check_readme_links.py
       1738  scripts/dedupe_interrupted_runs.py
        148  scripts/export_results_report.py
@@ -4510,7 +4512,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
      34762  src/spindle_cnn/analysis/protocol_audit.py
       3917  src/spindle_cnn/analysis/recheck_run.py
      10897  src/spindle_cnn/analysis/report.py
-      9902  src/spindle_cnn/analysis/self_training.py
+      9903  src/spindle_cnn/analysis/self_training.py
       8559  src/spindle_cnn/analysis/sota.py
      12473  src/spindle_cnn/analysis/statistics.py
       7825  src/spindle_cnn/analysis/threshold_diagnostics.py
@@ -4527,7 +4529,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
         39  src/spindle_cnn/experiments/__init__.py
       7007  src/spindle_cnn/experiments/common.py
      16660  src/spindle_cnn/experiments/make_figures.py
-     11578  src/spindle_cnn/experiments/make_method_figures.py
+     11584  src/spindle_cnn/experiments/make_method_figures.py
        799  src/spindle_cnn/experiments/run_ablation.py
      55795  src/spindle_cnn/experiments/run_benchmark.py
       4235  src/spindle_cnn/experiments/run_cwt_sensitivity.py
@@ -4546,9 +4548,9 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2606  src/spindle_cnn/models/registry.py
       5335  src/spindle_cnn/models/tfnet.py
         48  src/spindle_cnn/paper/__init__.py
-    123534  src/spindle_cnn/paper/build_docx.py
-     12777  src/spindle_cnn/paper/data.py
-     19471  src/spindle_cnn/paper/docx_style.py
+    124149  src/spindle_cnn/paper/build_docx.py
+     12776  src/spindle_cnn/paper/data.py
+     20173  src/spindle_cnn/paper/docx_style.py
       2686  src/spindle_cnn/paper/equations.py
        973  src/spindle_cnn/paths.py
        455  src/spindle_cnn/plotting/__init__.py
@@ -4569,9 +4571,9 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2656  tests/test_hierarchical_statistics.py
        514  tests/test_metrics.py
       1210  tests/test_models.py
-      1980  tests/test_paper_links.py
+      2498  tests/test_paper_links.py
       2885  tests/test_paper_palette.py
-      3549  tests/test_release_structure.py
+      4610  tests/test_release_structure.py
       2809  tests/test_sensitivity_outputs.py
       2111  tests/test_sota_results.py
       1732  tests/test_splits.py

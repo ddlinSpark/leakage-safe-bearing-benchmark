@@ -10,15 +10,19 @@ Quick verification: PASS
 Canonical result consistency: PASS
 Figure consistency: PASS
 Reference hyperlinks: PASS
+Manuscript format: PASS
+Manuscript-GitHub consistency: PASS
 CITATION.cff: PASS
 LICENSE: PASS
-Manuscript release: PASS
+Author affiliation: WARNING
+Manuscript release: WARNING
 v1.0.0 readiness: NO
 ```
 
 The numerical, manuscript, figure, and internal-link checks pass. A public
 `v1.0.0` tag is not recommended yet because privacy metadata remains in Git
-history and retained run configurations.
+history and retained run configurations. Author affiliation and
+corresponding-author details also require completion before journal submission.
 
 ## 1. Repository restructuring
 
@@ -37,7 +41,7 @@ history and retained run configurations.
 
 ## 2. README changes
 
-README is 243 lines and now separates:
+README is 245 lines and now separates:
 
 - benchmark purpose and leakage-safe rationale;
 - five concise Key Findings;
@@ -111,8 +115,10 @@ retained result files:
 | Supplementary figures | S1-S5 |
 | Retained analysis figure | External-baseline tuning |
 
-Repeated complete generation produced 24 of 24 byte-identical PNG files.
-No PDF figure is tracked.
+The formatting pass regenerated only the six figures affected by notation or
+font-size changes: the three method diagrams, Figure 16, Figure 17, and
+Figure 18. The other 18 frozen PNG files were retained byte-for-byte. All 24
+files match the current hash manifest; no PDF figure is tracked.
 
 ## 6. Palette verification
 
@@ -146,6 +152,27 @@ outside the palette was found. All 24 PNG files have DPI metadata of at least
 - Independent manuscript/table mismatches: 0.
 - Evidence-chain checks: 18 of 18 passed.
 
+## Final manuscript format pass
+
+The final DOCX is
+`docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx`, SHA-256
+`2998693d7f86b4dc88ec64a6dd653ada1e075234dc374243b648e6b755b3d969`.
+
+- Converted 105 `+/-` expressions to `±`, 27 numeric `x` expressions to `×`,
+  and 11 plain `tau` labels to `τ`.
+- Preserved implementation names such as `Conv5x5` and normalized display text
+  without changing canonical values.
+- Compacted Tables 10 and 11 and clarified the Table 18 audit headers.
+- Replaced the Appendix A heading with `Supplementary Material` and retained
+  Figure S1-S5 numbering and bookmarks.
+- Added the verified GitHub URL to Data and Code Availability.
+- The author name is verified, but affiliation and corresponding-author details
+  require manual completion before submission.
+
+The complete record is `docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md`.
+The manuscript-to-repository comparison is
+`docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md`.
+
 ## Internal reference and cross-reference navigation
 
 The manuscript author is Huadong Lin in the DOCX properties, title page, and
@@ -168,44 +195,56 @@ pdf_bookmarks: PASS
 - Unused references: 0.
 - Broken DOCX anchors: 0.
 - DOCX bookmarks: 114.
-- DOCX internal hyperlinks: 65.
+- DOCX internal hyperlinks: 66.
 - Figure targets: 23 of 23.
 - Table targets: 18 of 18.
 - Equation targets: 6 of 6.
-- In-text links: 8 Figure, 9 Table, 1 Section.
+- In-text links: 8 Figure, 10 Table, 1 Section.
 - In-text Equation references: 0; all equation targets are bookmarked for
   future use.
-- Temporary PDF link annotations: 65.
+- Temporary PDF link annotations: 66.
 - Unresolved PDF destinations: 0.
-- Temporary PDF outline entries: 45.
+- Temporary PDF outline entries: 46.
 
 Temporary PDF click-path checks:
 
 | Display text | Source page | Target page |
 | --- | ---: | ---: |
 | `[1]` | 2 | 29 |
+| `[11]` | 3 | 30 |
 | `[14]` | 2 | 30 |
+| `[21]` | 29 | 30 |
+| `[22]` | 14 | 30 |
+| `Figure 1` | 4 | 4 |
 | `Figure 4` | 9 | 10 |
+| `Figure 12` | 19 | 19 |
+| `Table 5` | 9 | 9 |
+| `Table 11` | 11 | 16 |
 | `Table 13` | 19 | 19 |
+| `Section 6` | 11 | 15 |
 
 Hyphenated ranges such as `[1-3]` and `[11-13]` retain their IEEE display.
 Visible endpoints have independent targets; a hidden intermediate number cannot
 have its own clickable glyph without changing the displayed citation.
 
 The complete audit is `docs/reports/REFERENCE_LINK_REPORT.md`.
+The final format and manuscript-to-repository audits are recorded in
+`docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md` and
+`docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md`.
 
 ## 8. Reproduction checks
 
-The cleanup commit was pushed to GitHub and verified from a fresh clone at:
+The prior repository cleanup was pushed to GitHub and verified from a fresh
+clone at:
 
 ```text
-4beef07f4727fac38e668e031f571c556506f8ec
+8f1bbfea20b27162c3fc92ff5eb389326472ccd5
 ```
 
-The fresh clone passed all 39 tests, the smoke test, 21 link checks, 15 command
-checks, 18 of 18 manuscript consistency checks, numerical traceability, the
-24-file figure manifest, and the DOCX citation/cross-reference audit. The
-working tree was clean, and no PDF was tracked.
+The final formatting pass then rebuilt the manuscript and passed all 41 tests,
+the smoke test, 25 README link targets, 15 command checks, 18 of 18 manuscript
+consistency checks, numerical traceability, the 24-file figure manifest, and
+the DOCX citation/cross-reference audit. No PDF was tracked.
 
 The earlier clean-room source used for the main reproduction check was:
 
@@ -213,7 +252,7 @@ The earlier clean-room source used for the main reproduction check was:
 489f0a0edcf2c2f2449b72e7e98371a86315cecb
 ```
 
-- Tests: 39 passed.
+- Tests: 41 passed.
 - Smoke test: PASS.
 - Canonical and split catalogs: PASS.
 - Result/manuscript consistency: 18 of 18 PASS.

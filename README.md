@@ -34,7 +34,7 @@ familiar bearings and operating conditions.
 
 ## Key Findings
 
-- Validation Macro-F1 remained approximately **0.797-0.853**, while held-out test Macro-F1 decreased to **0.280-0.307**.
+- Validation Macro-F1 remained approximately **0.797–0.853**, while held-out test Macro-F1 decreased to **0.280–0.307**.
 - No stable advantage was established for the evaluated magnitude-CWT, recurrent-fusion, or SE variants.
 - Temperature scaling improved probability calibration for selected CWT models but did not change argmax classification.
 - Fixed-threshold self-training did not establish a stable diagnostic improvement.
@@ -54,19 +54,19 @@ causally separated.
 
 ## Main Results
 
-Values are mean +/- sample standard deviation over four folds and five seeds.
+Values are mean ± sample standard deviation over four folds and five seeds.
 The formal registry contains 320 canonical evaluations and 40 external
 same-protocol adaptation runs.
 
 | Method | Test Macro-F1 | Accuracy |
 | --- | ---: | ---: |
-| Raw 1D-CNN | 0.289 +/- 0.104 | 0.392 +/- 0.094 |
-| GRU only | 0.221 +/- 0.030 | 0.242 +/- 0.025 |
-| CWT 2D-CNN | 0.291 +/- 0.086 | 0.399 +/- 0.081 |
-| CWT-GRU without SE | 0.307 +/- 0.103 | 0.408 +/- 0.097 |
-| CWT-GRU | 0.280 +/- 0.107 | 0.383 +/- 0.092 |
-| CWT-GRU + temperature scaling | 0.280 +/- 0.107 | 0.383 +/- 0.092 |
-| CWT-GRU + temperature scaling + self-training | 0.290 +/- 0.116 | 0.387 +/- 0.099 |
+| Raw 1D-CNN | 0.289 ± 0.104 | 0.392 ± 0.094 |
+| GRU only | 0.221 ± 0.030 | 0.242 ± 0.025 |
+| CWT 2D-CNN | 0.291 ± 0.086 | 0.399 ± 0.081 |
+| CWT-GRU without SE | 0.307 ± 0.103 | 0.408 ± 0.097 |
+| CWT-GRU | 0.280 ± 0.107 | 0.383 ± 0.092 |
+| CWT-GRU + temperature scaling | 0.280 ± 0.107 | 0.383 ± 0.092 |
+| CWT-GRU + temperature scaling + self-training | 0.290 ± 0.116 | 0.387 ± 0.099 |
 
 These results support configuration-specific empirical conclusions. They do not
 show that CWT, GRU, SE, or self-training is universally ineffective.
@@ -212,6 +212,8 @@ Key evidence:
 
 - [Consistency report](docs/reports/CONSISTENCY_REPORT.md)
 - [Reference-link report](docs/reports/REFERENCE_LINK_REPORT.md)
+- [Manuscript format report](docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md)
+- [Manuscript and GitHub consistency](docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md)
 - [README link check](docs/reports/README_LINK_CHECK.md)
 - [Clean reproduction report](docs/reports/CLEAN_REPRODUCTION_REPORT.md)
 - [Canonical result manifest](results/canonical/manifest.json)

@@ -33,6 +33,8 @@ REQUIRED_ROOT_FILES = [
     "docs/reports/CLEAN_REPRODUCTION_REPORT.md",
     "docs/reports/CONSISTENCY_REPORT.md",
     "docs/reports/REFERENCE_LINK_REPORT.md",
+    "docs/reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md",
+    "docs/reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md",
     "docs/reports/README_LINK_CHECK.md",
     "FINAL_RELEASE_REPORT.md",
 ]
@@ -1405,7 +1407,7 @@ not against test labels.
 **PASS.**
 
 The 20 main evaluations are four operating-condition folds crossed with five
-stochastic seeds. The paper retains all 20 mean +/- SD values as descriptive
+stochastic seeds. The paper retains all 20 mean ± SD values as descriptive
 stochastic-stability summaries, while paired inference resamples fold first and
 seed second.
 
@@ -1461,9 +1463,11 @@ python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publi
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 ```
 
-The current revision regenerated all 12 PNG files byte-identically in a
-separate output directory. No PDF figure output is tracked. No Excel,
-Photoshop, or manual numeric overlays are used for data-derived figures.
+All 12 tracked PNG files match the publication hash manifest. The final
+formatting pass re-rendered method Figures 1-3 for symbol and label
+consistency; data-derived Figures 4-12 remain frozen. No PDF figure output is
+tracked. No Excel, Photoshop, or manual numeric overlays are used for
+data-derived figures.
 """
 
     table_rows = "\n".join(

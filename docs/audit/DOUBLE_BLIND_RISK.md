@@ -6,7 +6,7 @@
 
 | Exposure vector | Current state | Risk |
 | --- | --- | --- |
-| GitHub repository URL in manuscript | not found in DOCX text | PASS |
+| GitHub repository URL in manuscript | present | FAIL |
 | Public repository owner identity | Named GitHub account is visible | CRITICAL |
 | CITATION author identity | Huadong Lin is explicitly identified | use an anonymous mirror if double-blind |
 | Git commit author metadata | Non-anonymous historical email metadata exists | CRITICAL |

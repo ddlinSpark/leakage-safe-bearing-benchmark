@@ -53,8 +53,8 @@
       "sha256": "b576c95c81dc06dcf65dbe82b2fdb5d751c4bdc62bda885874396b5cf7a744bd"
     },
     "figure_17_self_training_sensitivity.png": {
-      "bytes": 87882,
-      "sha256": "9dc255404c1286f4457bf3f785031bad079bd9ec71f248e255061a7291c438e4"
+      "bytes": 74559,
+      "sha256": "39af3cc124426c34adab9da9446fdf8883091472f5df42ee9acc1e0df2dc15fc"
     },
     "figure_18_baseline_tuning.png": {
       "bytes": 108061,
@@ -73,28 +73,28 @@
       "sha256": "feb078f3a1da3356c19045aa25758a7b2339b49a523af69af498cee4908c0101"
     },
     "figure_22_feature_space_pca.png": {
-      "bytes": 768589,
-      "sha256": "ab7899cbf1d685689ec407d2ba30b19a5408e4b1a6382d5e9206dd26a0614468"
+      "bytes": 741517,
+      "sha256": "448e17b13054f5f53f9f1e05b414698a2d02507aa94c9b83365200771b231dcd"
     },
     "figure_23_feature_space_tsne.png": {
-      "bytes": 263599,
-      "sha256": "014d700db81a2a88bb5ba4ad546831b36f07926e66be437259fd53dfb56d9024"
+      "bytes": 247075,
+      "sha256": "887d40c86afe6b1410f784d643833f6b267e8e227eb5d2c17e80ab0642f5126e"
     },
     "figure_24_normalization_sensitivity.png": {
       "bytes": 122454,
       "sha256": "1cbb3dd02e48f60581e1c51051cefc97b0e3144597e7c4ddec25cb4233b7ed57"
     },
     "figure_method_01_overall_framework.png": {
-      "bytes": 633058,
-      "sha256": "a76886077b01ec00079cbfc2d5758c94fd051da5c332a1ad62b860dcffc78468"
+      "bytes": 590799,
+      "sha256": "867699ac9933ade3b5c798913e0144534d0e75c8cdc087c185158250bea6287a"
     },
     "figure_method_02_cwt_gru_architecture.png": {
-      "bytes": 660144,
-      "sha256": "6e1fc4c9c9b6e9d41e378e181fa2c54097383eeb0cbe643c9ea9a5697912b41e"
+      "bytes": 611087,
+      "sha256": "693cf0a78f5b40ed8aec9b9c02ef730596b7feed5d18884e7866bc7967d80685"
     },
     "figure_method_03_self_training_pipeline.png": {
-      "bytes": 646369,
-      "sha256": "69f21faa98f98bfcdd053dcaebcbbf8ab8153ac9ca9867836c1325d15a8756cb"
+      "bytes": 600606,
+      "sha256": "2f1dd6be46d6a64e956fc7988d5ce09257b4753acd64de298ce6155c26389200"
     }
   }
 }

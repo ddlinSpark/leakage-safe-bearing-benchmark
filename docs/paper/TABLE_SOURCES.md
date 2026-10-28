@@ -73,7 +73,7 @@ files. No result table is populated by hand.
 - Sources: `results/threshold_summary.csv` and the threshold rows in
   `results/raw_runs.csv`.
 - The table reports pseudo-label count, candidate coverage, offline
-  pseudo-label accuracy, test macro-F1, and run count.
+  pseudo-label accuracy, test Macro-F1, and run count.
 
 ## Table 9: Probability calibration
 
@@ -138,5 +138,7 @@ does not have the required repetition count.
 | Table 17 | `self_training_sensitivity_rows()` | `results/self_training_sensitivity_summary.csv` |
 | Table 18 | `validation_audit_rows()` | Training-budget and baseline-tuning comparison tables |
 
-All new tables are generated directly from retained CSV rows. Validation-only
-selection occurs before any summary table is built.
+Table 18 reports the held-out test difference and 95% interval from the
+retained comparison tables, together with validation-improved run or fold
+counts. All new tables are generated directly from retained CSV rows.
+Validation-only selection occurs before any summary table is built.

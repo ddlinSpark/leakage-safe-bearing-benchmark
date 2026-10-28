@@ -8,8 +8,8 @@
 
 | Metric | Value |
 | --- | ---: |
-| Total links checked | 23 |
-| Valid local links | 15 |
+| Total links checked | 25 |
+| Valid local links | 17 |
 | Broken local links | 0 |
 | External links detected | 8 |
 | Python commands checked | 15 |

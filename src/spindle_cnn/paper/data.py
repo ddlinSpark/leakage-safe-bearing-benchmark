@@ -302,4 +302,4 @@ class BenchmarkResults:
 def mean_sd(row: pd.Series, mean_column: str, std_column: str, digits: int = 3) -> str:
     mean = float(row[mean_column])
     std = float(row[std_column])
-    return f"{mean:.{digits}f} +/- {std:.{digits}f}"
+    return f"{mean:.{digits}f} ± {std:.{digits}f}"

@@ -19,6 +19,8 @@
 | [../splits/manifest.json](../splits/manifest.json) | 四个冻结 fold manifest 的 SHA-256 索引 |
 | [reports/CONSISTENCY_REPORT.md](reports/CONSISTENCY_REPORT.md) | 自动检查 run 数量、模型、指标、区间、参数、fold、seed 与 DOCX 一致性 |
 | [reports/REFERENCE_LINK_REPORT.md](reports/REFERENCE_LINK_REPORT.md) | 正文引用、图表/章节/公式交叉引用与临时 PDF 链接目标审计 |
+| [reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md](reports/FINAL_MANUSCRIPT_FORMAT_REPORT.md) | 论文符号、表格、补充材料、PDF 和作者信息最终格式审计 |
+| [reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md](reports/MANUSCRIPT_GITHUB_CONSISTENCY_REPORT.md) | 论文主结果、README 与 canonical results 一致性 |
 | [reports/README_LINK_CHECK.md](reports/README_LINK_CHECK.md) | README 本地链接、外部链接与 Python 命令入口检查 |
 | [reports/CLEAN_REPRODUCTION_REPORT.md](reports/CLEAN_REPRODUCTION_REPORT.md) | 从公开 GitHub 新克隆后的预处理、训练、统计、图件与 DOCX 复现记录 |
 | [../FINAL_RELEASE_REPORT.md](../FINAL_RELEASE_REPORT.md) | 最终发布变更、图件、配色、一致性、目录、排除文件和剩余警告 |

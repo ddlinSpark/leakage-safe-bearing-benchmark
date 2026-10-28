@@ -23,11 +23,11 @@ Users must obtain the data from the official source and follow its terms.
 - Measurements: files 1 and 2 for each selected bearing and condition.
 - Window length: 8192 samples.
 - Stride: 8192 samples, so adjacent windows do not overlap.
-- Canonical tensor: 3,939 windows with raw shape `3939 x 3 x 8192` and CWT
-  shape `3939 x 3 x 96 x 96`.
+- Canonical tensor: 3,939 windows with raw shape `3939 × 3 × 8192` and CWT
+  shape `3939 × 3 × 96 × 96`.
 
 The CWT representation uses the Morlet wavelet, 48 geometric scales, magnitude
-only, a 96 x 96 image, and per-channel maximum normalization.
+only, a 96 × 96 image, and per-channel maximum normalization.
 
 ## Physical bearings
 

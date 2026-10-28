@@ -2,16 +2,16 @@
 
 ## Main benchmark
 
-Values are mean +/- sample standard deviation over four folds and five seeds.
+Values are mean ± sample standard deviation over four folds and five seeds.
 
 | Method | Test Macro-F1 | Accuracy |
 | --- | ---: | ---: |
-| Raw 1D-CNN | 0.289 +/- 0.104 | 0.392 +/- 0.094 |
-| GRU only | 0.221 +/- 0.030 | 0.242 +/- 0.025 |
-| CWT 2D-CNN | 0.291 +/- 0.086 | 0.399 +/- 0.081 |
-| CWT-GRU without SE | 0.307 +/- 0.103 | 0.408 +/- 0.097 |
-| CWT-GRU | 0.280 +/- 0.107 | 0.383 +/- 0.092 |
-| CWT-GRU + temperature scaling + self-training | 0.290 +/- 0.116 | 0.387 +/- 0.099 |
+| Raw 1D-CNN | 0.289 ± 0.104 | 0.392 ± 0.094 |
+| GRU only | 0.221 ± 0.030 | 0.242 ± 0.025 |
+| CWT 2D-CNN | 0.291 ± 0.086 | 0.399 ± 0.081 |
+| CWT-GRU without SE | 0.307 ± 0.103 | 0.408 ± 0.097 |
+| CWT-GRU | 0.280 ± 0.107 | 0.383 ± 0.092 |
+| CWT-GRU + temperature scaling + self-training | 0.290 ± 0.116 | 0.387 ± 0.099 |
 
 No evaluated representation, recurrent addition, SE block, or self-training
 procedure establishes a stable primary advantage.

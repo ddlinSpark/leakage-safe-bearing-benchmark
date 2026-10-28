@@ -27,6 +27,8 @@ python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publi
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 ```
 
-The current revision regenerated all 12 PNG files byte-identically in a
-separate output directory. No PDF figure output is tracked. No Excel,
-Photoshop, or manual numeric overlays are used for data-derived figures.
+All 12 tracked PNG files match the publication hash manifest. The final
+formatting pass re-rendered method Figures 1-3 for symbol and label
+consistency; data-derived Figures 4-12 remain frozen. No PDF figure output is
+tracked. No Excel, Photoshop, or manual numeric overlays are used for
+data-derived figures.

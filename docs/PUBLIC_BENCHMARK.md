@@ -21,7 +21,7 @@ The result is a bearing-code-disjoint and operating-condition-disjoint test.
 
 ## Repeated design
 
-The canonical config uses `4 folds x 5 seeds`, or 20 runs per method under the
+The canonical config uses `4 folds × 5 seeds`, or 20 runs per method under the
 Full balanced budget.
 The seeds are `42, 123, 2024, 2025, 3407`.
 

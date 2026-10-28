@@ -171,6 +171,25 @@ def main() -> None:
         paragraphs,
         r"p\s*=\s*(?:=<|<)",
     )
+    legacy_plusminus = text.count("+/-")
+    legacy_numeric_x = len(
+        re.findall(r"(?<=[0-9]) x (?=[0-9])|folds x [0-9]", text)
+    )
+    legacy_tau = len(
+        re.findall(r"(?i)(?<![A-Za-z])tau(?![A-Za-z])", text)
+    )
+    format_pass = (
+        legacy_plusminus == 0
+        and legacy_numeric_x == 0
+        and legacy_tau == 0
+        and "macro-F1" not in text
+        and "full balanced budget" not in text
+        and "Appendix A" not in text
+        and "Supplementary Material" in text
+        and "Canonical completed evaluations" in text
+        and "Held-out test" in text
+        and "Validation-improved runs" in text
+    )
     review_hits = {
         term: contexts(paragraphs, term) for term in REVIEW_TERMS
     }
@@ -186,7 +205,9 @@ def main() -> None:
         / "verify_manuscript_numbers.json"
     )
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    render_dir = root / "artifacts" / "local" / "render" / "final_links"
+    render_dir = root / "artifacts" / "local" / "manuscript_format" / "final_render"
+    if not render_dir.is_dir():
+        render_dir = root / "artifacts" / "local" / "render" / "final_links"
     if not render_dir.is_dir():
         render_dir = root / "artifacts" / "local" / "render" / "release_candidate"
     if not render_dir.is_dir():
@@ -243,6 +264,7 @@ def main() -> None:
         and len(document.tables) == 18
         and page_count > 0
         and internal_links_pass
+        and format_pass
     )
     release_blocked = non_anonymous_commits > 0 or hostname_configs > 0
 
@@ -313,6 +335,17 @@ rendered document contains {page_count} pages.
 The artifact uses "10% balanced budget", "50% balanced budget", and
 "Full balanced budget" for the label-budget conditions. The displayed model
 name is TFN; the historical machine-readable result key remains `tfnet`.
+
+## Format normalization
+
+- Legacy `+/-` occurrences: {legacy_plusminus}
+- Legacy numeric `x` occurrences: {legacy_numeric_x}
+- Legacy `tau` occurrences: {legacy_tau}
+- Supplementary heading: {"PASS" if "Supplementary Material" in text else "FAIL"}
+- Appendix naming removed: {"PASS" if "Appendix A" not in text else "FAIL"}
+- Table 4 completed-evaluation wording: {"PASS" if "Canonical completed evaluations" in text else "FAIL"}
+- Table 11 compact headers: {"PASS" if "Cal." in text and "ST" in text else "FAIL"}
+- Table 18 explicit audit headers: {"PASS" if "Held-out test" in text and "Validation-improved runs" in text else "FAIL"}
 
 ## Contextual keyword review
 

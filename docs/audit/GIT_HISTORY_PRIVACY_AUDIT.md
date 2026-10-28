@@ -11,7 +11,7 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 31 | informational |
+| Reachable commits | 32 | informational |
 | Distinct commit author email addresses | 2 | informational |
 | Commits with non-anonymous author email metadata | 14 | privacy review required |
 | Current Git author setting will create anonymous commits | NO | privacy review required |

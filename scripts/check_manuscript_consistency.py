@@ -259,6 +259,7 @@ def main() -> None:
         "cwt_cnn": "CWT 2D-CNN",
         "cwt_gru_no_se": "CWT-GRU without SE",
         "cwt_gru": "CWT-GRU",
+        "cwt_gru_temp": "CWT-GRU + temperature scaling",
         "cwt_gru_selftrain": (
             "CWT-GRU + temperature scaling + self-training"
         ),
@@ -267,9 +268,9 @@ def main() -> None:
     for method, label in readme_labels.items():
         row = expected_summary.loc[method]
         expected_row = (
-            f"| {label} | {row['macro_f1_mean']:.3f} +/- "
+            f"| {label} | {row['macro_f1_mean']:.3f} ± "
             f"{main_rows.loc[main_rows['method'].eq(method), 'macro_f1'].std():.3f} "
-            f"| {row['accuracy_mean']:.3f} +/- "
+            f"| {row['accuracy_mean']:.3f} ± "
             f"{main_rows.loc[main_rows['method'].eq(method), 'accuracy'].std():.3f} |"
         )
         if expected_row not in readme:
@@ -279,7 +280,7 @@ def main() -> None:
         "README key findings",
         not missing_readme_values,
         (
-            "six principal result rows match canonical means and sample SDs"
+            "seven result rows match canonical means and sample SDs"
             if not missing_readme_values
             else f"mismatching methods: {missing_readme_values}"
         ),

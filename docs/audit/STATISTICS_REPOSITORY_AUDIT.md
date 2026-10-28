@@ -5,7 +5,7 @@
 **PASS.**
 
 The 20 main evaluations are four operating-condition folds crossed with five
-stochastic seeds. The paper retains all 20 mean +/- SD values as descriptive
+stochastic seeds. The paper retains all 20 mean ± SD values as descriptive
 stochastic-stability summaries, while paired inference resamples fold first and
 seed second.
 

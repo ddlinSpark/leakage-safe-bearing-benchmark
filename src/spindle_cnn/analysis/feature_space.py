@@ -217,7 +217,7 @@ def save_figures(
         axis.set_xlabel("PC 1")
         axis.set_ylabel("PC 2")
         axis.grid(color=GRID_COLOR, linewidth=0.6)
-        axis.legend(frameon=False, fontsize=6.5, markerscale=0.8)
+        axis.legend(frameon=False, fontsize=7.5, markerscale=0.8)
     png = output_dir / "figure_22_feature_space_pca.png"
     figure.savefig(png, dpi=320, bbox_inches="tight")
     plt.close(figure)
@@ -276,7 +276,7 @@ def save_figures(
     for axis in axes:
         axis.set_xticks([])
         axis.set_yticks([])
-        axis.legend(frameon=False, fontsize=6.5)
+        axis.legend(frameon=False, fontsize=7.5)
     axes[0].set_ylabel(f"t-SNE dimension 2 (fold {tsne_fold})")
     png = output_dir / "figure_23_feature_space_tsne.png"
     figure.savefig(png, dpi=320, bbox_inches="tight")
