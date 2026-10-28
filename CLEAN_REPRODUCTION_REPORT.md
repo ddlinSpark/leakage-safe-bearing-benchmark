@@ -5,15 +5,16 @@
 The formal repository was cloned from the named public GitHub remote and
 validated outside the development checkout.
 
-- Tested code commit: `22588f337151faa99fe73cefaf2a3835cd517721`
-- Test clone: `D:\lsbbl_release_22588f3`
+- Tested code commit: `489f0a0edcf2c2f2449b72e7e98371a86315cecb`
+- Test clone: `D:\lsbbl_links_489f0a0`
 - Fresh clone checkout: clean
-- Tests: **PASS**, 36 tests
+- Tests: **PASS**, 38 tests
 - Smoke test: **PASS**
 - Result catalogs: **PASS**
 - Manuscript/result consistency: **PASS**, 18 of 18 checks
 - Palette/figure integrity: **PASS**
 - Manuscript table audit: **PASS**, 0 mismatches
+- Internal links and PDF navigation: **PASS**
 - Full 820-row retraining: **NOT REPEATED**
 
 The final report commit is documentation-only relative to the tested code
@@ -25,11 +26,11 @@ metadata.
 ```text
 remote: https://github.com/ddlinSpark/leakage-safe-bearing-benchmark.git
 branch: main
-tested commit: 22588f337151faa99fe73cefaf2a3835cd517721
+tested commit: 489f0a0edcf2c2f2449b72e7e98371a86315cecb
 clone method: git -c core.longpaths=true clone
 ```
 
-The clone contained 4,595 tracked files and no uncommitted checkout changes.
+The clone contained 4,598 tracked files and no uncommitted checkout changes.
 
 ## Environment
 
@@ -55,6 +56,7 @@ python -m pytest -q
 python scripts/smoke_test.py
 python scripts/check_manuscript_consistency.py
 python scripts/check_figure_palette.py
+python scripts/audit_internal_links.py
 python scripts/build_paper_metrics.py
 python scripts/build_results_catalog.py
 ```
@@ -62,11 +64,12 @@ python scripts/build_results_catalog.py
 Observed results:
 
 ```text
-36 passed
+38 passed
 SMOKE TEST PASS
 PASS: 18/18 checks passed
 Palette/figure integrity: PASS
 Canonical and split catalogs: PASS
+Internal links and PDF navigation: PASS
 ```
 
 ## Preprocessing and training
@@ -113,7 +116,7 @@ The DOCX builder uses a temporary file and deterministic OOXML ZIP timestamps.
 Two builds from identical results and figures produced the same SHA-256:
 
 ```text
-64937f74d3ca40012f65c4b0c54829060a09986dd58fe86353381cb7a824fdf7
+35b1c138f83069799c14508360805fd43542a5f9194c09db46b24ef2aee23366
 ```
 
 The document contains 18 tables and 23 inline figures. The independent audit
@@ -122,6 +125,7 @@ is 30 A4 pages, and all pages were visually inspected after the final figure
 palette update.
 
 The standalone supplementary PDF contains Figures S1-S5 in five A4 pages.
+The PDF contains 65 actionable internal links and a 45-entry navigation outline.
 
 ## Reproduction scope
 

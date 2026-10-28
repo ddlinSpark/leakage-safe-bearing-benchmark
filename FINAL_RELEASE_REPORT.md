@@ -161,17 +161,68 @@ and Linux checkouts produce the same content hash.
 
 No experiment value was modified to match the manuscript.
 
+## Internal reference and cross-reference navigation
+
+The manuscript author is Huadong Lin in the DOCX properties, title page, and
+`CITATION.cff`.
+
+```yaml
+reference_hyperlink_status: PASS
+figure_cross_reference_status: PASS
+table_cross_reference_status: PASS
+equation_cross_reference_status: PASS
+pdf_hyperlink_preservation: PASS
+pdf_bookmarks: PASS
+```
+
+Verified values:
+
+- 22 reference entries;
+- 36 in-text citation occurrences;
+- all 22 reference numbers cited and linked;
+- 0 missing reference targets;
+- 0 unused references;
+- 0 broken DOCX anchors;
+- 8 in-text Figure links;
+- 9 in-text Table links;
+- 1 in-text Section link;
+- 0 in-text Equation references, with all six equation targets bookmarked;
+- 114 unique DOCX bookmarks;
+- 65 internal DOCX hyperlinks;
+- 65 PDF link annotations;
+- 0 unresolved PDF destinations;
+- 45 PDF outline entries, including all required top-level sections,
+  Appendix A, Data and Code Availability, and References.
+
+PDF click tests resolved:
+
+| Display text | Source page | Target page |
+| --- | ---: | ---: |
+| `[1]` | 2 | 29 |
+| `[14]` | 2 | 30 |
+| `Figure 4` | 9 | 10 |
+| `Table 13` | 19 | 19 |
+
+The four ranges `[1-3]`, `[11-13]`, `[14,16-18]`, and `[16-18]` retain their
+IEEE numeric display. Visible range endpoints have independent targets; an
+intermediate number hidden inside a hyphenated range cannot have a separate
+clickable glyph without changing the displayed citation.
+
+The complete machine-verified result is in `REFERENCE_LINK_REPORT.md`.
+
 ## 8. Reproduction checks
 
 The latest source candidate was cloned from GitHub commit
-`22588f337151faa99fe73cefaf2a3835cd517721`.
+`489f0a0edcf2c2f2449b72e7e98371a86315cecb`.
 
 Observed results:
 
-- 36 tests passed;
+- 38 tests passed;
 - smoke test passed;
 - canonical and split catalogs matched;
 - 18 of 18 consistency checks passed;
+- internal-link audit passed with 22 reference targets, 65 PDF links, and 0
+  unresolved destinations;
 - palette and figure manifest checks passed;
 - Raw fold 0/seed 42 training reproduced Macro-F1
   `0.3205054825882636` with `git_dirty=false`;
@@ -211,8 +262,8 @@ The smoke test requires neither the full dataset cache nor the 320-run matrix.
   cleanup.
 - Existing Git history contains non-anonymous author metadata.
 - Retained canonical run configurations contain workstation hostname fields.
-- The public repository identifies its owner while the manuscript is labeled
-  for anonymous review.
+- The manuscript and citation metadata identify Huadong Lin. If the target
+  venue requires double-blind review, use an approved anonymous mirror.
 
 The Git history/privacy items require an explicit publication decision and
 history rewrite or anonymous mirror. They were not altered silently.
@@ -230,6 +281,7 @@ leakage-safe-bearing-benchmark/
 ├── REPRODUCIBILITY.md
 ├── CLEAN_REPRODUCTION_REPORT.md
 ├── CONSISTENCY_REPORT.md
+├── REFERENCE_LINK_REPORT.md
 ├── FINAL_RELEASE_REPORT.md
 ├── configs/
 │   ├── paderborn_main.json
@@ -275,6 +327,7 @@ leakage-safe-bearing-benchmark/
 │   ├── generate_figures.py
 │   ├── reproduce_all.py
 │   ├── smoke_test.py
+│   ├── audit_internal_links.py
 │   └── audit/consistency scripts
 ├── splits/
 │   ├── README.md
@@ -301,7 +354,7 @@ The complete tracked-file inventory is
 The verified code baseline is:
 
 ```text
-22588f337151faa99fe73cefaf2a3835cd517721
+489f0a0edcf2c2f2449b72e7e98371a86315cecb
 ```
 
 The final release commit is the documentation-only successor containing this
@@ -316,8 +369,9 @@ python scripts/check_manuscript_consistency.py
 python scripts/check_figure_palette.py
 ```
 
-Do not create the public `v1.0.0` tag until the anonymous-review/privacy issue
-is resolved. Once resolved, the recommended release tag is:
+Do not create the public `v1.0.0` tag until the privacy metadata issue and the
+need for a conditional anonymous mirror are resolved. Once resolved, the
+recommended release tag is:
 
 ```text
 v1.0.0

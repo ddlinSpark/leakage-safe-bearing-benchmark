@@ -11,7 +11,7 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 27 | informational |
+| Reachable commits | 28 | informational |
 | Distinct commit author email addresses | 2 | informational |
 | Commits with non-anonymous author email metadata | 14 | privacy review required |
 | Current Git author setting will create anonymous commits | NO | privacy review required |
@@ -21,7 +21,7 @@ the private values.
 | Raw dataset archives/caches in reachable history | 4 | FAIL |
 | Model checkpoints in reachable history | 0 | PASS |
 | Small saved-logit `.npz` diagnostics in history | 822 | INFORMATIONAL |
-| Largest reachable blob | 6.37 MiB | INFORMATIONAL |
+| Largest reachable blob | 6.38 MiB | INFORMATIONAL |
 
 ## Historical match locations
 

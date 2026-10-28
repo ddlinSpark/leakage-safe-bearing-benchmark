@@ -570,7 +570,7 @@ def write_report(payload: dict[str, Any], output: Path) -> None:
             "",
         ]
     )
-    output.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    output.write_text("\n".join(lines), encoding="utf-8")
 
 
 def main() -> None:

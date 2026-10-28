@@ -10,11 +10,11 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       6304  AUDIT_REPORT.md
      11199  CHANGELOG.md
       1013  CITATION.cff
-      4229  CLEAN_REPRODUCTION_REPORT.md
+      4433  CLEAN_REPRODUCTION_REPORT.md
       2101  CONSISTENCY_REPORT.md
       2589  DAMAGE_ORIGIN_ANALYSIS.md
      16876  EXPERIMENT_REPORT.md
-     11734  FINAL_RELEASE_REPORT.md
+     11999  FINAL_RELEASE_REPORT.md
       1367  LICENSE
       4167  PAPER_RESULT_TRACEABILITY.md
       6394  PAPER_REVISION_REPORT.md
@@ -4480,7 +4480,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
        702  results/win_tie_loss.csv
        152  scripts/analyze_sota.py
      12750  scripts/audit_final_manuscript.py
-     23345  scripts/audit_internal_links.py
+     23331  scripts/audit_internal_links.py
        154  scripts/audit_protocol.py
      70036  scripts/audit_release_repository.py
       5700  scripts/audit_sensitivity_results.py

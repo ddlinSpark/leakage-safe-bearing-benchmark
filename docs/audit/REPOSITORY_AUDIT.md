@@ -31,11 +31,11 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `AUDIT_REPORT.md` | 1 | 6.2 KiB |
 | `CHANGELOG.md` | 1 | 10.9 KiB |
 | `CITATION.cff` | 1 | 1013 B |
-| `CLEAN_REPRODUCTION_REPORT.md` | 1 | 4.1 KiB |
+| `CLEAN_REPRODUCTION_REPORT.md` | 1 | 4.3 KiB |
 | `CONSISTENCY_REPORT.md` | 1 | 2.1 KiB |
 | `DAMAGE_ORIGIN_ANALYSIS.md` | 1 | 2.5 KiB |
 | `EXPERIMENT_REPORT.md` | 1 | 16.5 KiB |
-| `FINAL_RELEASE_REPORT.md` | 1 | 11.5 KiB |
+| `FINAL_RELEASE_REPORT.md` | 1 | 11.7 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
 | `PAPER_RESULT_TRACEABILITY.md` | 1 | 4.1 KiB |
 | `PAPER_REVISION_REPORT.md` | 1 | 6.2 KiB |
