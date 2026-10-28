@@ -12,11 +12,17 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def normalized_payload(path: Path) -> bytes:
+    payload = path.read_bytes()
+    if path.suffix.lower() in {".csv", ".json", ".md", ".txt"}:
+        payload = payload.replace(b"\r\n", b"\n")
+    return payload
+
+
 def sha256(path: Path) -> str:
+    payload = normalized_payload(path)
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
-            digest.update(chunk)
+    digest.update(payload)
     return digest.hexdigest()
 
 
@@ -44,6 +50,7 @@ def main() -> None:
     canonical = {
         "schema_version": 1,
         "status": "canonical",
+        "digest_scope": "text normalized to LF",
         "row_contract": {
             "canonical_rows": 320,
             "external_rows": 40,
@@ -60,7 +67,7 @@ def main() -> None:
         if not path.is_file():
             raise FileNotFoundError(path)
         record = {
-            "bytes": path.stat().st_size,
+            "bytes": len(normalized_payload(path)),
             "sha256": sha256(path),
         }
         if path.suffix == ".csv":
@@ -78,13 +85,14 @@ def main() -> None:
         if not path.is_file():
             raise FileNotFoundError(path)
         split_files[f"results/splits/fold{fold}.json"] = {
-            "bytes": path.stat().st_size,
+            "bytes": len(normalized_payload(path)),
             "sha256": sha256(path),
         }
     split_manifest = {
         "schema_version": 1,
         "status": "frozen",
         "authoritative_directory": "results/splits",
+        "digest_scope": "text normalized to LF",
         "files": split_files,
     }
     (splits_dir / "manifest.json").write_text(

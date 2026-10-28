@@ -10,11 +10,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def normalized_payload(path: Path) -> bytes:
+    payload = path.read_bytes()
+    if path.suffix.lower() in {".csv", ".json", ".md", ".txt"}:
+        payload = payload.replace(b"\r\n", b"\n")
+    return payload
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
-            digest.update(chunk)
+    digest.update(normalized_payload(path))
     return digest.hexdigest()
 
 
@@ -61,7 +66,7 @@ def test_canonical_and_split_manifests_match_files() -> None:
     )
     for relative, record in canonical["files"].items():
         path = ROOT / relative
-        assert path.stat().st_size == record["bytes"], relative
+        assert len(normalized_payload(path)) == record["bytes"], relative
         assert sha256(path) == record["sha256"], relative
 
     splits = json.loads(
@@ -70,5 +75,5 @@ def test_canonical_and_split_manifests_match_files() -> None:
     assert splits["authoritative_directory"] == "results/splits"
     for relative, record in splits["files"].items():
         path = ROOT / relative
-        assert path.stat().st_size == record["bytes"], relative
+        assert len(normalized_payload(path)) == record["bytes"], relative
         assert sha256(path) == record["sha256"], relative

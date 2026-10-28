@@ -1,21 +1,22 @@
 {
   "authoritative_directory": "results/splits",
+  "digest_scope": "text normalized to LF",
   "files": {
     "results/splits/fold0.json": {
-      "bytes": 32843,
-      "sha256": "ec9eca1e7cf1680c187398efbadbc9a0f7d0fb47890694b9dc1aec553ca15ec2"
+      "bytes": 30296,
+      "sha256": "d77aaf85b10d4b060fa8e2856e481c23e70243d95344d829853a6cfefb82a50a"
     },
     "results/splits/fold1.json": {
-      "bytes": 33220,
-      "sha256": "e133173e16ad0ec79ebc4afd1b36efce6120500678321e1903a041eeb41c6cd7"
+      "bytes": 30642,
+      "sha256": "7ad3054a187883994f8bef2db56fac64b31dbcc4db7e2307115575ef8d774957"
     },
     "results/splits/fold2.json": {
-      "bytes": 32790,
-      "sha256": "d387015d855f7eee5a69699963254b82aeddbf71e5a853533d3f3544fef8cb7e"
+      "bytes": 30242,
+      "sha256": "f86c59d06ca4177c8975b331d6782521d5c99997467a9a63ed4a73aa233da48b"
     },
     "results/splits/fold3.json": {
-      "bytes": 32790,
-      "sha256": "b4a9e58b3b056110cb1b572f3cd533fc91eea7b8e882eeaa56fb02138635cc25"
+      "bytes": 30242,
+      "sha256": "a12d7119be2184b5ed241c1bfe2801b9d9105c36c67d76eedd824d33bab59ce8"
     }
   },
   "schema_version": 1,

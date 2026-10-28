@@ -51,11 +51,16 @@ def expected_keys() -> set[tuple[int, int]]:
     }
 
 
+def normalized_payload(path: Path) -> bytes:
+    payload = path.read_bytes()
+    if path.suffix.lower() in {".csv", ".json", ".md", ".txt"}:
+        payload = payload.replace(b"\r\n", b"\n")
+    return payload
+
+
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(4 * 1024 * 1024), b""):
-            digest.update(chunk)
+    digest.update(normalized_payload(path))
     return digest.hexdigest()
 
 
@@ -66,7 +71,7 @@ def manifest_matches(root: Path, manifest_path: Path) -> tuple[bool, str]:
         path = root / relative
         if not path.is_file():
             failures.append(f"missing {relative}")
-        elif path.stat().st_size != record["bytes"]:
+        elif len(normalized_payload(path)) != record["bytes"]:
             failures.append(f"size mismatch {relative}")
         elif file_sha256(path) != record["sha256"]:
             failures.append(f"hash mismatch {relative}")
