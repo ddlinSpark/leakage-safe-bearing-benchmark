@@ -8,6 +8,7 @@ import json
 import os
 import tempfile
 from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 
 import numpy as np
 import pandas as pd
@@ -43,6 +44,37 @@ TITLE = (
     "Leakage-Safe Cross-Domain Benchmarking for Bearing Fault Diagnosis: "
     "Time-Frequency Fusion, Calibration, and Self-Training"
 )
+
+FIXED_ZIP_TIMESTAMP = (2013, 12, 23, 23, 15, 0)
+
+
+def normalize_docx_container(path: Path) -> None:
+    """Make OOXML ZIP timestamps deterministic without changing part content."""
+    with tempfile.NamedTemporaryFile(
+        dir=path.parent,
+        prefix=f".{path.stem}.normalized.",
+        suffix=path.suffix,
+        delete=False,
+    ) as temporary_file:
+        normalized_path = Path(temporary_file.name)
+    try:
+        with ZipFile(path, "r") as source, ZipFile(
+            normalized_path,
+            "w",
+            compression=ZIP_DEFLATED,
+            compresslevel=9,
+        ) as target:
+            for entry in source.infolist():
+                payload = source.read(entry)
+                normalized = ZipInfo(entry.filename, FIXED_ZIP_TIMESTAMP)
+                normalized.compress_type = entry.compress_type
+                normalized.external_attr = entry.external_attr
+                normalized.create_system = entry.create_system
+                normalized.comment = entry.comment
+                target.writestr(normalized, payload)
+        os.replace(normalized_path, path)
+    finally:
+        normalized_path.unlink(missing_ok=True)
 
 
 def parse_args() -> argparse.Namespace:
@@ -2491,6 +2523,7 @@ def build_manuscript(
         temporary_path = Path(temporary_file.name)
     try:
         document.save(temporary_path)
+        normalize_docx_container(temporary_path)
         try:
             os.replace(temporary_path, output)
         except PermissionError:

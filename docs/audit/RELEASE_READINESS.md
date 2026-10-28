@@ -12,7 +12,7 @@ run configuration hostnames.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Tests pass | PASS | `36 passed in 2.31s`. |
+| Tests pass | PASS | `36 passed in 2.20s`. |
 | Working tree clean | FAIL | A release must point to a committed revision. |
 | Independent numeric audit | PASS | 0 mismatches. |
 | README complete | FAIL | `docs/audit/REPOSITORY_AUDIT.md`. |

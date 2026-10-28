@@ -107,6 +107,7 @@ def build_supplement(figures_dir: Path, output: Path) -> None:
         title="Supplementary Material: Leakage-Safe Bearing Benchmark",
         author="Anonymous",
         subject="Supplementary figures for the leakage-safe bearing benchmark",
+        invariant=1,
     )
     story = [
         Paragraph("Supplementary Material", title_style),

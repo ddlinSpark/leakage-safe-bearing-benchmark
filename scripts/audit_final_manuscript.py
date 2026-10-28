@@ -186,7 +186,9 @@ def main() -> None:
         / "verify_manuscript_numbers.json"
     )
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    render_dir = root / "artifacts" / "local" / "render" / "final_release"
+    render_dir = root / "artifacts" / "local" / "render" / "release_candidate"
+    if not render_dir.is_dir():
+        render_dir = root / "artifacts" / "local" / "render" / "final_release"
     if not render_dir.is_dir():
         render_dir = root / "artifacts" / "local" / "render" / "final_revision"
     page_count = len(list(render_dir.glob("page-*.png")))
