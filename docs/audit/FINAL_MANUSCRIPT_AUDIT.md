@@ -11,16 +11,16 @@ rendered document contains 30 pages.
 ## Source files
 
 - Final manuscript: `docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx`
-- Final SHA-256: `5e0c69fb6ef555f17b74dd0adea670752153178fc2137906ba4f397736be4605`
+- Final SHA-256: `fbbf8646f60916d55f5001ada7e1c60bfa65fca8107672d2af32159047ae614e`
 - Pre-revision backup:
   `docs/paper/archive/Leakage_Safe_Bearing_Benchmark_SCI_pre_statistics_revision.docx`
 - Backup SHA-256: `4eb5db8ec8a2119cda50bff40caa2049cc0e171debeac04afff82f1c9cfd1d29`
 - Independent audit JSON:
   `artifacts/local/verify_manuscript_numbers.json`
 - Figure hash manifest:
-  `artifacts/local/figure_hashes.json`
+  `figures/publication/figure_hashes.json`
 - Page renders:
-  `artifacts/local/render/final_revision/`
+  `artifacts/local/render/final_release/`
 
 ## Terminology scan
 
@@ -77,7 +77,7 @@ No malformed form such as `p=<` remains.
 
 The remaining blockers are privacy-related, not numerical:
 
-- 14 of 18 Git commits carry non-anonymous
+- 14 of 19 Git commits carry non-anonymous
   author email metadata.
 - 320 of 320 retained canonical run configurations
   contain a workstation hostname field.

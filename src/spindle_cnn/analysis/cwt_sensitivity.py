@@ -17,6 +17,13 @@ from ..analysis.hierarchical import (
     _hierarchical_bootstrap_interval,
 )
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    GRID_COLOR,
+    INK_COLOR,
+    PAPER_COLORS,
+    apply_paper_style,
+    method_color,
+)
 from ..public_benchmark.cwt_sensitivity import VARIANTS
 
 
@@ -31,6 +38,15 @@ LABELS = {
     "scales_32": "32 scales",
     "scales_64": "64 scales",
     "real_imag": "Real + imaginary",
+}
+VARIANT_COLORS = {
+    "baseline": method_color("cwt_cnn"),
+    "no_max_norm": method_color("raw_cnn"),
+    "log_magnitude": method_color("gru_only"),
+    "resolution_128": PAPER_COLORS[2],
+    "scales_32": method_color("cwt_gru_no_se"),
+    "scales_64": PAPER_COLORS[5],
+    "real_imag": method_color("tfnet"),
 }
 
 
@@ -110,14 +126,7 @@ def comparisons(
 
 def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     variants = [variant for variant in VARIANTS if variant in set(summary["variant"])]
     figure, axis = plt.subplots(figsize=(7.2, 3.5), constrained_layout=True)
     x = np.arange(len(variants))
@@ -126,8 +135,8 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
         summary.set_index("variant").reindex(variants)["macro_f1_mean"],
         yerr=summary.set_index("variant").reindex(variants)["macro_f1_sd"],
         capsize=2,
-        color=["#3D3D3D" if value == "baseline" else "#B5B5B5" for value in variants],
-        edgecolor="black",
+        color=[VARIANT_COLORS[value] for value in variants],
+        edgecolor=INK_COLOR,
         linewidth=0.45,
         width=0.66,
     )
@@ -139,7 +148,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     )
     axis.set_ylim(0, 0.55)
     axis.set_ylabel("Held-out test Macro-F1")
-    axis.grid(axis="y", color="0.9", linewidth=0.6)
+    axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_19_cwt_sensitivity.png"
     pdf = output_dir / "figure_19_cwt_sensitivity.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")

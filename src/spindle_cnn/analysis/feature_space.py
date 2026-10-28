@@ -23,6 +23,14 @@ from torch.utils.data import DataLoader
 from ..datasets.splits import balanced_indices, load_fold_indices, set_global_seed
 from ..models.registry import METHODS
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    AUXILIARY_COLORS,
+    GRID_COLOR,
+    INK_COLOR,
+    PAPER_COLORS,
+    apply_paper_style,
+    method_color,
+)
 from ..public_benchmark.cwru_data import CWRUDataset, load_cwru_cache
 from ..public_benchmark.pu_data import CLASS_NAMES, RECORD_ID_TO_BEARING
 from ..training.runner import WindowSet, train_model
@@ -183,17 +191,14 @@ def save_figures(
     tsne_fold: int,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axes = plt.subplots(2, 2, figsize=(7.2, 6.2), constrained_layout=True)
     markers = {"train": "o", "validation": "s", "test": "^"}
-    colors = {"train": "#D0D0D0", "validation": "#808080", "test": "#111111"}
+    colors = {
+        "train": AUXILIARY_COLORS["secondary"],
+        "validation": AUXILIARY_COLORS["reference"],
+        "test": method_color("raw_cnn"),
+    }
     for fold, axis in zip(sorted(fold_arrays), axes.ravel(), strict=True):
         arrays = fold_arrays[fold]
         for split_name in ("train", "validation", "test"):
@@ -211,7 +216,7 @@ def save_figures(
         axis.set_title(f"Fold {fold}", loc="left")
         axis.set_xlabel("PC 1")
         axis.set_ylabel("PC 2")
-        axis.grid(color="0.92", linewidth=0.6)
+        axis.grid(color=GRID_COLOR, linewidth=0.6)
         axis.legend(frameon=False, fontsize=6.5, markerscale=0.8)
     png = output_dir / "figure_22_feature_space_pca.png"
     pdf = output_dir / "figure_22_feature_space_pca.pdf"
@@ -233,7 +238,12 @@ def save_figures(
         random_state=20261028,
     ).fit_transform(arrays["pca_2d"][selected])
     figure, axes = plt.subplots(1, 2, figsize=(7.2, 3.3), constrained_layout=True)
-    class_colors = ["#202020", "#6F6F6F", "#A8A8A8", "#000000"]
+    class_colors = [
+        PAPER_COLORS[0],
+        PAPER_COLORS[1],
+        PAPER_COLORS[3],
+        PAPER_COLORS[10],
+    ]
     class_markers = ["o", "s", "^", "D"]
     for class_id, name in enumerate(CLASS_NAMES):
         mask = arrays["classes"][selected] == class_id
@@ -260,7 +270,7 @@ def save_figures(
             manifold[mask, 1],
             s=14,
             color=class_colors[index],
-            edgecolors="black",
+            edgecolors=INK_COLOR,
             linewidths=0.2,
             label=bearing,
         )
@@ -275,6 +285,23 @@ def save_figures(
     figure.savefig(png, dpi=320, bbox_inches="tight")
     figure.savefig(pdf, bbox_inches="tight")
     plt.close(figure)
+
+
+def load_embeddings(embedding_dir: Path, folds: list[int]) -> dict[int, dict[str, np.ndarray]]:
+    """Load retained embeddings for deterministic figure-only reproduction."""
+    arrays_by_fold: dict[int, dict[str, np.ndarray]] = {}
+    for fold in folds:
+        path = embedding_dir / f"fold{fold}.npz"
+        if not path.is_file():
+            raise FileNotFoundError(
+                f"Retained feature embeddings are missing: {path}"
+            )
+        with np.load(path, allow_pickle=True) as source:
+            arrays_by_fold[fold] = {
+                key: source[key].copy()
+                for key in source.files
+            }
+    return arrays_by_fold
 
 
 def parse_args() -> argparse.Namespace:
@@ -297,6 +324,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--epochs", type=int, default=12)
     parser.add_argument("--tsne-fold", type=int, default=0)
+    parser.add_argument(
+        "--reuse-embeddings",
+        action="store_true",
+        help="Rebuild figures from retained results/feature_embeddings/*.npz.",
+    )
     return parser.parse_args()
 
 
@@ -305,14 +337,29 @@ def main() -> None:
     import json
 
     config = json.loads(args.config.read_text(encoding="utf-8"))
+    embedding_dir = args.results_dir / "feature_embeddings"
+    embedding_dir.mkdir(parents=True, exist_ok=True)
+    folds = [0, 1, 2, 3]
+    if args.reuse_embeddings:
+        metric_path = args.results_dir / "feature_space_clustering.csv"
+        if not metric_path.is_file():
+            raise FileNotFoundError(metric_path)
+        metric_frame = pd.read_csv(metric_path)
+        save_figures(
+            load_embeddings(embedding_dir, folds),
+            metric_frame,
+            args.figures_dir,
+            tsne_fold=args.tsne_fold,
+        )
+        print(metric_frame.to_string(index=False))
+        return
+
     cache = (PROJECT_ROOT / config["dataset"]["cache"]).resolve()
     data = load_cwru_cache(cache)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    embedding_dir = args.results_dir / "feature_embeddings"
-    embedding_dir.mkdir(parents=True, exist_ok=True)
     metrics = []
     fold_arrays = {}
-    for fold in range(4):
+    for fold in folds:
         fold_metrics, arrays = analyze_fold(
             data,
             fold=fold,

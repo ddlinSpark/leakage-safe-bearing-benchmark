@@ -1,0 +1,9 @@
+*.pdf binary
+*.docx binary
+*.png binary
+*.npz binary
+*.pt binary
+*.pth binary
+*.ckpt binary
+*.onnx binary
+*.safetensors binary

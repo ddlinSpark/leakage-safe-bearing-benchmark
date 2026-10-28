@@ -112,7 +112,9 @@ def count_hostname_fields(root: Path) -> tuple[int, int]:
 
 def verify_figure_hashes(root: Path) -> tuple[int, int, int, list[str]]:
     publication = root / "figures" / "publication"
-    manifest_path = root / "artifacts" / "local" / "figure_hashes.json"
+    manifest_path = publication / "figure_hashes.json"
+    if not manifest_path.is_file():
+        manifest_path = root / "artifacts" / "local" / "figure_hashes.json"
     publication_pngs = len(list(publication.glob("*.png")))
     if not manifest_path.is_file():
         return 0, 0, publication_pngs, ["figure hash manifest is missing"]
@@ -184,7 +186,9 @@ def main() -> None:
         / "verify_manuscript_numbers.json"
     )
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    render_dir = root / "artifacts" / "local" / "render" / "final_revision"
+    render_dir = root / "artifacts" / "local" / "render" / "final_release"
+    if not render_dir.is_dir():
+        render_dir = root / "artifacts" / "local" / "render" / "final_revision"
     page_count = len(list(render_dir.glob("page-*.png")))
     a11y_path = render_dir / "a11y_report.json"
     a11y = (
@@ -199,6 +203,15 @@ def main() -> None:
     figures_compared, figures_matched, publication_pngs, figure_failures = (
         verify_figure_hashes(root)
     )
+    manifest_path = (
+        root / "figures" / "publication" / "figure_hashes.json"
+    )
+    manifest_display = (
+        "figures/publication/figure_hashes.json"
+        if manifest_path.is_file()
+        else "artifacts/local/figure_hashes.json"
+    )
+    render_display = render_dir.relative_to(root).as_posix()
     numerical_pass = audit.get("status") == "PASS"
     figures_pass = (
         figures_compared == figures_matched
@@ -273,9 +286,9 @@ rendered document contains {page_count} pages.
 - Independent audit JSON:
   `artifacts/local/verify_manuscript_numbers.json`
 - Figure hash manifest:
-  `artifacts/local/figure_hashes.json`
+  `{manifest_display}`
 - Page renders:
-  `artifacts/local/render/final_revision/`
+  `{render_display}/`
 
 ## Terminology scan
 

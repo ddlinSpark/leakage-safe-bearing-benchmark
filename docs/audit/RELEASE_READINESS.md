@@ -12,7 +12,7 @@ run configuration hostnames.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Tests pass | PASS | `30 passed in 2.00s`. |
+| Tests pass | PASS | `33 passed in 2.12s`. |
 | Working tree clean | FAIL | A release must point to a committed revision. |
 | Independent numeric audit | PASS | 0 mismatches. |
 | README complete | PASS | `docs/audit/REPOSITORY_AUDIT.md`. |
@@ -30,6 +30,7 @@ run configuration hostnames.
 
 - Remove/expose-control personal commit metadata and workstation hostnames before anonymous public release.
 - Commit the audited release candidate so the release points to a clean immutable revision.
+- Remove redistributable-restricted raw data or model checkpoints.
 
 ## Non-blocking follow-up
 

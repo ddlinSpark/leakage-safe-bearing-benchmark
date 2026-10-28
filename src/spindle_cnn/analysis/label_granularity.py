@@ -20,6 +20,12 @@ from sklearn.metrics import (
 
 from ..evaluation.calibration import probabilities_from_logits
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    GRID_COLOR,
+    INK_COLOR,
+    PAPER_COLORS,
+    apply_paper_style,
+)
 
 
 METHOD_LABELS = {
@@ -132,19 +138,12 @@ def audit_run(results_dir: Path, row: pd.Series) -> list[dict[str, Any]]:
 
 def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axis = plt.subplots(figsize=(7.2, 3.5), constrained_layout=True)
     methods = [method for method in PRINCIPAL_METHODS if method in set(summary["method"])]
     granularities = ["four_class", "three_class", "binary"]
     labels = ["Four-class", "Healthy / single / multiple", "Healthy / fault"]
-    colors = ["#3F3F3F", "#8A8A8A", "#D0D0D0"]
+    colors = [PAPER_COLORS[0], PAPER_COLORS[3], PAPER_COLORS[8]]
     x = np.arange(len(methods))
     width = 0.25
     for index, (granularity, label, color) in enumerate(
@@ -162,7 +161,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
             yerr=selected["macro_f1_sd"],
             capsize=2,
             color=color,
-            edgecolor="black",
+            edgecolor=INK_COLOR,
             linewidth=0.45,
             label=label,
         )
@@ -174,7 +173,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     )
     axis.set_ylabel("Macro-F1")
     axis.set_ylim(0, 1.04)
-    axis.grid(axis="y", color="0.9", linewidth=0.6)
+    axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     axis.legend(frameon=False, ncol=3, fontsize=7)
     figure.savefig(
         output_dir / "figure_16_label_granularity.png",

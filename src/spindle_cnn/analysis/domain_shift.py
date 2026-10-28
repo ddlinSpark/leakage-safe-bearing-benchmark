@@ -16,6 +16,13 @@ from scipy import stats
 
 from ..datasets.splits import load_fold_indices
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    GRID_COLOR,
+    INK_COLOR,
+    MUTED_COLOR,
+    PAPER_COLORS,
+    apply_paper_style,
+)
 from ..public_benchmark.pu_data import (
     CLASS_NAMES,
     CONDITION_TO_LOAD,
@@ -299,15 +306,26 @@ def save_plot(
     output_dir: Path,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axes = plt.subplots(2, 2, figsize=(7.2, 5.3), constrained_layout=True)
+    bearing_colors = [
+        PAPER_COLORS[0],
+        PAPER_COLORS[1],
+        PAPER_COLORS[3],
+        PAPER_COLORS[8],
+    ]
+    condition_colors = [
+        PAPER_COLORS[0],
+        PAPER_COLORS[1],
+        PAPER_COLORS[3],
+        PAPER_COLORS[4],
+    ]
+
+    def color_boxes(axis: plt.Axes, colors: list[str]) -> None:
+        for patch, color in zip(axis.patches, colors, strict=True):
+            patch.set_facecolor(color)
+            patch.set_edgecolor(INK_COLOR)
+            patch.set_linewidth(0.6)
 
     vibration = split_metrics.loc[
         split_metrics["channel"].eq("vibration_1")
@@ -319,7 +337,15 @@ def save_plot(
         test_rows.loc[test_rows["bearing_code"].eq(code), "rms"].to_numpy()
         for code in bearings
     ]
-    axes[0, 0].boxplot(data, positions=positions, widths=0.62, showfliers=False)
+    axes[0, 0].boxplot(
+        data,
+        positions=positions,
+        widths=0.62,
+        showfliers=False,
+        patch_artist=True,
+        medianprops={"color": INK_COLOR, "linewidth": 0.8},
+    )
+    color_boxes(axes[0, 0], bearing_colors)
     axes[0, 0].set_xticks(positions, bearings, rotation=35, ha="right")
     axes[0, 0].set_ylabel("RMS (source units)")
     axes[0, 0].set_title("(a) Test-bearing amplitude", loc="left")
@@ -337,7 +363,10 @@ def save_plot(
         positions=np.arange(len(conditions)),
         widths=0.62,
         showfliers=False,
+        patch_artist=True,
+        medianprops={"color": INK_COLOR, "linewidth": 0.8},
     )
+    color_boxes(axes[0, 1], condition_colors)
     axes[0, 1].set_xticks(
         np.arange(len(conditions)),
         [condition.replace("_", "\n") for condition in conditions],
@@ -357,7 +386,10 @@ def save_plot(
         positions=np.arange(len(conditions)),
         widths=0.62,
         showfliers=False,
+        patch_artist=True,
+        medianprops={"color": INK_COLOR, "linewidth": 0.8},
     )
+    color_boxes(axes[1, 0], condition_colors)
     axes[1, 0].set_xticks(
         np.arange(len(conditions)),
         [condition.replace("_", "\n") for condition in conditions],
@@ -387,20 +419,26 @@ def save_plot(
         for metric in selected_metrics
     ]
     axis = axes[1, 1]
-    axis.axvline(0, color="0.55", linewidth=0.8, linestyle="--")
-    axis.boxplot(
+    axis.axvline(0, color=MUTED_COLOR, linewidth=0.8, linestyle="--")
+    boxplot = axis.boxplot(
         values,
         positions=np.arange(len(selected_metrics)),
         vert=False,
         widths=0.62,
         showfliers=False,
+        patch_artist=True,
+        medianprops={"color": INK_COLOR, "linewidth": 0.8},
     )
+    for patch in boxplot["boxes"]:
+        patch.set_facecolor(PAPER_COLORS[8])
+        patch.set_edgecolor(INK_COLOR)
+        patch.set_linewidth(0.6)
     axis.set_yticks(np.arange(len(selected_metrics)), labels)
     axis.set_xlabel("Standardized train-to-test difference")
     axis.set_title("(d) Shift across four folds", loc="left")
 
     for axis in axes.flat:
-        axis.grid(axis="y", color="0.9", linewidth=0.6, zorder=0)
+        axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6, zorder=0)
     png_path = output_dir / "figure_13_domain_shift_diagnostics.png"
     pdf_path = output_dir / "figure_13_domain_shift_diagnostics.pdf"
     figure.savefig(png_path, dpi=320, bbox_inches="tight")

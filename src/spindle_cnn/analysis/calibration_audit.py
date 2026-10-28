@@ -16,6 +16,14 @@ import pandas as pd
 from ..evaluation.calibration import probabilities_from_logits
 from ..evaluation.metrics import metrics_from_logits
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    AUXILIARY_COLORS,
+    GRID_COLOR,
+    INK_COLOR,
+    MUTED_COLOR,
+    apply_paper_style,
+    method_color,
+)
 
 
 METHOD_LABELS = {
@@ -227,19 +235,21 @@ def save_figures(
     output_dir: Path,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axes = plt.subplots(2, 2, figsize=(7.2, 6.2), constrained_layout=True)
     axes = axes.ravel()
-    colors = {"before": "#4D4D4D", "after": "#9A9A9A"}
+    colors = {
+        "before": AUXILIARY_COLORS["reference"],
+        "after": method_color("cwt_gru_temp"),
+    }
     for fold, axis in zip(sorted(fold_bins["fold"].unique()), axes, strict=True):
-        axis.plot([0, 1], [0, 1], color="0.65", linewidth=0.8, linestyle="--")
+        axis.plot(
+            [0, 1],
+            [0, 1],
+            color=MUTED_COLOR,
+            linewidth=0.8,
+            linestyle="--",
+        )
         for source in ("before", "after"):
             part = fold_bins.loc[
                 fold_bins["fold"].eq(fold) & fold_bins["source"].eq(source)
@@ -260,7 +270,7 @@ def save_figures(
         axis.set_title(f"Fold {fold}", loc="left")
         axis.set_xlabel("Confidence")
         axis.set_ylabel("Accuracy")
-        axis.grid(color="0.9", linewidth=0.6)
+        axis.grid(color=GRID_COLOR, linewidth=0.6)
         axis.legend(frameon=False, fontsize=7)
     png = output_dir / "figure_14_per_fold_reliability.png"
     pdf = output_dir / "figure_14_per_fold_reliability.pdf"
@@ -285,12 +295,26 @@ def save_figures(
         selected.loc[selected["model"].eq(method), "fitted_temperature"].to_numpy()
         for method in methods
     ]
-    axis.boxplot(
+    boxplot = axis.boxplot(
         data,
         positions=np.arange(len(methods)),
         widths=0.58,
         showfliers=True,
+        patch_artist=True,
+        medianprops={"color": INK_COLOR, "linewidth": 1.0},
+        whiskerprops={"color": INK_COLOR},
+        capprops={"color": INK_COLOR},
+        flierprops={
+            "marker": "o",
+            "markersize": 2.5,
+            "markerfacecolor": MUTED_COLOR,
+            "markeredgecolor": MUTED_COLOR,
+        },
     )
+    for patch, method in zip(boxplot["boxes"], methods, strict=True):
+        patch.set_facecolor(method_color(method))
+        patch.set_edgecolor(INK_COLOR)
+        patch.set_linewidth(0.7)
     axis.set_xticks(
         np.arange(len(methods)),
         [METHOD_LABELS[method] for method in methods],
@@ -298,7 +322,7 @@ def save_figures(
         ha="right",
     )
     axis.set_ylabel("Validation-fitted temperature")
-    axis.grid(axis="y", color="0.9", linewidth=0.6)
+    axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_15_temperature_distribution.png"
     pdf = output_dir / "figure_15_temperature_distribution.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")

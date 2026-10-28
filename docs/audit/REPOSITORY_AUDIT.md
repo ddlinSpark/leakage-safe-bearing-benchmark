@@ -10,9 +10,9 @@ documented in `docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md`.
 
 ## Repository scale
 
-- Candidate files: 4553
-- Candidate size: 34.32 MiB
-- Large files at or above 1 MB: 1
+- Candidate files: 4569
+- Candidate size: 49.85 MiB
+- Large files at or above 1 MB: 7
 - Saved-logit prediction archives: 822
   (8.58 MiB total; diagnostic, not model weights)
 - Canonical result rows: 320
@@ -27,32 +27,34 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | --- | ---: | ---: |
 | `.gitignore` | 1 | 1.5 KiB |
 | `AUDIT_REPORT.md` | 1 | 6.2 KiB |
-| `CHANGELOG.md` | 1 | 10.0 KiB |
+| `CHANGELOG.md` | 1 | 10.9 KiB |
 | `CITATION.cff` | 1 | 985 B |
 | `CLEAN_REPRODUCTION_REPORT.md` | 1 | 9.4 KiB |
+| `CONSISTENCY_REPORT.md` | 1 | 1.9 KiB |
 | `DAMAGE_ORIGIN_ANALYSIS.md` | 1 | 2.5 KiB |
 | `EXPERIMENT_REPORT.md` | 1 | 16.5 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
 | `PAPER_RESULT_TRACEABILITY.md` | 1 | 4.1 KiB |
 | `PAPER_REVISION_REPORT.md` | 1 | 6.2 KiB |
-| `README.md` | 1 | 17.2 KiB |
+| `README.md` | 1 | 18.4 KiB |
 | `REPRODUCE.md` | 1 | 10.1 KiB |
-| `REPRODUCIBILITY.md` | 1 | 11.6 KiB |
+| `REPRODUCIBILITY.md` | 1 | 13.7 KiB |
 | `REPRODUCTION_REPORT.md` | 1 | 3.1 KiB |
 | `RESULT_CHANGELOG.md` | 1 | 2.2 KiB |
 | `SECOND_DATASET_ASSESSMENT.md` | 1 | 3.6 KiB |
 | `configs` | 5 | 5.2 KiB |
 | `data` | 6 | 9.5 KiB |
-| `docs` | 33 | 151.0 KiB |
+| `docs` | 34 | 6.52 MiB |
 | `environment.yml` | 1 | 125 B |
-| `figures` | 49 | 8.23 MiB |
+| `figures` | 50 | 8.20 MiB |
+| `manuscript` | 3 | 4.64 MiB |
 | `pyproject.toml` | 1 | 2.7 KiB |
 | `reports` | 6 | 564.9 KiB |
 | `requirements.txt` | 1 | 266 B |
-| `results` | 4336 | 24.50 MiB |
-| `scripts` | 25 | 230.2 KiB |
-| `src` | 66 | 543.7 KiB |
-| `tests` | 8 | 14.2 KiB |
+| `results` | 4340 | 28.99 MiB |
+| `scripts` | 28 | 251.6 KiB |
+| `src` | 68 | 552.8 KiB |
+| `tests` | 9 | 16.9 KiB |
 
 ## Logical source layout
 
@@ -158,7 +160,7 @@ claim state-of-the-art performance.
   sampling rate, windows, stride, conditions, measurements, and commands.
 - **Raw data are not redistributed.**
 - No raw Paderborn or CWRU data files are tracked.
-- Current raw-data archive/cache candidates: 0.
+- Current raw-data archive/cache candidates: 4.
 - The cache `.npz` is ignored; the small dimensionality metadata JSON is
   retained so tables can be audited without redistributing signals.
 - The MIT license is present and limited to software/documentation.

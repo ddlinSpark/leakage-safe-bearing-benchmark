@@ -12,16 +12,24 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    AUXILIARY_COLORS,
+    INK_COLOR,
+    MUTED_COLOR,
+    PAPER_COLORS,
+    apply_paper_style,
+    method_color,
+)
 
 
-BLUE = "#315A8A"
-PALE_BLUE = "#EAF0F7"
-ORANGE = "#B45F3C"
-PALE_ORANGE = "#F7ECE7"
-GRAY = "#555555"
-PALE_GRAY = "#F3F3F3"
-GREEN = "#557A67"
-PALE_GREEN = "#EDF4EF"
+BLUE = method_color("raw_cnn")
+PALE_BLUE = AUXILIARY_COLORS["reference"]
+ORANGE = method_color("cwt_gru_selftrain")
+PALE_ORANGE = PAPER_COLORS[7]
+GRAY = MUTED_COLOR
+PALE_GRAY = PAPER_COLORS[6]
+GREEN = method_color("cwt_cnn")
+PALE_GREEN = AUXILIARY_COLORS["secondary"]
 
 
 def parse_args() -> argparse.Namespace:
@@ -32,18 +40,6 @@ def parse_args() -> argparse.Namespace:
         default=PROJECT_ROOT / "figures" / "publication",
     )
     return parser.parse_args()
-
-
-def setup_style() -> None:
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 9,
-            "axes.linewidth": 0.8,
-            "savefig.dpi": 600,
-            "savefig.bbox": "tight",
-        }
-    )
 
 
 def box(
@@ -79,7 +75,7 @@ def box(
             va="center",
             fontsize=title_size,
             fontweight="bold",
-            color="black",
+            color=INK_COLOR,
         )
         ax.text(
             x + width / 2,
@@ -88,7 +84,7 @@ def box(
             ha="center",
             va="center",
             fontsize=body_size,
-            color="#222222",
+            color=INK_COLOR,
             linespacing=1.25,
         )
     else:
@@ -99,7 +95,7 @@ def box(
             ha="center",
             va="center",
             fontsize=title_size,
-            color="black",
+            color=INK_COLOR,
             linespacing=1.25,
         )
 
@@ -500,7 +496,7 @@ def self_training_pipeline(output_dir: Path) -> None:
 
 def main() -> None:
     args = parse_args()
-    setup_style()
+    apply_paper_style(font_size=9)
     overall_framework(args.output_dir)
     cwt_gru_architecture(args.output_dir)
     self_training_pipeline(args.output_dir)

@@ -260,9 +260,22 @@ seed 42 and applies PCA/t-SNE only after fitting.
 ```powershell
 python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publication
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
+python -m spindle_cnn.analysis.domain_shift --figures-dir figures/publication
+python -m spindle_cnn.analysis.label_granularity --figures-dir figures/publication
+python -m spindle_cnn.analysis.cwt_sensitivity --figures-dir figures/publication
+python -m spindle_cnn.analysis.self_training --figures-dir figures/publication
+python -m spindle_cnn.analysis.feature_space `
+  --figures-dir figures/publication `
+  --reuse-embeddings
+python -m spindle_cnn.analysis.calibration_audit --figures-dir figures/publication
+python -m spindle_cnn.analysis.baseline_tuning --figures-dir figures/publication
+python -m spindle_cnn.analysis.foldwise --figures-dir figures/publication
+python -m spindle_cnn.analysis.training_budget --figures-dir figures/publication
+python -m spindle_cnn.analysis.normalization_sensitivity --figures-dir figures/publication
 python scripts/build_experiment_registry.py
 python scripts/audit_sensitivity_results.py
 python scripts/hash_publication_figures.py
+python scripts/check_figure_palette.py
 python scripts/build_paper_metrics.py
 python -m spindle_cnn.paper.build_docx `
   --results-dir results `
@@ -270,9 +283,35 @@ python -m spindle_cnn.paper.build_docx `
   --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
 python scripts/audit_submission.py --json-output artifacts/local/pre_submission_audit.json
 python scripts/verify_manuscript_numbers.py
+python scripts/check_manuscript_consistency.py
 python scripts/audit_final_manuscript.py
 python -m pytest -q tests
 ```
+
+All figure modules import the shared palette and style from
+`src/spindle_cnn/plotting/style.py`. `check_figure_palette.py` verifies palette
+adoption, 24 PNG/PDF pairs, minimum 300 DPI metadata, and the tracked SHA-256
+manifest.
+
+Render the audited DOCX to PDF, then assemble the submission files:
+
+```powershell
+$soffice = "C:\Program Files\LibreOffice\program\soffice.exe"
+& $soffice --headless --convert-to pdf `
+  --outdir artifacts/local/render/final_release `
+  docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
+python scripts/build_submission_pdfs.py `
+  --manuscript-pdf artifacts/local/render/final_release/Leakage_Safe_Bearing_Benchmark_SCI_final.pdf `
+  --figures-dir figures/publication `
+  --output-dir manuscript
+```
+
+On Windows, LibreOffice `soffice.exe` must be available on the current
+`PATH`. The recorded render used LibreOffice 26.8.1.1. The resulting
+`manuscript/manuscript.pdf` has 30 A4 pages and
+`manuscript/supplementary.pdf` has five pages.
+The main manuscript was rendered to PNG and all 30 pages were visually
+inspected; the five supplement pages were likewise rendered and inspected.
 
 ## Output integrity rules
 
@@ -324,6 +363,8 @@ python -m spindle_cnn.paper.build_docx `
   --figures-dir figures/publication `
   --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
 python scripts/verify_manuscript_numbers.py
+python scripts/check_figure_palette.py
+python scripts/check_manuscript_consistency.py
 ```
 
 Use `core.longpaths=true` on Windows when the clone path is deep. The final

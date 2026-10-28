@@ -6,9 +6,8 @@ The current complete manuscript is:
 docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
 ```
 
-It is generated from the canonical five-seed results and is intentionally
-ignored by Git as a binary deliverable. The reproducible source is
-`src/spindle_cnn/paper/build_docx.py`.
+It is generated from the canonical five-seed results and tracked in the final
+release. The reproducible source is `src/spindle_cnn/paper/build_docx.py`.
 
 The pre-statistics revision is retained at:
 
@@ -28,6 +27,14 @@ Supporting records:
 - `SECOND_DATASET_ASSESSMENT.md`: candidate external-validity assessment.
 - `docs/paper/TABLE_SOURCES.md`: manuscript table-to-file provenance.
 - `docs/paper/FIGURE_SOURCES.md`: figure-to-generator mapping.
+- `figures/publication/figure_hashes.json`: SHA-256 and byte-size manifest for
+  all 24 PNG/PDF figure pairs.
+- `src/spindle_cnn/plotting/style.py`: shared 11-color journal palette and
+  visual style used by every figure generator.
+- `manuscript/manuscript.pdf`: rendered main manuscript.
+- `manuscript/supplementary.pdf`: standalone Figures S1-S5.
+- `CONSISTENCY_REPORT.md`: automated run-count, metric, statistical, parameter,
+  fold, seed, and DOCX consistency checks.
 - `PAPER_REPRODUCIBILITY.md`: complete rebuild and audit procedure.
 
 The earlier local file

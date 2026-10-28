@@ -65,6 +65,7 @@ docs/
 ├── audit/                       # release, leakage, provenance, and privacy audits
 └── paper/                       # paper mapping, analysis, and reproducibility notes
 figures/                         # generated publication figures
+manuscript/                      # rendered manuscript and supplementary PDFs
 results/                         # canonical CSV and per-run audit records
 scripts/                         # thin executable wrappers
 src/spindle_cnn/
@@ -75,6 +76,7 @@ src/spindle_cnn/
 ├── evaluation/                  # metrics, calibration, FLOPs, latency
 ├── experiments/                 # unified runners and figures
 ├── analysis/                    # CIs, paired tests, ablation summaries
+├── plotting/                    # shared journal palette and visual style
 └── public_benchmark/            # public data preparation
 tests/                           # split, model, metric, and registry tests
 ```
@@ -211,6 +213,9 @@ PYTHONPATH=src python -m spindle_cnn.experiments.make_figures \
   --results-dir results \
   --output-dir figures/publication
 
+PYTHONPATH=src python scripts/hash_publication_figures.py
+PYTHONPATH=src python scripts/check_figure_palette.py
+
 PYTHONPATH=src python -m spindle_cnn.analysis.recheck_run \
   --results-dir results --all
 
@@ -236,10 +241,17 @@ python -m spindle_cnn.analysis.report --results-dir results
 python -m spindle_cnn.analysis.sota --results-dir results --external-dir results/sota
 python -m spindle_cnn.experiments.make_method_figures --output-dir figures/publication
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
+python scripts/hash_publication_figures.py
+python scripts/check_figure_palette.py
 python -m spindle_cnn.analysis.recheck_run --results-dir results --all
 python -m spindle_cnn.analysis.recheck_run --results-dir results/sota --all
 python -m spindle_cnn.paper.build_docx --results-dir results --figures-dir figures/publication --output docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx
 ```
+
+All plotting modules import `src/spindle_cnn/plotting/style.py`. This file is the
+single source of the prescribed 11-color palette, fixed model colors, typography,
+grid treatment, and white-background export settings. Figure hashes are retained
+in `figures/publication/figure_hashes.json`.
 
 The manuscript workflow, source mapping, and validation steps are documented in
 [docs/paper/PAPER_REPRODUCIBILITY.md](docs/paper/PAPER_REPRODUCIBILITY.md).
@@ -263,6 +275,10 @@ Run the independent numerical and manuscript audit with:
 $env:PYTHONPATH = "src"
 python scripts/audit_submission.py `
   --json-output artifacts/local/pre_submission_audit.json
+python scripts/verify_manuscript_numbers.py
+python scripts/check_manuscript_consistency.py
+python scripts/check_figure_palette.py
+python scripts/audit_release_repository.py
 python scripts/audit_final_manuscript.py
 ```
 
@@ -275,6 +291,19 @@ The current reports are:
 - [STATISTICAL_SENSITIVITY_REPORT.md](docs/audit/STATISTICAL_SENSITIVITY_REPORT.md)
 - [FINAL_STATISTICAL_AUDIT.md](docs/audit/FINAL_STATISTICAL_AUDIT.md)
 - [FINAL_MANUSCRIPT_AUDIT.md](docs/audit/FINAL_MANUSCRIPT_AUDIT.md)
+- [CONSISTENCY_REPORT.md](CONSISTENCY_REPORT.md)
+
+After rendering the final DOCX, assemble the submission PDFs with:
+
+```powershell
+python scripts/build_submission_pdfs.py `
+  --manuscript-pdf artifacts/local/render/final_release/Leakage_Safe_Bearing_Benchmark_SCI_final.pdf `
+  --figures-dir figures/publication `
+  --output-dir manuscript
+```
+
+The submission files are `manuscript/manuscript.pdf` and
+`manuscript/supplementary.pdf`.
 
 The runner refuses a dirty worktree unless `--allow-dirty` is passed. Such runs
 are marked exploratory in every row. Resume is allowed only for an exact

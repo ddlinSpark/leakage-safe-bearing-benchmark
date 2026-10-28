@@ -2,6 +2,25 @@
 
 Date: 2026-10-28
 
+## Final submission packaging
+
+- Added one centralized 11-color publication palette and fixed model-color
+  mapping in `src/spindle_cnn/plotting/style.py`; all 12 plotting modules now
+  use the same typography, grid, line, error-bar, and white-background style.
+- Regenerated all 24 PNG/PDF figure pairs without changing experiment data and
+  recorded their byte sizes and SHA-256 values in the tracked
+  `figures/publication/figure_hashes.json` manifest.
+- Added automated palette and evidence-chain checks in
+  `scripts/check_figure_palette.py` and
+  `scripts/check_manuscript_consistency.py`.
+- Retained compact feature embeddings for deterministic figure-only PCA/t-SNE
+  reproduction without retraining.
+- Rendered the 30-page main manuscript and assembled a five-page standalone
+  supplementary PDF containing Figures S1-S5.
+- Rebuilt the final DOCX from the canonical result files, inspected all 30
+  rendered pages, and retained zero numerical-table mismatches and zero
+  accessibility findings.
+
 ## Cross-domain evidence revision
 
 - Restored and checksum-verified all 16 selected Paderborn archives, rebuilt

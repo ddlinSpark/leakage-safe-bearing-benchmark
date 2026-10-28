@@ -14,6 +14,14 @@ import pandas as pd
 
 from ..analysis.hierarchical import _hierarchical_bootstrap_interval
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    AUXILIARY_COLORS,
+    GRID_COLOR,
+    INK_COLOR,
+    MUTED_COLOR,
+    apply_paper_style,
+    method_color,
+)
 
 
 METHOD_LABELS = {
@@ -39,21 +47,24 @@ def paired_delta(
 
 def save_figure(comparison: pd.DataFrame, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axis = plt.subplots(figsize=(7.2, 3.4), constrained_layout=True)
     methods = list(METHOD_LABELS)
     x = np.arange(len(methods))
-    axis.axhline(0, color="0.55", linewidth=0.8, linestyle="--")
+    axis.axhline(0, color=MUTED_COLOR, linewidth=0.8, linestyle="--")
     for offset, metric, color, label in (
-        (-0.18, "validation_delta_mean", "#4D4D4D", "Validation"),
-        (0.18, "test_delta_mean", "#B0B0B0", "Held-out test"),
+        (
+            -0.18,
+            "validation_delta_mean",
+            AUXILIARY_COLORS["reference"],
+            "Validation",
+        ),
+        (
+            0.18,
+            "test_delta_mean",
+            method_color("cwt_gru_temp"),
+            "Held-out test",
+        ),
     ):
         selected = comparison.set_index("method").reindex(methods)
         axis.bar(
@@ -63,13 +74,13 @@ def save_figure(comparison: pd.DataFrame, output_dir: Path) -> None:
             capsize=2,
             width=0.34,
             color=color,
-            edgecolor="black",
+            edgecolor=INK_COLOR,
             linewidth=0.45,
             label=label,
         )
     axis.set_xticks(x, [METHOD_LABELS[method] for method in methods], rotation=18, ha="right")
     axis.set_ylabel("30-epoch minus 12-epoch Macro-F1")
-    axis.grid(axis="y", color="0.9", linewidth=0.6)
+    axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     axis.legend(frameon=False)
     png = output_dir / "figure_21_training_budget.png"
     pdf = output_dir / "figure_21_training_budget.pdf"

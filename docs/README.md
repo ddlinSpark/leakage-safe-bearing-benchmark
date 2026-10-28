@@ -9,6 +9,8 @@
 | [paper/PAPER_REPRODUCIBILITY.md](paper/PAPER_REPRODUCIBILITY.md) | 论文构建与数值验证流程 |
 | [paper/PAPER_CODE_MAPPING.md](paper/PAPER_CODE_MAPPING.md) | 论文方法、RQ、代码、配置、结果和图表映射 |
 | [paper/FIGURE_PROVENANCE.md](paper/FIGURE_PROVENANCE.md) | Figure 1-12 与生成脚本及输入数据 |
+| [../figures/publication/figure_hashes.json](../figures/publication/figure_hashes.json) | 全部 publication 图件的 SHA-256 与字节大小清单 |
+| [../CONSISTENCY_REPORT.md](../CONSISTENCY_REPORT.md) | 自动检查 run 数量、模型、指标、区间、参数、fold、seed 与 DOCX 一致性 |
 | [paper/TABLE_PROVENANCE.md](paper/TABLE_PROVENANCE.md) | Table 1-13 与生成脚本及聚合规则 |
 | [audit/REPOSITORY_AUDIT.md](audit/REPOSITORY_AUDIT.md) | 仓库结构、README、依赖和数据许可审计 |
 | [audit/LEAKAGE_FINAL_CHECK.md](audit/LEAKAGE_FINAL_CHECK.md) | 最新 split、训练、伪标签和校准泄漏检查 |
@@ -20,3 +22,5 @@
 | [../results/EXPERIMENT_REPORT.md](../results/EXPERIMENT_REPORT.md) | 当前五-Seed 实验结果、区间与配对检验 |
 
 论文正文位于 `docs/paper/`，参考文献位于 `docs/references/`。
+投稿 PDF 位于 `manuscript/`，全部图件统一使用
+`src/spindle_cnn/plotting/style.py` 中的 palette。

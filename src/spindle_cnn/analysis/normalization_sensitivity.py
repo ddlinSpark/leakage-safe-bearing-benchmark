@@ -14,6 +14,12 @@ import pandas as pd
 
 from ..analysis.hierarchical import _hierarchical_bootstrap_interval
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    AUXILIARY_COLORS,
+    GRID_COLOR,
+    INK_COLOR,
+    apply_paper_style,
+)
 
 
 METHODS = ["raw_cnn", "cwt_cnn", "cwt_gru"]
@@ -44,20 +50,23 @@ def load_frames(
 
 def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axes = plt.subplots(1, 3, figsize=(7.2, 3.0), constrained_layout=True)
     width = 0.34
     x = np.arange(len(METHODS))
     for offset, normalization, color, label in (
-        (-0.18, "A_window_zscore", "#3D3D3D", "A: window z-score"),
-        (0.18, "B_training_statistics", "#B5B5B5", "B: training statistics"),
+        (
+            -0.18,
+            "A_window_zscore",
+            AUXILIARY_COLORS["reference"],
+            "A: window z-score",
+        ),
+        (
+            0.18,
+            "B_training_statistics",
+            AUXILIARY_COLORS["secondary"],
+            "B: training statistics",
+        ),
     ):
         selected = (
             summary.loc[summary["normalization"].eq(normalization)]
@@ -71,7 +80,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
             width=width,
             capsize=2,
             color=color,
-            edgecolor="black",
+            edgecolor=INK_COLOR,
             linewidth=0.45,
             label=label,
         )
@@ -82,7 +91,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
             width=width,
             capsize=2,
             color=color,
-            edgecolor="black",
+            edgecolor=INK_COLOR,
             linewidth=0.45,
         )
         axes[2].bar(
@@ -90,12 +99,12 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
             selected["relative_drop_mean"],
             width=width,
             color=color,
-            edgecolor="black",
+            edgecolor=INK_COLOR,
             linewidth=0.45,
         )
     for axis in axes:
         axis.set_xticks(x, [LABELS[method] for method in METHODS], rotation=20, ha="right")
-        axis.grid(axis="y", color="0.9", linewidth=0.6)
+        axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     axes[0].set_ylabel("Test Macro-F1")
     axes[0].set_ylim(0, 0.55)
     axes[1].set_ylabel("Validation-test gap")

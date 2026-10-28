@@ -13,6 +13,13 @@ import numpy as np
 import pandas as pd
 
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    GRID_COLOR,
+    INK_COLOR,
+    MUTED_COLOR,
+    PAPER_COLORS,
+    apply_paper_style,
+)
 
 
 KEY_COMPARISONS = [
@@ -106,28 +113,24 @@ def win_table(foldwise: pd.DataFrame) -> pd.DataFrame:
 
 def save_figure(foldwise: pd.DataFrame, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axis = plt.subplots(figsize=(7.2, 3.8), constrained_layout=True)
     comparisons = [
         comparison
         for comparison in KEY_COMPARISONS
         if comparison in set(foldwise["comparison"])
     ]
-    axis.axhline(0, color="0.55", linewidth=0.8, linestyle="--")
+    axis.axhline(0, color=MUTED_COLOR, linewidth=0.8, linestyle="--")
     for position, comparison in enumerate(comparisons):
         group = foldwise.loc[foldwise["comparison"].eq(comparison)]
         axis.scatter(
             np.full(len(group), position),
             group["mean_delta"],
-            facecolors=["#3D3D3D" if value >= 0 else "#B0B0B0" for value in group["mean_delta"]],
-            edgecolors="black",
+            facecolors=[
+                PAPER_COLORS[3] if value >= 0 else PAPER_COLORS[10]
+                for value in group["mean_delta"]
+            ],
+            edgecolors=INK_COLOR,
             linewidths=0.5,
             s=34,
             zorder=3,
@@ -147,7 +150,7 @@ def save_figure(foldwise: pd.DataFrame, output_dir: Path) -> None:
         ha="right",
     )
     axis.set_ylabel("Fold mean paired Macro-F1 difference")
-    axis.grid(axis="y", color="0.9", linewidth=0.6)
+    axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_20_foldwise_paired_differences.png"
     pdf = output_dir / "figure_20_foldwise_paired_differences.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")

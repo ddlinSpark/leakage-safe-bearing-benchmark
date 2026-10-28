@@ -4,6 +4,11 @@ All final figures have editable vector PDF counterparts under
 `figures/publication/`. The manuscript embeds the PNG files at publication
 resolution.
 
+Every plotting module calls `apply_paper_style()` from
+`src/spindle_cnn/plotting/style.py`. The shared 11-color palette and model-color
+mapping are verified by `scripts/check_figure_palette.py`. The current SHA-256
+manifest is `figures/publication/figure_hashes.json`.
+
 ## Figure 1: Overall methodology framework
 
 - Output: `figures/publication/figure_method_01_overall_framework.{png,pdf}`
@@ -133,3 +138,15 @@ value is entered directly in a plotting function.
 | S3 | `figure_20_foldwise_paired_differences.{png,pdf}` | `foldwise_paired_differences.csv` |
 | S4 | `figure_21_training_budget.{png,pdf}` | `training_budget_comparison.csv` |
 | S5 | `figure_24_normalization_sensitivity.{png,pdf}` | `normalization_sensitivity_summary.csv` |
+
+Figure-only PCA/t-SNE reproduction can use the retained compact embeddings:
+
+```powershell
+python -m spindle_cnn.analysis.feature_space `
+  --results-dir results `
+  --figures-dir figures/publication `
+  --reuse-embeddings
+```
+
+`figure_18_baseline_tuning.{png,pdf}` is a retained analysis artifact and is
+not embedded as one of the 23 inline manuscript figures.

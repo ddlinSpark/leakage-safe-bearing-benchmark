@@ -26,10 +26,12 @@ wandb/
 !results/**/*.json
 !results/**/*.md
 !results/**/predictions.npz
+!results/feature_embeddings/*.npz
 !reports/**/*.csv
 !figures/publication/
 !figures/publication/*.png
 !figures/publication/*.pdf
+!figures/publication/figure_hashes.json
 !figures/README.md
 
 # Model weights

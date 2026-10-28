@@ -29,7 +29,7 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=ROOT / "artifacts" / "local" / "figure_hashes.json",
+        default=ROOT / "figures" / "publication" / "figure_hashes.json",
     )
     args = parser.parse_args()
     files = sorted(

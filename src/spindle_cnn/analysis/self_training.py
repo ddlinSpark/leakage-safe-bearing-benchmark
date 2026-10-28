@@ -18,6 +18,12 @@ from ..analysis.hierarchical import (
     _hierarchical_bootstrap_interval,
 )
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    GRID_COLOR,
+    INK_COLOR,
+    apply_paper_style,
+    method_color,
+)
 
 
 BUDGETS = {
@@ -160,14 +166,7 @@ def save_figure(
     output_dir: Path,
 ) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     figure, axes = plt.subplots(1, 2, figsize=(7.2, 3.2), constrained_layout=True)
     conditions = [
         "supervised",
@@ -175,7 +174,11 @@ def save_figure(
         "coverage_controlled_0.50",
     ]
     labels = ["Supervised", "Fixed tau=0.60", "Coverage 50%"]
-    colors = ["#3D3D3D", "#8A8A8A", "#D0D0D0"]
+    colors = [
+        method_color("cwt_gru"),
+        method_color("cwt_gru_temp"),
+        method_color("cwt_gru_selftrain_coverage"),
+    ]
     for axis, (budget, budget_label) in zip(
         axes,
         [("50_percent", "50% balanced budget"), ("full_balanced", "Full balanced budget")],
@@ -190,7 +193,7 @@ def save_figure(
             yerr=values["macro_f1_sd"],
             capsize=2,
             color=colors,
-            edgecolor="black",
+            edgecolor=INK_COLOR,
             linewidth=0.45,
             width=0.62,
         )
@@ -198,7 +201,7 @@ def save_figure(
         axis.set_ylim(0, 0.55)
         axis.set_ylabel("Macro-F1")
         axis.set_title(budget_label, loc="left")
-        axis.grid(axis="y", color="0.9", linewidth=0.6)
+        axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     png = output_dir / "figure_17_self_training_sensitivity.png"
     pdf = output_dir / "figure_17_self_training_sensitivity.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")

@@ -11,9 +11,20 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.patches import Patch
 
 from ..experiments.common import configure_logging, read_results
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    AUXILIARY_COLORS,
+    GRID_COLOR,
+    INK_COLOR,
+    MUTED_COLOR,
+    apply_paper_style,
+    color_with_alpha,
+    method_color,
+    palette_cmap,
+)
 
 
 METHOD_LABELS = {
@@ -44,24 +55,6 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def setup_style() -> None:
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 10,
-            "axes.labelsize": 11,
-            "axes.titlesize": 11,
-            "legend.fontsize": 9,
-            "xtick.labelsize": 9,
-            "ytick.labelsize": 9,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-            "savefig.dpi": 600,
-            "savefig.bbox": "tight",
-        }
-    )
-
-
 def save(fig: plt.Figure, output_dir: Path, stem: str) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     fig.savefig(output_dir / f"{stem}.png")
@@ -88,7 +81,9 @@ def model_comparison(summary: pd.DataFrame, output_dir: Path) -> None:
         data["Macro-F1 Mean"].to_numpy(),
         yerr=data["Macro-F1 Std"].fillna(0).to_numpy(),
         capsize=4,
-        color="#315A8A",
+        color=[method_color(value) for value in data["method"]],
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
     )
     ax.set_xticks(
         x,
@@ -97,7 +92,7 @@ def model_comparison(summary: pd.DataFrame, output_dir: Path) -> None:
         ha="right",
     )
     ax.set_ylabel("Macro-F1")
-    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+    ax.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     save(fig, output_dir, "figure_01_model_comparison")
 
 
@@ -110,7 +105,9 @@ def ablation(ablation_summary: pd.DataFrame, output_dir: Path) -> None:
         data["Macro-F1 Mean"].to_numpy(),
         yerr=data["Macro-F1 Std"].fillna(0).to_numpy(),
         capsize=4,
-        color="#A75D42",
+        color=[method_color(value) for value in data["Model"]],
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
     )
     ax.set_xticks(
         x,
@@ -119,7 +116,7 @@ def ablation(ablation_summary: pd.DataFrame, output_dir: Path) -> None:
         ha="right",
     )
     ax.set_ylabel("Macro-F1")
-    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+    ax.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     save(fig, output_dir, "figure_02_ablation")
 
 
@@ -128,13 +125,17 @@ def validation_test_gap(domain_gap: pd.DataFrame, output_dir: Path) -> None:
     fig, ax = plt.subplots(figsize=(7.5, 4.3))
     x = np.arange(len(data))
     width = 0.36
+    validation_color = color_with_alpha(AUXILIARY_COLORS["reference"], 0.9)
+    test_colors = [method_color(value) for value in data["Model"]]
     ax.bar(
         x - width / 2,
         data["Validation Macro-F1 Mean"],
         width,
         yerr=data["Validation Macro-F1 Std"].fillna(0),
         capsize=4,
-        color="#315A8A",
+        color=validation_color,
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
         label="Validation",
     )
     ax.bar(
@@ -143,7 +144,9 @@ def validation_test_gap(domain_gap: pd.DataFrame, output_dir: Path) -> None:
         width,
         yerr=data["Test Macro-F1 Std"].fillna(0),
         capsize=4,
-        color="#B45F3C",
+        color=test_colors,
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
         label="Test",
     )
     for position, row in data.iterrows():
@@ -166,8 +169,22 @@ def validation_test_gap(domain_gap: pd.DataFrame, output_dir: Path) -> None:
         ha="right",
     )
     ax.set_ylabel("Macro-F1")
-    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
-    ax.legend(frameon=False)
+    ax.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
+    ax.legend(
+        handles=[
+            Patch(
+                facecolor=AUXILIARY_COLORS["reference"],
+                edgecolor=INK_COLOR,
+                label="Validation",
+            ),
+            Patch(
+                facecolor=test_colors[0],
+                edgecolor=INK_COLOR,
+                label="Test (model colour)",
+            ),
+        ],
+        frameon=False,
+    )
     save(fig, output_dir, "figure_09_validation_test_gap")
 
 
@@ -176,9 +193,9 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
         summary["method"].isin(["cwt_gru", "cwt_gru_selftrain"])
     ].copy()
     fig, ax = plt.subplots(figsize=(6.2, 4.1))
-    for method, marker, color in (
-        ("cwt_gru", "o", "#315A8A"),
-        ("cwt_gru_selftrain", "s", "#B45F3C"),
+    for method, marker in (
+        ("cwt_gru", "o"),
+        ("cwt_gru_selftrain", "s"),
     ):
         subset = data.loc[data["method"].eq(method)].sort_values("label_ratio")
         positions = {
@@ -193,7 +210,7 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
             marker=marker,
             capsize=4,
             linewidth=1.8,
-            color=color,
+            color=method_color(method),
             label=METHOD_LABELS[method],
         )
     ax.set_xticks(
@@ -206,7 +223,7 @@ def label_efficiency(summary: pd.DataFrame, output_dir: Path) -> None:
     )
     ax.set_xlabel("Label budget")
     ax.set_ylabel("Macro-F1")
-    ax.grid(color="#E5E5E5", linewidth=0.6)
+    ax.grid(color=GRID_COLOR, linewidth=0.6)
     ax.legend(frameon=False)
     save(fig, output_dir, "figure_03_label_efficiency")
 
@@ -229,23 +246,23 @@ def threshold_sensitivity(summary: pd.DataFrame, output_dir: Path) -> None:
         yerr=method["Macro-F1 Std"].fillna(0),
         marker="o",
         capsize=4,
-        color="#315A8A",
+        color=method_color("cwt_gru_selftrain"),
         label="Test Macro-F1",
     )
     ax1.set_ylabel("Macro-F1")
-    ax1.grid(color="#E5E5E5", linewidth=0.6)
+    ax1.grid(color=GRID_COLOR, linewidth=0.6)
     ax1.legend(frameon=False)
     ax2.plot(
         method["threshold"],
         method.get("pseudo_accuracy_mean", np.nan),
         marker="s",
-        color="#B45F3C",
+        color=method_color("cwt_cnn"),
         linewidth=1.8,
         label="Pseudo-label accuracy",
     )
     ax2.set_xlabel("Confidence threshold")
     ax2.set_ylabel("Pseudo-label accuracy")
-    ax2.grid(color="#E5E5E5", linewidth=0.6)
+    ax2.grid(color=GRID_COLOR, linewidth=0.6)
     ax2.legend(frameon=False)
     save(fig, output_dir, "figure_04_threshold_sensitivity")
 
@@ -265,13 +282,23 @@ def calibration(raw: pd.DataFrame, output_dir: Path) -> None:
     fig, ax = plt.subplots(figsize=(6.5, 3.9))
     x = np.arange(len(grouped))
     width = 0.36
-    ax.bar(x - width / 2, grouped["raw_ece"], width, label="Uncalibrated", color="#8D8D8D")
+    ax.bar(
+        x - width / 2,
+        grouped["raw_ece"],
+        width,
+        label="Uncalibrated",
+        color=AUXILIARY_COLORS["reference"],
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
+    )
     ax.bar(
         x + width / 2,
         grouped["ece"],
         width,
         label="Temperature scaled",
-        color="#315A8A",
+        color=[method_color(value) for value in grouped.index],
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
     )
     ax.set_xticks(
         x,
@@ -280,7 +307,7 @@ def calibration(raw: pd.DataFrame, output_dir: Path) -> None:
         ha="right",
     )
     ax.set_ylabel("Expected calibration error")
-    ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+    ax.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     ax.legend(frameon=False)
     save(fig, output_dir, "figure_05_calibration")
 
@@ -322,7 +349,12 @@ def confusion(raw: pd.DataFrame, runs_dir: Path, output_dir: Path) -> None:
         for row in subset.itertuples(index=False):
             matrix[int(row.true_class), int(row.predicted_class)] = row.count
         normalized = matrix / np.maximum(matrix.sum(axis=1, keepdims=True), 1.0)
-        image = ax.imshow(normalized, cmap="Blues", vmin=0, vmax=1)
+        image = ax.imshow(
+            normalized,
+            cmap=palette_cmap(method_color(method)),
+            vmin=0,
+            vmax=1,
+        )
         for true_class in range(4):
             for predicted_class in range(4):
                 color = "white" if normalized[true_class, predicted_class] > 0.5 else "black"
@@ -343,7 +375,7 @@ def confusion(raw: pd.DataFrame, runs_dir: Path, output_dir: Path) -> None:
             ax.set_xlabel("Predicted class")
         if number % 2 == 0:
             ax.set_ylabel("True class")
-        ax.set_title(METHOD_LABELS[method])
+        ax.set_title(METHOD_LABELS[method], color=method_color(method))
     fig.colorbar(
         image,
         ax=axes.ravel().tolist(),
@@ -362,14 +394,27 @@ def computational_cost(cost: pd.DataFrame, output_dir: Path) -> None:
         METHOD_LABELS.get(method, str(method))
         for method in data["model_key"]
     ]
-    ax1.bar(x, data["parameters"] / 1e6, color="#315A8A")
+    model_colors = [method_color(value) for value in data["model_key"]]
+    ax1.bar(
+        x,
+        data["parameters"] / 1e6,
+        color=model_colors,
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
+    )
     ax1.set_ylabel("Parameters (million)")
     ax1.set_xticks(x, labels, rotation=25, ha="right")
-    ax2.bar(x, data["inference_ms_per_batch_median"], color="#B45F3C")
+    ax2.bar(
+        x,
+        data["inference_ms_per_batch_median"],
+        color=model_colors,
+        edgecolor=INK_COLOR,
+        linewidth=0.5,
+    )
     ax2.set_ylabel("Inference latency (ms/batch)")
     ax2.set_xticks(x, labels, rotation=25, ha="right")
     for ax in (ax1, ax2):
-        ax.grid(axis="y", color="#D9D9D9", linewidth=0.6)
+        ax.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
     fig.tight_layout()
     save(fig, output_dir, "figure_07_computational_cost")
 
@@ -415,10 +460,10 @@ def reliability_diagrams(raw: pd.DataFrame, results_dir: Path, output_dir: Path)
     fig, axes = plt.subplots(2, 2, figsize=(9.4, 7.8), constrained_layout=True)
     for ax, method in zip(axes.flatten(), methods, strict=True):
         subset = aggregate.loc[aggregate["method"].eq(method)]
-        ax.plot([0, 1], [0, 1], color="#9A9A9A", linestyle="--", linewidth=1)
+        ax.plot([0, 1], [0, 1], color=MUTED_COLOR, linestyle="--", linewidth=1)
         for source, marker, color, label in (
-            ("raw", "o", "#727272", "Uncalibrated"),
-            ("temperature", "s", "#315A8A", "Temperature scaled"),
+            ("raw", "o", AUXILIARY_COLORS["reference"], "Uncalibrated"),
+            ("temperature", "s", method_color(method), "Temperature scaled"),
         ):
             data = subset.loc[subset["source"].eq(source)].sort_values(
                 "mean_confidence"
@@ -436,8 +481,8 @@ def reliability_diagrams(raw: pd.DataFrame, results_dir: Path, output_dir: Path)
         ax.set_ylim(0, 1.02)
         ax.set_xlabel("Mean confidence")
         ax.set_ylabel("Empirical accuracy")
-        ax.set_title(METHOD_LABELS[method])
-        ax.grid(color="#E4E4E4", linewidth=0.6)
+        ax.set_title(METHOD_LABELS[method], color=method_color(method))
+        ax.grid(color=GRID_COLOR, linewidth=0.6)
         ax.legend(frameon=False, loc="upper left")
     save(fig, output_dir, "figure_08_reliability_diagrams")
 
@@ -447,7 +492,7 @@ def main() -> None:
     results_dir = args.results_dir.resolve()
     output_dir = args.output_dir.resolve()
     configure_logging(results_dir / "figure_generation.log")
-    setup_style()
+    apply_paper_style()
     summary = read_csv(results_dir / "summary.csv")
     ablation_summary = read_csv(results_dir / "ablation_summary.csv")
     label_summary = read_csv(results_dir / "label_efficiency_summary.csv")

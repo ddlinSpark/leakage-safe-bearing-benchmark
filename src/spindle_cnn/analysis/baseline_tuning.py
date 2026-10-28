@@ -12,9 +12,16 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.patches import Patch
 
 from ..analysis.hierarchical import _hierarchical_bootstrap_interval
 from ..paths import PROJECT_ROOT
+from ..plotting.style import (
+    GRID_COLOR,
+    INK_COLOR,
+    apply_paper_style,
+    method_color,
+)
 
 
 LABELS = {
@@ -151,17 +158,9 @@ def candidate_summary(frame: pd.DataFrame) -> pd.DataFrame:
 
 def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update(
-        {
-            "font.family": "DejaVu Sans",
-            "font.size": 8.5,
-            "axes.spines.top": False,
-            "axes.spines.right": False,
-        }
-    )
+    apply_paper_style(font_size=8.5)
     methods = list(LABELS)
     candidates = ["lr0.002_wd0.0001", "lr0.001_wd0.0001"]
-    colors = ["#4D4D4D", "#B3B3B3"]
     figure, axes = plt.subplots(1, 2, figsize=(7.2, 3.2), constrained_layout=True)
     x = np.arange(len(methods))
     width = 0.34
@@ -169,7 +168,7 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
         (axes[0], "validation_macro_f1_mean", "Validation Macro-F1"),
         (axes[1], "test_macro_f1_mean", "Held-out test Macro-F1"),
     ):
-        for index, (candidate, color) in enumerate(zip(candidates, colors, strict=True)):
+        for index, candidate in enumerate(candidates):
             selected = (
                 summary.loc[summary["candidate"].eq(candidate)]
                 .set_index("method")
@@ -179,16 +178,33 @@ def save_figure(summary: pd.DataFrame, output_dir: Path) -> None:
                 x + (index - 0.5) * width,
                 selected[metric],
                 width=width,
-                color=color,
-                edgecolor="black",
+                color=[method_color(method) for method in methods],
+                alpha=0.58 if index == 0 else 1.0,
+                edgecolor=INK_COLOR,
                 linewidth=0.45,
                 label=candidate,
             )
         axis.set_xticks(x, [LABELS[method] for method in methods], rotation=18, ha="right")
         axis.set_ylim(0, 1)
         axis.set_title(title, loc="left")
-        axis.grid(axis="y", color="0.9", linewidth=0.6)
-    axes[0].legend(frameon=False, fontsize=7)
+        axis.grid(axis="y", color=GRID_COLOR, linewidth=0.6)
+    axes[0].legend(
+        handles=[
+            Patch(
+                facecolor=method_color(methods[0]),
+                alpha=0.58,
+                edgecolor=INK_COLOR,
+                label=candidates[0],
+            ),
+            Patch(
+                facecolor=method_color(methods[0]),
+                edgecolor=INK_COLOR,
+                label=candidates[1],
+            ),
+        ],
+        frameon=False,
+        fontsize=7,
+    )
     png = output_dir / "figure_18_baseline_tuning.png"
     pdf = output_dir / "figure_18_baseline_tuning.pdf"
     figure.savefig(png, dpi=320, bbox_inches="tight")
