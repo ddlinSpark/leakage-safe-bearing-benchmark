@@ -11,8 +11,8 @@ Preparation only. No GitHub Release, tag, or Zenodo DOI has been created.
 - Resource type: Software
 - License: MIT
 - Repository: `https://github.com/ddlinSpark/leakage-safe-bearing-benchmark`
-- Related manuscript: `Leakage-Safe Benchmarking of Time-Frequency Fusion and
-  Calibrated Self-Training for Bearing Fault Diagnosis`
+- Related manuscript: `Leakage-Safe Cross-Domain Benchmarking for Bearing Fault
+  Diagnosis: Time-Frequency Fusion, Calibration, and Self-Training`
 - Creators: resolve after the double-blind/public-release decision
 - DOI: leave unassigned until Zenodo mints the archive DOI
 

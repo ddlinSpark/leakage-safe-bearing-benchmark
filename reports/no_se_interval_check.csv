@@ -1,0 +1,2 @@
+comparison,interpretation,paired_runs,point_estimate,recomputed_ci_low,recomputed_ci_high,stored_ci_low,stored_ci_high,point_outside_percentile_interval,status,note
+main:cwt_gru_no_se:cwt_gru,full CWT-GRU minus no-SE CWT-GRU,20,-0.027049663045804022,-0.07330007944843742,0.02210793110173234,-0.0733000794484374,0.0221079311017323,False,VERIFIED,"On the stored scale, the estimate lies inside the interval. When the comparison is relabelled no-SE minus full, both the point estimate and the two interval endpoints must be negated."

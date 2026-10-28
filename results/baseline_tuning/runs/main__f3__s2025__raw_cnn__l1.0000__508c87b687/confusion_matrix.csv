@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,0,0,1
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,0,1,61
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,0,2,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,0,3,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,1,0,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,1,1,62
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,1,2,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,1,3,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,2,0,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,2,1,62
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,2,2,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,2,3,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,3,0,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,3,1,62
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,3,2,0
+main__f3__s2025__raw_cnn__l1.0000__508c87b687,3,3,0

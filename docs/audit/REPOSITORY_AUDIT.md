@@ -10,11 +10,11 @@ documented in `docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md`.
 
 ## Repository scale
 
-- Candidate files: 1967
-- Candidate size: 11.79 MiB
-- Large files at or above 1 MB: 0
-- Saved-logit prediction archives: 360
-  (1.57 MiB total; diagnostic, not model weights)
+- Candidate files: 4553
+- Candidate size: 34.32 MiB
+- Large files at or above 1 MB: 1
+- Saved-logit prediction archives: 822
+  (8.58 MiB total; diagnostic, not model weights)
 - Canonical result rows: 320
 - External result rows: 40
 - Split manifests: 4
@@ -25,23 +25,34 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 
 | Path | Files | Size |
 | --- | ---: | ---: |
-| `.gitignore` | 1 | 1.4 KiB |
-| `CHANGELOG.md` | 1 | 8.7 KiB |
-| `CITATION.cff` | 1 | 861 B |
+| `.gitignore` | 1 | 1.5 KiB |
+| `AUDIT_REPORT.md` | 1 | 6.2 KiB |
+| `CHANGELOG.md` | 1 | 10.0 KiB |
+| `CITATION.cff` | 1 | 985 B |
+| `CLEAN_REPRODUCTION_REPORT.md` | 1 | 9.4 KiB |
+| `DAMAGE_ORIGIN_ANALYSIS.md` | 1 | 2.5 KiB |
+| `EXPERIMENT_REPORT.md` | 1 | 16.5 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
-| `README.md` | 1 | 14.0 KiB |
-| `REPRODUCE.md` | 1 | 9.5 KiB |
-| `configs` | 2 | 2.4 KiB |
-| `data` | 2 | 3.7 KiB |
-| `docs` | 33 | 143.1 KiB |
+| `PAPER_RESULT_TRACEABILITY.md` | 1 | 4.1 KiB |
+| `PAPER_REVISION_REPORT.md` | 1 | 6.2 KiB |
+| `README.md` | 1 | 17.2 KiB |
+| `REPRODUCE.md` | 1 | 10.1 KiB |
+| `REPRODUCIBILITY.md` | 1 | 11.6 KiB |
+| `REPRODUCTION_REPORT.md` | 1 | 3.1 KiB |
+| `RESULT_CHANGELOG.md` | 1 | 2.2 KiB |
+| `SECOND_DATASET_ASSESSMENT.md` | 1 | 3.6 KiB |
+| `configs` | 5 | 5.2 KiB |
+| `data` | 6 | 9.5 KiB |
+| `docs` | 33 | 151.0 KiB |
 | `environment.yml` | 1 | 125 B |
-| `figures` | 25 | 5.64 MiB |
-| `pyproject.toml` | 1 | 1.6 KiB |
+| `figures` | 49 | 8.23 MiB |
+| `pyproject.toml` | 1 | 2.7 KiB |
+| `reports` | 6 | 564.9 KiB |
 | `requirements.txt` | 1 | 266 B |
-| `results` | 1830 | 5.48 MiB |
-| `scripts` | 12 | 170.3 KiB |
-| `src` | 47 | 317.8 KiB |
-| `tests` | 7 | 11.0 KiB |
+| `results` | 4336 | 24.50 MiB |
+| `scripts` | 25 | 230.2 KiB |
+| `src` | 66 | 543.7 KiB |
+| `tests` | 8 | 14.2 KiB |
 
 ## Logical source layout
 
@@ -138,7 +149,7 @@ claim state-of-the-art performance.
   configurations preserve the principal runtime versions, but a future
   lockfile would improve bit-level environment reconstruction.
 - Training and inference timings are identified as hardware-dependent.
-- `CITATION.cff` uses the current package version `0.2.0`. `date-released` and a
+- `CITATION.cff` uses the current package version `0.3.0`. `date-released` and a
   DOI are intentionally omitted until the v1.0.0 tag and Zenodo archive exist.
 
 ## Data and license audit

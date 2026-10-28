@@ -2,6 +2,27 @@
 
 Date: 2026-10-28
 
+## Cross-domain evidence revision
+
+- Restored and checksum-verified all 16 selected Paderborn archives, rebuilt
+  3,939 original-amplitude windows with exact measurement filenames, and
+  reproduced the canonical raw cache after per-window standardization.
+- Added a full protocol audit covering half-open window ranges, bearing and
+  condition isolation, manifest hashes, label mappings, source files, and
+  damage origin.
+- Preserved all 320 canonical and 40 external rows without changing the split,
+  selecting favorable seeds, or dropping failed evaluations.
+- Added raw time- and frequency-domain diagnostics, post-hoc label-granularity
+  sensitivity, CWT representation controls, training-statistic normalization,
+  coverage-controlled self-training, baseline learning-rate auditing,
+  12-versus-30-epoch checks, per-fold calibration, and feature-space analysis.
+- Clarified that training time excludes offline CWT generation and added a
+  measured CWT preprocessing cost audit and GRU FLOP estimation note.
+- Retitled the manuscript to emphasize cross-domain benchmarking and expanded
+  the abstract, contributions, sensitivity results, discussion, and limitations.
+- Added independent result traceability, a single-source `paper_metrics.json`,
+  reproducibility reports, and a second-dataset compatibility assessment.
+
 ## [Unreleased] - v1.0.0 candidate
 
 - Initial paper-release candidate; not yet tagged or published.

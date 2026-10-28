@@ -1,8 +1,8 @@
 # Leakage-Safe Bearing Fault Diagnosis Benchmark
 
 This repository contains the reproducible experiment code for the manuscript
-**“Leakage-Safe Benchmarking of Time-Frequency Fusion and Calibrated
-Self-Training for Bearing Fault Diagnosis.”**
+**“Leakage-Safe Cross-Domain Benchmarking for Bearing Fault Diagnosis:
+Time-Frequency Fusion, Calibration, and Self-Training.”**
 
 The repository and Python distribution are named
 `leakage-safe-bearing-benchmark`. The import namespace remains `spindle_cnn`
@@ -34,6 +34,22 @@ Published values such as 99% accuracy are not used as same-protocol rankings
 because different bearings, preprocessing, window overlap, class definitions,
 and train/test splits can produce a different estimand. Only models retrained
 under the protocol in `configs/` enter the numerical comparison.
+
+The primary 320-row matrix and 40-row external adaptation block remain fixed.
+New analyses are explicitly separated from model selection:
+
+- raw-signal domain-shift statistics;
+- damage-origin and label manifests;
+- post-hoc coarse-label sensitivity;
+- CWT magnitude, scale, resolution, and normalization controls;
+- validation-only baseline learning-rate tuning;
+- 12- versus 30-epoch training-opportunity checks;
+- per-fold calibration and reliability analysis;
+- coverage-controlled pseudo-labeling;
+- penultimate-feature PCA/t-SNE diagnostics.
+
+No sensitivity result replaces a primary configuration after its test score is
+observed.
 
 The historical industrial-data experiment is no longer present in the working
 tree. Its engineering-threshold labels, overlapping windows, repeated station
@@ -98,6 +114,22 @@ data/public/paderborn/pu_4class_w8192.npz
 
 The selected training and test bearing codes, operating conditions, sampling
 rate, window size, stride, and split rule are explicitly listed in that file.
+The exact selected-archive sizes and SHA-256 digests are recorded in
+`data/manifests/paderborn_archives_sha256.csv`. After extraction, the raw
+amplitude audit cache is built and checked against the canonical cache with:
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m spindle_cnn.public_benchmark.paderborn_raw_windows `
+  --data-root data/public/paderborn/extracted `
+  --output data/public/paderborn/pu_4class_w8192_raw.npz `
+  --validate
+```
+
+The checked cache contains original amplitudes, exact measurement numbers, and
+source filenames. Re-standardizing its windows reproduces the canonical cache
+elementwise; `pu_4class_w8192_raw_validation.json` records the maximum
+difference and field-equality checks.
 
 ## Run one experiment
 
@@ -137,6 +169,8 @@ primary comparison = 4 folds x 5 seeds = 20 runs per method
 canonical results = 320 runs
 external results = 2 adaptations x 4 folds x 5 seeds = 40 runs
 ```
+
+The stochastic seeds are exactly `42, 123, 2024, 2025, 3407`.
 
 The 320 canonical rows comprise 140 main, 80 label-efficiency, and 100
 threshold-sensitivity evaluations. The complete from-scratch workflow,
@@ -278,6 +312,17 @@ offline audit when labels are available.
 - `results/runs/<run_id>/config.json`: per-run configuration, environment,
   dataset hash, split hash, and Git commit.
 - `results/splits/fold<k>.json`: exact train/validation/test indices and hashes.
+- `results/damage_origin_manifest.csv`: fold-condition split by physical bearing
+  and damage origin.
+- `results/domain_shift_statistics.csv`: raw-signal statistics by bearing,
+  class, condition, split, channel, and fold.
+- `results/label_granularity_sensitivity.csv`: four-class, three-class, and
+  binary views from the same trained predictions.
+- `results/calibration_per_run.csv`: per-run temperature and test probability
+  metrics; validation logits are retained by the calibration recheck block.
+- `results/experiment_registry.csv`: one-row audit index across canonical and
+  sensitivity experiments.
+- `results/paper_metrics.json`: one numerical source for manuscript checks.
 
 Every successful row records training time, test inference time, parameter count,
 estimated GFLOPs, train/validation loss, temperature, Macro-F1, accuracy, ECE,
@@ -299,6 +344,26 @@ provenance for Figures 1-12 is recorded in
 ```bash
 PYTHONPATH=src python -m pytest -q tests
 ```
+
+## Protocol and sensitivity audits
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m spindle_cnn.analysis.protocol_audit --run-numeric-audit
+python -m spindle_cnn.analysis.domain_shift
+python -m spindle_cnn.analysis.label_granularity
+python -m spindle_cnn.analysis.calibration_audit
+python -m spindle_cnn.analysis.training_sanity
+python -m spindle_cnn.analysis.foldwise
+python scripts/build_experiment_registry.py
+python scripts/build_paper_metrics.py
+python scripts/verify_manuscript_numbers.py
+```
+
+The full sensitivity commands are listed in
+[REPRODUCIBILITY.md](REPRODUCIBILITY.md). Test data are never used to select a
+normalization, CWT setting, architecture, confidence threshold, pseudo-label
+policy, or training budget.
 
 ## Citation
 
@@ -323,6 +388,15 @@ The final repository review is indexed by:
 - [DOUBLE_BLIND_RISK.md](docs/audit/DOUBLE_BLIND_RISK.md)
 - [RELEASE_READINESS.md](docs/audit/RELEASE_READINESS.md)
 - [ZENODO_PREPARATION.md](docs/audit/ZENODO_PREPARATION.md)
+- [AUDIT_REPORT.md](AUDIT_REPORT.md)
+- [REPRODUCTION_REPORT.md](REPRODUCTION_REPORT.md)
+- [EXPERIMENT_REPORT.md](EXPERIMENT_REPORT.md)
+- [RESULT_CHANGELOG.md](RESULT_CHANGELOG.md)
+- [REPRODUCIBILITY.md](REPRODUCIBILITY.md)
+- [PAPER_REVISION_REPORT.md](PAPER_REVISION_REPORT.md)
+- [PAPER_RESULT_TRACEABILITY.md](PAPER_RESULT_TRACEABILITY.md)
+- [DAMAGE_ORIGIN_ANALYSIS.md](DAMAGE_ORIGIN_ANALYSIS.md)
+- [SECOND_DATASET_ASSESSMENT.md](SECOND_DATASET_ASSESSMENT.md)
 
 ## Model and data licensing
 

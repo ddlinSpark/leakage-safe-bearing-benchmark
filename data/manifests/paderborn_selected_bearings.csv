@@ -1,0 +1,17 @@
+bearing_code,class_id,class_name,fault_location,damage_origin,damage_type,severity,manufacturer,pitch_diameter_mm,split_role
+K001,0,Healthy,none,none,none,0,IBU,29.05,training_candidate
+K002,0,Healthy,none,none,none,0,IBU,29.05,training_candidate
+K003,0,Healthy,none,none,none,0,IBU,29.05,training_candidate
+K004,0,Healthy,none,none,none,0,IBU,29.05,training_candidate
+K005,0,Healthy,none,none,none,0,IBU,29.05,heldout_test
+KA01,1,OuterRing,outer,artificial,EDM,1,MTK,29.05,training_candidate
+KA04,1,OuterRing,outer,real,pitting,1,FAG,28.55,training_candidate
+KA08,1,OuterRing,outer,artificial,drilling,2,IBU,29.05,training_candidate
+KA15,1,OuterRing,outer,real,indentation,1,FAG,28.55,heldout_test
+KI01,2,InnerRing,inner,artificial,EDM,1,MTK,29.05,training_candidate
+KI04,2,InnerRing,inner,real,pitting,1,MTK,29.05,training_candidate
+KI08,2,InnerRing,inner,artificial,electric engraver,2,IBU,29.05,training_candidate
+KI14,2,InnerRing,inner,real,pitting,1,MTK,29.05,heldout_test
+KB23,3,MultipleDamage,inner+outer,real,pitting,2,MTK,29.05,training_candidate
+KB24,3,MultipleDamage,inner+outer,real,pitting,3,FAG,28.55,training_candidate
+KB27,3,MultipleDamage,inner+outer,real,indentation,1,FAG,28.55,heldout_test

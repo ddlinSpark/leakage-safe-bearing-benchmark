@@ -49,6 +49,15 @@ pairs.
 - DRSN and TFN adaptations have lower mean macro-F1 than Raw 1D-CNN under the
   same protocol; the four-fold p-values remain explicitly coarse.
 
+## No-SE interval direction check
+
+The published hierarchical row is defined as full CWT-GRU minus CWT-GRU without
+SE. Its point estimate is `-0.027` and its interval is `[-0.073, +0.022]`.
+Expressed as no-SE minus full, the point estimate is `+0.027` and the interval
+is `[-0.022, +0.073]`. The sign reversal was checked directly from all 20 paired
+fold-seed rows with the recorded bootstrap seed. The estimate is not a
+transcription error and lies inside the sign-reversed percentile interval.
+
 ## Reproduction
 
 ```powershell

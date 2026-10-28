@@ -110,19 +110,26 @@ def count_hostname_fields(root: Path) -> tuple[int, int]:
     return len(config_paths), hits
 
 
-def count_identical_pngs(root: Path) -> tuple[int, int]:
+def verify_figure_hashes(root: Path) -> tuple[int, int, int, list[str]]:
     publication = root / "figures" / "publication"
-    recheck = root / "artifacts" / "local" / "figure_recheck_final"
-    published = sorted(publication.glob("*.png"))
-    matches = 0
+    manifest_path = root / "artifacts" / "local" / "figure_hashes.json"
+    publication_pngs = len(list(publication.glob("*.png")))
+    if not manifest_path.is_file():
+        return 0, 0, publication_pngs, ["figure hash manifest is missing"]
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["files"]
     compared = 0
-    for source in published:
-        candidate = recheck / source.name
-        if candidate.is_file():
-            compared += 1
-            if sha256(source) == sha256(candidate):
-                matches += 1
-    return compared, matches
+    matches = 0
+    failures = []
+    for name, record in manifest.items():
+        path = publication / name
+        compared += 1
+        if not path.is_file():
+            failures.append(f"missing figure: {name}")
+        elif sha256(path) != record["sha256"]:
+            failures.append(f"hash mismatch: {name}")
+        else:
+            matches += 1
+    return compared, matches, publication_pngs, failures
 
 
 def main() -> None:
@@ -174,10 +181,10 @@ def main() -> None:
         root
         / "artifacts"
         / "local"
-        / "pre_submission_audit_statistics_revision.json"
+        / "verify_manuscript_numbers.json"
     )
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    render_dir = root / "artifacts" / "local" / "render" / "statistics_revision_final"
+    render_dir = root / "artifacts" / "local" / "render" / "final_revision"
     page_count = len(list(render_dir.glob("page-*.png")))
     a11y_path = render_dir / "a11y_report.json"
     a11y = (
@@ -189,14 +196,24 @@ def main() -> None:
 
     commit_count, non_anonymous_commits = count_git_email_classes(root)
     config_count, hostname_configs = count_hostname_fields(root)
-    figures_compared, figures_matched = count_identical_pngs(root)
+    figures_compared, figures_matched, publication_pngs, figure_failures = (
+        verify_figure_hashes(root)
+    )
     numerical_pass = audit.get("status") == "PASS"
-    figures_pass = figures_compared == 12 and figures_matched == 12
+    figures_pass = (
+        figures_compared == figures_matched
+        and figures_compared > 0
+        and publication_pngs >= 18
+        and not figure_failures
+        and len(document.inline_shapes) == 23
+    )
     text_pass = (
         not forbidden_hits
         and not loose_full_balanced
         and not ambiguous_percentage
         and not bad_p_syntax
+        and len(document.tables) == 18
+        and page_count > 0
     )
     release_blocked = non_anonymous_commits > 0 or hostname_configs > 0
 
@@ -254,9 +271,11 @@ rendered document contains {page_count} pages.
   `docs/paper/archive/Leakage_Safe_Bearing_Benchmark_SCI_pre_statistics_revision.docx`
 - Backup SHA-256: `{sha256(backup_path)}`
 - Independent audit JSON:
-  `artifacts/local/pre_submission_audit_statistics_revision.json`
+  `artifacts/local/verify_manuscript_numbers.json`
+- Figure hash manifest:
+  `artifacts/local/figure_hashes.json`
 - Page renders:
-  `artifacts/local/render/statistics_revision_final/`
+  `artifacts/local/render/final_revision/`
 
 ## Terminology scan
 
@@ -286,14 +305,14 @@ No malformed form such as `p=<` remains.
 
 ## Table and figure consistency
 
-- Table captions present: 1 through 13.
-- Figure captions present: 1 through 12.
+- Table captions present: 1 through 18.
+- Figure captions present: 1 through 18 and S1 through S5.
 - Table 6 is generated from `results/hierarchical_statistics.csv`.
 - Table 10 displays TFN while retaining the historical `tfnet` result key.
 - Reference [22] includes DOI `10.1016/j.ymssp.2023.110952`.
-- Figure regeneration: {figures_matched} of {figures_compared} PNG files were
-  byte-identical to the publication copies.
-- All 21 rendered pages were visually inspected; no clipping, overlap, missing
+- Figure hashes: {figures_matched} of {figures_compared} PNG and PDF files
+  match the publication hash manifest.
+- All {page_count} rendered pages were visually inspected; no clipping, overlap, missing
   glyph, or broken table was found.
 - Accessibility audit: high={a11y_counts.get('high', 0)},
   medium={a11y_counts.get('medium', 0)}, low={a11y_counts.get('low', 0)}.

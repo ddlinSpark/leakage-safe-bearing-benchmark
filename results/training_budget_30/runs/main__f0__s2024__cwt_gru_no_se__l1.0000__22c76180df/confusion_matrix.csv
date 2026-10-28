@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,0,0,32
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,0,1,30
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,0,2,0
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,0,3,0
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,1,0,2
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,1,1,57
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,1,2,1
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,1,3,2
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,2,0,55
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,2,1,5
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,2,2,1
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,2,3,1
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,3,0,14
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,3,1,42
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,3,2,6
+main__f0__s2024__cwt_gru_no_se__l1.0000__22c76180df,3,3,0

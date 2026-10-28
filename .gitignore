@@ -16,13 +16,17 @@ wandb/
 *.mat
 !docs/results/**/*.csv
 !data/README.md
+!/data/manifests/
+!/data/manifests/**
 !/data/public/
 !/data/public/paderborn/
+/data/public/paderborn/*
 !/data/public/paderborn/pu_4class_w8192.json
 !results/**/*.csv
 !results/**/*.json
 !results/**/*.md
 !results/**/predictions.npz
+!reports/**/*.csv
 !figures/publication/
 !figures/publication/*.png
 !figures/publication/*.pdf

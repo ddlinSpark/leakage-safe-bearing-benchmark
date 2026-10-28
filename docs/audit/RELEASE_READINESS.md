@@ -12,11 +12,11 @@ run configuration hostnames.
 
 | Requirement | Status | Evidence |
 | --- | --- | --- |
-| Tests pass | PASS | `22 passed in 2.02s`. |
-| Working tree clean | PASS | A release must point to a committed revision. |
+| Tests pass | PASS | `30 passed in 2.00s`. |
+| Working tree clean | FAIL | A release must point to a committed revision. |
 | Independent numeric audit | PASS | 0 mismatches. |
 | README complete | PASS | `docs/audit/REPOSITORY_AUDIT.md`. |
-| CITATION present | PASS | Valid CFF 1.2.0 software record; version remains 0.2.0 until the v1.0.0 tag. |
+| CITATION present | PASS | Valid CFF 1.2.0 software record; version is 0.3.0 until the release tag is assigned. |
 | License clear | PASS | MIT software scope plus explicit third-party data exclusion. |
 | `.gitignore` complete | PASS | Checked against representative ignored and retained paths. |
 | No secrets | PASS | No API key, token, private key, password, or credential URL detected. |
@@ -29,6 +29,7 @@ run configuration hostnames.
 ## True release blockers
 
 - Remove/expose-control personal commit metadata and workstation hostnames before anonymous public release.
+- Commit the audited release candidate so the release points to a clean immutable revision.
 
 ## Non-blocking follow-up
 

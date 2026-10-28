@@ -1,0 +1,6 @@
+comparison,label,fold_wins,fold_ties,fold_losses,mean_fold_delta,minimum_fold_delta,maximum_fold_delta
+main:raw_cnn:cwt_cnn,CWT 2D-CNN - Raw,1,0,3,0.002080238798098176,-0.09370065618379117,0.1931328259690788
+main:raw_cnn:cwt_gru,CWT-GRU - Raw,2,0,2,-0.009594827299897066,-0.18495519511211284,0.18664656427155557
+main:cwt_gru_no_se:cwt_gru,Full CWT-GRU - no-SE,2,0,2,-0.027049663045804022,-0.08106244465436704,0.00811643986486595
+label_50:cwt_gru:cwt_gru_selftrain,Self-training - supervised (50%),2,0,2,0.03899815151756357,-0.01771101459269781,0.1375134689527157
+label_full:cwt_gru:cwt_gru_selftrain,Self-training - supervised (Full),2,0,2,0.010162725067878272,-0.02711462903108091,0.05060347218716462

@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,0,0,62
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,0,1,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,0,2,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,0,3,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,1,0,43
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,1,1,19
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,1,2,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,1,3,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,2,0,62
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,2,1,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,2,2,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,2,3,0
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,3,0,54
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,3,1,5
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,3,2,3
+main__f0__s42__cwt_cnn__l1.0000__c433e84464,3,3,0

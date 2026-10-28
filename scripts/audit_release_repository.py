@@ -1177,7 +1177,7 @@ claim state-of-the-art performance.
   configurations preserve the principal runtime versions, but a future
   lockfile would improve bit-level environment reconstruction.
 - Training and inference timings are identified as hardware-dependent.
-- `CITATION.cff` uses the current package version `0.2.0`. `date-released` and a
+- `CITATION.cff` uses the current package version `0.3.0`. `date-released` and a
   DOI are intentionally omitted until the v1.0.0 tag and Zenodo archive exist.
 
 ## Data and license audit
@@ -1653,7 +1653,7 @@ run configuration hostnames.
 | Working tree clean | {'PASS' if working_tree_clean else 'FAIL'} | A release must point to a committed revision. |
 | Independent numeric audit | {submission_audit.get('status', 'FAIL')} | {submission_audit.get('mismatch_count')} mismatches. |
 | README complete | {'PASS' if all(readme_checks.values()) and readme_no_unsupported_claims else 'FAIL'} | `docs/audit/REPOSITORY_AUDIT.md`. |
-| CITATION present | {'PASS' if not citation_issues else 'WARNING'} | Valid CFF 1.2.0 software record; version remains 0.2.0 until the v1.0.0 tag. |
+| CITATION present | {'PASS' if not citation_issues else 'WARNING'} | Valid CFF 1.2.0 software record; version is 0.3.0 until the release tag is assigned. |
 | License clear | PASS | MIT software scope plus explicit third-party data exclusion. |
 | `.gitignore` complete | {'PASS' if gitignore_ok else 'FAIL'} | Checked against representative ignored and retained paths. |
 | No secrets | PASS | No API key, token, private key, password, or credential URL detected. |
@@ -1700,8 +1700,8 @@ Preparation only. No GitHub Release, tag, or Zenodo DOI has been created.
 - Resource type: Software
 - License: MIT
 - Repository: `https://github.com/ddlinSpark/leakage-safe-bearing-benchmark`
-- Related manuscript: `Leakage-Safe Benchmarking of Time-Frequency Fusion and
-  Calibrated Self-Training for Bearing Fault Diagnosis`
+- Related manuscript: `Leakage-Safe Cross-Domain Benchmarking for Bearing Fault
+  Diagnosis: Time-Frequency Fusion, Calibration, and Self-Training`
 - Creators: resolve after the double-blind/public-release decision
 - DOI: leave unassigned until Zenodo mints the archive DOI
 

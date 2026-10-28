@@ -1,0 +1,2 @@
+method,model_key,parameters,gflops_sample,train_time_s_median,inference_ms_per_batch_median,runs
+cwt_cnn,cwt_cnn,884564.0,0.32849664,12.24187540001003,21.12604999274481,20

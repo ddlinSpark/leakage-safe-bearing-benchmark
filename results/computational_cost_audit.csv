@@ -1,0 +1,9 @@
+item,value,unit,note
+Measured CWT generation sample,6.5287862999830395,s,"48 windows, single process, canonical settings"
+CWT generation per window,0.13601638124964666,s/window,Measured sample divided by window count
+"Serial 3,939-window CWT estimate",535.7685257423582,s,Extrapolated from the measured sample; not a recorded full-run time
+Canonical NPZ bytes,605098843.0,bytes,Compressed cache containing raw and CWT arrays
+In-memory raw array bytes,387219456.0,bytes,float32 raw tensor
+In-memory CWT array bytes,217810944.0,bytes,float16 CWT tensor
+Computed bidirectional GRU FLOPs,1629487104.0,FLOPs/sample,Explicit 2-layer formula added to profiler counts
+Training-time inclusion,,status,Recorded training timings exclude offline CWT generation and cache loading

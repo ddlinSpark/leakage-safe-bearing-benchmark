@@ -15,6 +15,19 @@ threshold_summary.csv
 statistical_tests.csv
 hierarchical_statistics.csv # fold-aware paired comparisons and sensitivity tests
 model_complexity.csv         # aggregates every experiment type by method
+domain_shift_statistics.csv
+domain_shift_contrasts.csv
+damage_origin_manifest.csv
+label_granularity_sensitivity.csv
+calibration_per_run.csv
+calibration_summary.csv
+training_diagnostics_summary.csv
+self_training_sensitivity_summary.csv
+cwt_sensitivity_summary.csv
+normalization_sensitivity_summary.csv
+external_baseline_tuning.csv
+experiment_registry.csv
+paper_metrics.json
 EXPERIMENT_REPORT.md
 rechecks/all_runs.json
 config_used.json
@@ -47,3 +60,8 @@ The `sota/` directory is intentionally separate from the 320 canonical rows.
 It contains DRSN and TFN same-protocol adaptations, their paired tests,
 complexity summary, per-run configuration, predictions, and independent
 rechecks.
+
+`cwt_sensitivity/`, `normalization_sensitivity/`, and
+`self_training_sensitivity/` are separate sensitivity result families. They do
+not add rows to the canonical `results/raw_runs.csv` matrix and are never
+substituted into the primary comparison based on held-out test score.

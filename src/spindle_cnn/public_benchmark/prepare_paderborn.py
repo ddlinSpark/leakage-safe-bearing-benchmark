@@ -21,8 +21,13 @@ def _default_seven_zip() -> Path:
     configured = os.environ.get("SEVEN_ZIP")
     if configured:
         return Path(configured).expanduser()
-    resolved = shutil.which("7z") or shutil.which("7za") or shutil.which("7z.exe")
-    return Path(resolved or "7z")
+    resolved = (
+        shutil.which("7z")
+        or shutil.which("7za")
+        or shutil.which("7z.exe")
+        or shutil.which("bsdtar")
+    )
+    return Path(resolved or "bsdtar")
 
 
 DEFAULT_SEVEN_ZIP = _default_seven_zip()
@@ -36,6 +41,30 @@ def download_one(code: str, archive_dir: Path) -> tuple[str, Path]:
 
 
 def extract_one(code: str, archive: Path, output_dir: Path, seven_zip: Path) -> None:
+    destination = output_dir / code
+    destination.mkdir(parents=True, exist_ok=True)
+    if seven_zip.name.lower().startswith("bsdtar"):
+        completed = subprocess.run(
+            [
+                str(seven_zip),
+                "-xf",
+                str(archive),
+                "-C",
+                str(destination),
+                "--include=*_1.mat",
+                "--include=*_2.mat",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        if completed.returncode != 0:
+            raise RuntimeError(f"Failed to extract {code}: {completed.stderr}")
+        print(f"extracted {code} with bsdtar")
+        return
+
     command = [
         str(seven_zip),
         "x",
@@ -44,7 +73,7 @@ def extract_one(code: str, archive: Path, output_dir: Path, seven_zip: Path) -> 
         str(archive),
         "*_1.mat",
         "*_2.mat",
-        f"-o{output_dir}",
+        f"-o{destination}",
     ]
     completed = subprocess.run(
         command,

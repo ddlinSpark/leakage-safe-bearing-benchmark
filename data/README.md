@@ -43,8 +43,23 @@ PYTHONPATH=src python -m spindle_cnn.public_benchmark.pu_data \
 
 The extraction command requires a local archive extractor and the configured
 Paderborn archives. Pass `--seven-zip` with the local 7-Zip executable or set
-the `SEVEN_ZIP` environment variable. See `prepare_paderborn.py` for its CLI
-options.
+the `SEVEN_ZIP` environment variable. `bsdtar`, which is available in the
+recorded environment, is also supported and extracts only measurements 1 and 2.
+See `prepare_paderborn.py` for its CLI options. Archive sizes and SHA-256
+digests are recorded in `data/manifests/paderborn_archives_sha256.csv`.
+
+Build the original-amplitude audit cache after extraction:
+
+```bash
+PYTHONPATH=src python -m spindle_cnn.public_benchmark.paderborn_raw_windows \
+  --data-root data/public/paderborn/extracted \
+  --output data/public/paderborn/pu_4class_w8192_raw.npz \
+  --validate
+```
+
+This cache keeps source filenames, measurement numbers, window starts, and
+original amplitudes. The validation step confirms that re-standardizing its
+windows reproduces the canonical cache elementwise.
 
 ## CWRU Bearing Data Center
 

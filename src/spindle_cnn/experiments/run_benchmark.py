@@ -273,6 +273,7 @@ def write_diagnostics(
     labels: np.ndarray,
     predictions: np.ndarray,
     run_id: str,
+    pseudo_metadata: dict[str, Any] | None = None,
 ) -> None:
     run_dir.mkdir(parents=True, exist_ok=True)
     atomic_write_csv(run_dir / "training_history.csv", pd.DataFrame(state.history))
@@ -282,6 +283,16 @@ def write_diagnostics(
         labels=labels,
         predictions=predictions,
         temperature=state.temperature,
+        validation_logits=(
+            state.validation_logits
+            if state.validation_logits is not None
+            else np.empty((0, logits.shape[1]), dtype=np.float32)
+        ),
+        validation_labels=(
+            state.validation_labels
+            if state.validation_labels is not None
+            else np.empty((0,), dtype=np.int64)
+        ),
     )
 
     probabilities = probabilities_from_logits(logits, state.temperature)
@@ -294,6 +305,14 @@ def write_diagnostics(
         run_dir / "calibration_bins.csv",
         pd.DataFrame(calibration_rows),
     )
+    diagnostics = (
+        (pseudo_metadata or {}).get("pseudo_label_diagnostics", [])
+    )
+    if diagnostics:
+        atomic_write_csv(
+            run_dir / "pseudo_label_diagnostics.csv",
+            pd.DataFrame(diagnostics),
+        )
 
     num_classes = logits.shape[1]
     counts = confusion_matrix(labels, predictions, labels=np.arange(num_classes))
@@ -558,6 +577,10 @@ def train_and_evaluate(
             num_workers=config["training"]["num_workers"],
             device=device,
             seed=seed,
+            selection_mode=method_spec.pseudo_strategy,
+            coverage_fraction=float(
+                config["training"].get("pseudo_coverage_fraction", 0.5)
+            ),
         )
         train_time_s = time.perf_counter() - start
     else:
@@ -612,6 +635,7 @@ def train_and_evaluate(
         labels=labels,
         predictions=predictions,
         run_id=run_id,
+        pseudo_metadata=pseudo_metadata,
     )
     row = result_row(
         config=config,
@@ -853,6 +877,7 @@ def run_main_experiment(
                             labels=labels,
                             predictions=predictions,
                             run_id=run_id,
+                            pseudo_metadata={},
                         )
                         baseline = results.loc[
                             results["run_id"].astype(str).str.startswith(
@@ -1146,7 +1171,7 @@ def run_threshold_experiment(
 
             for threshold in missing_thresholds:
                 config_hash = hashes[threshold]
-                pseudo_idx, pseudo_labels, pseudo_weights, _ = select_pseudo_labels(
+                selection = select_pseudo_labels(
                     base_state.model,
                     data,
                     candidate_idx,
@@ -1157,6 +1182,9 @@ def run_threshold_experiment(
                     num_workers=training["num_workers"],
                     device=device,
                 )
+                pseudo_idx = selection.indices
+                pseudo_labels = selection.labels
+                pseudo_weights = selection.weights
                 pseudo_count = len(pseudo_idx)
                 pseudo_accuracy = float("nan")
                 pseudo_macro_f1 = float("nan")
@@ -1256,6 +1284,49 @@ def run_threshold_experiment(
                     labels=labels,
                     predictions=predictions,
                     run_id=run_id,
+                    pseudo_metadata={
+                        "pseudo_label_diagnostics": [
+                            {
+                                "round": 1,
+                                "candidate_pool_size": len(candidate_idx),
+                                "selected_count": pseudo_count,
+                                "selected_fraction": pseudo_count
+                                / max(len(candidate_idx), 1),
+                                "selected_confidence_mean": float(
+                                    pseudo_weights.mean()
+                                )
+                                if len(pseudo_weights)
+                                else np.nan,
+                                "selected_confidence_median": float(
+                                    np.median(pseudo_weights)
+                                )
+                                if len(pseudo_weights)
+                                else np.nan,
+                                "pseudo_accuracy": pseudo_accuracy,
+                                **{
+                                    f"selected_class_{class_id}": int(
+                                        (pseudo_labels == class_id).sum()
+                                    )
+                                    for class_id in range(int(data.labels.max()) + 1)
+                                },
+                                **{
+                                    f"pseudo_accuracy_class_{class_id}": (
+                                        float(
+                                            (
+                                                data.labels[pseudo_idx][
+                                                    pseudo_labels == class_id
+                                                ]
+                                                == class_id
+                                            ).mean()
+                                        )
+                                        if np.any(pseudo_labels == class_id)
+                                        else np.nan
+                                    )
+                                    for class_id in range(int(data.labels.max()) + 1)
+                                },
+                            }
+                        ]
+                    },
                 )
                 parameters = count_parameters(state.model)
                 sample_raw = torch.from_numpy(data.raw[:1]).to(device)

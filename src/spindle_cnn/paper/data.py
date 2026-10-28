@@ -64,7 +64,57 @@ class BenchmarkResults:
         self.external_tests = pd.read_csv(
             self.external_root / "statistical_tests.csv"
         )
+        self.domain_shift = self._optional("domain_shift_contrasts.csv")
+        self.domain_shift_summary = self._optional("domain_shift_statistics.csv")
+        self.damage_origin = self._optional("damage_origin_manifest.csv")
+        self.label_granularity = self._optional(
+            "label_granularity_sensitivity.csv"
+        )
+        self.calibration_audit = self._optional("calibration_per_run.csv")
+        self.calibration_summary = self._optional("calibration_summary.csv")
+        self.training_diagnostics = self._optional(
+            "training_diagnostics_summary.csv"
+        )
+        self.threshold_per_class = self._optional(
+            "threshold_per_class_summary.csv"
+        )
+        self.cwt_sensitivity = self._optional("cwt_sensitivity_summary.csv")
+        self.cwt_sensitivity_comparisons = self._optional(
+            "cwt_sensitivity_comparisons.csv"
+        )
+        self.normalization = self._optional(
+            "normalization_sensitivity_summary.csv"
+        )
+        self.normalization_comparisons = self._optional(
+            "normalization_sensitivity_comparisons.csv"
+        )
+        self.self_training_sensitivity = self._optional(
+            "self_training_sensitivity_summary.csv"
+        )
+        self.self_training_comparisons = self._optional(
+            "self_training_sensitivity_comparisons.csv"
+        )
+        self.pseudo_label_diagnostics = self._optional(
+            "pseudo_label_diagnostics.csv"
+        )
+        self.baseline_tuning = self._optional(
+            "external_baseline_tuning_summary.csv"
+        )
+        self.baseline_tuning_comparisons = self._optional(
+            "external_baseline_tuning_comparisons.csv"
+        )
+        self.training_budget = self._optional("training_budget_comparison.csv")
+        self.feature_space = self._optional("feature_space_clustering.csv")
+        self.cost_audit = self._optional("computational_cost_audit.csv")
+        self.foldwise = self._optional("foldwise_paired_differences.csv")
+        self.win_tie_loss = self._optional("win_tie_loss.csv")
         self._validate()
+
+    def _optional(self, relative_path: str) -> pd.DataFrame:
+        path = self.root / relative_path
+        if not path.is_file():
+            return pd.DataFrame()
+        return pd.read_csv(path)
 
     def _validate(self) -> None:
         if len(self.raw) != 320:

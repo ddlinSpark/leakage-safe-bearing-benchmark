@@ -1,0 +1,4 @@
+method,fold,seed,subset_fraction_requested,subset_windows,epochs_requested,epochs_ran,best_epoch,subset_macro_f1,reached_0_95,reached_0_99,final_train_loss,final_train_macro_f1,test_data_used,role
+raw_cnn,0,42,0.04,40,80,80,23,1.0,True,True,0.03541875779628754,1.0,False,engineering sanity check only
+cwt_cnn,0,42,0.04,40,80,80,23,1.0,True,True,0.003257143497467041,1.0,False,engineering sanity check only
+cwt_gru,0,42,0.04,40,80,80,34,1.0,True,True,0.00041083693504333495,1.0,False,engineering sanity check only

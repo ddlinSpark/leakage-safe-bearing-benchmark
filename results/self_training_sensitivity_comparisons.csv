@@ -1,0 +1,5 @@
+budget,comparison,left,right,n_pairs,mean_delta,hierarchical_ci_low,hierarchical_ci_high,fold_signflip_p,fold_wins,fold_ties,fold_losses,fold_deltas
+50_percent,coverage_controlled_0.50 minus supervised,supervised,coverage_controlled_0.50,20,0.034157822639048666,-0.02045068090333597,0.09582132026225806,0.375,3,0,1,-0.025623;0.075444;0.019087;0.067722
+50_percent,coverage_controlled_0.50 minus fixed_threshold_0.60,fixed_threshold_0.60,coverage_controlled_0.50,20,-0.004840328878514902,-0.08360840693666394,0.08435983123363337,0.875,1,0,3,-0.007911;-0.062069;-0.033840;0.084460
+full_balanced,coverage_controlled_0.50 minus supervised,supervised,coverage_controlled_0.50,20,-0.00024831513839297106,-0.0460130286499927,0.04409185842151738,1.0,2,0,2,0.019667;-0.044952;0.048993;-0.024702
+full_balanced,coverage_controlled_0.50 minus fixed_threshold_0.60,fixed_threshold_0.60,coverage_controlled_0.50,20,-0.010411040206271243,-0.07749422820793744,0.05003725740242241,1.0,3,0,1,0.001401;-0.095555;0.050098;0.002412

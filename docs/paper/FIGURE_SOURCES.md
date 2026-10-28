@@ -112,3 +112,24 @@ resolution.
 
 The figure scripts read the CSV or per-run files listed above. No experimental
 value is entered directly in a plotting function.
+
+## Figures 13-18: sensitivity and diagnostics
+
+| Figure | Output | Generator | Input |
+| --- | --- | --- | --- |
+| Figure 13 | `figure_13_domain_shift_diagnostics.{png,pdf}` | `analysis.domain_shift` | Original-amplitude window metrics and train-test contrasts |
+| Figure 14 | `figure_16_label_granularity.{png,pdf}` | `analysis.label_granularity` | Retained four-class test probabilities |
+| Figure 15 | `figure_19_cwt_sensitivity.{png,pdf}` | `analysis.cwt_sensitivity` | Six controlled CWT caches and their matched result rows |
+| Figure 16 | `figure_17_self_training_sensitivity.{png,pdf}` | `analysis.self_training` | Fixed, supervised, and coverage-controlled matched rows |
+| Figure 17 | `figure_22_feature_space_pca.{png,pdf}` | `analysis.feature_space` | CWT-GRU penultimate embeddings |
+| Figure 18 | `figure_23_feature_space_tsne.{png,pdf}` | `analysis.feature_space` | CWT-GRU penultimate embeddings |
+
+## Supplementary Figures S1-S5
+
+| Figure | Output | Input |
+| --- | --- | --- |
+| S1 | `figure_14_per_fold_reliability.{png,pdf}` | Per-run logits and validation-fitted temperatures |
+| S2 | `figure_15_temperature_distribution.{png,pdf}` | `calibration_per_run.csv` |
+| S3 | `figure_20_foldwise_paired_differences.{png,pdf}` | `foldwise_paired_differences.csv` |
+| S4 | `figure_21_training_budget.{png,pdf}` | `training_budget_comparison.csv` |
+| S5 | `figure_24_normalization_sensitivity.{png,pdf}` | `normalization_sensitivity_summary.csv` |

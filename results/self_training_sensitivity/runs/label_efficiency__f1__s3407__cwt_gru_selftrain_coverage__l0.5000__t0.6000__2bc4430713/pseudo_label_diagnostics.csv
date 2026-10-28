@@ -1,0 +1,3 @@
+round,candidate_pool_size,selected_count,selected_fraction,selected_confidence_mean,selected_confidence_median,pseudo_accuracy,selected_class_0,pseudo_accuracy_class_0,selected_class_1,pseudo_accuracy_class_1,selected_class_2,pseudo_accuracy_class_2,selected_class_3,pseudo_accuracy_class_3
+1,989,495,0.5005055611729019,0.8013551235198975,0.793770968914032,1.0,179,1.0,125,1.0,118,1.0,73,1.0
+2,989,496,0.5015166835187057,0.8124890327453613,0.8160587549209595,1.0,179,1.0,124,1.0,124,1.0,69,1.0

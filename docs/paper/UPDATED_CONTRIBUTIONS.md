@@ -1,35 +1,37 @@
 # Updated Contributions
 
-The revised Section 1.1 contains the following three contributions.
+The revised Section 1.1 contains the following four contributions.
 
-1. **A joint comparison that distinguishes representation and training-
-   procedure effects from split-induced inflation by evaluating raw waveform,
-   time-frequency, recurrent fusion, attention, temperature scaling, and
-   self-training under simultaneous bearing-identity and operating-condition
-   holdout.**
+1. **A leakage-safe protocol that applies simultaneous physical-bearing and
+   operating-condition holdout to non-overlapping windows and audited raw-source
+   identities.**
 
-   Prior leakage-aware work has primarily exposed inflated scores or audited
-   split construction. This study does not claim to discover leakage. It
-   evaluates several representation and training choices under one common
-   grouped protocol while withholding target labels from fitting, calibration,
-   pseudo-label creation, and model selection.
+   The cache is reconstructed from official archives and re-standardized
+   elementwise from the restored source windows. The audit verifies that test
+   bearings and conditions never enter training or validation.
 
-2. **A protocol-controlled external comparison in which representative DRSN
-   and TFN adaptations are retrained on the same windows, folds, seeds, and
-   metrics rather than ranked with numbers imported from incompatible published
-   splits.**
+2. **A protocol-controlled comparison of representation, architecture, and
+   training-procedure choices on identical fold-seed keys.**
 
-   The contribution is the controlled comparison boundary. The external models
-   are adaptations and are not presented as exact reproductions of their
-   original experimental settings.
+   Raw waveform, recurrent, magnitude-CWT, fusion, SE, temperature scaling,
+   fixed-threshold self-training, and coverage-controlled self-training are
+   compared under the same split. DRSN and TFN are separately described as
+   same-protocol adaptations.
 
-3. **An evidence report that retains negative and statistically non-significant
-   outcomes, reports fold-aware uncertainty and the validation-to-test gap, and
-   separates calibration reliability from classification accuracy.**
+3. **Fold-first statistical inference for repeated seeds within shared
+   operating-condition domains.**
 
-   This contribution emphasizes reporting practice and evidence quality rather
-   than claiming that architectural complexity or self-training is inherently
-   beneficial.
+   Paired intervals resample folds before seeds. The exact sign-flip test and
+   the four-domain inferential limit are reported alongside descriptive
+   fold-wise wins and losses.
+
+4. **A cross-domain evidence analysis that separates claims supported by the
+   experiment from unisolated causal factors.**
+
+   Raw-signal statistics, damage-origin manifests, label-granularity controls,
+   calibration, training audits, and penultimate feature visualizations are
+   reported. The design supports a statement about joint bearing, condition,
+   and damage-origin change, not a claim that one factor caused the gap.
 
 The wording avoids claiming a new general architecture, a new universal
 benchmark, or state-of-the-art superiority.

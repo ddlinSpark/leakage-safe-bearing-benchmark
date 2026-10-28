@@ -127,3 +127,16 @@ Run the manuscript tests and rebuild command in
 `PAPER_REPRODUCIBILITY.md`. The builder fails if a required source row is
 missing, a canonical run is unsuccessful, a run ID is duplicated, or a method
 does not have the required repetition count.
+
+## Tables 14-18: sensitivity analyses
+
+| Table | Builder helper | Input |
+| --- | --- | --- |
+| Table 14 | `domain_shift_rows()` | `results/domain_shift_contrasts.csv` |
+| Table 15 | `label_granularity_rows()` | `results/label_granularity_sensitivity.csv` |
+| Table 16 | `cwt_sensitivity_rows()` | `results/cwt_sensitivity_summary.csv` |
+| Table 17 | `self_training_sensitivity_rows()` | `results/self_training_sensitivity_summary.csv` |
+| Table 18 | `validation_audit_rows()` | Training-budget and baseline-tuning comparison tables |
+
+All new tables are generated directly from retained CSV rows. Validation-only
+selection occurs before any summary table is built.

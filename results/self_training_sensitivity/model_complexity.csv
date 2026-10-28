@@ -1,0 +1,2 @@
+method,model_key,parameters,gflops_sample,train_time_s_median,inference_ms_per_batch_median,runs
+cwt_gru_selftrain_coverage,cwt_gru,1101012.0,1.814508544,67.01551600001403,46.703475003596395,40

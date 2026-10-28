@@ -1,0 +1,65 @@
+# Reproduction Report
+
+## Verdict
+
+**VERIFIED for the retained result registry and manuscript tables.** Every canonical test metric was recomputed independently from saved logits, all split manifests were regenerated, and all 13 original manuscript tables passed the independent numerical audit.
+
+The status is not a claim that all 320 stochastic training runs were executed again during this revision. Training-time reproduction is reported separately in `CLEAN_REPRODUCTION_REPORT.md`.
+
+## Recorded environment
+
+Python 3.13.5; PyTorch 2.11.0+cu130; CUDA 13.0; NumPy 2.1.3; pandas 2.2.3; device NVIDIA GeForce RTX 5080
+
+## Result inventory
+
+- Canonical rows: 320
+- Main rows: 140
+- Label-efficiency rows: 80
+- Threshold rows: 100
+- External rows: 40
+- Canonical raw_runs.csv SHA-256: `a047b0f9530f07643ef2c5c57f395a15abe045c7e8640a10119c273e46fbeb10`
+- External raw_runs.csv SHA-256: `c92f2b4a447dbc13f581981d15d76e97ca3382ab024a905f4fbccd6ac1e5b09a`
+- Dataset hash values: 1
+- Split hashes by fold: {0: 1, 1: 1, 2: 1, 3: 1}
+
+## Numerical audit
+
+- Overall independent audit: **PASS**
+- Mismatches: 0
+- Canonical logits rechecked: 320
+- External logits rechecked: 40
+- Tables parsed: 18
+- Figures parsed: 23
+
+## No-SE interval consistency
+
+| point_estimate | recomputed_ci_low | recomputed_ci_high | point_outside_percentile_interval | status |
+| --- | --- | --- | --- | --- |
+| -0.0270 | -0.0733 | 0.0221 | False | VERIFIED |
+
+The apparent mismatch between the positive no-SE advantage and an interval whose upper endpoint is smaller comes from a direction label. The stored row is full-minus-no-SE (`-0.027`, interval `[-0.073, +0.022]`). Relabelled as no-SE-minus-full, the estimate and both interval endpoints reverse sign, giving `+0.027` and `[-0.022, +0.073]`; the estimate then lies inside. The conservative no-stable-evidence conclusion remains.
+
+## Main figures
+
+| figure | file | status |
+| --- | --- | --- |
+| Figure 4 | figure_01_model_comparison.png | PRESENT |
+| Figure 5 | figure_03_label_efficiency.png | PRESENT |
+| Figure 6 | figure_04_threshold_sensitivity.png | PRESENT |
+| Figure 7 | figure_05_calibration.png | PRESENT |
+| Figure 8 | figure_08_reliability_diagrams.png | PRESENT |
+| Figure 9 | figure_02_ablation.png | PRESENT |
+| Figure 10 | figure_06_confusion_matrices.png | PRESENT |
+| Figure 11 | figure_07_computational_cost.png | PRESENT |
+| Figure 12 | figure_09_validation_test_gap.png | PRESENT |
+
+## Reproduction levels
+
+| Level | Status | Evidence |
+| --- | --- | --- |
+| Split reconstruction | VERIFIED | Four manifests regenerate with identical index sets and hashes. |
+| Metric recomputation | VERIFIED | 320 canonical and 40 external rows reproduce from saved logits. |
+| Manuscript tables | VERIFIED | Tables 1-13 pass the independent audit. |
+| Primary figures | VERIFIED | Figures 4-12 are retained as PNG and PDF at publication resolution. |
+| Full stochastic retraining | SEE CLEAN REPORT | Time-intensive training is evaluated in the isolated clean checkout. |
+| Sensitivity experiments | SEE EXPERIMENT REPORT | New runs are marked exploratory where the worktree was dirty. |

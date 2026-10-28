@@ -1,0 +1,13 @@
+result_family,path,rows,expected_rows,methods,duplicate_experiment_keys,statuses,git_dirty_rows,status,note
+coverage_self_training,results/self_training_sensitivity/raw_runs.csv,40,40,cwt_gru_selftrain_coverage,0,success,40,VERIFIED,
+normalization,results/normalization_sensitivity/raw_runs.csv,60,60,cwt_cnn;cwt_gru;raw_cnn,0,success,60,VERIFIED,
+baseline_tuning,results/baseline_tuning/raw_runs.csv,80,80,cwt_cnn;drsn;raw_cnn;tfnet,0,success,80,VERIFIED,
+training_budget,results/training_budget_30/raw_runs.csv,80,80,cwt_cnn;cwt_gru;cwt_gru_no_se;raw_cnn,0,success,80,VERIFIED,
+calibration_recheck,results/calibration_recheck/raw_runs.csv,80,80,cwt_cnn;cwt_gru;cwt_gru_selftrain;raw_cnn,0,success,80,VERIFIED,
+cwt_no_max_norm,results/cwt_sensitivity/no_max_norm/raw_runs.csv,20,20,cwt_cnn,0,success,20,VERIFIED,
+cwt_log_magnitude,results/cwt_sensitivity/log_magnitude/raw_runs.csv,20,20,cwt_cnn,0,success,20,VERIFIED,
+cwt_resolution_128,results/cwt_sensitivity/resolution_128/raw_runs.csv,20,20,cwt_cnn,0,success,20,VERIFIED,
+cwt_scales_32,results/cwt_sensitivity/scales_32/raw_runs.csv,20,20,cwt_cnn,0,success,20,VERIFIED,
+cwt_scales_64,results/cwt_sensitivity/scales_64/raw_runs.csv,20,20,cwt_cnn,0,success,20,VERIFIED,
+cwt_real_imag,results/cwt_sensitivity/real_imag/raw_runs.csv,20,20,cwt_cnn,0,success,20,VERIFIED,
+threshold_per_class_diagnostics,results/threshold_per_class_diagnostics.csv,100,100,cwt_gru_selftrain,0,success,0,VERIFIED,

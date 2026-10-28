@@ -34,3 +34,18 @@ def test_every_registered_model_returns_one_logit_per_class(model_name: str) -> 
 def test_unknown_baseline_is_not_silently_registered() -> None:
     with pytest.raises(ValueError, match="Unknown model"):
         build_model("unknown_external_model")
+
+
+def test_cwt_gru_penultimate_embedding_shape() -> None:
+    model = build_model(
+        "cwt_gru",
+        num_classes=4,
+        raw_channels=2,
+        image_channels=2,
+    )
+    raw = torch.randn(2, 2, 256)
+    cwt = torch.randn(2, 2, 32, 32)
+    embedding = model.embedding(raw, cwt)
+    logits = model(raw, cwt)
+    assert embedding.shape == (2, 128)
+    assert logits.shape == (2, 4)

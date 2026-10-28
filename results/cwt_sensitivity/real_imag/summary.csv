@@ -1,0 +1,2 @@
+experiment_type,Model,model_key,label_ratio,Macro_F1_Mean,Macro_F1_Std,Accuracy_Mean,Accuracy_Std,Runs
+main,cwt_cnn,cwt_cnn,1.0,0.29761960416142086,0.08265830740618303,0.38931451612903223,0.07246825622168371,20

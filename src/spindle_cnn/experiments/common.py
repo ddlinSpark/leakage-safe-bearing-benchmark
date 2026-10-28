@@ -16,6 +16,9 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import pywt
+import scipy
+import sklearn
 import torch
 
 from ..paths import PROJECT_ROOT
@@ -128,6 +131,9 @@ def environment_snapshot(device: torch.device) -> dict[str, Any]:
         "torch": torch.__version__,
         "numpy": np.__version__,
         "pandas": pd.__version__,
+        "scipy": scipy.__version__,
+        "scikit_learn": sklearn.__version__,
+        "pywavelets": pywt.__version__,
         "cuda_available": torch.cuda.is_available(),
         "cuda_version": torch.version.cuda,
         "cudnn_version": torch.backends.cudnn.version(),

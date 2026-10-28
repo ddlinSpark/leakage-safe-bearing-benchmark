@@ -1,0 +1,86 @@
+{
+  "dataset": {
+    "cache": "data/public/paderborn/pu_4class_w8192.npz",
+    "heldout_record_ids": [
+      4,
+      8,
+      12,
+      15
+    ],
+    "name": "Paderborn-4class-CWT-scales_64",
+    "protocol": "bearing-code-and-operating-condition-disjoint",
+    "sensitivity_variant": "scales_64",
+    "split_version": "paderborn-4fold-unseen-bearing-unseen-condition-v1"
+  },
+  "experiments": {
+    "ablation": {
+      "fractions": [
+        1.0
+      ],
+      "methods": [
+        "cwt_cnn",
+        "gru_only",
+        "cwt_gru_no_se",
+        "cwt_gru",
+        "cwt_gru_temp",
+        "cwt_gru_selftrain"
+      ]
+    },
+    "label_efficiency": {
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "methods": [
+        "cwt_gru",
+        "cwt_gru_selftrain"
+      ]
+    },
+    "main": {
+      "fractions": [
+        1.0
+      ],
+      "methods": [
+        "cwt_cnn"
+      ]
+    },
+    "threshold": {
+      "fraction": 0.5,
+      "method": "cwt_gru_selftrain",
+      "thresholds": [
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7
+      ]
+    }
+  },
+  "folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "output_dir": "results",
+  "seeds": [
+    42,
+    123,
+    2024,
+    2025,
+    3407
+  ],
+  "training": {
+    "batch_size": 64,
+    "deterministic": true,
+    "device": "cuda",
+    "epochs": 12,
+    "learning_rate": 0.002,
+    "num_workers": 0,
+    "patience": 4,
+    "pseudo_rounds": 2,
+    "pseudo_threshold": 0.6,
+    "weight_decay": 0.0001
+  }
+}

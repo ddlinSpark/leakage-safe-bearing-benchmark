@@ -20,6 +20,7 @@ class MethodSpec:
     model_key: str
     uses_temperature: bool = False
     uses_self_training: bool = False
+    pseudo_strategy: str = "threshold"
 
 
 METHODS: dict[str, MethodSpec] = {
@@ -34,6 +35,13 @@ METHODS: dict[str, MethodSpec] = {
         "cwt_gru",
         uses_temperature=True,
         uses_self_training=True,
+    ),
+    "cwt_gru_selftrain_coverage": MethodSpec(
+        "cwt_gru_selftrain_coverage",
+        "cwt_gru",
+        uses_temperature=True,
+        uses_self_training=True,
+        pseudo_strategy="coverage",
     ),
     "drsn": MethodSpec("drsn", "drsn"),
     "tfnet": MethodSpec("tfnet", "tfnet"),

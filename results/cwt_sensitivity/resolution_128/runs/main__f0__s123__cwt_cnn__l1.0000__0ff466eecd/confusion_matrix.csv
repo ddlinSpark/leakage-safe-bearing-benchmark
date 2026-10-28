@@ -1,0 +1,17 @@
+run_id,true_class,predicted_class,count
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,0,0,60
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,0,1,2
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,0,2,0
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,0,3,0
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,1,0,45
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,1,1,12
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,1,2,1
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,1,3,4
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,2,0,56
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,2,1,2
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,2,2,1
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,2,3,3
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,3,0,46
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,3,1,9
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,3,2,2
+main__f0__s123__cwt_cnn__l1.0000__0ff466eecd,3,3,5

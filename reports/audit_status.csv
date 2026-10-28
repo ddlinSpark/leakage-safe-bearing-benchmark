@@ -1,0 +1,10 @@
+check,status,evidence
+Non-overlapping windows,VERIFIED,stride alignment and disjoint half-open ranges
+Train/test and validation/test bearing isolation,VERIFIED,recomputed from cache record identifiers
+Operating-condition isolation,VERIFIED,recomputed from cache condition identifiers
+Stored split manifests,VERIFIED,index sets and SHA-256 hashes
+Raw source window mapping,VERIFIED,source filenames and elementwise standardization check
+Label and damage metadata,VERIFIED,16 physical-bearing manifest rows
+Damage-origin confounding,VERIFIED,held-out faults are all real-damage bearings
+"Canonical tables, figures, and 360 result rows",VERIFIED,independent numerical audit
+No-SE hierarchical interval consistency,VERIFIED,paired fold-seed bootstrap reproduction

@@ -1,0 +1,68 @@
+{
+  "config_schema_version": 1,
+  "dataset": {
+    "cache": "data/public/paderborn/pu_4class_w8192.npz",
+    "heldout_record_ids": [
+      4,
+      8,
+      12,
+      15
+    ],
+    "name": "Paderborn-4class",
+    "protocol": "bearing-code-and-operating-condition-disjoint",
+    "split_version": "paderborn-4fold-unseen-bearing-unseen-condition-v1"
+  },
+  "environment": {
+    "cuda_available": true,
+    "cuda_version": "13.0",
+    "cudnn_version": 91900,
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5080",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+    "torch": "2.11.0+cu130"
+  },
+  "experiment": {
+    "fractions": [
+      1.0
+    ],
+    "methods": [
+      "raw_cnn",
+      "cwt_cnn",
+      "drsn",
+      "tfnet"
+    ]
+  },
+  "experiment_type": "main",
+  "provenance": {
+    "git_commit": "8975858ccbf62760c20fed1eed0eb45f525e5cee",
+    "git_dirty": true
+  },
+  "run": {
+    "dataset_hash": "a898abcb63e17ee68f2014d19b4d0f675b6c4d19a9abc89376031a78c3a23df4",
+    "effective_self_training_rounds": 0,
+    "fold": 2,
+    "label_ratio": 1.0,
+    "method": "cwt_cnn",
+    "model_key": "cwt_cnn",
+    "seed": 123,
+    "split_hash": "450e3eeacd72d8305723c2e279bd095e1b4177e37ffa9c9402e5cce01d3d80b8",
+    "threshold": null,
+    "uses_self_training": false,
+    "uses_temperature": false
+  },
+  "training": {
+    "batch_size": 64,
+    "deterministic": true,
+    "device": "cuda",
+    "epochs": 12,
+    "learning_rate": 0.001,
+    "num_workers": 0,
+    "patience": 4,
+    "pseudo_rounds": 2,
+    "pseudo_threshold": 0.6,
+    "weight_decay": 0.0001
+  }
+}

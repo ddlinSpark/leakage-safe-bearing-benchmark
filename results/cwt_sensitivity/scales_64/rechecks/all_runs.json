@@ -1,0 +1,1345 @@
+{
+  "passed": 20,
+  "runs": [
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32661290322580644,
+          "recorded": 0.3266129032258064
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28308447150723226,
+          "recorded": 0.2830844715072322
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5574286498476881,
+          "recorded": 0.5574286498476881
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.22500858811405017,
+          "recorded": 0.2250085881140501
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.991659480789872,
+          "recorded": 2.991659480789872
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32661290322580644,
+          "recorded": 0.3266129032258064
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.30327821609931843,
+          "recorded": 0.3032782160993184
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.602102302431621,
+          "recorded": 0.602102302431621
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.22500858811405017,
+          "recorded": 0.2250085881140501
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.204675946647945,
+          "recorded": 4.204675946647945
+        }
+      },
+      "run_id": "main__f0__s42__cwt_cnn__l1.0000__c8f438091c",
+      "status": "passed",
+      "temperature": 1.4462636709213257
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.36693548387096775,
+          "recorded": 0.3669354838709677
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.24923226555804986,
+          "recorded": 0.2492322655580498
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.44070339540699655,
+          "recorded": 0.4407033954069965
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25912862312219015,
+          "recorded": 0.2591286231221901
+        },
+        "nll": {
+          "absolute_difference": 8.881784197001252e-16,
+          "passed": true,
+          "recomputed": 2.5573446412567553,
+          "recorded": 2.557344641256756
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.36693548387096775,
+          "recorded": 0.3669354838709677
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2693883836097706,
+          "recorded": 0.2693883836097706
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5020714555576765,
+          "recorded": 0.5020714555576765
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25912862312219015,
+          "recorded": 0.2591286231221901
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.503736178630346,
+          "recorded": 3.503736178630346
+        }
+      },
+      "run_id": "main__f0__s123__cwt_cnn__l1.0000__f6387108e7",
+      "status": "passed",
+      "temperature": 1.4449812173843384
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3346774193548387,
+          "recorded": 0.3346774193548387
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.26843470035555306,
+          "recorded": 0.268434700355553
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5003239658891431,
+          "recorded": 0.5003239658891431
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.22917237331246332,
+          "recorded": 0.2291723733124633
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.7568025178701987,
+          "recorded": 2.7568025178701987
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3346774193548387,
+          "recorded": 0.3346774193548387
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28689621531560133,
+          "recorded": 0.2868962153156013
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5477875101596306,
+          "recorded": 0.5477875101596306
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.22917237331246332,
+          "recorded": 0.2291723733124633
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.6570846149368177,
+          "recorded": 3.6570846149368177
+        }
+      },
+      "run_id": "main__f0__s2024__cwt_cnn__l1.0000__19e30c9e74",
+      "status": "passed",
+      "temperature": 1.3771320581436157
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3346774193548387,
+          "recorded": 0.3346774193548387
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.25940699534561806,
+          "recorded": 0.259406995345618
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4742596066332538,
+          "recorded": 0.4742596066332538
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2284188034188034,
+          "recorded": 0.2284188034188034
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.003773507824685,
+          "recorded": 3.003773507824685
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3346774193548387,
+          "recorded": 0.3346774193548387
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2610485553665855,
+          "recorded": 0.2610485553665855
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4793058118747018,
+          "recorded": 0.4793058118747018
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2284188034188034,
+          "recorded": 0.2284188034188034
+        },
+        "raw_nll": {
+          "absolute_difference": 4.440892098500626e-16,
+          "passed": true,
+          "recomputed": 3.0755738898051215,
+          "recorded": 3.075573889805121
+        }
+      },
+      "run_id": "main__f0__s2025__cwt_cnn__l1.0000__7eb5a0dec0",
+      "status": "passed",
+      "temperature": 1.0284793376922607
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.34274193548387094,
+          "recorded": 0.3427419354838709
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2784540663051563,
+          "recorded": 0.2784540663051563
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5274546361215315,
+          "recorded": 0.5274546361215315
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.23221316085489313,
+          "recorded": 0.2322131608548931
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.733542857295445,
+          "recorded": 3.733542857295445
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.34274193548387094,
+          "recorded": 0.3427419354838709
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2866868848642293,
+          "recorded": 0.2866868848642293
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5522488088501216,
+          "recorded": 0.5522488088501216
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.23221316085489313,
+          "recorded": 0.2322131608548931
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.4225741102030485,
+          "recorded": 4.4225741102030485
+        }
+      },
+      "run_id": "main__f0__s3407__cwt_cnn__l1.0000__7fb38cb1e4",
+      "status": "passed",
+      "temperature": 1.2011553049087524
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3588709677419355,
+          "recorded": 0.3588709677419355
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.19897339754006454,
+          "recorded": 0.1989733975400645
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3062505550932315,
+          "recorded": 0.3062505550932315
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27128113700281237,
+          "recorded": 0.2712811370028123
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.5472296316332166,
+          "recorded": 1.5472296316332166
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3588709677419355,
+          "recorded": 0.3588709677419355
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2651202553956333,
+          "recorded": 0.2651202553956333
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5088414020245315,
+          "recorded": 0.5088414020245315
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.27128113700281237,
+          "recorded": 0.2712811370028123
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.2183424597074146,
+          "recorded": 3.2183424597074146
+        }
+      },
+      "run_id": "main__f1__s42__cwt_cnn__l1.0000__cec0e82b3d",
+      "status": "passed",
+      "temperature": 2.8004801273345947
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3185483870967742,
+          "recorded": 0.3185483870967742
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.23130026328401912,
+          "recorded": 0.2313002632840191
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.44388771115414705,
+          "recorded": 0.443887711154147
+        },
+        "macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.22580724070450098,
+          "recorded": 0.2258072407045009
+        },
+        "nll": {
+          "absolute_difference": 2.220446049250313e-16,
+          "passed": true,
+          "recomputed": 1.6557334734808093,
+          "recorded": 1.6557334734808091
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3185483870967742,
+          "recorded": 0.3185483870967742
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.30206552061731534,
+          "recorded": 0.3020655206173153
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6076609917564065,
+          "recorded": 0.6076609917564065
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.22580724070450098,
+          "recorded": 0.2258072407045009
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.307667176508747,
+          "recorded": 3.307667176508747
+        }
+      },
+      "run_id": "main__f1__s123__cwt_cnn__l1.0000__af2fbbead5",
+      "status": "passed",
+      "temperature": 2.383758306503296
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3346774193548387,
+          "recorded": 0.3346774193548387
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.20664923203102561,
+          "recorded": 0.2066492320310256
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.33583236508952624,
+          "recorded": 0.3358323650895262
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.23303063441239746,
+          "recorded": 0.2330306344123974
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.5579247942479488,
+          "recorded": 1.5579247942479488
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3346774193548387,
+          "recorded": 0.3346774193548387
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2730708379361882,
+          "recorded": 0.2730708379361882
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5258406147319415,
+          "recorded": 0.5258406147319415
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.23303063441239746,
+          "recorded": 0.2330306344123974
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.060853483501592,
+          "recorded": 3.060853483501592
+        }
+      },
+      "run_id": "main__f1__s2024__cwt_cnn__l1.0000__c9d9871c6c",
+      "status": "passed",
+      "temperature": 2.5869507789611816
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4717741935483871,
+          "recorded": 0.4717741935483871
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.18137752471810384,
+          "recorded": 0.1813775247181038
+        },
+        "ece": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.19617712523379807,
+          "recorded": 0.196177125233798
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3648148148148148,
+          "recorded": 0.3648148148148148
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.4475735671573864,
+          "recorded": 1.4475735671573864
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4717741935483871,
+          "recorded": 0.4717741935483871
+        },
+        "raw_brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.22552318935027182,
+          "recorded": 0.2255231893502718
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4014919929638964,
+          "recorded": 0.4014919929638964
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3648148148148148,
+          "recorded": 0.3648148148148148
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.805149985085274,
+          "recorded": 2.805149985085274
+        }
+      },
+      "run_id": "main__f1__s2025__cwt_cnn__l1.0000__70b71ff66e",
+      "status": "passed",
+      "temperature": 2.618035078048706
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.40725806451612906,
+          "recorded": 0.407258064516129
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.19225592835863634,
+          "recorded": 0.1922559283586363
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1959503293255449,
+          "recorded": 0.1959503293255449
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32302262099210166,
+          "recorded": 0.3230226209921016
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.4746239604245113,
+          "recorded": 1.4746239604245113
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.40725806451612906,
+          "recorded": 0.407258064516129
+        },
+        "raw_brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.24860894477941098,
+          "recorded": 0.2486089447794109
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.43449672374671544,
+          "recorded": 0.4344967237467154
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32302262099210166,
+          "recorded": 0.3230226209921016
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.893564706656819,
+          "recorded": 2.893564706656819
+        }
+      },
+      "run_id": "main__f1__s3407__cwt_cnn__l1.0000__2628853d32",
+      "status": "passed",
+      "temperature": 2.8912651538848877
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3588709677419355,
+          "recorded": 0.3588709677419355
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2590949126973103,
+          "recorded": 0.2590949126973103
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.47999199864409414,
+          "recorded": 0.4799919986440941
+        },
+        "macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.24560605616032394,
+          "recorded": 0.2456060561603239
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.6835384146023347,
+          "recorded": 2.6835384146023347
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3588709677419355,
+          "recorded": 0.3588709677419355
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.28071951932754163,
+          "recorded": 0.2807195193275416
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5387677554402954,
+          "recorded": 0.5387677554402954
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.24560605616032394,
+          "recorded": 0.2456060561603239
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.757906991537004,
+          "recorded": 3.757906991537004
+        }
+      },
+      "run_id": "main__f2__s42__cwt_cnn__l1.0000__cf8005a31a",
+      "status": "passed",
+      "temperature": 1.459366798400879
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.40725806451612906,
+          "recorded": 0.407258064516129
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2644075114464155,
+          "recorded": 0.2644075114464155
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.49465066896770316,
+          "recorded": 0.4946506689677031
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2679859792609902,
+          "recorded": 0.2679859792609902
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 5.9428575727963215,
+          "recorded": 5.9428575727963215
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.40725806451612906,
+          "recorded": 0.407258064516129
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2519803150662049,
+          "recorded": 0.2519803150662049
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.46133465956949565,
+          "recorded": 0.4613346595694956
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2679859792609902,
+          "recorded": 0.2679859792609902
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.438219772535394,
+          "recorded": 4.438219772535394
+        }
+      },
+      "run_id": "main__f2__s123__cwt_cnn__l1.0000__f9e77b7813",
+      "status": "passed",
+      "temperature": 0.7346188426017761
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.33064516129032256,
+          "recorded": 0.3306451612903225
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.26280007310346076,
+          "recorded": 0.2628000731034607
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4477773565540148,
+          "recorded": 0.4477773565540148
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2445945945945946,
+          "recorded": 0.2445945945945946
+        },
+        "nll": {
+          "absolute_difference": 8.881784197001252e-16,
+          "passed": true,
+          "recomputed": 2.2162350799082873,
+          "recorded": 2.216235079908288
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.33064516129032256,
+          "recorded": 0.3306451612903225
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29835241630570697,
+          "recorded": 0.2983524163057069
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5621374955444073,
+          "recorded": 0.5621374955444073
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2445945945945946,
+          "recorded": 0.2445945945945946
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.9233452726848665,
+          "recorded": 3.9233452726848665
+        }
+      },
+      "run_id": "main__f2__s2024__cwt_cnn__l1.0000__39f0efefd3",
+      "status": "passed",
+      "temperature": 1.9628088474273682
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3033165205939078,
+          "recorded": 0.3033165205939078
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5889084283414826,
+          "recorded": 0.5889084283414826
+        },
+        "macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.19418138772536878,
+          "recorded": 0.1941813877253687
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.824860650728459,
+          "recorded": 2.824860650728459
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.29435483870967744,
+          "recorded": 0.2943548387096774
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.32003805561220433,
+          "recorded": 0.3200380556122043
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.6277832480752008,
+          "recorded": 0.6277832480752008
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.19418138772536878,
+          "recorded": 0.1941813877253687
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.672871487481293,
+          "recorded": 3.672871487481293
+        }
+      },
+      "run_id": "main__f2__s2025__cwt_cnn__l1.0000__5299ef9ff6",
+      "status": "passed",
+      "temperature": 1.3325674533843994
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.45564516129032256,
+          "recorded": 0.4556451612903225
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2454929395987805,
+          "recorded": 0.2454929395987805
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.43177470055977185,
+          "recorded": 0.4317747005597718
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3313731722822632,
+          "recorded": 0.3313731722822632
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 3.8731131765113966,
+          "recorded": 3.8731131765113966
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.45564516129032256,
+          "recorded": 0.4556451612903225
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2516594478076922,
+          "recorded": 0.2516594478076922
+        },
+        "raw_ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.46018049149947765,
+          "recorded": 0.4601804914994776
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3313731722822632,
+          "recorded": 0.3313731722822632
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 5.050449872307111,
+          "recorded": 5.050449872307111
+        }
+      },
+      "run_id": "main__f2__s3407__cwt_cnn__l1.0000__88f1f4674d",
+      "status": "passed",
+      "temperature": 1.3238025903701782
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5362903225806451,
+          "recorded": 0.5362903225806451
+        },
+        "brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.16973112431885884,
+          "recorded": 0.1697311243188588
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2450319757283575,
+          "recorded": 0.2450319757283575
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4353926821034879,
+          "recorded": 0.4353926821034879
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.4745265267346406,
+          "recorded": 1.4745265267346406
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5362903225806451,
+          "recorded": 0.5362903225806451
+        },
+        "raw_brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.20329474214048548,
+          "recorded": 0.2032947421404854
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3880399274899049,
+          "recorded": 0.3880399274899049
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4353926821034879,
+          "recorded": 0.4353926821034879
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.6285825669545204,
+          "recorded": 2.6285825669545204
+        }
+      },
+      "run_id": "main__f3__s42__cwt_cnn__l1.0000__28852a584e",
+      "status": "passed",
+      "temperature": 2.127027750015259
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5080645161290323,
+          "recorded": 0.5080645161290323
+        },
+        "brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.20598250116650554,
+          "recorded": 0.2059825011665055
+        },
+        "ece": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.34960222257152096,
+          "recorded": 0.3496022225715209
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4056473237692434,
+          "recorded": 0.4056473237692434
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.9720729194036148,
+          "recorded": 1.9720729194036148
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5080645161290323,
+          "recorded": 0.5080645161290323
+        },
+        "raw_brier": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.22464283823458364,
+          "recorded": 0.2246428382345836
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4248277098353162,
+          "recorded": 0.4248277098353162
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4056473237692434,
+          "recorded": 0.4056473237692434
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.94571024171372,
+          "recorded": 2.94571024171372
+        }
+      },
+      "run_id": "main__f3__s123__cwt_cnn__l1.0000__b66c1432ff",
+      "status": "passed",
+      "temperature": 1.591746211051941
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.43951612903225806,
+          "recorded": 0.439516129032258
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2453994444723051,
+          "recorded": 0.2453994444723051
+        },
+        "ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4260296729284483,
+          "recorded": 0.4260296729284483
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3334670527086894,
+          "recorded": 0.3334670527086894
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.4533749233615816,
+          "recorded": 2.4533749233615816
+        },
+        "raw_accuracy": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.43951612903225806,
+          "recorded": 0.439516129032258
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2674896193688841,
+          "recorded": 0.2674896193688841
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5207439235227567,
+          "recorded": 0.5207439235227567
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3334670527086894,
+          "recorded": 0.3334670527086894
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 4.716275543196389,
+          "recorded": 4.716275543196389
+        }
+      },
+      "run_id": "main__f3__s2024__cwt_cnn__l1.0000__69b6c49a0f",
+      "status": "passed",
+      "temperature": 2.030956268310547
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5,
+          "recorded": 0.5
+        },
+        "brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.1788172703268575,
+          "recorded": 0.1788172703268575
+        },
+        "ece": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.19250962261151047,
+          "recorded": 0.1925096226115104
+        },
+        "macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3697595164609053,
+          "recorded": 0.3697595164609053
+        },
+        "nll": {
+          "absolute_difference": 2.220446049250313e-16,
+          "passed": true,
+          "recomputed": 1.4384854540904581,
+          "recorded": 1.438485454090458
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5,
+          "recorded": 0.5
+        },
+        "raw_brier": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.22727700533208822,
+          "recorded": 0.2272770053320882
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.4306490178446358,
+          "recorded": 0.4306490178446358
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3697595164609053,
+          "recorded": 0.3697595164609053
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.913611991750492,
+          "recorded": 2.913611991750492
+        }
+      },
+      "run_id": "main__f3__s2025__cwt_cnn__l1.0000__734e557a3e",
+      "status": "passed",
+      "temperature": 2.702357292175293
+    },
+    {
+      "metrics": {
+        "accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5403225806451613,
+          "recorded": 0.5403225806451613
+        },
+        "brier": {
+          "absolute_difference": 8.326672684688674e-17,
+          "passed": true,
+          "recomputed": 0.17305707471177517,
+          "recorded": 0.1730570747117751
+        },
+        "ece": {
+          "absolute_difference": 2.7755575615628914e-17,
+          "passed": true,
+          "recomputed": 0.21099702772152892,
+          "recorded": 0.2109970277215289
+        },
+        "macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.45493145856907014,
+          "recorded": 0.4549314585690701
+        },
+        "nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 1.37324920868989,
+          "recorded": 1.37324920868989
+        },
+        "raw_accuracy": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.5403225806451613,
+          "recorded": 0.5403225806451613
+        },
+        "raw_brier": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.2118313205371029,
+          "recorded": 0.2118313205371029
+        },
+        "raw_ece": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 0.3999141124214745,
+          "recorded": 0.3999141124214745
+        },
+        "raw_macro_f1": {
+          "absolute_difference": 5.551115123125783e-17,
+          "passed": true,
+          "recomputed": 0.45493145856907014,
+          "recorded": 0.4549314585690701
+        },
+        "raw_nll": {
+          "absolute_difference": 0.0,
+          "passed": true,
+          "recomputed": 2.687977484089337,
+          "recorded": 2.687977484089337
+        }
+      },
+      "run_id": "main__f3__s3407__cwt_cnn__l1.0000__b730c90da7",
+      "status": "passed",
+      "temperature": 2.4898791313171387
+    }
+  ]
+}

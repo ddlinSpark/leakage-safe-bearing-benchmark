@@ -55,6 +55,11 @@ contain only records `0,1,2,3,5,6,7,9,10,11,13,14`.
 
 - Cached shape: `3939 x 3 x 8192` for raw windows and `3939 x 3 x 96 x 96` for
   CWT maps.
+- All 16 selected official archives were restored and verified against
+  `data/manifests/paderborn_archives_sha256.csv`.
+- The raw-amplitude audit cache retains exact source filenames and measurement
+  numbers. Re-standardizing its windows reproduces the canonical raw tensor with
+  maximum absolute difference `0.0`.
 - 16 bearing records, four operating conditions, and four classes are present.
 - Every cached window start is a multiple of the 8192-sample stride.
 - The minimum spacing between distinct starts within a record-condition group

@@ -43,8 +43,14 @@ class CWTGRU(BaseModel):
         )
 
     def forward(self, raw: torch.Tensor, cwt: torch.Tensor) -> torch.Tensor:
+        return self.fusion(self.fused_features(raw, cwt))
+
+    def embedding(self, raw: torch.Tensor, cwt: torch.Tensor) -> torch.Tensor:
+        return self.fusion[:-1](self.fused_features(raw, cwt))
+
+    def fused_features(self, raw: torch.Tensor, cwt: torch.Tensor) -> torch.Tensor:
         image_features = self.image_encoder(cwt)
         sequence = raw.float().transpose(1, 2)
         _, hidden = self.gru(sequence)
         hidden = torch.cat([hidden[-2], hidden[-1]], dim=1)
-        return self.fusion(torch.cat([image_features, hidden], dim=1))
+        return torch.cat([image_features, hidden], dim=1)

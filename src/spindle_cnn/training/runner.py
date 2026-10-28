@@ -33,6 +33,18 @@ class TrainState:
     last_train_loss: float
     best_val_loss: float
     history: list[dict[str, float]] = field(default_factory=list)
+    validation_logits: np.ndarray | None = None
+    validation_labels: np.ndarray | None = None
+
+
+@dataclass(frozen=True)
+class PseudoSelection:
+    indices: np.ndarray
+    labels: np.ndarray
+    weights: np.ndarray
+    candidate_predictions: np.ndarray
+    candidate_confidence: np.ndarray
+    selected_candidate_positions: np.ndarray
 
 
 class WindowSet(Dataset):
@@ -174,6 +186,10 @@ def train_model(
         model.train()
         total_loss = 0.0
         total_weight = 0.0
+        gradient_norm_sum = 0.0
+        gradient_norm_batches = 0
+        train_predictions = []
+        train_labels_all = []
         for raw, cwt, labels, weights, _ in train_loader:
             raw = raw.to(device, non_blocking=True)
             cwt = cwt.to(device, non_blocking=True)
@@ -186,12 +202,16 @@ def train_model(
                 loss = (losses * weights).sum() / weights.sum().clamp_min(1e-6)
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
-            nn.utils.clip_grad_norm_(model.parameters(), 5.0)
+            gradient_norm = nn.utils.clip_grad_norm_(model.parameters(), 5.0)
             scaler.step(optimizer)
             scaler.update()
             batch_weight = float(weights.sum().detach().cpu())
             total_loss += float(loss.detach().cpu()) * batch_weight
             total_weight += batch_weight
+            gradient_norm_sum += float(gradient_norm.detach().cpu())
+            gradient_norm_batches += 1
+            train_predictions.append(logits.detach().argmax(dim=1).cpu().numpy())
+            train_labels_all.append(labels.detach().cpu().numpy())
         scheduler.step()
         last_train_loss = total_loss / max(total_weight, 1e-6)
 
@@ -208,6 +228,18 @@ def train_model(
             {
                 "epoch": float(epoch),
                 "train_loss": float(last_train_loss),
+                "train_macro_f1": float(
+                    f1_score(
+                        np.concatenate(train_labels_all),
+                        np.concatenate(train_predictions),
+                        average="macro",
+                        zero_division=0,
+                    )
+                ),
+                "learning_rate": float(optimizer.param_groups[0]["lr"]),
+                "gradient_norm": float(
+                    gradient_norm_sum / max(gradient_norm_batches, 1)
+                ),
                 "val_loss": val_loss,
                 "val_accuracy": val_metrics["accuracy"],
                 "val_macro_f1": val_f1,
@@ -236,6 +268,8 @@ def train_model(
         last_train_loss=last_train_loss,
         best_val_loss=best_val_loss,
         history=history,
+        validation_logits=val_logits,
+        validation_labels=val_labels,
     )
 
 
@@ -249,7 +283,9 @@ def select_pseudo_labels(
     batch_size: int,
     num_workers: int,
     device: torch.device,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    selection_mode: str = "threshold",
+    coverage_fraction: float = 0.5,
+) -> PseudoSelection:
     dataset = WindowSet(data, candidate_indices, data.labels[candidate_indices])
     loader = DataLoader(
         dataset,
@@ -267,7 +303,18 @@ def select_pseudo_labels(
     num_classes = int(data.labels.max()) + 1
     for class_id in range(num_classes):
         positions = np.flatnonzero(predicted == class_id)
-        positions = positions[confidence[positions] >= confidence_threshold]
+        if selection_mode == "threshold":
+            positions = positions[confidence[positions] >= confidence_threshold]
+        elif selection_mode == "coverage":
+            if not 0 < coverage_fraction <= 1:
+                raise ValueError("coverage_fraction must be in (0, 1]")
+            positions = positions[
+                np.argsort(confidence[positions])[
+                    -max(1, int(np.ceil(len(positions) * coverage_fraction))) :
+                ]
+            ]
+        else:
+            raise ValueError(f"Unknown pseudo-label selection mode: {selection_mode}")
         if len(positions) == 0:
             continue
         order = positions[np.argsort(confidence[positions])[::-1]]
@@ -275,11 +322,13 @@ def select_pseudo_labels(
 
     selected_positions_array = np.asarray(selected_positions, dtype=np.int64)
     selected_local_indices = local_indices[selected_positions_array]
-    return (
-        candidate_indices[selected_local_indices].astype(np.int64),
-        predicted[selected_positions_array].astype(np.int64),
-        confidence[selected_positions_array].astype(np.float32),
-        predicted.astype(np.int64),
+    return PseudoSelection(
+        indices=candidate_indices[selected_local_indices].astype(np.int64),
+        labels=predicted[selected_positions_array].astype(np.int64),
+        weights=confidence[selected_positions_array].astype(np.float32),
+        candidate_predictions=predicted.astype(np.int64),
+        candidate_confidence=confidence.astype(np.float32),
+        selected_candidate_positions=selected_positions_array.astype(np.int64),
     )
 
 
@@ -300,7 +349,9 @@ def run_self_training(
     num_workers: int,
     device: torch.device,
     seed: int,
-) -> tuple[TrainState, dict[str, float | int]]:
+    selection_mode: str = "threshold",
+    coverage_fraction: float = 0.5,
+) -> tuple[TrainState, dict[str, Any]]:
     labels = data.labels[labeled_indices]
     weights = np.ones(len(labeled_indices), dtype=np.float32)
     state = train_model(
@@ -326,21 +377,46 @@ def run_self_training(
     pseudo_macro_f1 = float("nan")
     pseudo_coverage = 0.0
     rounds_completed = 0
+    diagnostic_rows: list[dict[str, float | int | str]] = []
     for round_id in range(1, rounds + 1):
-        pseudo_idx, pseudo_labels, pseudo_weights, _ = select_pseudo_labels(
+        selection = select_pseudo_labels(
             state.model,
             data,
             candidate_indices,
             state.temperature,
             max_per_class=max_per_class,
             confidence_threshold=confidence_threshold,
+            selection_mode=selection_mode,
+            coverage_fraction=coverage_fraction,
             batch_size=batch_size,
             num_workers=num_workers,
             device=device,
         )
+        pseudo_idx = selection.indices
+        pseudo_labels = selection.labels
+        pseudo_weights = selection.weights
         pseudo_count = len(pseudo_idx)
         pseudo_coverage = pseudo_count / max(len(candidate_indices), 1)
         if pseudo_count == 0:
+            diagnostic_rows.append(
+                {
+                    "round": round_id,
+                    "candidate_pool_size": len(candidate_indices),
+                    "selected_count": 0,
+                    "selected_fraction": 0.0,
+                    "selected_confidence_mean": np.nan,
+                    "selected_confidence_median": np.nan,
+                    "pseudo_accuracy": np.nan,
+                    **{
+                        f"selected_class_{class_id}": 0
+                        for class_id in range(num_classes)
+                    },
+                    **{
+                        f"pseudo_accuracy_class_{class_id}": np.nan
+                        for class_id in range(num_classes)
+                    },
+                }
+            )
             break
         pseudo_accuracy = float(accuracy_score(data.labels[pseudo_idx], pseudo_labels))
         pseudo_macro_f1 = float(
@@ -351,6 +427,35 @@ def run_self_training(
                 zero_division=0,
             )
         )
+        selected = selection.selected_candidate_positions
+        confidence = selection.candidate_confidence[selected]
+        predicted = selection.candidate_predictions[selected]
+        true_labels = data.labels[pseudo_idx]
+        per_class = {}
+        for class_id in range(num_classes):
+            class_mask = predicted == class_id
+            class_count = int(class_mask.sum())
+            per_class[f"selected_class_{class_id}"] = class_count
+            per_class[f"pseudo_accuracy_class_{class_id}"] = (
+                float((true_labels[class_mask] == class_id).mean())
+                if class_count
+                else np.nan
+            )
+        round_diagnostic = {
+            "round": round_id,
+            "candidate_pool_size": len(candidate_indices),
+            "selected_count": pseudo_count,
+            "selected_fraction": pseudo_count / max(len(candidate_indices), 1),
+            "selected_confidence_mean": float(confidence.mean())
+            if len(confidence)
+            else np.nan,
+            "selected_confidence_median": float(np.median(confidence))
+            if len(confidence)
+            else np.nan,
+            "pseudo_accuracy": pseudo_accuracy,
+            **per_class,
+        }
+        diagnostic_rows.append(round_diagnostic)
         combined_idx = np.concatenate([labeled_indices, pseudo_idx])
         combined_labels = np.concatenate([labels, pseudo_labels])
         combined_weights = np.concatenate([weights, pseudo_weights])
@@ -379,6 +484,9 @@ def run_self_training(
         "pseudo_macro_f1": pseudo_macro_f1,
         "self_training_rounds_completed": rounds_completed,
         "self_training_round_limit": rounds,
+        "selection_mode": selection_mode,
+        "coverage_fraction": coverage_fraction,
+        "pseudo_label_diagnostics": diagnostic_rows,
     }
 
 

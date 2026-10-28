@@ -1,5 +1,10 @@
 # Reproduce the Paper from Source
 
+The complete 2026 revision workflow, including raw-amplitude verification and
+all sensitivity analyses, is maintained in
+[REPRODUCIBILITY.md](REPRODUCIBILITY.md). This file retains the canonical
+five-seed benchmark commands.
+
 This guide starts from a new clone and does not require pretrained model
 weights. The canonical reported latency values come from an NVIDIA GeForce RTX
 5080 environment; use them only for software-level comparison.
@@ -10,9 +15,15 @@ ignored `artifacts/local/` directory.
 ## 1. Clone the repository
 
 ```powershell
-git clone https://github.com/ddlinSpark/leakage-safe-bearing-benchmark.git
+git -c core.longpaths=true clone `
+  https://github.com/ddlinSpark/leakage-safe-bearing-benchmark.git
 Set-Location leakage-safe-bearing-benchmark
 ```
+
+On Windows, `core.longpaths=true` is recommended because retained per-run
+diagnostic files can exceed the default `MAX_PATH` limit when the clone is
+stored in a deeply nested directory. Cloning into a short path is an
+alternative. Linux and macOS normally use a sufficiently large path limit.
 
 For anonymous review, use the anonymous repository mirror supplied by the
 authors instead of this named public URL.

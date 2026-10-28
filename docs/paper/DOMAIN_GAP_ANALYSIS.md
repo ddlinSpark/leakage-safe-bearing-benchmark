@@ -62,3 +62,42 @@ $env:PYTHONPATH = "src"
 python -m spindle_cnn.analysis.statistics --results results/raw_runs.csv --output-dir results
 python -m spindle_cnn.experiments.make_figures --results-dir results --output-dir figures/publication
 ```
+
+## Raw-source verification
+
+The original-amplitude audit cache records the exact source filename and
+measurement number for every retained window. Re-standardizing those windows
+reproduces the canonical raw tensor elementwise. The only unreadable source file
+is the previously known truncated `N15_M01_F10_KA08_2.mat`, which the canonical
+preprocessing also excludes.
+
+## Signal-level diagnostics
+
+The vibration channel changes at the domain level in RMS, kurtosis, crest
+factor, spectral centroid, and spectral entropy. The standardized train-to-test
+differences vary in sign and magnitude across the four condition folds. These
+statistics describe the joint shift; they do not identify which factor caused
+the lower test score.
+
+Source files:
+
+- `results/domain_shift_window_metrics.csv`
+- `results/domain_shift_statistics.csv`
+- `results/domain_shift_contrasts.csv`
+- `figures/publication/figure_13_domain_shift_diagnostics.png`
+
+## Label boundary
+
+Post-hoc coarsening of the same fitted outputs shows that healthy-versus-fault
+Macro-F1 is higher than four-class Macro-F1 for the principal models. A
+substantial part of the error therefore concerns distinction among fault
+locations and multiple damage rather than complete loss of anomaly detection.
+This analysis does not change the primary four-class task.
+
+## Confounding boundary
+
+All four held-out fault codes have real lifetime damage. The fitting set mixes
+artificial and real damage for outer- and inner-ring faults and contains only
+real-damage multiple-damage bearings. Bearing identity, condition, and damage
+origin therefore change together. The correct interpretation is a coincident
+joint shift, not a causal attribution to operating condition.
