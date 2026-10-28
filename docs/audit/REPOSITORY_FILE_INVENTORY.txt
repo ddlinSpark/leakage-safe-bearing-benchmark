@@ -4,17 +4,17 @@ Generated from tracked files plus non-ignored candidate files.
 The audit itself is reproducible with `scripts/audit_release_repository.py`.
 
 ```text
-       222  .gitattributes
+       261  .gitattributes
       1078  .github/workflows/ci.yml
       1621  .gitignore
       6304  AUDIT_REPORT.md
      11199  CHANGELOG.md
        985  CITATION.cff
-      6926  CLEAN_REPRODUCTION_REPORT.md
+      4229  CLEAN_REPRODUCTION_REPORT.md
       2101  CONSISTENCY_REPORT.md
       2589  DAMAGE_ORIGIN_ANALYSIS.md
      16876  EXPERIMENT_REPORT.md
-      8258  FINAL_RELEASE_REPORT.md
+     10236  FINAL_RELEASE_REPORT.md
       1367  LICENSE
       4167  PAPER_RESULT_TRACEABILITY.md
       6394  PAPER_REVISION_REPORT.md
@@ -55,7 +55,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
       9929  docs/audit/PRE_SUBMISSION_AUDIT.md
       2530  docs/audit/RELEASE_READINESS.md
-      9310  docs/audit/REPOSITORY_AUDIT.md
+      9311  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
       2336  docs/audit/SPLIT_REPRODUCIBILITY_AUDIT.md
       8519  docs/audit/STATISTICAL_SENSITIVITY_REPORT.md

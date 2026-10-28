@@ -1,5 +1,6 @@
 *.csv text eol=lf
 results/canonical/manifest.json text eol=lf
+results/paper_metrics.json text eol=lf
 splits/manifest.json text eol=lf
 *.pdf binary
 *.docx binary
