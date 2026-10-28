@@ -10,8 +10,8 @@ documented in `docs/audit/GIT_HISTORY_PRIVACY_AUDIT.md`.
 
 ## Repository scale
 
-- Candidate files: 4594
-- Candidate size: 49.89 MiB
+- Candidate files: 4597
+- Candidate size: 49.95 MiB
 - Large files at or above 1 MB: 7
 - Saved-logit prediction archives: 822
   (8.58 MiB total; diagnostic, not model weights)
@@ -30,16 +30,17 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `.gitignore` | 1 | 1.6 KiB |
 | `AUDIT_REPORT.md` | 1 | 6.2 KiB |
 | `CHANGELOG.md` | 1 | 10.9 KiB |
-| `CITATION.cff` | 1 | 985 B |
+| `CITATION.cff` | 1 | 1013 B |
 | `CLEAN_REPRODUCTION_REPORT.md` | 1 | 4.1 KiB |
 | `CONSISTENCY_REPORT.md` | 1 | 2.1 KiB |
 | `DAMAGE_ORIGIN_ANALYSIS.md` | 1 | 2.5 KiB |
 | `EXPERIMENT_REPORT.md` | 1 | 16.5 KiB |
-| `FINAL_RELEASE_REPORT.md` | 1 | 10.0 KiB |
+| `FINAL_RELEASE_REPORT.md` | 1 | 11.5 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
 | `PAPER_RESULT_TRACEABILITY.md` | 1 | 4.1 KiB |
 | `PAPER_REVISION_REPORT.md` | 1 | 6.2 KiB |
-| `README.md` | 1 | 10.2 KiB |
+| `README.md` | 1 | 10.3 KiB |
+| `REFERENCE_LINK_REPORT.md` | 1 | 2.4 KiB |
 | `REPRODUCE.md` | 1 | 10.1 KiB |
 | `REPRODUCIBILITY.md` | 1 | 13.7 KiB |
 | `REPRODUCTION_REPORT.md` | 1 | 3.1 KiB |
@@ -50,15 +51,15 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `docs` | 38 | 6.54 MiB |
 | `environment.yml` | 1 | 125 B |
 | `figures` | 50 | 8.20 MiB |
-| `manuscript` | 3 | 4.64 MiB |
+| `manuscript` | 3 | 4.66 MiB |
 | `pyproject.toml` | 1 | 3.0 KiB |
 | `reports` | 6 | 564.9 KiB |
-| `requirements.txt` | 1 | 294 B |
+| `requirements.txt` | 1 | 322 B |
 | `results` | 4342 | 29.00 MiB |
-| `scripts` | 39 | 274.3 KiB |
+| `scripts` | 40 | 298.5 KiB |
 | `splits` | 2 | 1.2 KiB |
-| `src` | 70 | 557.1 KiB |
-| `tests` | 10 | 19.4 KiB |
+| `src` | 70 | 563.9 KiB |
+| `tests` | 11 | 21.6 KiB |
 
 ## Logical source layout
 
@@ -102,6 +103,11 @@ and does not need to be flattened.
 | `environment.yml` | PASS |
 | `CHANGELOG.md` | PASS |
 | `REPRODUCE.md` | PASS |
+| `REPRODUCIBILITY.md` | PASS |
+| `CLEAN_REPRODUCTION_REPORT.md` | PASS |
+| `CONSISTENCY_REPORT.md` | PASS |
+| `REFERENCE_LINK_REPORT.md` | PASS |
+| `FINAL_RELEASE_REPORT.md` | PASS |
 
 | Component | Resolved path | Status |
 | --- | --- | --- |
@@ -120,22 +126,24 @@ and does not need to be flattened.
 
 | Requirement | Status |
 | --- | --- |
-| Research question | FAIL |
+| Project title | PASS |
+| Benchmark positioning | PASS |
 | Leakage-safe rationale | PASS |
 | Dataset | PASS |
-| No direct published 99% ranking | FAIL |
-| Model list | FAIL |
-| Protocol | FAIL |
-| Data preparation | FAIL |
-| Single experiment | FAIL |
-| Full benchmark | FAIL |
+| Key findings | PASS |
+| Model findings | PASS |
+| Protocol | PASS |
+| Experiment status | PASS |
+| Quick start | PASS |
 | External baselines | PASS |
 | Statistical analysis | PASS |
-| Figures and tables | FAIL |
+| Data availability | PASS |
+| Reproducibility | PASS |
+| Figures | PASS |
 | Citation | PASS |
 | 320 canonical runs | PASS |
 | 40 external runs | PASS |
-| Hardware dependence | FAIL |
+| Coupled limitations | PASS |
 | Unsupported promotional claims | PASS |
 
 `SOTA` survives only as a historical filename and result-directory label; the
@@ -155,7 +163,7 @@ claim state-of-the-art performance.
   configurations preserve the principal runtime versions, but a future
   lockfile would improve bit-level environment reconstruction.
 - Training and inference timings are identified as hardware-dependent.
-- `CITATION.cff` uses the current package version `0.3.0`. `date-released` and a
+- `CITATION.cff` uses the current package version `1.0.0`. `date-released` and a
   DOI are intentionally omitted until the v1.0.0 tag and Zenodo archive exist.
 
 ## Data and license audit
@@ -225,8 +233,8 @@ claim state-of-the-art performance.
 
 ## Findings
 
-- CRITICAL: see the Git history privacy and double-blind reports.
+- CRITICAL: see the Git-history privacy report and conditional double-blind
+  assessment.
 - MINOR: exact transitive dependency lock is absent.
 - MINOR: platform-specific archive extraction requires a local 7-Zip binary.
-- INFORMATIONAL: manuscript DOCX is intentionally ignored; the builder and
-  result sources are tracked.
+- INFORMATIONAL: the final manuscript DOCX and PDFs are tracked.

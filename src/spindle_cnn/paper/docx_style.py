@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -21,6 +22,19 @@ BLACK = RGBColor(0, 0, 0)
 HEADER_FILL = "DCE6F1"
 ALTERNATE_FILL = "F4F7FA"
 BORDER_DARK = "404040"
+
+_BOOKMARK_ID = 0
+_BOOKMARK_NAMES: set[str] = set()
+
+_CITATION_PATTERN = re.compile(r"\[\d+(?:\s*(?:,|-)\s*\d+)*\]")
+_CROSS_REFERENCE_PATTERN = re.compile(
+    r"\b(?:Figures?|Fig\.?|Tables?|Sections?|Sec\.?|Appendix|Equations?|Eq\.?)"
+    r"\s+(?:\([A-Z]?\d+(?:\.\d+)*\)|[A-Z]?\d+(?:\.\d+)*(?:\s*-\s*"
+    r"[A-Z]?\d+(?:\.\d+)*)?|[A-Z])"
+)
+_INLINE_PATTERN = re.compile(
+    rf"({_CITATION_PATTERN.pattern}|{_CROSS_REFERENCE_PATTERN.pattern})"
+)
 
 
 def set_run_font(
@@ -43,6 +57,9 @@ def set_run_font(
 
 
 def configure_document(document: DocumentType) -> None:
+    global _BOOKMARK_ID
+    _BOOKMARK_ID = 0
+    _BOOKMARK_NAMES.clear()
     section = document.sections[0]
     section.page_height = Cm(29.7)
     section.page_width = Cm(21.0)
@@ -92,6 +109,178 @@ def configure_document(document: DocumentType) -> None:
     add_page_number_footer(document)
 
 
+def add_bookmark(paragraph, name: str) -> None:
+    """Wrap a paragraph in a unique internal Word bookmark."""
+    global _BOOKMARK_ID
+    if name in _BOOKMARK_NAMES:
+        raise ValueError(f"Duplicate bookmark: {name}")
+    _BOOKMARK_ID += 1
+    _BOOKMARK_NAMES.add(name)
+    start = OxmlElement("w:bookmarkStart")
+    start.set(qn("w:id"), str(_BOOKMARK_ID))
+    start.set(qn("w:name"), name)
+    end = OxmlElement("w:bookmarkEnd")
+    end.set(qn("w:id"), str(_BOOKMARK_ID))
+    paragraph._p.insert(0, start)
+    paragraph._p.append(end)
+
+
+def add_internal_hyperlink(
+    paragraph,
+    text: str,
+    anchor: str,
+    *,
+    size: float = BODY_PT,
+    bold: bool | None = None,
+    italic: bool | None = None,
+) -> None:
+    """Append an internal Word hyperlink while preserving text formatting."""
+    run = paragraph.add_run(text)
+    set_run_font(run, size=size, bold=bold, italic=italic)
+    run._r.getparent().remove(run._r)
+    hyperlink = OxmlElement("w:hyperlink")
+    hyperlink.set(qn("w:anchor"), anchor)
+    hyperlink.set(qn("w:history"), "1")
+    hyperlink.append(run._r)
+    paragraph._p.append(hyperlink)
+
+
+def _cross_reference_anchor(text: str) -> str | None:
+    normalized = text.strip()
+    appendix_letter = re.fullmatch(r"Appendix\s+([A-Z])", normalized)
+    if appendix_letter:
+        return f"appendix_{appendix_letter.group(1).lower()}"
+    match = re.match(
+        r"(Figures?|Fig\.?|Tables?|Sections?|Sec\.?|Appendix|Equations?|Eq\.?)"
+        r"\s+\(?([A-Z]?)(\d+(?:\.\d+)*)\)?",
+        normalized,
+    )
+    if not match:
+        return None
+    label, prefix, number = match.groups()
+    key = number.replace(".", "_")
+    if label.startswith(("Figure", "Fig")):
+        return f"fig_{prefix.lower()}{key}"
+    if label.startswith(("Table",)):
+        return f"tbl_{key}"
+    if label.startswith(("Section", "Sec")):
+        return f"sec_{key}"
+    if label == "Appendix":
+        return f"appendix_{prefix.lower() or key}"
+    return f"eq_{key}"
+
+
+def _append_reference_token(paragraph, token: str) -> None:
+    range_match = re.fullmatch(r"(\d+)\s*-\s*(\d+)", token.strip())
+    if range_match:
+        start, end = (int(value) for value in range_match.groups())
+        add_internal_hyperlink(paragraph, str(start), f"ref_{start}")
+        paragraph.add_run("-")
+        add_internal_hyperlink(paragraph, str(end), f"ref_{end}")
+        return
+    for part in re.split(r"(\s*,\s*)", token):
+        if not part:
+            continue
+        if part.strip().isdigit():
+            number = int(part)
+            add_internal_hyperlink(paragraph, part, f"ref_{number}")
+        else:
+            paragraph.add_run(part)
+
+
+def add_inline_text(
+    paragraph,
+    text: str,
+    *,
+    size: float = BODY_PT,
+    bold: bool | None = None,
+    italic: bool | None = None,
+) -> None:
+    """Append text with internal citation and figure/table/section links."""
+    position = 0
+    for match in _INLINE_PATTERN.finditer(text):
+        if match.start() > position:
+            run = paragraph.add_run(text[position : match.start()])
+            set_run_font(run, size=size, bold=bold, italic=italic)
+        token = match.group(0)
+        citation = _CITATION_PATTERN.fullmatch(token)
+        if citation:
+            inner = token[1:-1]
+            numbers = re.findall(r"\d+", inner)
+            if (
+                len(numbers) == 1
+                and "," not in inner
+                and "-" not in inner
+            ):
+                add_internal_hyperlink(
+                    paragraph,
+                    token,
+                    f"ref_{numbers[0]}",
+                    size=size,
+                    bold=bold,
+                    italic=italic,
+                )
+            else:
+                paragraph_run = paragraph.add_run("[")
+                set_run_font(paragraph_run, size=size, bold=bold, italic=italic)
+                for part in re.split(r"(\s*,\s*)", inner):
+                    if not part:
+                        continue
+                    if re.fullmatch(r"\s*\d+\s*(?:-\s*\d+)?\s*", part):
+                        _append_reference_token(paragraph, part)
+                    else:
+                        delimiter = paragraph.add_run(part)
+                        set_run_font(
+                            delimiter,
+                            size=size,
+                            bold=bold,
+                            italic=italic,
+                        )
+                closing = paragraph.add_run("]")
+                set_run_font(closing, size=size, bold=bold, italic=italic)
+        else:
+            anchor = _cross_reference_anchor(token)
+            if anchor:
+                add_internal_hyperlink(
+                    paragraph,
+                    token,
+                    anchor,
+                    size=size,
+                    bold=bold,
+                    italic=italic,
+                )
+            else:
+                run = paragraph.add_run(token)
+                set_run_font(run, size=size, bold=bold, italic=italic)
+        position = match.end()
+    if position < len(text):
+        run = paragraph.add_run(text[position:])
+        set_run_font(run, size=size, bold=bold, italic=italic)
+
+
+def add_heading_bookmarks(document: DocumentType) -> None:
+    """Create stable bookmarks for abstract, sections, appendices, and refs."""
+    for paragraph in document.paragraphs:
+        style_name = paragraph.style.name if paragraph.style else ""
+        if not style_name.startswith("Heading"):
+            continue
+        text = paragraph.text.strip()
+        if text == "Abstract":
+            anchor = "abstract"
+        elif text == "References":
+            anchor = "refs"
+        elif text == "Data and Code Availability":
+            anchor = "data_code"
+        elif text.startswith("Appendix A"):
+            anchor = "appendix_a"
+        else:
+            match = re.match(r"(\d+(?:\.\d+)*)", text)
+            if not match:
+                continue
+            anchor = "sec_" + match.group(1).replace(".", "_")
+        add_bookmark(paragraph, anchor)
+
+
 def add_page_number_footer(document: DocumentType) -> None:
     footer = document.sections[0].footer
     paragraph = footer.paragraphs[0]
@@ -134,18 +323,15 @@ def add_body(
     if bold_lead and text.startswith(bold_lead):
         lead = paragraph.add_run(bold_lead)
         set_run_font(lead, bold=True)
-        body = paragraph.add_run(text[len(bold_lead) :])
-        set_run_font(body, italic=italic)
+        add_inline_text(paragraph, text[len(bold_lead) :], italic=italic)
     else:
-        run = paragraph.add_run(text)
-        set_run_font(run, italic=italic)
+        add_inline_text(paragraph, text, italic=italic)
 
 
 def add_small_text(document: DocumentType, text: str, *, italic: bool = False) -> None:
     paragraph = document.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = paragraph.add_run(text)
-    set_run_font(run, size=9, italic=italic)
+    add_inline_text(paragraph, text, size=9, italic=italic)
     paragraph.paragraph_format.space_after = Pt(8)
 
 
@@ -157,6 +343,11 @@ def add_caption(document: DocumentType, text: str, *, above: bool) -> None:
     paragraph.paragraph_format.keep_with_next = above
     run = paragraph.add_run(text)
     set_run_font(run, size=9, italic=False)
+    caption_match = re.match(r"^(Figure|Table)\s+(S?\d+)\.", text)
+    if caption_match:
+        kind, number = caption_match.groups()
+        prefix = "fig" if kind == "Figure" else "tbl"
+        add_bookmark(paragraph, f"{prefix}_{number.lower()}")
 
 
 def add_figure(
@@ -276,8 +467,12 @@ def add_three_line_table(
         paragraph = cell.paragraphs[0]
         paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
         paragraph.paragraph_format.keep_with_next = True
-        run = paragraph.add_run(str(text))
-        set_run_font(run, size=TABLE_FONT_PT, bold=True)
+        add_inline_text(
+            paragraph,
+            str(text),
+            size=TABLE_FONT_PT,
+            bold=True,
+        )
 
     for row_index, values in enumerate(rows):
         row = table.add_row()
@@ -311,8 +506,7 @@ def add_three_line_table(
                 if column_index == 0
                 else WD_ALIGN_PARAGRAPH.CENTER
             )
-            run = paragraph.add_run(str(value))
-            set_run_font(run, size=TABLE_FONT_PT)
+            add_inline_text(paragraph, str(value), size=TABLE_FONT_PT)
     document.add_paragraph().paragraph_format.space_after = Pt(0)
 
 
@@ -322,8 +516,7 @@ def add_numbered_items(document: DocumentType, items: Sequence[str]) -> None:
         paragraph.paragraph_format.left_indent = Cm(0.65)
         paragraph.paragraph_format.first_line_indent = Cm(-0.45)
         paragraph.paragraph_format.space_after = Pt(4)
-        run = paragraph.add_run(item)
-        set_run_font(run)
+        add_inline_text(paragraph, item)
 
 
 def add_bullet_items(document: DocumentType, items: Sequence[str]) -> None:
@@ -332,8 +525,7 @@ def add_bullet_items(document: DocumentType, items: Sequence[str]) -> None:
         paragraph.paragraph_format.left_indent = Cm(0.65)
         paragraph.paragraph_format.first_line_indent = Cm(-0.4)
         paragraph.paragraph_format.space_after = Pt(3)
-        run = paragraph.add_run(item)
-        set_run_font(run)
+        add_inline_text(paragraph, item)
 
 
 def add_reference(document: DocumentType, number: int, text: str) -> None:
@@ -346,6 +538,7 @@ def add_reference(document: DocumentType, number: int, text: str) -> None:
     paragraph.paragraph_format.line_spacing = 0.98
     run = paragraph.add_run(f"[{number}] {text}")
     set_run_font(run, size=8.2)
+    add_bookmark(paragraph, f"ref_{number}")
 
 
 def add_page_break(document: DocumentType) -> None:

@@ -23,7 +23,8 @@ Stable commands include `prepare_data.py`, `run_main_benchmark.py`,
 `run_external_baselines.py`, `run_preprocessing_sensitivity.py`,
 `run_training_opportunity.py`, `generate_statistics.py`,
 `generate_figures.py`, `build_paper_metrics.py`, `reproduce_all.py`,
-`smoke_test.py`, and the consistency/audit scripts under `scripts/`.
+`smoke_test.py`, `audit_internal_links.py`, and the consistency/audit scripts
+under `scripts/`.
 
 `scripts/reproduce_all.py` validates retained results and rebuilds derived
 statistics, figures, DOCX, and audits. Add `--run-benchmark` for a from-scratch
@@ -42,6 +43,7 @@ matrix and `--include-domain-shift` when the raw-amplitude cache is available.
 | Manuscript | DOCX and 30-page PDF |
 | Supplement | Five-page Figures S1-S5 PDF |
 | Consistency report | Zero table/manuscript mismatches |
+| Internal-link report | Resolved citations, cross-references, and PDF outline |
 | Smoke test | Config, split, model, metric, and style checks pass |
 
 ## Commands
@@ -85,7 +87,12 @@ python scripts/run_external_baselines.py
 python scripts/generate_statistics.py
 python scripts/generate_figures.py --include-domain-shift
 python scripts/build_results_catalog.py
+python scripts/audit_internal_links.py
 ```
+
+The internal-link audit reads the final DOCX and PDF, extracts every citation
+and cross-reference, resolves every PDF link annotation to a target page, and
+writes `REFERENCE_LINK_REPORT.md`.
 
 ## Provenance
 

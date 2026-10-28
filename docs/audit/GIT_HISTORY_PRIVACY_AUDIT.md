@@ -2,7 +2,7 @@
 
 ## Verdict
 
-**FAIL for anonymous public release.**
+**FAIL for privacy-clean public release.**
 
 The scan covered all reachable Git history and the current tracked text. No API
 key, access token, private key, password, credential URL, or private server IP
@@ -11,10 +11,10 @@ the private values.
 
 | Finding | Count / result | Risk |
 | --- | ---: | --- |
-| Reachable commits | 26 | informational |
+| Reachable commits | 27 | informational |
 | Distinct commit author email addresses | 2 | informational |
-| Commits with non-anonymous author email metadata | 14 | CRITICAL for double-blind |
-| Current Git author setting will create anonymous commits | NO | CRITICAL if NO for anonymous release |
+| Commits with non-anonymous author email metadata | 14 | privacy review required |
+| Current Git author setting will create anonymous commits | NO | privacy review required |
 | Current canonical run configs with hostname field | 320 of 320 | MAJOR privacy |
 | API keys / tokens / private keys / passwords | 0 detected | PASS |
 | Private IP or credential-bearing URLs | 0 detected | PASS |

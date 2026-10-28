@@ -152,6 +152,7 @@ derived tables and manuscript:
 $env:PYTHONPATH = "src"
 python scripts/audit_submission.py `
   --json-output artifacts/local/pre_submission_audit.json
+python scripts/audit_internal_links.py
 python scripts/audit_final_manuscript.py
 ```
 

@@ -186,7 +186,9 @@ def main() -> None:
         / "verify_manuscript_numbers.json"
     )
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    render_dir = root / "artifacts" / "local" / "render" / "release_candidate"
+    render_dir = root / "artifacts" / "local" / "render" / "final_links"
+    if not render_dir.is_dir():
+        render_dir = root / "artifacts" / "local" / "render" / "release_candidate"
     if not render_dir.is_dir():
         render_dir = root / "artifacts" / "local" / "render" / "final_release"
     if not render_dir.is_dir():
@@ -199,6 +201,17 @@ def main() -> None:
         else {}
     )
     a11y_counts = a11y.get("counts", {})
+    link_report_path = root / "REFERENCE_LINK_REPORT.md"
+    link_report = (
+        link_report_path.read_text(encoding="utf-8")
+        if link_report_path.is_file()
+        else ""
+    )
+    internal_links_pass = (
+        link_report_path.is_file()
+        and "**PASS**" in link_report
+        and "pdf_bookmarks: PASS" in link_report
+    )
 
     commit_count, non_anonymous_commits = count_git_email_classes(root)
     config_count, hostname_configs = count_hostname_fields(root)
@@ -229,6 +242,7 @@ def main() -> None:
         and not bad_p_syntax
         and len(document.tables) == 18
         and page_count > 0
+        and internal_links_pass
     )
     release_blocked = non_anonymous_commits > 0 or hostname_configs > 0
 
@@ -262,7 +276,7 @@ def main() -> None:
 
     verdict = "PASS" if numerical_pass and figures_pass and text_pass else "FAIL"
     release_status = (
-        "BLOCKED for anonymous public release until the privacy items are "
+        "BLOCKED for privacy-clean public release until the privacy items are "
         "resolved."
         if release_blocked
         else "READY for final public release after the remaining manual checks."
@@ -331,6 +345,8 @@ No malformed form such as `p=<` remains.
   glyph, or broken table was found.
 - Accessibility audit: high={a11y_counts.get('high', 0)},
   medium={a11y_counts.get('medium', 0)}, low={a11y_counts.get('low', 0)}.
+- Internal reference, cross-reference, PDF-link, and outline audit:
+  {'PASS' if internal_links_pass else 'FAIL'}.
 
 ## Release-readiness
 
@@ -342,8 +358,8 @@ The remaining blockers are privacy-related, not numerical:
   author email metadata.
 - {hostname_configs} of {config_count} retained canonical run configurations
   contain a workstation hostname field.
-- The repository is public while the manuscript is labeled for double-blind
-  review.
+- The manuscript and citation metadata identify Huadong Lin. If the target
+  venue requires double-blind review, use an approved anonymous mirror.
 
 Resolving these items changes repository history or publication visibility.
 They require an explicit decision and should not be altered silently during a

@@ -27,6 +27,11 @@ REQUIRED_ROOT_FILES = [
     "environment.yml",
     "CHANGELOG.md",
     "REPRODUCE.md",
+    "REPRODUCIBILITY.md",
+    "CLEAN_REPRODUCTION_REPORT.md",
+    "CONSISTENCY_REPORT.md",
+    "REFERENCE_LINK_REPORT.md",
+    "FINAL_RELEASE_REPORT.md",
 ]
 
 REQUIRED_COMPONENTS = {
@@ -959,29 +964,30 @@ def write_reports(
     readme = (root / "README.md").read_text(encoding="utf-8")
     readme_lower = readme.casefold()
     readme_checks = {
-        "Research question": "research question" in readme_lower,
+        "Project title": "leakage-safe bearing fault diagnosis benchmark" in readme_lower,
+        "Benchmark positioning": "benchmark" in readme_lower,
         "Leakage-safe rationale": "leakage-safe" in readme_lower,
         "Dataset": "paderborn" in readme_lower,
-        "No direct published 99% ranking": (
-            "99% accuracy" in readme_lower and "not used" in readme_lower
-        ),
-        "Model list": all(
+        "Key findings": "## key findings" in readme_lower,
+        "Model findings": all(
             value.casefold() in readme_lower
-            for value in ("Raw 1D-CNN", "GRU-only", "CWT 2D-CNN", "CWT-GRU")
+            for value in ("Raw 1D-CNN", "GRU only", "CWT 2D-CNN", "CWT-GRU")
         ),
-        "Protocol": "4 folds x 5 seeds" in readme_lower,
-        "Data preparation": "data preparation" in readme_lower,
-        "Single experiment": "run one experiment" in readme_lower,
-        "Full benchmark": "reproduce the full experiment" in readme_lower,
+        "Protocol": (
+            "operating-condition folds" in readme_lower
+            and "5 seeds" in readme_lower
+        ),
+        "Experiment status": "## experiment status" in readme_lower,
+        "Quick start": "## quick start" in readme_lower,
         "External baselines": "external" in readme_lower,
         "Statistical analysis": "hierarchical" in readme_lower,
-        "Figures and tables": (
-            "figures" in readme_lower and "tables" in readme_lower
-        ),
+        "Data availability": "## data availability" in readme_lower,
+        "Reproducibility": "## reproducibility" in readme_lower,
+        "Figures": "png/pdf pairs" in readme_lower,
         "Citation": "citation.cff" in readme_lower,
         "320 canonical runs": "320" in readme_lower,
         "40 external runs": "40" in readme_lower,
-        "Hardware dependence": "hardware" in readme_lower,
+        "Coupled limitations": "coupled" in readme_lower,
     }
     readme_no_unsupported_claims = not any(
         phrase in readme_lower
@@ -991,6 +997,17 @@ def write_reports(
             "significantly better",
             "best model",
         )
+    )
+    link_report_path = root / "REFERENCE_LINK_REPORT.md"
+    link_report = (
+        link_report_path.read_text(encoding="utf-8")
+        if link_report_path.is_file()
+        else ""
+    )
+    internal_links_ok = (
+        link_report_path.is_file()
+        and "**PASS**" in link_report
+        and "pdf_bookmarks: PASS" in link_report
     )
     required_status = {
         name: (root / name).is_file() for name in REQUIRED_ROOT_FILES
@@ -1180,7 +1197,7 @@ claim state-of-the-art performance.
   configurations preserve the principal runtime versions, but a future
   lockfile would improve bit-level environment reconstruction.
 - Training and inference timings are identified as hardware-dependent.
-- `CITATION.cff` uses the current package version `0.3.0`. `date-released` and a
+- `CITATION.cff` uses the current package version `1.0.0`. `date-released` and a
   DOI are intentionally omitted until the v1.0.0 tag and Zenodo archive exist.
 
 ## Data and license audit
@@ -1226,11 +1243,11 @@ claim state-of-the-art performance.
 
 ## Findings
 
-- CRITICAL: see the Git history privacy and double-blind reports.
+- CRITICAL: see the Git-history privacy report and conditional double-blind
+  assessment.
 - MINOR: exact transitive dependency lock is absent.
 - MINOR: platform-specific archive extraction requires a local 7-Zip binary.
-- INFORMATIONAL: manuscript DOCX is intentionally ignored; the builder and
-  result sources are tracked.
+- INFORMATIONAL: the final manuscript DOCX and PDFs are tracked.
 """
 
     result_text = f"""# Result Completeness Audit
@@ -1503,7 +1520,7 @@ Additional manuscript-only checks are recorded in
 
 ## Verdict
 
-**FAIL for anonymous public release.**
+**FAIL for privacy-clean public release.**
 
 The scan covered all reachable Git history and the current tracked text. No API
 key, access token, private key, password, credential URL, or private server IP
@@ -1514,8 +1531,8 @@ the private values.
 | --- | ---: | --- |
 | Reachable commits | {privacy['commit_count']} | informational |
 | Distinct commit author email addresses | {privacy['unique_author_emails']} | informational |
-| Commits with non-anonymous author email metadata | {privacy['non_anonymous_commits']} | CRITICAL for double-blind |
-| Current Git author setting will create anonymous commits | {'YES' if privacy['configured_email_is_anonymous'] else 'NO'} | CRITICAL if NO for anonymous release |
+| Commits with non-anonymous author email metadata | {privacy['non_anonymous_commits']} | privacy review required |
+| Current Git author setting will create anonymous commits | {'YES' if privacy['configured_email_is_anonymous'] else 'NO'} | privacy review required |
 | Current canonical run configs with hostname field | {len(privacy['current_hostname_configs'])} of {privacy['current_config_count']} | MAJOR privacy |
 | API keys / tokens / private keys / passwords | 0 detected | PASS |
 | Private IP or credential-bearing URLs | 0 detected | PASS |
@@ -1580,10 +1597,10 @@ decision is made.
 | --- | --- | --- |
 | GitHub repository URL in manuscript | {'present' if manuscript_url else 'not found in DOCX text'} | {'FAIL' if manuscript_url else 'PASS'} |
 | Public repository owner identity | Named GitHub account is visible | CRITICAL |
-| CITATION author identity | {'Repository alias is present' if owner_identified else 'No alias detected'} | CRITICAL if public during review |
+| CITATION author identity | {'Huadong Lin is explicitly identified' if owner_identified else 'No repository alias detected'} | use an anonymous mirror if double-blind |
 | Git commit author metadata | Non-anonymous historical email metadata exists | CRITICAL |
 | Current Git author configuration | {'Anonymous-compatible' if privacy['configured_email_is_anonymous'] else 'Non-anonymous'} | CRITICAL if a release commit is created unchanged |
-| README personal name | No full personal name detected | PASS |
+| Manuscript author | Huadong Lin is explicitly identified | expected for a named release |
 | Run-config hostname | Workstation hostname remains in tracked run configs | CRITICAL if it reveals identity |
 
 The manuscript avoids including the public GitHub URL, but the repository owner,
@@ -1601,7 +1618,8 @@ artifact service.
 - Do not claim anonymization while leaving the named GitHub link, CFF owner, or
   historical commit email metadata publicly visible.
 
-No repository visibility change or history rewrite has been performed.
+No repository visibility change or history rewrite has been performed. If the
+target venue requires double-blind review, use an approved anonymous mirror.
 """
 
     blockers = []
@@ -1612,7 +1630,7 @@ No repository visibility change or history rewrite has been performed.
     ):
         blockers.append(
             "Remove/expose-control personal commit metadata and workstation "
-            "hostnames before anonymous public release."
+            "hostnames before privacy-clean public release."
         )
     if not all(required_status.values()):
         blockers.append("Add every missing required root artifact.")
@@ -1636,6 +1654,8 @@ No repository visibility change or history rewrite has been performed.
         )
     if tracked_raw_data or tracked_checkpoints:
         blockers.append("Remove redistributable-restricted raw data or model checkpoints.")
+    if not internal_links_ok:
+        blockers.append("Resolve internal reference or PDF navigation failures.")
 
     tests_pass = test_result["returncode"] == 0
     release_text = f"""# Release Readiness
@@ -1644,9 +1664,9 @@ No repository visibility change or history rewrite has been performed.
 
 **NOT READY FOR v1.0.0.**
 
-The scientific package is reproducible and numerically consistent, but public
-anonymous release is blocked by identity leakage in Git metadata and retained
-run configuration hostnames.
+The scientific package is reproducible and numerically consistent, but a
+privacy-clean public release is blocked by identity metadata in Git history and
+retained run configuration hostnames.
 
 ## Checks
 
@@ -1655,15 +1675,16 @@ run configuration hostnames.
 | Tests pass | {'PASS' if tests_pass else 'FAIL'} | `{test_result['summary']}`. |
 | Working tree clean | {'PASS' if working_tree_clean else 'FAIL'} | A release must point to a committed revision. |
 | Independent numeric audit | {submission_audit.get('status', 'FAIL')} | {submission_audit.get('mismatch_count')} mismatches. |
+| Internal citations and PDF navigation | {'PASS' if internal_links_ok else 'FAIL'} | `REFERENCE_LINK_REPORT.md`. |
 | README complete | {'PASS' if all(readme_checks.values()) and readme_no_unsupported_claims else 'FAIL'} | `docs/audit/REPOSITORY_AUDIT.md`. |
-| CITATION present | {'PASS' if not citation_issues else 'WARNING'} | Valid CFF 1.2.0 software record; version is 0.3.0 until the release tag is assigned. |
+| CITATION present | {'PASS' if not citation_issues else 'WARNING'} | Valid CFF 1.2.0 record for Huadong Lin; version 1.0.0. |
 | License clear | PASS | MIT software scope plus explicit third-party data exclusion. |
 | `.gitignore` complete | {'PASS' if gitignore_ok else 'FAIL'} | Checked against representative ignored and retained paths. |
 | No secrets | PASS | No API key, token, private key, password, or credential URL detected. |
 | No personal metadata | FAIL | Commit email and run-config hostname findings. |
 | Raw results available | {'PASS' if not result_issues else 'FAIL'} | 320 canonical and 40 external rows. |
 | Statistics reproducible | {'PASS' if not statistics_issues else 'FAIL'} | `results/hierarchical_statistics.csv`. |
-| Figures reproducible | PASS | 12 method/data figures from tracked scripts. |
+| Figures reproducible | PASS | 24 PNG/PDF figure pairs from tracked scripts. |
 | Split manifests reproducible | {'PASS' if not split_issues else 'FAIL'} | Four fixed manifests with indices and hashes. |
 
 ## True release blockers
@@ -1673,15 +1694,14 @@ run configuration hostnames.
 ## Non-blocking follow-up
 
 - Exact transitive dependency locking remains outstanding.
-- The CFF record uses the repository alias until legal author names and ORCIDs
-  are confirmed after the anonymity decision.
+- The CFF author is Huadong Lin; ORCID and release date remain unassigned.
 - A GitHub tag and GitHub Release have not been created.
 - No Zenodo DOI has been created.
 
 ## Severity summary
 
-- **CRITICAL:** public identity exposure through repository ownership, Git
-  author metadata, and retained workstation hostnames for anonymous review.
+- **CRITICAL:** privacy review of public authorship, Git metadata, and retained
+  workstation hostnames.
 - **MAJOR:** the release candidate is not yet committed as a clean immutable
   revision.
 - **MINOR:** no exact transitive dependency lock; 7-Zip and Pandoc are external
@@ -1705,7 +1725,7 @@ Preparation only. No GitHub Release, tag, or Zenodo DOI has been created.
 - Repository: `https://github.com/ddlinSpark/leakage-safe-bearing-benchmark`
 - Related manuscript: `Leakage-Safe Cross-Domain Benchmarking for Bearing Fault
   Diagnosis: Time-Frequency Fusion, Calibration, and Self-Training`
-- Creators: resolve after the double-blind/public-release decision
+- Creator: Huadong Lin
 - DOI: leave unassigned until Zenodo mints the archive DOI
 
 ## Proposed release notes
@@ -1726,7 +1746,7 @@ Initial paper release.
 
 ## Procedure after all blockers are cleared
 
-1. Resolve the double-blind and repository-identity decision.
+1. Resolve the named-public and conditional double-blind release decision.
 2. Sanitize current and historical private metadata if a public named archive is
    approved.
 3. Commit the release candidate and confirm a clean worktree.

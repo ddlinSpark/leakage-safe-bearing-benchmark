@@ -29,6 +29,7 @@ from .docx_style import (
     add_bullet_items,
     add_caption,
     add_figure,
+    add_heading_bookmarks,
     add_numbered_items,
     add_page_break,
     add_reference,
@@ -586,7 +587,7 @@ def build_manuscript(
     configure_document(document)
     document.core_properties.title = TITLE
     document.core_properties.subject = "Leakage-safe bearing fault diagnosis benchmark"
-    document.core_properties.author = "Anonymous"
+    document.core_properties.author = "Huadong Lin"
     document.core_properties.comments = "Generated from canonical CSV results."
 
     metadata = json.loads(
@@ -688,14 +689,9 @@ def build_manuscript(
     )
 
     add_title(document, TITLE)
-    add_small_text(document, "Anonymous manuscript prepared for double-blind review")
+    add_small_text(document, "Huadong Lin")
 
-    heading = document.add_paragraph()
-    heading.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    run = heading.add_run("Abstract")
-    run.bold = True
-    run.font.size = Pt(11)
-    run.font.name = "Times New Roman"
+    document.add_heading("Abstract", level=1)
     add_body(
         document,
         "High in-domain accuracy does not establish that a bearing diagnostic model "
@@ -1330,7 +1326,8 @@ def build_manuscript(
         f"{float(raw['hierarchical_ci_high']):+.3f}. The interval includes zero, "
         "so the evaluation does not support a stable CWT advantage. This result "
         "answers RQ1 "
-        "negatively for the implemented magnitude-CWT pipeline.",
+        "negatively for the implemented magnitude-CWT pipeline. Figure 4 "
+        "visualizes the same comparison.",
         first=True,
     )
     add_three_line_table(
@@ -2512,6 +2509,7 @@ def build_manuscript(
 
     document.add_heading("References", level=1)
     build_references(document)
+    add_heading_bookmarks(document)
 
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(

@@ -27,6 +27,7 @@ jobs:
         run: |
           python scripts/verify_manuscript_numbers.py
           python scripts/check_manuscript_consistency.py
+          python scripts/audit_internal_links.py
       - name: Verify committed catalogs
         run: |
           python scripts/build_results_catalog.py

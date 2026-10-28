@@ -216,7 +216,7 @@ All manuscript values are traceable to committed result files through
 
 Key evidence:
 
-- [CONSISTENCY_REPORT.md](CONSISTENCY_REPORT.md)
+- [CONSISTENCY_REPORT.md](CONSISTENCY_REPORT.md) and [REFERENCE_LINK_REPORT.md](REFERENCE_LINK_REPORT.md)
 - [CLEAN_REPRODUCTION_REPORT.md](CLEAN_REPRODUCTION_REPORT.md)
 - [results/canonical/manifest.json](results/canonical/manifest.json)
 - [splits/manifest.json](splits/manifest.json)
@@ -229,8 +229,7 @@ The benchmark is evaluated on the Paderborn dataset under one simultaneous
 bearing-identity and operating-condition holdout protocol.
 
 The held-out domain also differs in damage origin for some fault bearings.
-Bearing identity, operating condition, and damage-origin effects therefore
-cannot be causally separated.
+Bearing identity, operating condition, and damage-origin effects are coupled and cannot be causally separated.
 
 The conclusions are configuration-specific empirical evidence, not universal
 statements about all bearing datasets or architectures. DRSN and TFN are
@@ -244,7 +243,7 @@ the authors were cognitively unaware of test behavior during all analyses.
 
 ## Citation and License
 
-Citation metadata is in [CITATION.cff](CITATION.cff). The manuscript PDF and
+Citation metadata for Huadong Lin is in [CITATION.cff](CITATION.cff). The manuscript PDF and
 standalone supplementary PDF are under [`manuscript/`](manuscript/). Source and
 derived documentation use the [MIT License](LICENSE); original datasets remain
 subject to their provider's terms.

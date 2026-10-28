@@ -11,7 +11,7 @@ rendered document contains 30 pages.
 ## Source files
 
 - Final manuscript: `docs/paper/Leakage_Safe_Bearing_Benchmark_SCI_final.docx`
-- Final SHA-256: `64937f74d3ca40012f65c4b0c54829060a09986dd58fe86353381cb7a824fdf7`
+- Final SHA-256: `35b1c138f83069799c14508360805fd43542a5f9194c09db46b24ef2aee23366`
 - Pre-revision backup:
   `docs/paper/archive/Leakage_Safe_Bearing_Benchmark_SCI_pre_statistics_revision.docx`
 - Backup SHA-256: `4eb5db8ec8a2119cda50bff40caa2049cc0e171debeac04afff82f1c9cfd1d29`
@@ -20,7 +20,7 @@ rendered document contains 30 pages.
 - Figure hash manifest:
   `figures/publication/figure_hashes.json`
 - Page renders:
-  `artifacts/local/render/release_candidate/`
+  `artifacts/local/render/final_links/`
 
 ## Terminology scan
 
@@ -70,19 +70,21 @@ No malformed form such as `p=<` remains.
   glyph, or broken table was found.
 - Accessibility audit: high=0,
   medium=0, low=0.
+- Internal reference, cross-reference, PDF-link, and outline audit:
+  PASS.
 
 ## Release-readiness
 
-**BLOCKED for anonymous public release until the privacy items are resolved.**
+**BLOCKED for privacy-clean public release until the privacy items are resolved.**
 
 The remaining blockers are privacy-related, not numerical:
 
-- 14 of 26 Git commits carry non-anonymous
+- 14 of 27 Git commits carry non-anonymous
   author email metadata.
 - 320 of 320 retained canonical run configurations
   contain a workstation hostname field.
-- The repository is public while the manuscript is labeled for double-blind
-  review.
+- The manuscript and citation metadata identify Huadong Lin. If the target
+  venue requires double-blind review, use an approved anonymous mirror.
 
 Resolving these items changes repository history or publication visibility.
 They require an explicit decision and should not be altered silently during a

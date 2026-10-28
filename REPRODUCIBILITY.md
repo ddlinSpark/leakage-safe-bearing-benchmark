@@ -284,6 +284,7 @@ python -m spindle_cnn.paper.build_docx `
 python scripts/audit_submission.py --json-output artifacts/local/pre_submission_audit.json
 python scripts/verify_manuscript_numbers.py
 python scripts/check_manuscript_consistency.py
+python scripts/audit_internal_links.py
 python scripts/audit_final_manuscript.py
 python -m pytest -q tests
 ```

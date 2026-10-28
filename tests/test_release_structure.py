@@ -47,15 +47,20 @@ def test_formal_documentation_and_entry_points_exist() -> None:
         "docs/EXPERIMENTS.md",
         "docs/RESULTS.md",
         "docs/REPRODUCIBILITY.md",
+        "REFERENCE_LINK_REPORT.md",
         "scripts/prepare_data.py",
         "scripts/run_main_benchmark.py",
         "scripts/generate_statistics.py",
         "scripts/generate_figures.py",
         "scripts/reproduce_all.py",
         "scripts/smoke_test.py",
+        "scripts/audit_internal_links.py",
         "src/spindle_cnn/visualization/style.py",
     ):
         assert (ROOT / relative).is_file(), relative
+    report = (ROOT / "REFERENCE_LINK_REPORT.md").read_text(encoding="utf-8")
+    assert "**PASS**" in report
+    assert "pdf_bookmarks: PASS" in report
 
 
 def test_canonical_and_split_manifests_match_files() -> None:

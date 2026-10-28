@@ -3,7 +3,8 @@ message: "If you use this repository, cite the software and the associated manus
 title: "Leakage-Safe Cross-Domain Benchmarking for Bearing Fault Diagnosis: Time-Frequency Fusion, Calibration, and Self-Training"
 type: software
 authors:
-  - name: "ddlinSpark"
+  - family-names: "Lin"
+    given-names: "Huadong"
 repository-code: "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark"
 url: "https://github.com/ddlinSpark/leakage-safe-bearing-benchmark"
 license: MIT

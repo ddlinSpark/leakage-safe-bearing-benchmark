@@ -13,7 +13,7 @@ Preparation only. No GitHub Release, tag, or Zenodo DOI has been created.
 - Repository: `https://github.com/ddlinSpark/leakage-safe-bearing-benchmark`
 - Related manuscript: `Leakage-Safe Cross-Domain Benchmarking for Bearing Fault
   Diagnosis: Time-Frequency Fusion, Calibration, and Self-Training`
-- Creators: resolve after the double-blind/public-release decision
+- Creator: Huadong Lin
 - DOI: leave unassigned until Zenodo mints the archive DOI
 
 ## Proposed release notes
@@ -34,7 +34,7 @@ Initial paper release.
 
 ## Procedure after all blockers are cleared
 
-1. Resolve the double-blind and repository-identity decision.
+1. Resolve the named-public and conditional double-blind release decision.
 2. Sanitize current and historical private metadata if a public named archive is
    approved.
 3. Commit the release candidate and confirm a clean worktree.

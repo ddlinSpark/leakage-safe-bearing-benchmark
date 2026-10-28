@@ -6,6 +6,10 @@
 `supplementary.pdf` contains Figures S1-S5 generated from the retained result
 files under `figures/publication/`.
 
-Both PDFs preserve the anonymous author metadata used for review. The DOCX
-source, result registry, figure generators, provenance map, and numerical
-audits are retained in the repository.
+The DOCX and PDF identify Huadong Lin as the author. The DOCX source, result
+registry, figure generators, provenance map, and numerical audits are retained
+in the repository.
+
+The manuscript PDF contains internal citation links, Figure/Table/Section/
+Equation links, and a hierarchical PDF outline. Verify them with
+`python scripts/audit_internal_links.py`.

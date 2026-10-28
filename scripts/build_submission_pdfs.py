@@ -105,7 +105,7 @@ def build_supplement(figures_dir: Path, output: Path) -> None:
         topMargin=18 * mm,
         bottomMargin=20 * mm,
         title="Supplementary Material: Leakage-Safe Bearing Benchmark",
-        author="Anonymous",
+        author="Huadong Lin",
         subject="Supplementary figures for the leakage-safe bearing benchmark",
         invariant=1,
     )

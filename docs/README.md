@@ -18,6 +18,7 @@
 | [../results/canonical/manifest.json](../results/canonical/manifest.json) | 正式论文结果的路径、行数、大小与 SHA-256 清单 |
 | [../splits/manifest.json](../splits/manifest.json) | 四个冻结 fold manifest 的 SHA-256 索引 |
 | [../CONSISTENCY_REPORT.md](../CONSISTENCY_REPORT.md) | 自动检查 run 数量、模型、指标、区间、参数、fold、seed 与 DOCX 一致性 |
+| [../REFERENCE_LINK_REPORT.md](../REFERENCE_LINK_REPORT.md) | 正文引用、图表/章节/公式交叉引用、PDF 链接目标与 outline 审计 |
 | [../CLEAN_REPRODUCTION_REPORT.md](../CLEAN_REPRODUCTION_REPORT.md) | 从公开 GitHub 新克隆后的预处理、训练、统计、图件、DOCX 与 PDF 复现记录 |
 | [../FINAL_RELEASE_REPORT.md](../FINAL_RELEASE_REPORT.md) | 最终发布变更、图件、配色、一致性、目录、排除文件和剩余警告 |
 | [paper/TABLE_PROVENANCE.md](paper/TABLE_PROVENANCE.md) | Table 1-13 与生成脚本及聚合规则 |

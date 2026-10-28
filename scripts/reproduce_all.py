@@ -77,6 +77,7 @@ def main() -> None:
     run(["scripts/verify_manuscript_numbers.py"])
     run(["scripts/check_manuscript_consistency.py"])
     run(["scripts/check_figure_palette.py"])
+    run(["scripts/audit_internal_links.py"])
     print("Reproduction workflow complete.")
 
 

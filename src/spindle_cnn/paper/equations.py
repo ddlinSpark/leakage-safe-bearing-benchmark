@@ -15,6 +15,8 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
 from lxml import etree
 
+from .docx_style import add_bookmark
+
 
 MATH_NS = "http://schemas.openxmlformats.org/officeDocument/2006/math"
 
@@ -80,3 +82,4 @@ def add_equation(
     number_run = paragraph.add_run(f"    ({number})")
     number_run.font.name = "Times New Roman"
     number_run.font.size = Pt(10)
+    add_bookmark(paragraph, f"eq_{number}")
