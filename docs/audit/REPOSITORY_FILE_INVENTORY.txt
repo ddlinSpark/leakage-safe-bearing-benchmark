@@ -8,7 +8,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       1188  .github/workflows/ci.yml
       1601  .gitignore
       1013  CITATION.cff
-      9673  FINAL_RELEASE_REPORT.md
+     10005  FINAL_RELEASE_REPORT.md
       1367  LICENSE
      10452  README.md
        918  configs/paderborn_baseline_tuning_lr001.json
@@ -41,7 +41,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
       2329  docs/audit/LEAKAGE_FINAL_CHECK.md
        689  docs/audit/PAPER_RESULT_CONSISTENCY.md
       9929  docs/audit/PRE_SUBMISSION_AUDIT.md
-      2429  docs/audit/RELEASE_READINESS.md
+      2438  docs/audit/RELEASE_READINESS.md
       9169  docs/audit/REPOSITORY_AUDIT.md
       1344  docs/audit/RESULT_COMPLETENESS_AUDIT.md
       2336  docs/audit/SPLIT_REPRODUCIBILITY_AUDIT.md
@@ -4456,7 +4456,7 @@ The audit itself is reproducible with `scripts/audit_release_repository.py`.
      12773  scripts/audit_final_manuscript.py
      23504  scripts/audit_internal_links.py
        154  scripts/audit_protocol.py
-     71310  scripts/audit_release_repository.py
+     71544  scripts/audit_release_repository.py
       5700  scripts/audit_sensitivity_results.py
      87754  scripts/audit_submission.py
       1950  scripts/build_cwt_cache_manifest.py

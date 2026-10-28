@@ -29,7 +29,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `.github` | 1 | 1.2 KiB |
 | `.gitignore` | 1 | 1.6 KiB |
 | `CITATION.cff` | 1 | 1013 B |
-| `FINAL_RELEASE_REPORT.md` | 1 | 9.4 KiB |
+| `FINAL_RELEASE_REPORT.md` | 1 | 9.8 KiB |
 | `LICENSE` | 1 | 1.3 KiB |
 | `README.md` | 1 | 10.2 KiB |
 | `configs` | 5 | 5.2 KiB |
@@ -41,7 +41,7 @@ The exact candidate file list is in `docs/audit/REPOSITORY_FILE_INVENTORY.txt`.
 | `reports` | 6 | 564.9 KiB |
 | `requirements.txt` | 1 | 307 B |
 | `results` | 4342 | 29.00 MiB |
-| `scripts` | 40 | 302.3 KiB |
+| `scripts` | 40 | 302.5 KiB |
 | `splits` | 2 | 1.2 KiB |
 | `src` | 70 | 561.5 KiB |
 | `tests` | 11 | 22.4 KiB |
